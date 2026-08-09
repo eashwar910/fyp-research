@@ -1,0 +1,218 @@
+{
+  "idea_name": "Within-Season Yield-Gap Ranking of Smallholder Parcels",
+  "bucket": "1 - satellite time-series / phenology",
+  "one_sentence_pitch": "For agronomists at Malaysian and Indonesian rice-scheme authorities and oil-palm smallholder co-operatives who cannot inspect every member parcel mid-season, this project ranks parcels by predicted relative underperformance from Sentinel-1/2 phenology curves using a pairwise/listwise learning-to-rank loss, so field visits triage to the parcels most likely to be worst-decile before harvest.",
+  "problem_statement": "Co-op agronomists serving smallholder rice schemes (e.g. MADA/IADA in Peninsular Malaysia, covering >100,000 ha and ~35% of national paddy area) or oil-palm smallholder collection catchments cannot physically visit every member parcel each season to catch underperformance early. Absolute yield regression, the standard remote-sensing approach, needs per-parcel historical harvest records as training labels, and these records essentially do not exist in machine-readable, parcel-linked form for SEA smallholders (confirmed by this research: government/industry sources report only granary- or national-level aggregate yields, e.g. KRI Institute's Malaysia rice report and MPOB/USDA FFB statistics, never per-plot figures). The idea reframes the task as learning-to-rank: predict which parcels are relatively worse off, using only ordinal comparisons, on the claim that ordinal supervision is easier to obtain than absolute yield and can come from sparse co-op records or end-of-season NDVI-integral proxies.",
+  "proposed_technical_approach": "Per-parcel Sentinel-1 (VV/VH backscatter) and Sentinel-2 (NDVI/EVI/NDRE and raw reflectance bands) time series are fed into a temporal encoder (TempCNN, LTAE, or a small transformer) that produces a phenology-curve embedding per parcel per season, truncated at a mid-season cutoff date to simulate real triage timing (only data available so far is used). A ranking head (RankNet-style pairwise loss, or a listwise loss such as ListMLE/LambdaRank) is trained over pairs/lists of parcels within the same scheme and season to predict relative order of expected underperformance. Two supervision sources are proposed: (a) sparse co-op yield or inspection records, where 'this parcel did worse than that parcel' judgments exist even without absolute numbers; (b) an end-of-season NDVI-integral (or similar full-season vegetation-index summary) computed from imagery AFTER the mid-season cutoff, used as a proxy ordinal target the model must forecast from earlier-season data alone. Evaluation is NDCG@k for the predicted ranking and recall of true worst-decile parcels in a top-k visit list, benchmarked against an absolute-regression baseline (e.g. a CNN/LSTM regressor trained on the same features to predict a yield or vigor number, then sorted).",
+  "primary_sensor": {
+    "sensor": "Sentinel-1 (C-band SAR, IW GRD, VV+VH) fused with Sentinel-2 (MSI, Level-2A surface reflectance)",
+    "spatial_resolution_m": "10 m (Sentinel-2 visible/NIR/red-edge bands used for indices; Sentinel-1 GRD resampled/co-registered to 10 m grid)",
+    "revisit_days": "Sentinel-1: 6-12 days effective revisit over SEA post loss of Sentinel-1B (single-satellite constellation as of 2026); Sentinel-2: ~5 days with two satellites, degraded by persistent tropical cloud cover which can reduce usable optical observations to a handful per season in monsoon periods",
+    "bands_used": "Sentinel-1 VV, VH, VH/VV ratio; Sentinel-2 B4 (red), B5-B7 (red edge), B8/B8A (NIR), B11/B12 (SWIR) for NDVI, EVI, NDRE, GNDVI derivation",
+    "licence": "Copernicus free and open data licence (ESA/EU), no cost, no commercial restriction"
+  },
+  "imagery_is_primary_input": "Yes - the model input is exclusively per-parcel Sentinel-1/2 time series (phenology curves); no non-imagery covariates (weather, soil) are part of the model input. The only non-imagery element anywhere in the pipeline is the optional use of sparse co-op yield records purely as training/evaluation LABELS, not as model input, so H3 is satisfied on the input side. However, see h2_generic_check and novelty_delta for why the labeling side undermines the overall claim.",
+  "datasets": [
+    {
+      "name": "Copernicus Data Space Ecosystem (Sentinel-1 GRD, Sentinel-2 L2A)",
+      "access_route": "https://dataspace.copernicus.eu/ - Copernicus Browser (web UI) plus STAC, openEO, and Sentinel Hub APIs; JupyterLab available for in-place processing without download",
+      "auth_required": "Free registration (email account) for API/API-token use; browsing is possible without an account",
+      "licence": "Free and open Copernicus data licence",
+      "approx_size_gb": "Estimated 10-25 GB for one growing season of S1+S2 stacks over a pilot scheme of a few thousand parcels (a few hundred to a few thousand km2)",
+      "accessible_from_malaysia": "Yes, globally accessible, no geofencing",
+      "verified_how": "WebFetch of https://dataspace.copernicus.eu/ on 2026-08-05 confirmed live portal, free registration path, and listed API access (STAC/openEO/Sentinel Hub) plus JupyterLab; usage quota details not fully enumerated on the homepage [uncertain on exact rate limits]"
+    },
+    {
+      "name": "Microsoft Planetary Computer STAC API (sentinel-1-grd, sentinel-2-l2a collections)",
+      "access_route": "https://planetarycomputer.microsoft.com/api/stac/v1 (STAC 1.0.0 API); Python pystac-client + planetary_computer SDK for signed asset access",
+      "auth_required": "No login for STAC metadata search; SAS-token signing (automatic via SDK, free) for asset (COG) download",
+      "licence": "Underlying Copernicus open licence, redistributed by Microsoft under its open data terms",
+      "approx_size_gb": "Comparable to Copernicus route, 10-25 GB for pilot scale",
+      "accessible_from_malaysia": "Yes",
+      "verified_how": "WebFetch of the STAC root catalog on 2026-08-05 confirmed a live STAC 1.0.0 API; the sentinel-1-grd and sentinel-2-l2a collection IDs were not re-enumerated in this fetch (root catalog only) but are standard, long-documented Planetary Computer collections [uncertain - collection listing itself not directly re-fetched this session]"
+    },
+    {
+      "name": "AI4SmallFarms (crop field boundary polygons, Vietnam and Cambodia smallholder farms)",
+      "access_route": "https://doi.org/10.17026/dans-xy6-ngg6 (DANS EASY repository); paper: Persello et al., IEEE Geoscience and Remote Sensing Letters, DOI 10.1109/lgrs.2023.3323095",
+      "auth_required": "Free, may require a DANS/EASY account for bulk download",
+      "licence": "Open (research use), per the associated IEEE LGRS paper",
+      "approx_size_gb": "Low, a few GB (439,001 field polygons plus Sentinel-2 composite tiles across 62 5x5 km tiles)",
+      "accessible_from_malaysia": "Yes, DANS is an EU-hosted, globally reachable repository",
+      "verified_how": "Metadata and DOI retrieved via papers__search_openalex on 2026-08-05; the DANS download page itself was not independently WebFetched this session [uncertain on exact download mechanics/quota]. Provides parcel GEOMETRY only, not yield labels."
+    },
+    {
+      "name": "Global Yield Gap Atlas (GYGA) - Indonesia rice/maize",
+      "access_route": "https://www.yieldgap.org/indonesia and https://www.yieldgap.org/coverage-and-data-download",
+      "auth_required": "Free download, no account required for most products",
+      "licence": "Open, attribution requested",
+      "approx_size_gb": "Under 1 GB, tabular climate-zone-level statistics",
+      "accessible_from_malaysia": "Yes",
+      "verified_how": "WebSearch confirmed live site and Indonesia rice/maize coverage on 2026-08-05. Critically: GYGA data is aggregated at the climate-zone/national level, NOT parcel-level, and Malaysia is not covered by GYGA at all in the search results obtained. This is NOT usable as a per-parcel ranking label source."
+    },
+    {
+      "name": "MADA/IADA (Malaysian rice granary scheme) yield statistics",
+      "access_route": "No public bulk per-parcel dataset found. Only aggregate granary-level figures appear in government/industry PDFs (e.g. Khazanah Research Institute 'Status of the Paddy and Rice Industry in Malaysia' report, MADA annual reports)",
+      "auth_required": "N/A - no downloadable dataset identified; per-parcel data, if it exists internally at MADA/DOA, would require a direct institutional request/partnership",
+      "licence": "Unknown / not public",
+      "approx_size_gb": "N/A",
+      "accessible_from_malaysia": "Aggregate statistics: yes. Per-parcel records: NOT FOUND to be publicly accessible.",
+      "verified_how": "Multiple WebSearch queries on 2026-08-05 for MADA/IADA per-plot or per-parcel yield records returned only granary-level or national aggregate figures (e.g. national average 4.2 t/ha vs >5.0 t/ha for top granaries). This is a recorded NEGATIVE RESULT: no accessible per-parcel yield or ranking ground truth was found for Malaysian rice smallholders."
+    },
+    {
+      "name": "Oil palm smallholder FFB (fresh fruit bunch) yield records",
+      "access_route": "No public per-parcel or per-smallholder dataset found. MPOB and USDA FAS reports publish only national/regional aggregate FFB yield (t/ha) statistics.",
+      "auth_required": "N/A",
+      "licence": "N/A",
+      "approx_size_gb": "N/A",
+      "accessible_from_malaysia": "Aggregate statistics only",
+      "verified_how": "Multiple WebSearch queries on 2026-08-05 found only national/regional aggregate FFB yield figures (Malaysia ~4.4 t/ha half-year average, Indonesia ~3.4 t/ha) with no downloadable co-op- or parcel-level dataset. Recorded NEGATIVE RESULT."
+    }
+  ],
+  "total_dataset_gb": "Approximately 10-30 GB for the imagery side of a minimum viable pilot (Sentinel-1+2 stacks over a few thousand parcels for one growing season), well under the H5 ~200GB ceiling. The binding constraint for this idea is NOT data volume - it is the complete absence, found in this research, of a downloadable parcel-level yield or ranking label dataset for SEA rice or oil-palm smallholders.",
+  "labels_and_ground_truth": "Two supervision routes were investigated. (1) Sparse real co-op yield/inspection records: no evidence was found in this research that such records exist in an accessible, machine-readable, parcel-linked form for any Malaysian or Indonesian rice or oil-palm smallholder scheme - MADA/IADA and MPOB/industry sources publish only granary- or region-level aggregates (see datasets list). Obtaining real records would require a direct institutional partnership with a specific co-op or scheme authority, which is unverified and outside what a student can independently confirm as 'obtainable' before starting. (2) End-of-season NDVI-integral (or similar full-season vegetation-index summary) as a self-generated proxy target: this is obtainable from imagery alone, but it carries two serious risks flagged explicitly in this task. First, it is only a WEAK proxy for true yield in smallholder settings - Masiza et al. (2022, Sustainability, DOI 10.3390/su14031670) found R2 <= 0.14 between NDVI/rainfall variables and smallholder maize yield in South Africa, i.e. vegetation-index-derived signals do not reliably track actual harvest outcomes for heterogeneous smallholder management. Second, because the model's OWN INPUT is also Sentinel-1/2-derived vegetation/backscatter time series, training and evaluating primarily against an NDVI-integral-derived proxy target risks the model learning to reproduce a summary statistic of a signal correlated with its own input, rather than learning anything about true yield-gap - i.e. the evaluation's claimed 'true worst-decile parcels' cannot actually be verified as true without independent yield data, which was not found to be accessible.",
+  "named_baselines": [
+    {
+      "paper_title": "Estimating smallholder crops production at village level from Sentinel-2 time series in Mali's cotton belt",
+      "venue": "Remote Sensing of Environment",
+      "year": 2018,
+      "doi_or_arxiv_id": "10.1016/j.rse.2018.06.036",
+      "reported_metric": "R2 of 0.68 (cotton), 0.62 (maize), 0.80 (millet), 0.48 (sorghum) for LAI-based yield estimators vs ground yield at village scale",
+      "dataset": "Sentinel-2 time series + ground survey data, Koningue commune, Mali"
+    },
+    {
+      "paper_title": "Spatial Rice Yield Estimation Based on MODIS and Sentinel-1 SAR Data and ORYZA Crop Growth Model",
+      "venue": "Remote Sensing (MDPI)",
+      "year": 2018,
+      "doi_or_arxiv_id": "10.3390/rs10020293",
+      "reported_metric": "RMSE 0.30 and 0.46 t/ha (NRMSE 5% and 8%) vs official district-level yield, for spring and summer rice seasons respectively",
+      "dataset": "MODIS + Sentinel-1 SAR + ORYZA crop model, Red River Delta, Vietnam (explicitly framed for crop insurance and spatial targeting of yield-gap interventions - very close analog to the proposed triage use case)"
+    },
+    {
+      "paper_title": "Integrating SAR Sentinel-1A and DSSAT CROPGRO Simulation Model for Peanut Yield Gap Analysis",
+      "venue": "Agronomy (MDPI)",
+      "year": 2023,
+      "doi_or_arxiv_id": "10.3390/agronomy13030889",
+      "reported_metric": "Yield gap of 1217-2346 kg/ha between DSSAT-simulated potential yield (3194-4843 kg/ha) and crop-cutting-experiment actual yield (1228-3106 kg/ha)",
+      "dataset": "Sentinel-1A SAR + DSSAT CROPGRO model + real crop-cutting-experiment ground truth, Tiruvannamalai district, Tamil Nadu, India - an explicit 'yield gap' analysis with genuine (if labor-intensive) ground truth"
+    },
+    {
+      "paper_title": "Satellite monitoring uncovers progress but large disparities in doubling crop yields",
+      "venue": "arXiv preprint (cs.CY / cs.LG)",
+      "year": 2024,
+      "doi_or_arxiv_id": "arXiv:2411.03322",
+      "reported_metric": "Machine-learning-derived village-level productivity estimates used to classify 15,000 Rwandan villages as on/off track against 2030 productivity-doubling targets (classification/threshold framing, not yield-gap ranking with a ranking loss)",
+      "dataset": "High-resolution satellite imagery + machine learning, 15,000 villages, Rwanda"
+    },
+    {
+      "paper_title": "High-Resolution Mapping of Paddy Rice Extent and Growth Stages across Peninsular Malaysia Using a Fusion of Sentinel-1 and 2 Time Series Data in Google Earth Engine",
+      "venue": "Remote Sensing (MDPI)",
+      "year": 2022,
+      "doi_or_arxiv_id": "10.3390/rs14081875",
+      "reported_metric": "Overall accuracy 95.95%, kappa 0.92 for rice extent/growth-stage mapping; validated against local government cropping-calendar data",
+      "dataset": "Sentinel-1+2 phenology-based unsupervised clustering, Peninsular Malaysia (131,598 km2) - the closest direct geographic and sensor precedent for this idea, though for growth-stage mapping, not yield or ranking"
+    }
+  ],
+  "evaluation_protocol": "As specified, evaluation is NDCG@k for the predicted parcel ranking within a scheme/season, plus recall@k of 'true worst-decile' parcels in a top-k agronomist visit list, compared against an absolute-yield-regression baseline trained on the same phenology features. The number that would count as success is a statistically significant NDCG@10 or recall@(top 10-20%) improvement over the regression baseline's induced ranking. The critical, unresolved issue (see labels_and_ground_truth and novelty_delta) is that 'true worst-decile' cannot currently be defined against real yield data for any accessible SEA smallholder scheme identified in this research - so as specified, the protocol would have to substitute an NDVI-integral-proxy-derived 'true' label, which changes what is actually being measured from 'yield-gap ranking accuracy' to 'vegetation-index-forecast ranking accuracy'. Geographic/temporal generalisation would be tested by holding out entire schemes/seasons, standard practice in the cited baselines.",
+  "novelty_delta": "The specific combination of (a) reframing crop yield-gap estimation as pairwise/listwise learning-to-rank over phenology-curve embeddings and (b) evaluating with NDCG and top-k worst-decile recall was NOT found in the remote-sensing agriculture literature after searching arXiv (cs.CV/cs.LG, 2022-2026), OpenAlex, Crossref, and dblp with multiple query formulations ('learning to rank' + crop/yield/satellite, pairwise/listwise + NDCG + crop, ranking + triage + agronomist + satellite). This supports a genuine claim that the TASK FORMULATION is unexplored in this literature as of 2026-08-05, which is a real, if narrow, novelty axis under H1's 'new method' / 'new deployment constraint' language. HOWEVER, the idea's own core justification - that ranking 'sidesteps the label scarcity that kills absolute yield models' - does not survive scrutiny. Ranking still requires SOME ordinal ground truth. This research found no accessible parcel-level yield or inspection records for SEA rice or oil-palm smallholders (see datasets/labels_and_ground_truth), so the only demonstrated fallback is an NDVI-integral proxy, which is (i) only weakly correlated with true yield for smallholders (Masiza et al. 2022, R2<=0.14) and (ii) derived from the same imagery-derived signal class the model consumes as input. This means the label-scarcity problem is RELABELED rather than solved: the project would end up validated against a proxy of unknown fidelity to real yield-gap, not against yield-gap itself. This is precisely the failure mode the task brief asked to be scrutinized for, and it materially weakens the H1 claim: a defensible technical delta (the ranking loss and task framing) is real, but the SCIENTIFIC CLAIM that motivates the delta (ranking solves the label problem regression cannot) is not supported by what is actually obtainable. 'Applied ranking to Y region' would not be the objection here since it is a genuine reframing, not a region swap - but the reframing's headline benefit does not hold up once the label-access question is investigated concretely.",
+  "prior_art_that_threatens_it": "Setiyono et al. 2018 (10.3390/rs10020293) already targets exactly this use case in Southeast Asia - SAR+optical+crop-model rice yield estimation explicitly for crop insurance and 'spatial targeting of further investigation and interventions needed to reduce yield gaps' in Vietnam - i.e. a working, validated (RMSE 0.30-0.46 t/ha vs official yield) system for the same triage goal, using regression rather than ranking, with real (if district-aggregated) ground truth. Fankhauser, Thomas & Mehrabi 2024 (arXiv:2411.03322) already performs village-level satellite-based productivity classification/targeting against goals across 15,000 villages, which is conceptually adjacent to 'flag underperforming units for intervention' even though it is not a formal learning-to-rank system. Masiza et al. 2022 (10.3390/su14031670) is a direct threat to the proxy-labeling assumption, showing weak VI-yield correlation (R2<=0.14) specifically in a smallholder context, which is exactly the risk this idea's NDVI-integral-proxy fallback would run into. No 2024-2026 paper was found that has already built and published the specific pairwise/listwise ranking + NDCG evaluation system described, so the precise technical artifact remains open, but the underlying use case (yield-gap triage from SAR+optical time series in a smallholder/insurance context) has multiple close precedents dating back to 2018.",
+  "h2_generic_check": "The core is NOT literally a chatbot, dashboard, leaf-photo classifier, or crop-type-classification rerun. As specified with real co-op ordinal labels, it would clearly clear H2 (a genuine ranking-loss system over phenology embeddings is not a 50-other-FYPs summary). BUT the research found no accessible real ordinal labels, which means the only demonstrated implementable version relies on the NDVI-integral proxy. In that implementable version, ranking parcels by a model trained and evaluated against an NDVI-integral target is functionally very close to ranking parcels by NDVI-integral directly (or a smoothed/forecast version of it) - which is substantively the banned 'plain NDVI/vegetation-index time-series viewer' pattern, with a ranking-loss neural network as a sophisticated-looking wrapper around what is, at evaluation time, a vegetation-index-derived ordering. Whether this passes or fails H2 in practice therefore hinges entirely on whether real ordinal supervision can be secured before the project starts - something this research could not confirm is possible. Answer to 'could this one-sentence summary describe 50 other FYPs': partially - 'rank fields by NDVI trajectory' is an extremely common precision-agriculture demo; the pairwise/listwise ranking-loss + NDCG framing is less common, but not enough to overcome the underlying proxy-label risk.",
+  "user_segment": "Agronomists and field officers at Malaysian rice granary-scheme authorities (e.g. MADA - Muda Agricultural Development Authority, managing >100,000 ha, ~35% of national paddy area; or IADA schemes such as IADA Barat Laut Selangor) or at Malaysian/Indonesian oil-palm smallholder co-operatives / FFB collection-centre catchments, who must decide which member parcels to physically visit mid-season given limited staff time. This is explicitly NOT Singapore: per N1, Singapore has ~1% agricultural land and ~250 mostly vertical/indoor/rooftop farms with no smallholder rice or oil-palm scheme resolvable at Sentinel-1/2's 10 m pixel size, so a satellite-primary land-farming idea targeting Singapore is dead on arrival. This idea is a Malaysia/Indonesia deployment; Singapore could at most serve as a demo/pitch audience, not as the operating geography, and the brief's own guidance to 'not force it' applies here - the idea correctly does not attempt to force a Singapore fit.",
+  "quantified_pain": "Malaysian national average paddy yield is approximately 4.2 t/ha, while top-performing granaries (IADA Barat Laut Selangor, IADA Pulau Pinang, IADA Ketara, MADA) exceed 5.0 t/ha - roughly a 20%+ gap between average and best-performing schemes (source: Khazanah Research Institute, 'The Status of the Paddy and Rice Industry in Malaysia', 2019, found via WebSearch). MADA alone manages over 100,000 ha (35.13% of national paddy area), so even a modest within-scheme yield gap represents thousands of hectares of recoverable production. For oil palm, Malaysian FFB yield has been reported by the Malaysian Palm Oil Board / industry literature as stagnant and 'well below potential levels' for over two decades (Rashid et al. 2021, IEEE Access review, DOI 10.1109/access.2021.3075159), with half-year 2022 average FFB yields of 4.74 t/ha (Peninsular) vs 4.18-4.43 t/ha (Sabah/Sarawak/national) against literature-estimated peak potential well above these figures. These are scheme/region-level numbers, not a directly quantified per-visit inspection cost or false-alert rate, because no source with agronomist-visit-cost figures was found in this research - this specific number is [uncertain] and would need to be obtained from a co-op partner.",
+  "compute_feasibility": {
+    "peak_memory_gb": "Estimated 2-8 GB for a TempCNN/LTAE-style temporal encoder plus a pairwise/listwise ranking head over a few thousand parcels with modest sequence lengths (10-30 time steps x ~10 channels) - far below the 24GB unified memory ceiling",
+    "est_training_hours_mps": "Estimated 1-4 hours on M4 Pro MPS for a full training run at pilot scale (a few thousand parcels, one to a few seasons), well inside the 12-hour ceiling",
+    "fits_24gb": true,
+    "mps_compatible_ops": "Yes - 1D convolutions, standard self-attention/transformer blocks, and pairwise/listwise ranking losses (implementable via standard margin/logistic losses, no custom CUDA kernels) are all standard PyTorch ops supported on the MPS backend",
+    "colab_kaggle_fallback_needed": "No fallback strictly required at pilot scale; Colab/Kaggle free T4 quota would comfortably suffice as a backup or for any larger-scale scan",
+    "notes": "Compute is NOT a constraint for this idea - the model and data volumes are small. The binding constraint identified in this research is entirely on the data/label-access side (see labels_and_ground_truth), not compute or budget."
+  },
+  "cash_cost_rm": "Approximately RM 0-50, itemised as: RM 0 for Copernicus/Planetary Computer imagery (free and open licence, verified live 2026-08-05), RM 0 for AI4SmallFarms parcel boundaries (open DANS repository), and a small buffer (RM 0-50) for optional cloud storage/compute if local MPS training proves inconvenient. No commercial VHR imagery (Planet/Maxar/Airbus) is required or proposed, so the H5 commercial-imagery exclusion does not apply.",
+  "demo_artifact": "A live map of a pilot scheme (e.g. a MADA irrigation block or an oil-palm co-op catchment) with parcels colour-coded by predicted rank (red = predicted worst-decile, green = predicted best), refreshed by re-running the model on a held-out mid-season date; side-by-side with the same parcels ranked by the absolute-regression baseline, to visually show where the two orderings diverge and which top-k list the ranking model would send an agronomist to. This is demoable on a laptop in under 2 minutes IF real parcel geometries and imagery for a specific pilot region are pre-loaded; it does NOT, however, demonstrate that the 'worst-decile' flag corresponds to real yield underperformance, since (per this research) no accessible ground truth exists to validate that claim live.",
+  "build_vs_research_ratio": "Estimated 60:40 engineering:research (short of the ~70:30 target). The engineering side (imagery ETL pipeline, per-parcel time-series extraction, temporal encoder, ranking-loss training loop, map-based demo UI) is substantial and buildable. But a meaningful fraction of the project's actual effort, if pursued honestly, would have to go into research/negotiation work that is NOT pure engineering: investigating and attempting to secure real ordinal co-op yield data (an open research/access problem, not a coding problem), and rigorously validating whether the NDVI-integral proxy has ANY defensible relationship to true yield-gap in the chosen region before trusting the evaluation numbers at all - this is closer to a data-validity research question than to system-building.",
+  "publication_venue_fit": "IF the label-access problem is resolved with genuine ordinal ground truth, a realistic target would be IGARSS (methods-focused, tolerant of proxy-label caveats if clearly stated) or an ICLR ML4RS workshop paper on the task-formulation novelty (ranking vs. regression for label-scarce yield-gap estimation). Remote Sensing (MDPI) is a plausible mid-tier journal fallback given the precedent of similar smallholder/insurance-framed papers appearing there (Setiyono et al. 2018, Fatchurrachman et al. 2022). Without real yield ground truth, the honest publishable framing narrows to a methods/proxy-label paper ('can early-season phenology forecast end-of-season vegetation-index rank'), which is a weaker and less novel contribution than the one pitched.",
+  "key_risks": [
+    "1. LABEL-ACCESS RISK (highest, likely fatal as specified): no accessible per-parcel yield or ordinal ranking ground truth was found for any Malaysian or Indonesian rice or oil-palm smallholder scheme in this research; the project's central claim depends on data access that is unverified and may require an institutional partnership the student does not currently have.",
+    "2. PROXY-LABEL VALIDITY RISK: the NDVI-integral fallback is only weakly correlated with true smallholder yield in comparable studies (R2<=0.14, Masiza et al. 2022), so even a well-trained ranking model may be learning to predict a signal with little bearing on real yield-gap.",
+    "3. CIRCULARITY / H2-COLLAPSE RISK: because both the model's input and its proxy supervision are Sentinel-1/2-vegetation-index-derived, the deliverable risks reducing, in substance, to 'rank parcels by (forecasted) vegetation-index summary' - functionally close to the banned plain-VI-viewer pattern.",
+    "4. CLOUD-COVER / DATA-QUALITY RISK: persistent tropical cloud cover over Malaysia/Indonesia degrades usable Sentinel-2 observation density within a season, which could starve the phenology encoder of clean mid-season signal, especially with only a single active Sentinel-1 satellite reducing SAR revisit as a fallback.",
+    "5. EVALUATION RISK: without real held-out yield data, there is no way to report a trustworthy NDCG/top-k number that means what the pitch claims it means - any reported metric would need an explicit, prominent caveat that it measures agreement with a vegetation-index proxy, not with real yield-gap."
+  ],
+  "kill_criteria": [
+    "Week 1: Contact a specific named scheme (a MADA irrigation block, a specific IADA authority, or a specific oil-palm mill/co-op catchment) and attempt to obtain ANY real per-parcel or per-member ordinal yield/inspection information (even informal rankings from past seasons). If no such data can be obtained or credibly promised within 1-2 weeks, treat the ranking framing as unsupported and either abandon or explicitly pivot to a proxy-label-only framing with the caveat made central to the write-up rather than buried.",
+    "Week 1-2: Compute the correlation between NDVI-integral (or chosen VI proxy) and any available AGGREGATE yield statistic (e.g. granary-level MADA yield vs granary-averaged NDVI-integral) as a sanity check on proxy validity in the actual target region; if correlation is as weak as Masiza et al.'s R2<=0.14 finding suggests it may be, the proxy-label approach should be considered discredited for this use case.",
+    "Week 2: Verify actual Sentinel-2 cloud-free observation density over the specific pilot region and season to confirm the phenology curves will have enough clean mid-season points to be informative at all before investing in the ranking-model architecture."
+  ],
+  "hard_constraint_verdict": {
+    "H1": "FAIL (conditional). The task-framing delta (pairwise/listwise ranking + NDCG over phenology embeddings for yield-gap triage) was not found in the literature searched and is a genuine formulation novelty. However, the idea's headline justification - that ranking sidesteps label scarcity - is not supported: no accessible real ordinal ground truth was found, and the demonstrated fallback (NDVI-integral proxy) only relabels the label-scarcity problem rather than solving it, and cannot support the 'measurable improvement over a named baseline' on the actual target (yield-gap), since the actual target cannot currently be measured.",
+    "H2": "FAIL (conditional). As specified, with the NDVI-integral proxy named as a viable supervision source, the implementable system risks collapsing into ranking parcels by a vegetation-index-derived summary statistic - substantively the banned 'plain NDVI/vegetation-index time-series viewer' pattern, dressed in a ranking-loss neural network. This risk was explicitly flagged as something to scrutinize, and the scrutiny confirms it is real, not hypothetical.",
+    "H3": "PASS. Sentinel-1 SAR and Sentinel-2 optical time series are the sole model inputs; no non-imagery covariates are used as input (only, at most, as labels).",
+    "H4": "PASS. Named user segment is Malaysian/Indonesian rice-scheme agronomists (MADA/IADA) or oil-palm smallholder co-op field staff - a real, named SEA segment, not 'farmers globally'. Singapore is correctly and explicitly not forced as the deployment geography, consistent with N1.",
+    "H5": "PASS. Imagery volume (~10-30 GB), model size, and training time (estimated 1-4 hours on M4 Pro MPS) are all comfortably within the 24GB/12-hour/RM200 budget, with no commercial imagery dependency.",
+    "H6": "WEAK. The pitch is conceptually clean in one sentence, but a CS-academic judging panel would very likely ask 'how do you know which parcel actually did worse, to train or judge this?' within the first minute, and the honest answer as researched here (no accessible real ordinal labels found) undermines the pitch on the spot."
+  },
+  "overall_recommendation": "DISQUALIFIED. Two hard constraints (H1 and H2) fail once the label-supervision question is investigated concretely: no accessible per-parcel yield or ordinal ranking ground truth exists for SEA rice/oil-palm smallholders as of this research, so the project's only demonstrated path (NDVI-integral proxy supervision) both fails to prove the claimed novelty (ranking does not actually solve the label problem, it relabels it) and risks collapsing into the H2-banned vegetation-index-viewer pattern. The idea could potentially be rehabilitated if a real institutional partnership secured genuine sparse ordinal co-op records before the project starts, but that is unverified and outside what this research could confirm as obtainable.",
+  "confidence": "Medium-High confidence in the negative finding on label availability (multiple independent WebSearch queries across MADA/IADA, MPOB, GYGA, and academic literature all converged on the same result: only aggregate statistics exist publicly). Confidence would rise to High with a direct email/contact to MADA, a specific IADA authority, or a named oil-palm co-op confirming whether any internal per-parcel or per-member ranked records exist and are shareable - this was not attempted in this research (no channel to contact institutions directly) and is the single biggest lever that could change the verdict.",
+  "key_references": [
+    {
+      "title": "Estimating smallholder crops production at village level from Sentinel-2 time series in Mali's cotton belt",
+      "year": 2018,
+      "venue": "Remote Sensing of Environment",
+      "doi_or_arxiv_id": "10.1016/j.rse.2018.06.036",
+      "why_it_matters": "Direct precedent for smallholder yield estimation from Sentinel-2 time series with real ground survey yield data; establishes the R2 range (0.48-0.80) a regression baseline would need to be compared against."
+    },
+    {
+      "title": "Spatial Rice Yield Estimation Based on MODIS and Sentinel-1 SAR Data and ORYZA Crop Growth Model",
+      "year": 2018,
+      "venue": "Remote Sensing (MDPI)",
+      "doi_or_arxiv_id": "10.3390/rs10020293",
+      "why_it_matters": "Nearly identical use case (SEA rice yield estimation explicitly for crop insurance and spatial targeting of yield-gap interventions) already published with SAR+optical+crop-model regression and real district-level validation (RMSE 0.30-0.46 t/ha) - the strongest single named baseline/competitor this idea must beat or differentiate from."
+    },
+    {
+      "title": "Integrating SAR Sentinel-1A and DSSAT CROPGRO Simulation Model for Peanut Yield Gap Analysis",
+      "year": 2023,
+      "venue": "Agronomy (MDPI)",
+      "doi_or_arxiv_id": "10.3390/agronomy13030889",
+      "why_it_matters": "Shows what a genuine 'yield gap' analysis with real ground truth (crop-cutting experiments) looks like using Sentinel-1 - a template for the kind of real ground-truth collection this idea currently lacks."
+    },
+    {
+      "title": "Satellite monitoring uncovers progress but large disparities in doubling crop yields",
+      "year": 2024,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2411.03322",
+      "why_it_matters": "Closely adjacent prior art: satellite-based smallholder productivity target-tracking/classification across 15,000 villages, showing the 'triage/target' framing is already being explored, even if not with a formal ranking loss."
+    },
+    {
+      "title": "Do Satellite Data Correlate with In Situ Rainfall and Smallholder Crop Yields? Implications for Crop Insurance",
+      "year": 2022,
+      "venue": "Sustainability (MDPI)",
+      "doi_or_arxiv_id": "10.3390/su14031670",
+      "why_it_matters": "Directly threatens the NDVI-integral-proxy fallback: finds R2<=0.14 between vegetation-index/rainfall variables and smallholder maize yield, i.e. vegetation-index proxies are a weak stand-in for true yield in smallholder contexts."
+    },
+    {
+      "title": "High-Resolution Mapping of Paddy Rice Extent and Growth Stages across Peninsular Malaysia Using a Fusion of Sentinel-1 and 2 Time Series Data in Google Earth Engine",
+      "year": 2022,
+      "venue": "Remote Sensing (MDPI)",
+      "doi_or_arxiv_id": "10.3390/rs14081875",
+      "why_it_matters": "The closest direct geographic and sensor precedent (Peninsular Malaysia, Sentinel-1+2 phenology-based method); useful both as a method reference and as evidence the exact geography/sensor combination is already well studied for related (non-yield) tasks."
+    },
+    {
+      "title": "AI4SmallFarms: A Dataset for Crop Field Delineation in Southeast Asian Smallholder Farms",
+      "year": 2023,
+      "venue": "IEEE Geoscience and Remote Sensing Letters",
+      "doi_or_arxiv_id": "10.1109/lgrs.2023.3323095",
+      "why_it_matters": "Provides real SEA smallholder parcel boundary geometries (Vietnam/Cambodia) that could supply the parcel geometry layer needed to extract per-parcel time series, even though it provides no yield labels."
+    },
+    {
+      "title": "A Comprehensive Review of Crop Yield Prediction Using Machine Learning Approaches With Special Emphasis on Palm Oil Yield Prediction",
+      "year": 2021,
+      "venue": "IEEE Access",
+      "doi_or_arxiv_id": "10.1109/access.2021.3075159",
+      "why_it_matters": "Systematic review covering the oil-palm side of this idea's target crops, useful for scoping the state of the art and confirming the persistent yield-stagnation pain point cited in quantified_pain."
+    }
+  ],
+  "uncertain": [
+    "datasets",
+    "quantified_pain",
+    "confidence"
+  ]
+}

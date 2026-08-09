@@ -1,0 +1,219 @@
+{
+  "idea_name": "Cutting EUDR False Deforestation Alerts Against Smallholder Agroforestry",
+  "bucket": "9 - regulatory and compliance",
+  "one_sentence_pitch": "For smallholder cocoa, coffee, rubber and oil-palm farmers in Sumatra and Sabah facing loss of EU market access under the EU Deforestation Regulation, this project builds a multi-temporal Sentinel-1/2 model that separates decades-old agroforestry from real deforestation at 10m, explicitly optimised to minimise the false deforestation alerts the operational EUDR reference maps currently generate against them.",
+  "problem_statement": "The EUDR requires operators/traders to prove commodities are 'deforestation-free' after 31 Dec 2020, verified against global forest/tree-cover reference maps. Beyer, Kothke & Lippe (2025, DOI 10.3390/rs17173012) systematically evaluated 21 global forest/tree-cover maps against EUDR criteria and found none reliably distinguish natural forest from tree-based agriculture. van Noordwijk et al. (2025, DOI 10.1002/pan3.70088) show a 2/3 (63%) probability that an Indonesian agroforestry garden producing coffee, cocoa or rubber is erroneously mapped as forest, and that EUDR maps claim 12% more global forest in 2020 than FAO national data (with an 18% chance a forest pixel is classed non-forest even between datasets using the same definition/cutoff). For SEA smallholders who have farmed under canopy for decades, this is a live risk of false 'deforestation' alerts, extra due-diligence burden, and loss of EU buyers -- a problem current global forest/non-forest products are structurally unable to fix because they optimise for overall map accuracy, not for the asymmetric cost of wrongly penalising a smallholder.",
+  "proposed_technical_approach": "A multi-modal, multi-temporal deep learning model (CNN/transformer time-series encoder, following the ForTy / Jiang et al. 2026 architecture family) taking co-registered Sentinel-1 (VV/VH) and Sentinel-2 (10-20m optical, cloud-masked) time series over a SEA AOI (e.g. a Sumatra oil-palm/rubber belt or a cocoa/coffee smallholder district) as input, at 10m per-pixel resolution. Output: per-pixel class among {natural forest, planted forest/monoculture tree crop, smallholder agroforestry, non-forest/other}, trained by combining ForTy's global 3-class forest-type taxonomy with SEA-specific tree-crop identity from Descals et al. (oil palm smallholder/industrial) and Danylo et al./Wang et al. (oil palm age, rubber), plus a small hand-validated set of SEA agroforestry polygons for the class that has no confirmed direct label source. Loss/objective: instead of standard cross-entropy trained for overall accuracy, use a cost-asymmetric loss (class-weighted focal loss or a Neyman-Pearson-style constrained classifier) that penalises predicting 'deforested/non-forest' on a true agroforestry pixel far more heavily than the reverse error, mirroring the actual asymmetric cost the smallholder/regulator pair faces. Evaluation: false-positive rate against a real operational reference layer (JRC TMF/EUFO, Global Forest Watch tree-cover-loss, or the Neumann et al. 2025 natural-forest baseline used as a stand-in for 'the regulator') at a fixed recall level, benchmarked against accuracy-only training as done in Jiang et al. 2026 / ForTy on the same SEA AOI.",
+  "primary_sensor": {
+    "sensor": "Sentinel-1 (C-band SAR, VV/VH) + Sentinel-2 (MSI optical)",
+    "spatial_resolution_m": 10,
+    "revisit_days": "Sentinel-2: ~5 days (S2A+S2B). Sentinel-1: nominally 6-12 days depending on current constellation/orbit coverage over SEA after the 2021 loss of Sentinel-1B and the 2024 launch of Sentinel-1C; exact current SEA revisit not independently re-verified this session [uncertain]",
+    "bands_used": "S1 VV/VH backscatter (and optionally coherence); S2 visible, NIR, red-edge, SWIR 10-20m bands; optionally climate/elevation auxiliary rasters as used in the ForTy benchmark",
+    "licence": "Free and open Copernicus data policy (ESA/EU); registration only, no cost"
+  },
+  "imagery_is_primary_input": "Yes - Sentinel-1 SAR and Sentinel-2 optical multi-temporal time series (plus optional climate/elevation auxiliary layers, as in ForTy) are the sole model inputs; no non-imagery data dominates the model.",
+  "datasets": [
+    {
+      "name": "ForTy (Forest Typology) v1.0",
+      "access_route": "Google Earth Engine public asset (projects/nature-trace/assets/forest_typology/forest_typology_2020_v1_0_collection) and GitHub github.com/google-deepmind/forest_typology",
+      "auth_required": "Free Google Earth Engine account (non-commercial)",
+      "licence": "CC-BY-SA 4.0",
+      "approx_size_gb": "uncertain - 200,000 multi-temporal S1+S2+climate+elevation patches globally; a SEA-only subset is likely a small fraction, estimated single-digit to low-tens of GB [uncertain]",
+      "accessible_from_malaysia": "Yes, no geographic restriction identified",
+      "verified_how": "WebSearch of the Google Earth Engine Data Catalog listing and GitHub repo description, and arXiv:2505.01805 abstract confirming 200k patches, CC-BY-SA 4.0, per-pixel 3-class forest-type labels (natural forest, planted forest, tree crops)"
+    },
+    {
+      "name": "Sentinel-1 GRD / Sentinel-2 L2A",
+      "access_route": "Copernicus Data Space Ecosystem (dataspace.copernicus.eu), API and browser download",
+      "auth_required": "Free registration",
+      "licence": "Copernicus free and open data policy",
+      "approx_size_gb": "Depends on AOI/time range; a single-province multi-year time series subset estimated 20-80GB [uncertain, not independently re-measured this session]",
+      "accessible_from_malaysia": "Yes, global open access",
+      "verified_how": "General knowledge consistent with TOOL_ROUTING.md N3 seed list; not independently re-verified via a live probe in this session"
+    },
+    {
+      "name": "Descals et al. global oil palm smallholder/industrial map (2019)",
+      "access_route": "Zenodo, DOI 10.5281/zenodo.4473715",
+      "auth_required": "None",
+      "licence": "Open (ESSD/Zenodo standard, CC-BY)",
+      "approx_size_gb": "Global 10m raster restricted to tropical oil-palm countries; estimated single-digit GB [uncertain]",
+      "accessible_from_malaysia": "Yes",
+      "verified_how": "OpenAlex record (W3081302610) + ESSD paper abstract (DOI 10.5194/essd-13-1211-2021) confirming Zenodo DOI, 10m resolution, 98.5% overall accuracy, SEA covers 89% of global closed-canopy oil palm in this dataset"
+    },
+    {
+      "name": "Danylo et al. oil palm extent+age map (Indonesia, Malaysia, Thailand)",
+      "access_route": "Associated with Nature Scientific Data paper, DOI 10.1038/s41597-021-00867-1; specific data-repository URL not independently fetched this session [uncertain]",
+      "auth_required": "Likely none",
+      "licence": "Likely CC-BY 4.0 (Nature Scientific Data standard) [uncertain]",
+      "approx_size_gb": "uncertain",
+      "accessible_from_malaysia": "presumed yes [uncertain]",
+      "verified_how": "OpenAlex abstract only (W3150957317); access route not independently verified via WebFetch this session"
+    },
+    {
+      "name": "Wang et al. rubber + deforestation maps for Southeast Asia",
+      "access_route": "Associated with Nature paper DOI 10.1038/s41586-023-06642-z; specific repository not independently fetched this session [uncertain]",
+      "auth_required": "uncertain",
+      "licence": "uncertain",
+      "approx_size_gb": "uncertain",
+      "accessible_from_malaysia": "presumed yes [uncertain]",
+      "verified_how": "OpenAlex abstract only (W4387737714); not independently fetched"
+    },
+    {
+      "name": "COLD-CI cocoa/non-cocoa polygon dataset (Cote d'Ivoire)",
+      "access_route": "Zenodo (per arXiv:2606.20767 abstract)",
+      "auth_required": "None",
+      "licence": "uncertain",
+      "approx_size_gb": "uncertain",
+      "accessible_from_malaysia": "Yes technically, but NOT SEA-relevant -- this is a West Africa (Cote d'Ivoire) cocoa dataset, explicitly flagged by the task brief as needing a SEA substitute; does not directly transfer to SEA smallholder agroforestry",
+      "verified_how": "WebSearch summary of arXiv:2606.20767 abstract"
+    }
+  ],
+  "total_dataset_gb": "Estimated 50-150GB for a realistically SEA-AOI-scoped minimum viable experiment (ForTy SEA subset + regional Sentinel-1/2 time series + oil palm/rubber label rasters), which would stay under the ~200GB H5 ceiling, but this was NOT independently measured this session and should be confirmed in week 1-2 before committing to a full-country scope [uncertain]",
+  "labels_and_ground_truth": "Three overlapping label needs, of uneven strength for SEA specifically. (1) Forest-type taxonomy (natural forest / planted forest / tree crop) from ForTy -- global coverage but SEA-specific label density/quality was not independently verified. (2) Crop-specific tree-crop identity: solid for oil palm (Descals smallholder/industrial split; Danylo age) and rubber (Wang et al.), both SEA-focused. (3) The actual class this idea most needs -- 'established smallholder agroforestry under canopy' as distinct from monoculture tree crop or natural forest -- has NO confirmed direct-labelled SEA dataset. COLD-CI is the closest labelled-polygon analogue in the wider literature but is West-Africa cocoa-specific and does not transfer directly (as the task brief itself flags). The realistic path is hand-digitising/validating a modest set of SEA agroforestry polygons from free VHR basemaps (Planet NICFI tropical mosaic, Google/Bing imagery), which is labour-intensive, subjective, and may not reach COLD-CI's scale or rigor. This is the single biggest ground-truth risk in the proposal.",
+  "named_baselines": [
+    {
+      "paper_title": "Tree crop mapping of South America reveals links to deforestation and conservation",
+      "venue": "arXiv preprint",
+      "year": 2026,
+      "doi_or_arxiv_id": "arXiv:2602.17372",
+      "reported_metric": "First 10m-resolution tree-crop map for South America; identifies ~11M ha of tree crops, 23% linked to 2000-2020 forest-cover loss; qualitatively demonstrates EUDR regulatory maps misclassify smallholder agroforestry as forest",
+      "dataset": "Sentinel-1 + Sentinel-2 time series, South America"
+    },
+    {
+      "paper_title": "Not Every Tree Is a Forest: Benchmarking Forest Types from Satellite Remote Sensing (ForTy)",
+      "venue": "arXiv preprint",
+      "year": 2025,
+      "doi_or_arxiv_id": "arXiv:2505.01805",
+      "reported_metric": "Introduces global 200,000-patch S1+S2+climate+elevation benchmark with natural/planted/tree-crop labels; proposed transformer-based model surpasses CNN/transformer baselines (exact numeric metric not extracted this session)",
+      "dataset": "ForTy benchmark, global"
+    },
+    {
+      "paper_title": "High-resolution global map of smallholder and industrial closed-canopy oil palm plantations",
+      "venue": "Earth System Science Data",
+      "year": 2021,
+      "doi_or_arxiv_id": "10.5194/essd-13-1211-2021",
+      "reported_metric": "Overall accuracy 98.52% (industrial vs smallholder distinction), 10m resolution, DeepLabv3+ CNN on Sentinel-1+Sentinel-2",
+      "dataset": "Global, 89% of mapped area in Southeast Asia"
+    },
+    {
+      "paper_title": "Natural forests of the world - a 2020 baseline for deforestation and degradation monitoring",
+      "venue": "Scientific Data",
+      "year": 2025,
+      "doi_or_arxiv_id": "10.1038/s41597-025-06097-z",
+      "reported_metric": "~92% overall accuracy, global 10m natural-forest probability map explicitly built to support EUDR",
+      "dataset": "Global, 2020 baseline"
+    },
+    {
+      "paper_title": "A map of the extent and year of detection of oil palm plantations in Indonesia, Malaysia and Thailand",
+      "venue": "Scientific Data",
+      "year": 2021,
+      "doi_or_arxiv_id": "10.1038/s41597-021-00867-1",
+      "reported_metric": "Sentinel-1-based extent + Landsat-time-series-based plantation age map",
+      "dataset": "Indonesia, Malaysia, Thailand"
+    }
+  ],
+  "evaluation_protocol": "Primary metric: false-positive rate (rate at which the model would erroneously flag a true agroforestry/tree-crop parcel as deforested/non-forest) measured against a real operational regulatory reference layer (candidates: JRC EU Forest Observatory TMF/EUFO layer, Global Forest Watch tree-cover-loss, or the Neumann et al. 2025 natural-forest baseline used as a stand-in for 'the regulator'). Secondary: standard per-class accuracy/F1/IoU against the ForTy-style taxonomy, for direct comparability with Jiang et al. 2026 and ForTy baselines. Geographic generalisation: train on one SEA sub-region (e.g. Sumatra) and test on a held-out sub-region (e.g. Sabah) to show the model is not memorising local backscatter idiosyncrasies. Success number: a measurable reduction in false-positive rate against the reference regulatory layer relative to that layer's own commission-error rate (Beyer, Kothke & Lippe 2025 report commission-error benchmarks for 21 global maps that could be used as the number to beat).",
+  "novelty_delta": "Because Jiang et al. 2026 (Google DeepMind/ETH Zurich) already built essentially the same model class (multi-temporal S1/S2 deep learning, 10m, explicit EUDR-false-alert-on-smallholder framing) for South America, the defensible delta cannot rest on region transfer alone -- H1 explicitly bans 'applied X to Y country' unless the region introduces a genuine technical problem. Two things are argued to survive that bar: (1) SEA plausibly introduces real technical differences versus the South American case -- more persistent near-equatorial cloud cover, smaller and more intercropped smallholder plots (oil palm/rubber/cocoa mixed systems), and the complete absence of a COLD-CI-equivalent validated agroforestry-polygon dataset (unlike West Africa's cocoa case) -- though this has not been rigorously quantified against the South American AOIs used by Jiang et al. and should be treated as a claim to verify, not a given. (2) The stated methodological delta -- training with an explicit false-positive-cost-asymmetric objective and evaluating success as false-positive rate against the actual operational regulatory layer, rather than overall accuracy/F1/IoU -- is NOT the evaluation protocol used by Jiang et al. 2026 or ForTy (both report standard accuracy-style metrics). No paper found in this session's search does cost-asymmetric optimisation for EUDR-adjacent tree-crop-vs-forest classification. This is explicitly NOT 'applied X to Y country' alone: the objective function and evaluation protocol differ from all identified prior art, and the region does carry documented (if not fully quantified) technical differences.",
+  "prior_art_that_threatens_it": "Jiang, Raichuk, Tong, Sainte Fare Garnot, Ortiz-Gonzalo, Morris, Schindler, Wegner & Neumann, 'Tree crop mapping of South America reveals links to deforestation and conservation', arXiv:2602.17372 (2026) is the single most direct threat: a multi-modal S1/S2 deep-learning model at 10m, framed explicitly around EUDR false-alert risk to smallholder agroforestry, from an active and well-resourced research group. Jiang & Neumann's ForTy benchmark (arXiv:2505.01805, 2025) already provides the exact global 3-class forest-type taxonomy (natural/planted/tree-crop) this idea proposes to learn, including some SEA coverage via aggregated regional sources. Kuapanich et al., 'From Noisy Historical Maps to Time-Series Oil Palm Mapping Without Annotation in Malaysia and Indonesia (2020-2024)' (arXiv:2604.23776, 2026) already performs SEA-specific (Malaysia/Indonesia) time-series oil-palm mapping at 10m, though it is framed around plantation extent/expansion rather than the forest-vs-agroforestry confusion and EUDR false-alert framing specifically, making it adjacent rather than a direct duplicate. Given this cluster of 2025-2026 work from the same research lineage, the window to claim an unclaimed SEA-specific delta may be narrowing quickly.",
+  "h2_generic_check": "Confirmed NOT a chatbot/LLM assistant, dashboard/monitoring portal, leaf-photo disease classifier, plain NDVI viewer, tabular yield model, re-run of an existing crop-type benchmark, or a thin wrapper around someone else's model API -- it is a genuine multi-modal semantic segmentation model with a novel cost-asymmetric training objective. However: could the one-sentence summary describe 50 other FYPs? Partially yes in spirit -- 'use Sentinel-1/2 deep learning to separate tree crops from forest for EUDR' is currently an active, multi-team research theme (Google DeepMind/ETH, this proposal, Kuapanich et al., Descals et al.), so the base task is less unique than it appears; the asymmetric-cost objective and false-positive-rate-against-regulatory-layer evaluation are what keep this from being interchangeable with those other efforts, and that framing must be foregrounded, not left implicit.",
+  "user_segment": "Smallholder cocoa, coffee, rubber and oil-palm farmers practicing agroforestry in Sumatra/Kalimantan (Indonesia) and Sabah/Sarawak (Malaysia), and the exporters/co-operatives/EUDR 'operators' (per the regulation's own terminology) who must file due-diligence geolocation statements on their behalf to retain EU market access.",
+  "quantified_pain": "63% (2 out of 3) probability that an Indonesian agroforestry garden producing coffee, cocoa or rubber is erroneously mapped as forest under EUDR reference maps (van Noordwijk et al. 2025, DOI 10.1002/pan3.70088); 18% chance a forest pixel is classified as non-forest in another dataset despite the same nominal definition/cutoff date, and EUDR maps claim 12% more global forest area in 2020 than FAO national data (same source).",
+  "compute_feasibility": {
+    "peak_memory_gb": "estimated 8-16GB depending on patch size/batch size [uncertain, exact architecture not finalised]",
+    "est_training_hours_mps": "estimated 8-12 hours for a SEA-scoped AOI subset [uncertain]",
+    "fits_24gb": "Yes, with batch-size/patch-size tuning",
+    "mps_compatible_ops": "Yes -- standard convolution/attention/RNN ops used by ForTy-style baselines are MPS-compatible",
+    "colab_kaggle_fallback_needed": "Recommended as a fallback if attempting the full multi-modal ForTy stack (S1+S2+climate+elevation) at larger-than-AOI scale",
+    "notes": "Compute estimates are reasoned from the scale of comparable published models (ForTy baselines, Descals' DeepLabv3+) rather than independently benchmarked this session."
+  },
+  "cash_cost_rm": "Approximately RM 0 for the baseline plan: Sentinel-1/2 via Copernicus Data Space Ecosystem is free; ForTy is free (CC-BY-SA 4.0, GEE/GitHub); Descals/Danylo/Wang datasets are free via journal data repositories. If free-tier Planet NICFI tropical basemap imagery is used to hand-validate SEA agroforestry polygons, that is also a verified free research/education tier. Contingency: modest Colab Pro or cloud storage cost (~RM 50-150) if local MPS/storage proves insufficient for the full multi-country ForTy stack -- flagged as contingent, not baseline.",
+  "demo_artifact": "Live on a laptop: load a real smallholder plot's Sentinel-1/2 time series alongside an actual operational reference layer (e.g. JRC TMF or the Descals oil-palm layer) for a genuine Indonesian/Malaysian AOI; show the operational layer flagging 'deforestation alert' (red) on an agroforestry plot that the model classifies (green) as established tree-crop agroforestry with a calibrated confidence score, i.e. a live side-by-side 'regulator says forest-loss, model says legitimate agroforestry' map plus a false-positive-rate dial that moves as the operating threshold is adjusted.",
+  "build_vs_research_ratio": "Approximately 65:35. Engineering-heavy: multi-source data pipeline (Sentinel-1/2, ForTy, Descals/Danylo/Wang label rasters, hand-digitised polygons), multi-modal time-series fusion model, training pipeline, and a live demo comparing against a real regulatory layer. The cost-asymmetric objective design and the false-positive-rate-against-regulator evaluation protocol carry genuine research weight but are a contained slice of the overall project.",
+  "publication_venue_fit": "IGARSS or the ICLR ML4RS workshop fit well given topicality and the applied-remote-sensing framing; Remote Sensing (MDPI) is a realistic mid-tier journal target given several of the cited baselines (Descals, Beyer/Kothke/Lippe) were published there. CVPR EarthVision is a stretch given how new and competitive this exact sub-area currently is (Google DeepMind/ETH already active) but plausible if the cost-asymmetric contribution is executed well.",
+  "key_risks": [
+    "Novelty erosion: Jiang et al. 2026 (Google DeepMind/ETH Zurich) already published near-identical framing and method for South America and is an active, well-resourced group likely to extend to SEA; the window to claim a defensible delta may be closing quickly.",
+    "Label scarcity for the actual target class: 'established smallholder agroforestry' (distinct from monoculture tree crop or natural forest) has no confirmed direct-labelled SEA dataset; COLD-CI is West-Africa-specific and not directly usable per the task brief's own steer, forcing labour-intensive hand-digitisation with uncertain rigor.",
+    "Evaluation-protocol dependency on real regulatory layers: the central claim (reducing false-positive rate against 'the operational regulatory layers it would correct') requires access to the actual EU/JRC layers used for EUDR enforcement, which may not be fully public or current; using a proxy (Global Forest Watch, JRC TMF, or Descals' 2019 layer) is reasonable but weakens the 'correcting the regulator' framing if not the literal regulatory input.",
+    "Compute/data-volume risk if the student attempts country-scale or global training rather than a tightly scoped AOI, risking the RM200/24GB/12h budget.",
+    "Persistent, aseasonal SEA cloud cover may degrade optical (S2) usability more than assumed in the base architecture, pushing the method toward SAR-heavy or gap-filled inputs (borrowing Tsardanidis-style cloud gap-filling) -- extra engineering not costed in the original description."
+  ],
+  "kill_criteria": [
+    "Week 1: read Jiang et al. 2026 (arXiv:2602.17372) in full (Methods + Results, not just the abstract) and confirm whether it already reports false-positive rate against operational regulatory layers as a metric; if yes, the stated novelty_delta is largely gone and the idea should be abandoned or radically reframed.",
+    "Week 1: attempt to find or construct at least 200-500 validated ground-truth polygons of smallholder agroforestry (not monoculture) for a specific Indonesian/Malaysian AOI using free VHR basemaps (Planet NICFI/ESRI/Google) cross-referenced with local land-cover statistics; if this cannot be done credibly within a week, the SEA-labels bet has failed.",
+    "Week 2: download a test AOI's worth of ForTy patches + Sentinel-1/2 time series and confirm total volume for a realistically-scoped experiment stays under ~100GB and trains within the MPS/Colab time budget; rescope smaller if a single province-scale AOI already exceeds this.",
+    "Week 2: confirm at least one real, accessible operational regulatory layer (JRC TMF, Descals oil-palm layer, or an EU Forest Observatory product) can be downloaded and used as the false-positive-rate evaluation reference; if only paywalled/restricted regulatory data exists, the 'evaluated against operational layers' framing cannot be honestly claimed."
+  ],
+  "hard_constraint_verdict": {
+    "H1": "PASS (thin margin) - the base task (S1/S2 tree-crop-vs-forest classification at 10m) is heavily covered by 2025-2026 prior art (Jiang et al. 2026, ForTy, Descals), so pure region transfer would fail H1; the surviving defensible delta is the explicit cost-asymmetric objective and false-positive-rate-against-regulatory-layer evaluation protocol, which was not found in any identified prior art. This is contingent on execution and must be foregrounded, not treated as automatic.",
+    "H2": "PASS - not any of the 8 banned generic patterns; it is a genuine multi-modal segmentation model with a non-standard training objective, though the base remote-sensing task itself is currently a crowded research theme and the summary risks sounding generic unless the cost-asymmetric framing is kept front and centre.",
+    "H3": "PASS - Sentinel-1 SAR + Sentinel-2 optical multi-temporal imagery is the sole primary input at 10m.",
+    "H4": "PASS - named SEA user segment: smallholder cocoa/coffee/rubber/oil-palm farmers in Indonesia/Malaysia and the co-ops/exporters filing EUDR due-diligence on their behalf.",
+    "H5": "PASS (conditional) - estimated 50-150GB and 8-12h MPS training for a properly AOI-scoped experiment, under the 200GB/24GB/12h ceilings, but this depends on the student resisting the temptation to scale to full-country or global training."
+  },
+  "overall_recommendation": "VIABLE - the underlying problem, quantified pain, and regulatory driver are real, current (2025-2026), and well-documented, and the cost-asymmetric evaluation angle is a genuine methodological gap in an otherwise crowded literature. However, the extremely close 2026 prior art (Jiang et al., same research framing, same sensor stack, same 10m resolution, same 'false alert against smallholder' pitch, just a different continent) means the student must treat differentiation as the primary risk to manage from day one, not an afterthought, and should be prepared to pivot hard on the objective-function/evaluation-protocol angle if the region-transfer argument does not hold up under scrutiny.",
+  "confidence": "Medium - the core motivating problem and named baselines are well-verified via OpenAlex/arXiv abstracts and one direct WebFetch. What remains uncertain: (a) exact SEA-specific dataset volumes in GB, (b) whether Jiang et al. 2026's full text (only the abstract was read) already covers the asymmetric-objective/false-positive-rate framing, and (c) real availability of SEA-specific agroforestry ground-truth polygons. Reading the full Jiang et al. 2026 paper and doing a direct SEA-vs-West-Africa label feasibility check would materially raise confidence.",
+  "key_references": [
+    {
+      "title": "Tree crop mapping of South America reveals links to deforestation and conservation",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2602.17372",
+      "why_it_matters": "The single most direct prior-art competitor: near-identical model, sensors, resolution and EUDR-false-alert framing, applied to a different continent."
+    },
+    {
+      "title": "Not Every Tree Is a Forest: Benchmarking Forest Types from Satellite Remote Sensing (ForTy)",
+      "year": 2025,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2505.01805",
+      "why_it_matters": "The benchmark dataset explicitly named in the task brief; defines the natural-forest/planted-forest/tree-crop taxonomy this idea would build on."
+    },
+    {
+      "title": "Beyond imperfect maps: Evidence for EUDR-compliant agroforestry",
+      "year": 2025,
+      "venue": "People and Nature",
+      "doi_or_arxiv_id": "10.1002/pan3.70088",
+      "why_it_matters": "Source of the 63% misclassification quantified-pain number, an Indonesia (SEA) case study directly supporting H4/H6."
+    },
+    {
+      "title": "High-resolution global map of smallholder and industrial closed-canopy oil palm plantations",
+      "year": 2021,
+      "venue": "Earth System Science Data",
+      "doi_or_arxiv_id": "10.5194/essd-13-1211-2021",
+      "why_it_matters": "Named baseline for smallholder-vs-industrial tree-crop separation at 10m using Sentinel-1+2; SEA-dominant dataset (89% of coverage)."
+    },
+    {
+      "title": "Assessing the Suitability of Available Global Forest Maps as Reference Tools for EUDR-Compliant Deforestation Monitoring",
+      "year": 2025,
+      "venue": "Remote Sensing (MDPI)",
+      "doi_or_arxiv_id": "10.3390/rs17173012",
+      "why_it_matters": "Systematic review confirming no existing global map distinguishes forest from tree-based agriculture; source of the commission-error benchmark to beat."
+    },
+    {
+      "title": "Natural forests of the world - a 2020 baseline for deforestation and degradation monitoring",
+      "year": 2025,
+      "venue": "Scientific Data",
+      "doi_or_arxiv_id": "10.1038/s41597-025-06097-z",
+      "why_it_matters": "The operational-adjacent 10m natural-forest baseline the idea would need to evaluate against/correct; from the same research group as the South America tree-crop paper."
+    },
+    {
+      "title": "A map of the extent and year of detection of oil palm plantations in Indonesia, Malaysia and Thailand",
+      "year": 2021,
+      "venue": "Scientific Data",
+      "doi_or_arxiv_id": "10.1038/s41597-021-00867-1",
+      "why_it_matters": "SEA-specific oil-palm label source (extent + plantation age) for Indonesia/Malaysia/Thailand."
+    }
+  ],
+  "uncertain": [
+    "primary_sensor.revisit_days (exact current Sentinel-1 revisit over SEA post-S1C launch)",
+    "datasets[ForTy].approx_size_gb",
+    "datasets[Sentinel-1 GRD / Sentinel-2 L2A].approx_size_gb",
+    "datasets[Descals oil palm map].approx_size_gb",
+    "datasets[Danylo oil palm map] full access_route, licence, approx_size_gb, accessible_from_malaysia",
+    "datasets[Wang rubber maps] full access_route, licence, approx_size_gb, accessible_from_malaysia",
+    "datasets[COLD-CI] licence, approx_size_gb",
+    "total_dataset_gb (not independently measured)",
+    "compute_feasibility.peak_memory_gb and est_training_hours_mps (reasoned estimates, not benchmarked)",
+    "Whether Jiang et al. 2026 (arXiv:2602.17372) full text already reports false-positive-rate-against-regulatory-layer as a metric (only abstract read this session)",
+    "Whether SEA agroforestry ground-truth polygons can realistically be hand-digitised to sufficient rigor/scale within the FYP timeline"
+  ]
+}

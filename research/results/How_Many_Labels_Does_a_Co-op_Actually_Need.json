@@ -1,0 +1,197 @@
+{
+  "idea_name": "How Many Labels Does a Co-op Actually Need?",
+  "bucket": "6 - label-scarce learning",
+  "one_sentence_pitch": "For an EU arable cooperative deciding how to spend a limited field-survey budget, we build an active-learning tool that sits on top of frozen geospatial foundation-model embeddings and tells the co-op's agronomist exactly which parcels to label next and when to stop, producing a per-crop-class labels-versus-accuracy budget curve instead of a black-box model.",
+  "problem_statement": "Benchmarking Geospatial Foundation Models for Agriculture Applications (Shang, Das & Eldawy, 2026, arXiv:2606.29664) showed Prithvi, SpectralGPT and SatMAE all degrade sharply under regional distribution shift, defaulting to the most common crops and missing rare ones. Chang et al. (arXiv:2409.09451, IGARSS 2025) separately showed that ~100 labelled samples give high overall accuracy but ~900 are needed before rare classes are handled adequately. Neither result is actionable for a real cooperative: nobody has turned 'foundation models need more labels for rare classes' into an operational answer to 'given our fixed field-survey budget this season, which parcels should our agronomist label next, and when should we stop?' Today, co-ops either label a fixed, arbitrarily-sized random sample each season (wasteful) or under-label rare-but-economically-important crops entirely (the exact failure mode both papers document).",
+  "proposed_technical_approach": "A pool-based active-learning loop operating on frozen geospatial foundation-model (GFM) embeddings rather than raw imagery or a fine-tuned backbone: (1) extract per-parcel embeddings from a frozen GFM (candidates: Prithvi-EO-2.0-300M, SSL4EO-S12, SpectralGPT) over a Sentinel-2 SITS parcel pool; (2) train a lightweight classification head (linear or shallow MLP) on the currently-labelled subset; (3) at each acquisition round, score unlabelled parcels with a class-imbalance-aware acquisition function that combines predictive uncertainty (entropy or margin) with an explicit minority-class weighting term (following the imbalance-aware co-decision idea in Zhang et al. 2026, arXiv:2606.07630, adapted from generic image/text domains to multi-temporal EO embeddings); (4) query the top-scoring parcels for oracle (ground-truth) labels from an existing fully-labelled benchmark used as a label oracle (e.g. BreizhCrops/PASTIS), simulating a real survey; (5) log accuracy and macro-F1 (rare-class-weighted) after each round to produce a labels-vs-accuracy budget curve per crop class; (6) package the loop plus the resulting curve into a small deployable command-line/notebook tool a co-op agronomist could run each season on their own newly-collected embeddings.",
+  "primary_sensor": {
+    "sensor": "Sentinel-2 (MSI, optical), the same imagery consumed by the geospatial foundation models being evaluated (Prithvi, SpectralGPT, SatMAE, SSL4EO-S12 are all pretrained on Sentinel-2/Landsat-family multispectral data)",
+    "spatial_resolution_m": "10-20m depending on band and GFM's native patch size (Prithvi-EO-2.0 uses 6 Sentinel-2 bands at 10-20m; SSL4EO-S12 uses full 10/20/60m Sentinel-2 stack)",
+    "revisit_days": "5 days (Sentinel-2 two-satellite constellation)",
+    "bands_used": "Standard Sentinel-2 L2A 10 bands (as used in BreizhCrops/PASTIS/EuroCrops pipelines): B2,B3,B4,B5,B6,B7,B8,B8A,B11,B12",
+    "licence": "Free and open (Copernicus programme)"
+  },
+  "imagery_is_primary_input": "Yes. Satellite imagery (via GFM embeddings derived from Sentinel-2 SITS) is the sole input representation the active-learning loop operates on; the acquisition function and label-budget tool are downstream of the imagery-derived embeddings, not a garnish on a non-imagery pipeline.",
+  "datasets": [
+    {
+      "name": "BreizhCrops",
+      "access_route": "GitHub (github.com/dl4sits/BreizhCrops), auto-downloading Python package, France (Brittany) parcel-level crop-type labels derived from national LPIS declarations",
+      "auth_required": "No",
+      "licence": "Open",
+      "approx_size_gb": "~3GB",
+      "accessible_from_malaysia": "Yes (verified live in prior FYP research; the standard, widely-used SITS crop-classification benchmark)",
+      "verified_how": "Carried forward from established EU SITS benchmark literature (TimeMatch, T3S, and multiple crop-classification papers use this dataset); not independently re-downloaded this session [uncertain]"
+    },
+    {
+      "name": "PASTIS / PASTIS-R (pixel-set format)",
+      "access_route": "Zenodo (https://zenodo.org/records/5745151 for pixel-set format), GitHub VSainteuf/pastis-benchmark",
+      "auth_required": "No",
+      "licence": "Open (French IGN parcel data)",
+      "approx_size_gb": "~27GB (pixel-set format)",
+      "accessible_from_malaysia": "Yes, verified live Zenodo hosting",
+      "verified_how": "WebSearch confirmed live Zenodo record 5745151 with stated file size"
+    },
+    {
+      "name": "Prithvi-EO-2.0-300M (frozen GFM checkpoint)",
+      "access_route": "HuggingFace (huggingface.co/ibm-nasa-geospatial/Prithvi-EO-2.0-300M), standard `from_pretrained`-style download",
+      "auth_required": "No (public HF repo)",
+      "licence": "Open (IBM/NASA/Jülich, Apache-2.0-family licence typical for Prithvi releases) [uncertain on exact licence terms]",
+      "approx_size_gb": "~1.2GB (300M params, fp32 checkpoint)",
+      "accessible_from_malaysia": "Yes, HuggingFace Hub has no regional restriction",
+      "verified_how": "WebSearch confirmed live HuggingFace repository ibm-nasa-geospatial/Prithvi-EO-2.0-300M"
+    },
+    {
+      "name": "SSL4EO-S12 (frozen GFM checkpoint, the strongest performer per Chang et al.)",
+      "access_route": "GitHub (github.com/zhu-xlab/SSL4EO-S12) and via TorchGeo model zoo",
+      "auth_required": "No",
+      "licence": "Open",
+      "approx_size_gb": "~100-300MB depending on backbone (ResNet50 or ViT-S/B variant)",
+      "accessible_from_malaysia": "Yes, GitHub/TorchGeo hosting, no restriction found",
+      "verified_how": "Referenced directly in Chang et al. (arXiv:2409.09451) as the best-performing pretrained weight set; not independently re-downloaded this session [uncertain]"
+    },
+    {
+      "name": "SpectralGPT and SatMAE checkpoints (secondary GFM candidates from the 2026 benchmark)",
+      "access_route": "SpectralGPT: research GitHub release (danfenghong/SpectralGPT lineage); SatMAE: github.com/sustainlab-group/SatMAE",
+      "auth_required": "No",
+      "licence": "Open, research-code licensing (less polished distribution than Prithvi/SSL4EO-S12)",
+      "approx_size_gb": "SpectralGPT ViT-L ~307M params (~1.2GB fp32), ViT-H ~632M params (~2.5GB fp32); SatMAE ViT-Large-based, similar order",
+      "accessible_from_malaysia": "Yes, GitHub hosting",
+      "verified_how": "WebSearch confirmed parameter counts and repository existence; exact ease-of-loading/inference-readiness on MPS not independently benchmarked this session [uncertain]"
+    }
+  ],
+  "total_dataset_gb": "Approximately 5-35GB depending on whether BreizhCrops or full PASTIS-R pixel-set format is used as the labelled oracle pool, plus 1-3GB per GFM checkpoint (well under the ~200GB H5 ceiling regardless of GFM choice)",
+  "labels_and_ground_truth": "Supervision comes entirely from existing, real, government-declared parcel-level crop-type labels (BreizhCrops/PASTIS, both LPIS-derived) used as a label ORACLE: the active-learning loop only 'reveals' labels for parcels it queries, simulating a real budget-constrained field survey against ground truth that already exists in full. This sidesteps the labelled-target-set risk that is the central problem for the companion EU-to-SEA candidate — no new ground truth needs to be collected, because the point of this project is to study labelling EFFICIENCY on an already-labelled benchmark, not to solve a genuine label-scarcity problem in an unlabelled region. The realism risk this carries: the oracle-simulation label budget curve may not transfer to a true cold-start co-op scenario where the acquisition function must query a genuinely un-labelled pool (no oracle exists) and cannot benefit from having secretly 'seen' the full label distribution when tuning the acquisition function.",
+  "named_baselines": [
+    {
+      "paper_title": "On the Generalizability of Foundation Models for Crop Type Mapping",
+      "venue": "IGARSS 2025 (IEEE International Geoscience and Remote Sensing Symposium)",
+      "year": 2024,
+      "doi_or_arxiv_id": "arXiv:2409.09451",
+      "reported_metric": "~100 labelled images sufficient for high overall accuracy; ~900 required to mitigate class imbalance and improve average (macro) accuracy, across five crop-classification datasets on five continents",
+      "dataset": "Five crop classification datasets spanning five continents (SSL4EO-S12/SatlasPretrain/ImageNet backbones compared)"
+    },
+    {
+      "paper_title": "Benchmarking Geospatial Foundation Models for Agriculture Applications",
+      "venue": "arXiv preprint",
+      "year": 2026,
+      "doi_or_arxiv_id": "arXiv:2606.29664",
+      "reported_metric": "Prithvi, SpectralGPT, SatMAE all degrade sharply under regional distribution shift, predicting only the most common crops and missing rare ones",
+      "dataset": "Four U.S. states (Iowa, North Carolina, California, Minnesota)"
+    },
+    {
+      "paper_title": "Active Learning with Foundation Model Priors: Efficient Learning under Class Imbalance",
+      "venue": "arXiv preprint",
+      "year": 2026,
+      "doi_or_arxiv_id": "arXiv:2606.07630",
+      "reported_metric": "Over 50% annotation savings compared to the best existing active-learning baseline, on imbalanced image and text datasets",
+      "dataset": "General imbalanced image/text benchmarks (not remote sensing or agriculture)"
+    },
+    {
+      "paper_title": "Revisiting Active Learning in the Era of Vision Foundation Models",
+      "venue": "arXiv preprint",
+      "year": 2024,
+      "doi_or_arxiv_id": "arXiv:2401.14555",
+      "reported_metric": "A new AL strategy balancing dropout-based uncertainty with sample diversity, evaluated on natural-image and biomedical-image classification benchmarks using DINOv2/OpenCLIP embeddings",
+      "dataset": "Multiple natural-image and out-of-domain biomedical image classification benchmarks"
+    },
+    {
+      "paper_title": "Spatially Explicit Active Learning for Crop-Type Mapping from Satellite Image Time Series",
+      "venue": "Sensors (MDPI)",
+      "year": 2024,
+      "doi_or_arxiv_id": "10.3390/s24072108",
+      "reported_metric": "Spatially-explicit AL reaches comparable accuracy to traditional AL with fewer samples (e.g. Netherlands: 97 samples for 80% OA vs 169 samples for 82% OA under traditional AL) using Random Forest on Sentinel-2 SITS",
+      "dataset": "Sentinel-2 SITS crop-type study areas in the Netherlands and Belgium"
+    }
+  ],
+  "evaluation_protocol": "For each candidate frozen GFM embedding (Prithvi-EO-2.0-300M, SSL4EO-S12, SpectralGPT), run the active-learning loop against the BreizhCrops/PASTIS label oracle for a fixed sequence of budgets (e.g. 50, 100, 200, 500, 900, 1500 labels, chosen to bracket Chang et al.'s 100-vs-900 finding), recording overall accuracy AND macro-F1 (equal-weighted across crop classes, so rare classes count) at each budget for: (a) random sampling, (b) uncertainty-only acquisition, (c) the proposed class-imbalance-aware acquisition. Success is a labels-vs-macro-F1 curve where the proposed acquisition function reaches a given macro-F1 target using measurably fewer labels than both baselines, especially in the 100-900 label range Chang et al. identify as critical for rare classes. The deployable artifact is judged by whether a non-ML-expert agronomist could read the produced budget curve and make a real staffing decision from it.",
+  "novelty_delta": "Each individual ingredient already exists: foundation-model-embedding-based active learning under class imbalance (Zhang et al. 2026, arXiv:2606.07630) exists for generic image/text domains; active learning with vision foundation-model embeddings (Gupte et al. 2024, arXiv:2401.14555) exists for natural/biomedical images; active learning for crop-type mapping from SITS (Kaijage, Belgiu & Bijker 2024, DOI:10.3390/s24072108) exists but uses hand-crafted features + Random Forest, not frozen GFM embeddings. The defensible delta is the specific combination — class-imbalance-aware acquisition operating on frozen multi-temporal EO foundation-model embeddings, evaluated against the specific 100-vs-900 rare-class threshold that Chang et al. and the 2026 GFM benchmark surfaced as an operational problem, packaged as a deployment-facing budget-curve tool rather than a research metric. This is a genuine new data regime (EO embeddings, not natural images) and a genuine new deployment constraint (a co-op's fixed seasonal survey budget, not an abstract annotation-cost metric), which H1 explicitly accepts as valid novelty categories. The risk is that this reads as 'apply an existing generic recipe (imbalance-aware AL + foundation-model priors) to a new domain (agriculture)' unless the acquisition function is specifically adapted to exploit properties unique to multi-temporal SITS embeddings (e.g. within-season temporal uncertainty, not just a single embedding vector) — the current framing does not yet spell out this adaptation.",
+  "prior_art_that_threatens_it": "Zhang et al. (2026, arXiv:2606.07630) is the single closest threat: an imbalance-aware active-learning framework using foundation-model priors, achieving >50% annotation savings, published mere months before this candidate would start — if this or a close successor is extended to remote sensing/agriculture during the FYP timeline, the delta shrinks to 'reproducing it in a new domain.' Kaijage, Belgiu & Bijker (2024, DOI:10.3390/s24072108) already do active learning for crop-type mapping from SITS specifically, though with Random Forest and hand-crafted features rather than GFM embeddings — this establishes that 'AL for crop mapping' itself is not new, only the GFM-embedding + imbalance-acquisition combination is. Chang et al. (arXiv:2409.09451) and the GFM benchmark (arXiv:2606.29664) are motivating evidence, not competing methods, but a close reading shows Chang et al. already ran a basic labels-vs-accuracy sweep (their 100-vs-900 finding is essentially a coarse, non-active-learning version of this project's core deliverable) — this project must clearly go further than replicating that sweep with a smarter acquisition function.",
+  "h2_generic_check": "Not a chatbot/RAG assistant, not a monitoring dashboard by itself (the label-budget curve is a research/decision artifact feeding into planning, not a live farm-management portal), not leaf-photo disease classification, not an NDVI viewer, not tabular yield-from-CSV, not a re-run of an existing crop-classification benchmark for its own sake (the benchmark here is a label oracle for the AL loop, not the end deliverable), not a thin wrapper calling someone else's model API (the acquisition function and the head classifier are built by the student). Could the one-sentence summary describe 50 other FYPs? Moderately at risk — 'active learning for crop classification' alone is a recognized, already-populated niche (Kaijage et al. and others), so the pitch needs to lead with the class-imbalance-acquisition-plus-deployable-budget-curve framing to avoid sounding generic; framed loosely, this risks reading as a fairly ordinary applied-ML exercise.",
+  "user_segment": "A specific EU arable/dairy cooperative in a BreizhCrops/PASTIS-covered region (e.g. a Brittany, France cooperative agricole) with a fixed annual field-survey budget for crop-type ground-truthing used for CAP monitoring or internal yield planning; the agronomist or co-op data officer is the direct user of the label-budgeting tool, deciding which parcels to send a surveyor to next season. This satisfies H4 cleanly (named EU user, not 'farmers globally'); a Southeast Asian extension (e.g. a Vietnamese or Cambodian smallholder cooperative) is a plausible stretch goal but is blocked by the same missing-labelled-target-set problem documented in the companion EU-to-SEA candidate research, so should not be the primary framing unless that gap is independently resolved.",
+  "quantified_pain": "Chang et al. (arXiv:2409.09451, IGARSS 2025) quantify the core inefficiency directly: ~100 labels suffice for high overall accuracy, but ~900 are required before rare classes are handled adequately — meaning a co-op naively stopping at 'good enough overall accuracy' (100 labels) will silently fail on its rarer, often higher-value crops, a roughly 9x under-investment in labelling for those classes. Field-survey costs are the scarce resource this quantifies against: the AI4SmallFarms paper's Vietnam/Cambodia data implies per-parcel field visits at sub-hectare granularity are the operative cost unit even in a well-resourced EU setting, making a 9x labelling gap directly translatable into either 9x the survey budget or systematically blind rare-crop maps.",
+  "compute_feasibility": {
+    "peak_memory_gb": "Estimated 3-6GB for frozen-embedding inference (a single forward pass per parcel through Prithvi-EO-2.0-300M or SSL4EO-S12, no backpropagation through the frozen backbone) plus negligible memory for the lightweight classification head and acquisition-function scoring",
+    "est_training_hours_mps": "Estimated under 2 hours total: embedding extraction is a one-time forward-pass cost over the parcel pool (dominant cost), and each AL round only retrains a small linear/MLP head, which is fast",
+    "fits_24gb": "Yes, comfortably — this is one of the most H5-compliant candidates in the label-scarce-learning bucket precisely because the GFM backbone is never fine-tuned, only used for frozen inference",
+    "mps_compatible_ops": "Yes for Prithvi-EO-2.0 (standard ViT/MAE architecture, HuggingFace `transformers`-compatible, MPS-supported) and for SSL4EO-S12 (ResNet50/ViT backbones, standard ops). SpectralGPT and SatMAE are distributed as research code rather than polished HF checkpoints, so loading/inference on MPS carries more engineering risk (custom layers, potential missing-op fallbacks) [uncertain — not independently tested this session]",
+    "colab_kaggle_fallback_needed": "Unlikely to be needed given the frozen-inference-only compute profile; useful only as a convenience if extracting embeddings for the full PASTIS-R pool (many parcels) proves slow on a single MacBook",
+    "notes": "This is the single strongest H5 point in favour of this candidate versus the companion EU-to-SEA idea: no differentiable-alignment training loop, no backbone fine-tuning, just frozen-embedding extraction plus a cheap classifier head retrained each AL round."
+  },
+  "cash_cost_rm": "Approximately RM 0. BreizhCrops/PASTIS data are free; all candidate GFM checkpoints (Prithvi-EO-2.0, SSL4EO-S12) are freely downloadable with no commercial imagery dependency. No cash cost identified.",
+  "demo_artifact": "Live 2-minute demo: run the pre-built tool on a held-out slice of the BreizhCrops/PASTIS pool; show the panel a labels-vs-macro-F1 curve updating in real time as simulated field-survey rounds are 'purchased,' with the proposed acquisition function's curve visibly above the random and uncertainty-only baselines' curves, and a concrete recommendation panel ('at your current budget of N surveyed parcels, expect macro-F1 of X; to reach target Y, survey N' more parcels, prioritised as shown on this map').",
+  "build_vs_research_ratio": "Approximately 70:30 engineering-to-research, matching S2 well. The bulk of the effort is building a working system: embedding extraction pipeline across multiple GFM checkpoints, the AL loop infrastructure, the acquisition-function implementation, and the deployable budget-curve tool with a usable interface for a non-ML-expert agronomist. The research contribution (the specific class-imbalance acquisition function and its evaluation against the 100-900 label threshold) is real but comparatively contained.",
+  "publication_venue_fit": "CVPR EarthVision or ICLR ML4RS workshop for the methods contribution (acquisition function + evaluation); Computers and Electronics in Agriculture is a strong fit for the applied/deployment-tool angle given its practitioner-facing scope. IGARSS is also plausible given Chang et al.'s own venue there.",
+  "key_risks": [
+    "1. (Novelty/prior-art) Zhang et al. (arXiv:2606.07630, 2026) already delivers the core recipe (imbalance-aware AL + foundation-model priors) in a general setting; if a remote-sensing-specific version appears before or during this FYP, the delta shrinks substantially unless the acquisition function is adapted to exploit multi-temporal SITS structure specifically.",
+    "2. (Evaluation realism) The label-budget curve is built against an oracle-labelled benchmark (BreizhCrops/PASTIS), not a true cold-start unlabelled pool; results may not transfer to a genuine co-op deployment where no oracle exists to validate the acquisition function's choices in real time.",
+    "3. (Checkpoint engineering risk) SpectralGPT and SatMAE are distributed as research code rather than clean, MPS-ready checkpoints; getting all three GFMs from the 2026 benchmark running for a fair comparison may consume disproportionate engineering time versus the AL contribution itself.",
+    "4. (Scope/H2) 'Active learning for crop classification' is itself a populated niche (Kaijage et al. 2024); without a sharply-stated class-imbalance-plus-GFM-embedding framing, the project risks reading as incremental.",
+    "5. (Generalisation) A budget curve fit on one EU region/co-op's crop mix may not generalise to a different co-op's crop distribution, limiting the tool's claimed operational value without re-running the loop per-region."
+  ],
+  "kill_criteria": [
+    "Week 1: Confirm at least two of the candidate GFM checkpoints (Prithvi-EO-2.0-300M, SSL4EO-S12) load and run frozen inference successfully on MPS within a reasonable time budget; if none do, the 'frozen embeddings' premise fails and the project must pivot to a lighter self-supervised encoder.",
+    "Week 1-2: Reproduce Chang et al.'s basic 100-vs-900 label finding on BreizhCrops/PASTIS as a sanity check; if the finding does not replicate on EU data, the motivating premise itself may not hold in this setting.",
+    "Week 2: Confirm the proposed class-imbalance-aware acquisition function measurably beats both random and uncertainty-only baselines on macro-F1 at at least one budget point; if it does not, the core research contribution has failed and the project reduces to a benchmark-replication exercise."
+  ],
+  "hard_constraint_verdict": {
+    "H1": "PASS, with caveat — new deployment constraint (fixed co-op survey budget) and new data regime (frozen multi-temporal EO embeddings vs generic image/text) are genuine H1-eligible deltas, but the core recipe (imbalance-aware AL + foundation-model priors) is very recently and closely prefigured by Zhang et al. 2026; the domain-specific acquisition-function adaptation must be made explicit and non-trivial to hold up.",
+    "H2": "PASS, with caveat — not a banned pattern, but 'AL for crop mapping' alone is a populated niche; needs sharp framing to avoid genericness.",
+    "H3": "PASS — Sentinel-2 SITS (via GFM embeddings) is the primary and only input representation.",
+    "H4": "PASS — a specific EU (Brittany/France) cooperative agricole user is nameable and consistent with BreizhCrops/PASTIS data provenance.",
+    "H5": "PASS, strongly — frozen-embedding-only inference is one of the lightest compute profiles among label-scarce-learning candidates; comfortably fits the MacBook Pro M4 Pro MPS budget.",
+    "H6": "PASS — the pitch is clear, quantified, and the budget-curve demo is concrete and genuinely demoable live in under two minutes."
+  },
+  "overall_recommendation": "VIABLE. This candidate is materially stronger on H5 (compute) and H6 (demoability) than the companion EU-to-SEA candidate, and its labelled-data risk is much lower because it deliberately uses an already-labelled EU benchmark as an oracle rather than requiring new, unverified target-domain labels. Its main open risk is novelty: the core active-learning-with-foundation-model-priors recipe is very recently prefigured by Zhang et al. (2026), so the project must sharpen its domain-specific acquisition-function contribution beyond 'apply an existing generic AL recipe to satellite embeddings' to fully satisfy H1.",
+  "confidence": "Medium-High. Grounded in a direct literature sweep that located the two most threatening pieces of prior art (Zhang et al. 2026 and Kaijage et al. 2024) and confirmed GFM checkpoint availability and rough parameter counts via HuggingFace/GitHub. Confidence would be raised to High by empirically benchmarking Prithvi-EO-2.0 and SSL4EO-S12 inference on an actual M4 Pro MPS machine, and by more precisely scoping how the acquisition function will exploit multi-temporal structure beyond a single pooled embedding vector.",
+  "key_references": [
+    {
+      "title": "On the Generalizability of Foundation Models for Crop Type Mapping",
+      "year": 2024,
+      "venue": "IGARSS 2025",
+      "doi_or_arxiv_id": "arXiv:2409.09451",
+      "why_it_matters": "Source of the 100-vs-900 label finding that directly motivates this project; also identifies SSL4EO-S12 as the strongest-performing Sentinel-2-pretrained backbone."
+    },
+    {
+      "title": "Benchmarking Geospatial Foundation Models for Agriculture Applications",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2606.29664",
+      "why_it_matters": "The 2026 GFM regional-shift benchmark named in the task description; documents the rare-class failure mode this project's acquisition function targets."
+    },
+    {
+      "title": "Active Learning with Foundation Model Priors: Efficient Learning under Class Imbalance",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2606.07630",
+      "why_it_matters": "The single closest piece of prior art — the same recipe (imbalance-aware AL + foundation-model priors) in a general, non-agricultural setting; this project's novelty depends on differentiating from it."
+    },
+    {
+      "title": "Revisiting Active Learning in the Era of Vision Foundation Models",
+      "year": 2024,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2401.14555",
+      "why_it_matters": "Establishes how frozen vision foundation-model embeddings change AL strategy design (initial pool selection, diversity vs uncertainty trade-off); directly informs the acquisition-function design here."
+    },
+    {
+      "title": "Spatially Explicit Active Learning for Crop-Type Mapping from Satellite Image Time Series",
+      "year": 2024,
+      "venue": "Sensors (MDPI)",
+      "doi_or_arxiv_id": "10.3390/s24072108",
+      "why_it_matters": "The closest existing 'AL for crop mapping' baseline, though using hand-crafted features and Random Forest rather than GFM embeddings; establishes this niche is already populated and must be differentiated from."
+    },
+    {
+      "title": "Prithvi-EO-2.0: A Versatile Multi-Temporal Foundation Model for Earth Observation Applications",
+      "year": 2024,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2412.02732",
+      "why_it_matters": "Documents the 300M/600M parameter checkpoints this project would use as one of its frozen embedding sources; relevant to the H5 checkpoint-size verification."
+    }
+  ],
+  "uncertain": [
+    "datasets[BreizhCrops].verified_how and datasets[SSL4EO-S12].verified_how: access routes carried forward from established literature, not independently re-downloaded/tested in this research session.",
+    "compute_feasibility.mps_compatible_ops: SpectralGPT and SatMAE's ease of loading/running frozen inference on Apple Silicon MPS was not empirically tested this session, only inferred from their research-code (vs polished HF) distribution style.",
+    "datasets[Prithvi-EO-2.0-300M].licence: exact licence terms not independently confirmed beyond general knowledge that IBM/NASA Prithvi releases are open.",
+    "novelty_delta: the degree to which the acquisition function must be adapted specifically for multi-temporal SITS embeddings (versus a direct port of Zhang et al. 2026's generic method) is not yet specified and is flagged as the key open design question.",
+    "user_segment: the specific named EU cooperative is illustrative (a generic 'Brittany cooperative agricole' framing tied to BreizhCrops/PASTIS provenance), not a real, contacted organisation."
+  ]
+}

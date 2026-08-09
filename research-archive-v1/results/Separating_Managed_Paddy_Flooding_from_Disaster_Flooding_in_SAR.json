@@ -1,0 +1,192 @@
+{
+  "idea_name": "Separating Managed Paddy Flooding from Disaster Flooding in SAR",
+  "bucket": "2 - SAR-specific",
+  "one_sentence_pitch": "For rice-belt agronomists and disaster-response agencies in Kedah, the Mekong Delta and Central Thailand, we build a temporal-context Sentinel-1 classifier that tells deliberately flooded paddy apart from real disaster flooding using parcel geometry and change-point timing rather than single-date backscatter, cutting the agricultural false-alarm rate that generic flood products (Sen1Floods11-style) currently generate across the entire rice belt.",
+  "problem_statement": "Operational SAR flood-mapping products (Sen1Floods11-trained models, the Copernicus Emergency Management Service Global Flood Monitoring ensemble, and academic successors) threshold or classify single-date or paired-date Sentinel-1 backscatter to detect 'water'. Standing water in a deliberately flooded rice paddy is radiometrically close to indistinguishable from disaster floodwater in a single scene, so these products systematically flag scheduled agricultural flooding as inundation across the rice belt of Kedah (Malaysia), the Mekong Delta (Vietnam) and Central Thailand. This corrupts two downstream workflows that rely on these SAR flood products: index-based flood insurance payout triggers (which risk false payouts or, worse, desensitised thresholds that miss real disasters) and disaster-response resource allocation (which risks wasted response capacity or alert fatigue). No published flood-mapping benchmark or product currently reports a false-alarm rate specifically measured over agricultural land, so the scale of this problem is asserted but not quantified in the literature.",
+  "proposed_technical_approach": "A temporal-context classifier over Sentinel-1 GRD time series (VV/VH, 6-12 day revisit) per parcel, using: (1) a change-point detection stage (e.g. Bayesian online change-point detection or a learned change-point network) applied to the backscatter time series within each parcel polygon, to characterise flooding onset as gradual/scheduled vs. abrupt; (2) parcel-geometry features -- whether the inundated area is bounded by field/bund polygons (from a field-boundary dataset such as AI4Boundaries/AI4SmallFarms or OSM-derived bunds) and whether flooding respects parcel boundaries vs. crossing them; (3) a cropping-calendar prior -- expected paddy flooding windows per region from published agricultural calendars, encoded as a soft temporal feature; (4) an optional rainfall-anomaly co-variate (e.g. GPM IMERG or CHIRPS) to flag whether flooding co-occurs with a precipitation anomaly. These features feed a lightweight sequence classifier (temporal CNN, GRU, or small transformer) trained to output a binary managed-vs-disaster label per parcel-timestep, distilling the four heuristic signals (calendar timing, boundary conformity, change-point abruptness, rainfall co-occurrence) into a single learned decision rather than a hand-tuned rule cascade. Training/pseudo-labels come from combining known rice cropping calendars (for the managed class) with historical disaster-flood event catalogues (e.g. Copernicus EMS activations, Sen1Floods11 event list) for the disaster class.",
+  "primary_sensor": {
+    "sensor": "Sentinel-1 (C-band SAR), IW mode, time series",
+    "spatial_resolution_m": "10m (GRD, ground-range detected, multi-looked)",
+    "revisit_days": "6-12 days depending on orbit overlap in Southeast Asia (single-satellite ~12-day revisit is the realistic baseline post Sentinel-1B loss)",
+    "bands_used": "VV, VH (dual-pol IW)",
+    "licence": "Copernicus free and open data policy (registration required, no cost)"
+  },
+  "imagery_is_primary_input": "Yes. Sentinel-1 SAR backscatter time series is the sole primary imagery input; field-boundary polygons and rainfall/calendar covariates are ancillary, non-imagery features layered on top, consistent with H3's allowance for sensor fusion as long as satellite imagery remains the core input.",
+  "datasets": [
+    {
+      "name": "Sentinel-1 GRD (IW, dual-pol) time series",
+      "access_route": "Copernicus Data Space Ecosystem (dataspace.copernicus.eu) via STAC/openEO API or Copernicus Browser; mirrored on Microsoft Planetary Computer STAC and AWS Earth Search STAC",
+      "auth_required": "Free registration for Copernicus Data Space Ecosystem; anonymous STAC read on Planetary Computer/AWS mirrors",
+      "licence": "Copernicus Sentinel Data free and open licence",
+      "approx_size_gb": "~0.9-1.0 GB per scene; a one-year time series (roughly 30-60 acquisitions per track) over a rice-belt study area (Kedah or a Mekong Delta subregion) is estimated at 30-60 GB",
+      "accessible_from_malaysia": "Yes, verified live -- global open access, no geofencing",
+      "verified_how": "WebFetch of dataspace.copernicus.eu confirmed free/open access with STAC, openEO and Sentinel Hub API routes"
+    },
+    {
+      "name": "Sen1Floods11",
+      "access_route": "Google Cloud Storage bucket (original release) and mirrored via Radiant MLHub / Source Cooperative (source.coop, redirect confirmed live from the former mlhub.earth listing)",
+      "auth_required": "No authentication reported for the GCS bucket; Source Cooperative access details not fully confirmed this session",
+      "licence": "Commonly cited as CC BY 4.0 in downstream papers, but the exact licence text was not directly confirmed from the primary source in this session [uncertain]",
+      "approx_size_gb": "~14 GB total (Sentinel-1 SAR + Sentinel-2 optical + hand-labelled chips across 11 flood events worldwide)",
+      "accessible_from_malaysia": "Presumed yes (public GCS bucket, no geofencing typical of this dataset) but not independently tested this session [uncertain]",
+      "verified_how": "WebFetch of the cloudtostreet/Sen1Floods11 GitHub repository confirmed ~14GB size, 10m resolution, VV/VH + 13-band S2 + hand-labelled QC layers, and citation to Bonafilia et al. 2020 CVPRW; mlhub.earth was found to redirect (301) to source.coop, consistent with the dataset having migrated hosting"
+    },
+    {
+      "name": "UrbanSARFloods",
+      "access_route": "Referenced in Zhao, Xiong, Zhu 2024 (arXiv:2406.04111); public dataset release details not independently checked this session",
+      "auth_required": "Not verified [uncertain]",
+      "licence": "Not verified [uncertain]",
+      "approx_size_gb": "8,879 chips of 512x512 pixels across 807,500 km2 (18 flood events, 20 land-cover classes, 5 continents) -- likely tens of GB given chip count and dual-product (intensity + coherence) content; exact figure not stated in the abstract [uncertain]",
+      "accessible_from_malaysia": "Not verified [uncertain]",
+      "verified_how": "arXiv abstract only (2406.04111); useful as a secondary benchmark and for its explicit finding that current SAR flood-mapping approaches struggle with imbalanced/small training data, relevant context for the false-alarm problem"
+    },
+    {
+      "name": "Copernicus Emergency Management Service (CEMS) Global Flood Monitoring product",
+      "access_route": "Referenced via Krullikowski et al. 2023 (arXiv:2304.12488); accessed operationally through the CEMS Rapid Mapping portal",
+      "auth_required": "Free, CEMS is a public EU service",
+      "licence": "Not verified this session [uncertain]",
+      "approx_size_gb": "Not applicable -- used as a reference product for comparison/false-alarm benchmarking rather than as bulk training data",
+      "accessible_from_malaysia": "Presumed yes (public EU emergency service, global coverage) but not independently tested this session [uncertain]",
+      "verified_how": "arXiv abstract only; identified as the type of operational product against which the proposed method's false-alarm reduction should ultimately be benchmarked"
+    },
+    {
+      "name": "Field-boundary/parcel polygons for bund geometry (AI4Boundaries / AI4SmallFarms)",
+      "access_route": "AI4Boundaries via JRC data portal; AI4SmallFarms via DANS archive (doi.org/10.17026/dans-xy6-ngg6)",
+      "auth_required": "Not verified for AI4Boundaries this session; AI4SmallFarms via DANS requires no auth reported",
+      "licence": "Not verified this session [uncertain]",
+      "approx_size_gb": "AI4SmallFarms not stated precisely (estimated 5-15GB); AI4Boundaries (EU-focused) not needed if the study area is restricted to Kedah/Mekong/Thailand",
+      "accessible_from_malaysia": "Presumed yes, not independently tested this session [uncertain]",
+      "verified_how": "OpenAlex record for AI4SmallFarms (DOI 10.1109/LGRS.2023.3323095) confirms Vietnam/Cambodia coverage relevant to the Mekong Delta case; AI4Boundaries is EU-only and would need a substitute for Kedah/Thailand parcels -- likely requiring manually digitised or OSM-derived bund polygons instead [uncertain]"
+    }
+  ],
+  "total_dataset_gb": "Estimated 60-100 GB for a minimum viable experiment: ~30-60GB of Sentinel-1 GRD time series over one or two rice-belt study regions, plus Sen1Floods11 (~14GB) for disaster-flood training/validation signal, plus field-boundary polygons (a few GB). Well under the ~200GB H5 ceiling.",
+  "labels_and_ground_truth": "This is the weakest link in the proposal. Disaster-flood labels can draw on Sen1Floods11's 11 hand-labelled flood events and the Copernicus EMS activation archive (real disaster events with approximate extents). Managed-paddy-flooding labels have no equivalent curated benchmark: the plan relies on (a) published regional rice cropping calendars (e.g. from IRRI, FAO GIEWS, or national agriculture ministries) as a WEAK/PROXY label for 'this parcel-timestep should show scheduled flooding', and (b) parcel geometry conformity as a self-supervised/heuristic signal rather than a hand-annotated ground truth. This means the 'managed flooding' class is built from proxy labels and heuristics, not verified ground truth, which is a real risk: if the cropping calendar is inaccurate for the specific study micro-region (calendars vary village to village), the proxy labels could be systematically wrong in ways that bias the classifier. No dataset found in this search provides ground-truth-verified managed-vs-disaster flood labels at parcel level for any SEA rice region.",
+  "named_baselines": [
+    {
+      "paper_title": "Sen1Floods11: A Georeferenced Dataset to Train and Test Deep Learning Flood Algorithms for Sentinel-1",
+      "venue": "CVPR Workshops (EarthVision)",
+      "year": 2020,
+      "doi_or_arxiv_id": "Not confirmed with a DOI/arXiv ID this session -- CVPRW 2020 open-access paper (Bonafilia, Tellman, Anderson, Issenberg) [uncertain, DOI not located]",
+      "reported_metric": "IoU on flood-water segmentation across 11 global flood events",
+      "dataset": "Sen1Floods11"
+    },
+    {
+      "paper_title": "UrbanSARFloods: Sentinel-1 SLC-Based Benchmark Dataset for Urban and Open-Area Flood Mapping",
+      "venue": "arXiv preprint (peer-review status not confirmed)",
+      "year": 2024,
+      "doi_or_arxiv_id": "arXiv:2406.04111",
+      "reported_metric": "Segmentation performance (CNNs) on open vs. urban flood areas; reports that weighted cross-entropy and transfer learning both fall short on imbalanced data",
+      "dataset": "UrbanSARFloods"
+    },
+    {
+      "paper_title": "Automated flood detection from Sentinel-1 GRD time series using Bayesian analysis for change point problems",
+      "venue": "arXiv preprint (peer-review status not confirmed)",
+      "year": 2025,
+      "doi_or_arxiv_id": "arXiv:2504.19526",
+      "reported_metric": "F1 up to 0.75 on UrbanSARFloods using a training-free Bayesian change-point method on Sentinel-1 GRD time series",
+      "dataset": "UrbanSARFloods"
+    },
+    {
+      "paper_title": "Portraying the Need for Temporal Data in Flood Detection via Sentinel-1",
+      "venue": "arXiv preprint (peer-review status not confirmed)",
+      "year": 2024,
+      "doi_or_arxiv_id": "arXiv:2403.03671",
+      "reported_metric": "Reframes flood detection as temporal anomaly detection over a one-year Sentinel-1 series per MMFlood event; provides a ViBe-based baseline",
+      "dataset": "Extended MMFlood (multi-date Sentinel-1)"
+    }
+  ],
+  "evaluation_protocol": "Primary metric: false-alarm rate (false-positive rate) measured specifically over agricultural/paddy land, comparing the proposed managed-vs-disaster classifier against a generic Sen1Floods11-trained flood segmentation baseline run naively over the same rice-belt time series. Secondary metric: standard binary classification F1/precision/recall for the managed-vs-disaster label at parcel-timestep granularity, evaluated with a geographic split (train on Kedah, test on a Mekong Delta subregion, or vice versa) to measure cross-region generalisation, since cropping calendars and bund geometry both vary regionally. Success is defined as a large (target: >50% relative) reduction in agricultural false-alarm rate relative to the naive generic-flood-product baseline, at matched or better recall on genuine disaster-flood events (using Sen1Floods11/CEMS-catalogued events restricted to rice-growing regions as the disaster-positive test set).",
+  "novelty_delta": "The core disambiguation task -- distinguishing scheduled agricultural flooding from disaster flooding using parcel geometry and change-point timing -- was not found posed as a named benchmark task or evaluation protocol in any 2024-2026 paper surveyed. The closest prior art (Bou et al. 2024, arXiv:2403.03671, reframing flood detection as temporal anomaly detection; Tsutsumida et al. 2025, arXiv:2504.19526, training-free Bayesian change-point flood detection on Sentinel-1 GRD time series) establishes that change-point/temporal-anomaly framing for flood detection is an active and recent research direction, but neither paper targets the managed-vs-disaster agricultural disambiguation specifically, nor incorporates parcel/bund geometry as a feature, nor reports a false-alarm rate over agricultural land. This is a genuine 'new deployment constraint' delta under H1: existing flood benchmarks (Sen1Floods11, UrbanSARFloods, MMFlood) do not pose this disambiguation task at all -- they label all standing water as 'flood' or 'water' without a managed/disaster distinction -- so the evaluation protocol itself (agricultural false-alarm rate as a named metric) is the primary novel contribution, on top of the change-point method also being the primary novel technical contribution. This is NOT 'applied X to Y country': the technical problem (radiometrically identical standing water requiring temporal/geometric disambiguation) does not exist in non-agricultural flood settings and is specific to the rice-cultivation deployment context.",
+  "prior_art_that_threatens_it": "1) Tsutsumida, Tanaka, Sultana, 'Automated flood detection from Sentinel-1 GRD time series using Bayesian analysis for change point problems' (arXiv:2504.19526, 2025) -- uses very similar technical machinery (Bayesian change-point analysis on Sentinel-1 GRD time series) for flood detection generally, but does not target paddy-vs-disaster disambiguation or report agricultural false-alarm rates; a close methodological neighbour that the student must explicitly differentiate from and cite. 2) Bou, Ehret, von Gioi, Anger, 'Portraying the Need for Temporal Data in Flood Detection via Sentinel-1' (arXiv:2403.03671, 2024) -- reframes flood detection as temporal anomaly detection, noting that MMFlood's single-date flood definitions become inconsistent when viewed as a full time series; conceptually adjacent but does not address agricultural false alarms. 3) 'High-Resolution Flood Mapping With Sentinel-1 and Sentinel-2 via Misalignment-Robust Cross-Sensor Learning and Generative Despeckling' (arXiv:2606.30511, 2026) -- a 2026 flood-mapping paper using generative despeckling and multi-sensor fusion, worth checking for any agricultural-land false-alarm reporting, though its abstract does not mention rice/paddy specifically. None of these three fully solves the stated problem, so the idea appears to survive, but the Tsutsumida paper in particular means the 'change-point over Sentinel-1 GRD time series' method is not itself novel -- novelty must rest on the paddy-specific disambiguation task and the agricultural false-alarm evaluation protocol.",
+  "h2_generic_check": "Not a chatbot, dashboard, leaf-photo classifier, NDVI viewer, tabular yield model, generic crop-type-benchmark rerun, or an app calling someone else's model API. The core is a genuine classification/disambiguation task with a named, currently-unposed evaluation protocol (agricultural false-alarm rate). Could the one-sentence summary describe 50 other FYPs? No -- 'distinguish managed paddy flooding from disaster flooding using SAR time series' is a specific, narrow technical claim not matched by the generic 'SAR flood mapping' pattern that many FYPs might attempt; the explicit false-alarm-over-agriculture framing further narrows it.",
+  "user_segment": "Two named user segments in Southeast Asia: (1) agricultural/index-insurance providers and cooperatives operating in Kedah, Malaysia (Malaysia's primary rice granary region) and the Mekong Delta, Vietnam, who rely on SAR flood products as payout triggers and need false-alarm suppression over paddy; (2) disaster-response agencies (e.g. Malaysia's NADMA-equivalent state disaster units, Vietnam's Mekong Delta flood-response authorities) who need flood alerts filtered to exclude routine agricultural flooding so response capacity is not misallocated.",
+  "quantified_pain": "Kedah is widely cited as Malaysia's principal rice-growing state ('jelapang padi negara'), with paddy cultivation area on the order of 100,000+ hectares under the Muda Agricultural Development Authority (MADA) scheme [figure recalled from general regional-agriculture knowledge, not independently re-verified via a citable source this session -- uncertain]. UrbanSARFloods (Zhao et al. 2024) reports that existing CNN-based flood segmentation approaches 'fall short' on imbalanced data even for the general open/urban flood distinction, and the Bai et al. 2021 Sen1Floods11-based study reports only 52.99% mIoU on the Sen1Floods11 test set overall, indicating substantial existing error rates into which agricultural false alarms could be folding without being separately measured. No source found gives a specific quantified rice-belt false-alarm rate or financial impact figure for index-insurance false triggers; this number does not appear to exist in the literature and establishing it would itself be a contribution of the project [uncertain, flagged].",
+  "compute_feasibility": {
+    "peak_memory_gb": "Low. A temporal CNN/GRU/small transformer operating on per-parcel time series (not full-scene imagery) is a lightweight sequence model, likely under 4-8GB peak memory even with reasonably large batch sizes.",
+    "est_training_hours_mps": "Estimated 1-4 hours on MPS for the sequence classifier given the modest input dimensionality (per-parcel VV/VH time series plus a handful of geometry/calendar/rainfall features); change-point detection (Bayesian or learned) is computationally light and largely CPU-feasible.",
+    "fits_24gb": true,
+    "mps_compatible_ops": "Standard 1D/temporal convolutions, GRU/LSTM, and small transformer blocks are all MPS-compatible; Bayesian change-point analysis (if using a library such as ruptures or a custom implementation) runs on CPU and is not a bottleneck.",
+    "colab_kaggle_fallback_needed": "Unlikely to be needed -- this is one of the lighter-compute ideas in the SAR-specific bucket since the model operates on per-parcel time series rather than dense per-pixel imagery.",
+    "notes": "The main compute cost is in preprocessing (radiometric calibration, terrain correction, multi-temporal stacking of Sentinel-1 GRD scenes and parcel-level zonal statistics extraction), which is I/O- and CPU-bound rather than GPU/MPS-bound, and is very feasible on a MacBook Pro."
+  },
+  "cash_cost_rm": "Approximately RM 0 for core data (Sentinel-1 GRD is free with registration, Sen1Floods11 is free via GCS/Source Cooperative, field-boundary datasets are free via DANS/Zenodo/OSM). No commercial imagery dependency identified. A small potential cost (well under RM 200) could arise if rainfall-anomaly covariates require a paid API tier, but free alternatives (CHIRPS, GPM IMERG via NASA Earthdata, both free with registration) are available.",
+  "demo_artifact": "A live laptop demo: select a rice-belt parcel cluster in Kedah or the Mekong Delta, play a Sentinel-1 time series animation showing a scheduled flooding event; run it through (a) a generic Sen1Floods11-style flood classifier that flags it as 'flood', and (b) the proposed managed-vs-disaster classifier that correctly labels it 'managed agricultural flooding' using the change-point/geometry/calendar signals -- then repeat with a genuine disaster-flood clip from Sen1Floods11 to show both are correctly discriminated. A summary bar chart of agricultural false-alarm rate (baseline vs. proposed) makes the quantitative claim visible within 2 minutes.",
+  "build_vs_research_ratio": "Roughly 70:30 engineering-to-research, matching S2 well. Engineering: building the Sentinel-1 time-series preprocessing pipeline (calibration, terrain correction, parcel-level zonal statistics extraction), sourcing/digitising bund geometry where AI4Boundaries-equivalent data does not cover Kedah/Thailand, encoding cropping-calendar priors, implementing the change-point detection stage, and building the sequence classifier plus the demo dashboard. Research: designing the false-alarm evaluation protocol itself (since no prior benchmark defines it), validating the proxy-label strategy for managed flooding, and analysing cross-region generalisation of the calendar/geometry heuristics.",
+  "publication_venue_fit": "IGARSS is the most realistic venue given the strong overlap with the SAR flood-monitoring community's existing interest in change-point/temporal methods (Tsutsumida et al. 2025 is itself IGARSS/remote-sensing-adjacent work); Remote Sensing (MDPI) or Computers and Electronics in Agriculture are plausible journal targets given the explicit agricultural angle and the precedent of MDPI Remote Sensing publishing several of the Sen1Floods11-derived flood-mapping papers cited here.",
+  "key_risks": [
+    "1) Label risk (highest): no ground-truth-verified 'managed flooding' dataset exists; the plan depends on cropping-calendar proxy labels that may be inaccurate at the micro-region level, and on parcel-geometry heuristics that could themselves be wrong in fragmented/informal bund systems typical of smallholder paddy.",
+    "2) Novelty overlap with Tsutsumida et al. 2025 (arXiv:2504.19526): the core change-point-on-Sentinel-1-GRD-time-series technique is not itself new; the student must be disciplined about keeping the paddy-specific disambiguation task and the agricultural false-alarm metric as the centre of the contribution, not the change-point method.",
+    "3) Data-access risk for bund/parcel geometry outside the EU: AI4Boundaries is EU-only; Kedah and Central Thailand parcel boundaries may require OSM-derived polygons (variable quality/completeness) or manual digitisation from optical basemaps, adding non-trivial data-preparation work not currently scoped.",
+    "4) Evaluation risk: defining 'ground truth' for the false-alarm-rate metric requires knowing, for each flagged pixel/parcel, whether it was actually managed or disaster flooding -- since this ground truth does not exist as a curated dataset, the evaluation itself may need to lean on the same proxy labels used for training, risking circularity that a reviewer would flag.",
+    "5) Cross-region generalisation risk: cropping calendars and bund geometry conventions differ substantially between Kedah, the Mekong Delta and Central Thailand, so a model trained on one region's calendar/geometry priors may not transfer, undermining the claimed SEA-wide relevance."
+  ],
+  "kill_criteria": [
+    "Week 1: search specifically for any existing ground-truth-labelled managed-flood dataset (e.g. from IRRI, national agriculture ministries, or academic irrigation studies) for at least one target region -- if genuinely none exists even at small scale, decide whether proxy-label-only training is acceptable or whether the project needs a small manual labelling effort (e.g. visually annotating 20-30 known-managed-flood events from historical Sentinel-1 imagery and local news/agricultural records).",
+    "Week 1-2: obtain field-boundary/bund polygons for at least the Kedah study area (via OSM extraction or a Malaysian government agricultural GIS source) and verify they are usable at Sentinel-1's 10m resolution -- if bund polygons are too sparse, low-quality, or unavailable, the geometry-conformity feature must be dropped or replaced, materially weakening the method.",
+    "Week 2: run the naive Sen1Floods11-style baseline (or a simple VH threshold) over one full year of Kedah/Mekong Sentinel-1 time series and manually spot-check whether it does in fact generate visible false positives over known paddy areas during the scheduled flooding window -- if the baseline does NOT show the expected agricultural false-alarm pattern in this quick check, the premise motivating the entire project needs re-examination before further investment."
+  ],
+  "hard_constraint_verdict": {
+    "H1": "PASS -- the specific managed-vs-disaster disambiguation task and its agricultural false-alarm evaluation protocol were not found posed by any existing benchmark; closest prior art (Tsutsumida et al. 2025) shares method machinery but not the task framing.",
+    "H2": "PASS -- not a banned pattern; a genuine classification/disambiguation research problem with a named evaluation gap.",
+    "H3": "PASS -- Sentinel-1 SAR time series is the primary input; field-boundary and calendar/rainfall covariates are ancillary fusion inputs, consistent with H3's allowance for fusion.",
+    "H4": "PASS -- named user segments are rice-belt agronomists/cooperatives and disaster-response agencies in Kedah, the Mekong Delta and Central Thailand, an SEA region (not Singapore, which the brief's N1 correctly flags as unsuitable for satellite-primary agriculture).",
+    "H5": "PASS -- estimated 60-100GB total dataset size, well under the 200GB ceiling; the sequence-classifier compute is lightweight and clearly fits within MPS/24GB constraints.",
+    "H6": "PASS -- names specific users, a concrete and visually demonstrable technical tension (identical-looking water requiring temporal/geometric disambiguation), and a clear before/after demo."
+  },
+  "overall_recommendation": "VIABLE, trending toward STRONG if the label-scarcity risk is resolved. This idea passes all hard constraints cleanly and identifies a genuine, currently-unposed evaluation gap in the SAR flood-mapping literature (no existing paper reports agricultural false-alarm rates). Its principal weakness is not novelty but data: the 'managed flooding' class has no curated ground truth anywhere found in this search, so the project's credibility depends heavily on how convincingly the student can construct and validate proxy labels in week 1-2.",
+  "confidence": "Medium. Confidence in the novelty gap (no existing benchmark poses this disambiguation task) is reasonably high given a focused search across arXiv and OpenAlex/Crossref/dblp for 2024-2026 flood-mapping and despeckling-adjacent literature. Confidence in the practical data-access plan is lower, because (a) the exact Sen1Floods11 licence text could not be directly confirmed (only inferred from common citation practice and a GitHub README that mentions 'open access' without stating a licence name), (b) bund/parcel geometry sources for Kedah and Central Thailand specifically were not identified (only EU-focused AI4Boundaries and Vietnam/Cambodia-focused AI4SmallFarms were confirmed), and (c) no quantified figure for rice-belt false-alarm rates or index-insurance impact was found, meaning the 'quantified pain' claim rests on adjacent but not directly on-point statistics. Raising confidence would require a direct check of the Sen1Floods11 licence file, a search for Malaysian/Thai government open-data GIS portals for paddy parcel boundaries, and contact with an agricultural-insurance or MADA-equivalent source for a concrete false-alarm figure."
+  ,
+  "key_references": [
+    {
+      "title": "Sen1Floods11: A Georeferenced Dataset to Train and Test Deep Learning Flood Algorithms for Sentinel-1",
+      "year": 2020,
+      "venue": "CVPR Workshops (EarthVision)",
+      "doi_or_arxiv_id": "Not located this session [uncertain]",
+      "why_it_matters": "The seed benchmark named in the brief; provides the disaster-flood-positive training/test signal and the baseline this idea aims to show generates agricultural false alarms."
+    },
+    {
+      "title": "UrbanSARFloods: Sentinel-1 SLC-Based Benchmark Dataset for Urban and Open-Area Flood Mapping",
+      "year": 2024,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2406.04111",
+      "why_it_matters": "A more recent, larger flood benchmark (8,879 chips, 18 events, 5 continents) that could serve as a secondary evaluation set and demonstrates current CNN approaches already struggle on imbalanced flood data."
+    },
+    {
+      "title": "Automated flood detection from Sentinel-1 GRD time series using Bayesian analysis for change point problems",
+      "year": 2025,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2504.19526",
+      "why_it_matters": "The closest methodological prior art -- uses the same change-point-over-Sentinel-1-GRD-time-series machinery for flood detection generally; the student must differentiate the paddy-specific disambiguation task from this general-purpose method."
+    },
+    {
+      "title": "Portraying the Need for Temporal Data in Flood Detection via Sentinel-1",
+      "year": 2024,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2403.03671",
+      "why_it_matters": "Establishes that reframing flood detection as temporal anomaly detection (rather than single/paired-date classification) is an active, very recent research direction, directly supporting this idea's core technical premise."
+    },
+    {
+      "title": "Estimating ensemble likelihoods for the Sentinel-1 based Global Flood Monitoring product of the Copernicus Emergency Management Service",
+      "year": 2023,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2304.12488",
+      "why_it_matters": "Describes the operational CEMS Global Flood Monitoring product against which the proposed method's agricultural false-alarm reduction should ultimately be benchmarked."
+    },
+    {
+      "title": "AI4SmallFarms: A Dataset for Crop Field Delineation in Southeast Asian Smallholder Farms",
+      "year": 2023,
+      "venue": "IEEE Geoscience and Remote Sensing Letters",
+      "doi_or_arxiv_id": "10.1109/LGRS.2023.3323095",
+      "why_it_matters": "Candidate source of parcel/bund geometry for the Mekong Delta portion of the study area (Vietnam/Cambodia coverage), needed for the geometry-conformity feature."
+    }
+  ],
+  "uncertain": [
+    "Exact Sen1Floods11 licence text (commonly cited as CC BY 4.0 downstream but not directly confirmed from a primary source this session)",
+    "Sen1Floods11 CVPRW 2020 paper's formal DOI/arXiv ID (a fetch of the presumed CVF open-access PDF URL returned HTTP 403 and was not resolved)",
+    "UrbanSARFloods and CEMS Global Flood Monitoring dataset licences and Malaysia-accessibility, not independently tested",
+    "Kedah paddy cultivation area figure (100,000+ ha under MADA) stated from general regional-agriculture recollection, not verified via a citable source this session",
+    "Availability of bund/parcel-boundary geometry specifically for Kedah and Central Thailand (only EU-focused AI4Boundaries and Vietnam/Cambodia-focused AI4SmallFarms were confirmed as existing)",
+    "Whether any published flood product already reports an agricultural-land-specific false-alarm rate anywhere outside the papers surveyed here -- absence of evidence in this search is not conclusive proof of absence across the full literature",
+    "No quantified financial/false-alarm-rate figure specific to rice-belt SAR flood products or index-insurance triggers was found; this remains an open gap the project itself would need to establish"
+  ]
+}

@@ -1,0 +1,210 @@
+{
+  "idea_name": "Decision-Calibrated Mowing and Ploughing Verification for CAP",
+  "bucket": "9 - regulatory and compliance",
+  "one_sentence_pitch": "For EU paying-agency compliance officers (e.g. Estonia's PRIA/ARIB, Lithuania's National Paying Agency) running CAP 'checks by monitoring' over every parcel, this project adds a calibrated, cost-aware decision layer on top of existing Sentinel-1 coherence / Sentinel-2 NDVI mowing-and-ploughing detectors, so the agency gets an expected-cost-optimal inspect/do-not-inspect recommendation per parcel instead of a raw detection score.",
+  "problem_statement": "Since CAP's shift to 'checks by monitoring' (Sentinel-based wall-to-wall parcel screening replacing blanket physical sampling), Voormansik et al. (2020, DOI 10.3390/rs12223784) showed Sentinel-1 6-day coherence separates mowing from ploughing events on a dataset of ~2000 documented events across >1000 Estonian parcels, and Tsardanidis et al. (2024, arXiv:2403.09554) improved on this via cloud-gap-filled NDVI in Lithuania (mowing-detection F1 up to 84%). A large 2026 cross-Europe intercomparison (MODCiX, DOI 10.1016/j.rse.2026.115466, 34 co-authors) has since benchmarked many such detectors. But every one of these papers optimises and reports detection quality (F1, accuracy, MAE) -- not the paying agency's actual decision problem: given an uncertain detection signal, is the evidence strong enough to justify the fixed cost of sending a human inspector, at an acceptable level of residual compliance risk? Current practice either applies a fixed detection-probability threshold (ignoring cost asymmetry between a missed violation and a wasted visit) or a hard-coded sample rate (ignoring the satellite evidence entirely), neither of which minimises total inspection cost at a controlled compliance-risk level.",
+  "proposed_technical_approach": "A decision-theoretic layer sitting on top of an S1-coherence + S2-NDVI (cloud-gap-filled, Tsardanidis-style) mowing/ploughing event detector, reusing/adapting the Voormansik/Komisarenko/Tsardanidis architectures rather than re-inventing detection. Step 1: the detector outputs a raw per-parcel, per-period event probability from S1 6-day coherence time series plus gap-filled S2 NDVI. Step 2: calibrate this probability (Platt scaling / isotonic regression / temperature scaling) against held-out labelled events so the score is a genuine probability rather than just a ranking score, directly addressing the miscalibration typical of deep detectors (Komisarenko et al. 2022's 'reject region' is the closest existing mechanism and is a fixed confidence-threshold heuristic, not a calibrated-probability decision framework). Step 3: define an explicit cost matrix -- cost of a missed violation (false negative), cost of an unnecessary inspector visit to an already-compliant parcel (false positive), and the fixed cost of any inspection -- and compute, per parcel, the expected-cost-minimising action (inspect / do-not-inspect) via a standard Bayes-risk decision rule over the calibrated probability. Step 4: evaluate not by F1 but by total inspection cost saved relative to a fixed-sample-rate baseline and a raw-threshold baseline, at a fixed compliance-risk level (probability of an undetected violation capped at a chosen X%). Ground-truth/compliance proxy: since real on-the-spot-check outcome records could not be confirmed as open data this session, use documented mowing/ploughing event labels (Voormansik/Komisarenko Estonia data) combined with the CAP minimum-activity-by-date rule as the compliance signal, paired with an assumed/literature-grounded cost matrix -- explicitly disclosed as a substitute for true audit data, not hidden.",
+  "primary_sensor": {
+    "sensor": "Sentinel-1 (C-band SAR, VV/VH, interferometric coherence) + Sentinel-2 (MSI optical, NDVI)",
+    "spatial_resolution_m": 10,
+    "revisit_days": "Sentinel-1: 6-day coherence pairs when both S1A and a second S1 satellite are available (Voormansik et al. used 6-day pairs; current constellation revisit over the EU not independently re-verified this session [uncertain]); Sentinel-2: ~5 days (S2A+S2B)",
+    "bands_used": "S1 VV/VH interferometric coherence and backscatter; S2 NDVI (red, NIR bands), cloud-gap-filled per Tsardanidis et al.",
+    "licence": "Free and open Copernicus data policy (ESA/EU); registration only, no cost"
+  },
+  "imagery_is_primary_input": "Yes - Sentinel-1 coherence and Sentinel-2 NDVI time series are the sole detector inputs; the decision-theoretic layer operates on the detector's output probability plus an assumed/derived cost matrix, not on any independent non-imagery primary input.",
+  "datasets": [
+    {
+      "name": "Harmonized IACS inventory",
+      "access_route": "Zenodo, zenodo.org/records/18670815, direct geoparquet download",
+      "auth_required": "None",
+      "licence": "CC-BY 4.0",
+      "approx_size_gb": "168GB total across 20 EU member states; a subset for Denmark/Estonia/Lithuania/Slovenia would be a modest fraction of this, estimated 10-40GB [uncertain exact split]",
+      "accessible_from_malaysia": "Yes, open Zenodo download",
+      "verified_how": "Direct WebFetch of the Zenodo record page, confirming 20-country coverage, geoparquet format, CC-BY 4.0 licence, field-level declared crop/parcel data (field_id, crop_code, EC_hcat harmonised crop class, organic status, field_size, optional farm_id). IMPORTANT: this WebFetch also confirmed the inventory explicitly EXCLUDES inspection/on-the-spot-check results -- it captures declared agricultural activity only, not compliance outcomes"
+    },
+    {
+      "name": "Sentinel-1 GRD / Sentinel-2 L2A",
+      "access_route": "Copernicus Data Space Ecosystem (dataspace.copernicus.eu)",
+      "auth_required": "Free registration",
+      "licence": "Copernicus free and open data policy",
+      "approx_size_gb": "Depends on AOI/years; a single-country multi-year subset estimated 20-60GB [uncertain, not independently re-measured this session]",
+      "accessible_from_malaysia": "Yes",
+      "verified_how": "General knowledge consistent with TOOL_ROUTING.md N3 seed list; not independently re-verified via a live probe this session"
+    },
+    {
+      "name": "Voormansik et al. event-labelled dataset (~2000 mowing/ploughing events, >1000 parcels, Estonia)",
+      "access_route": "Associated with DOI 10.3390/rs12223784 (MDPI Remote Sensing); specific data-availability statement/repository not independently fetched this session [uncertain]",
+      "auth_required": "uncertain",
+      "licence": "uncertain",
+      "approx_size_gb": "small - tabular event labels, likely well under 1GB",
+      "accessible_from_malaysia": "presumed yes [uncertain]",
+      "verified_how": "OpenAlex abstract only (W3104274718)"
+    },
+    {
+      "name": "Komisarenko/Voormansik reject-region dataset (2000 fields, Estonia, 2018)",
+      "access_route": "Associated with DOI 10.1038/s41598-022-04932-6 (Nature Scientific Reports); data-availability not independently fetched this session [uncertain]",
+      "auth_required": "uncertain",
+      "licence": "Likely CC-BY 4.0 (Nature Scientific Reports standard) [uncertain]",
+      "approx_size_gb": "small",
+      "accessible_from_malaysia": "presumed yes [uncertain]",
+      "verified_how": "OpenAlex abstract only (W4205550387)"
+    },
+    {
+      "name": "Open IACS (openiacs.eu, JRC/Ispra project)",
+      "access_route": "openiacs.eu/dataset/ - a WebFetch verification of this page was attempted but interrupted before completion this session and was NOT resumed",
+      "auth_required": "uncertain",
+      "licence": "uncertain",
+      "approx_size_gb": "uncertain",
+      "accessible_from_malaysia": "uncertain",
+      "verified_how": "NOT independently verified - flagged as an unresolved lead the student must check directly in week 1; it is the most promising remaining candidate for genuine inspection-outcome data"
+    },
+    {
+      "name": "Real per-parcel inspection/on-the-spot-check outcome records (Slovenia, Estonia, Lithuania, Denmark)",
+      "access_route": "NOT FOUND as an open dataset in this session's research",
+      "auth_required": "n/a",
+      "licence": "n/a",
+      "approx_size_gb": "n/a",
+      "accessible_from_malaysia": "NO - not confirmed to exist as open data at all for any of the four named countries",
+      "verified_how": "Multiple WebSearches (IACS audit outcomes, on-the-spot-check results, national paying-agency portals) found declared-parcel data (Harmonized IACS inventory) but no confirmed open dataset pairing parcels with actual inspection/compliance outcomes; this is the single largest data risk for the project as literally scoped in the brief"
+    }
+  ],
+  "total_dataset_gb": "Estimated 40-100GB for a realistic single/dual-country (e.g. Estonia plus one more) minimum viable experiment combining Sentinel-1/2 time series with the relevant Harmonized IACS inventory subset; comfortably under H5's 200GB ceiling. The bigger issue is not GB volume but that the true inspection-outcome data needed for the core 'cost saved' claim was not confirmed to exist as open data at all.",
+  "labels_and_ground_truth": "Detection-side ground truth is solid: Voormansik et al.'s ~2000 documented mowing/ploughing events (Estonia) and Komisarenko et al.'s 2018 Estonia dataset (2000 fields, farmer field-book-derived labels) provide real event ground truth to train/validate a detector. However, the decision-theoretic layer's actual target -- whether sending an inspector was worth it, i.e. real on-the-spot-check outcomes and their associated costs -- has NO confirmed open source (the Harmonized IACS inventory explicitly excludes inspection results, and openiacs.eu was not conclusively checked). Proxy/substitute: derive a synthetic 'compliance' label from the CAP minimum-activity rule (e.g. grassland must be mown/maintained by a given date) applied to real event-detection ground truth, paired with an assumed/literature-derived cost matrix (cost of an inspector visit vs. cost of an undetected violation) rather than real audit records. This is a legitimate but load-bearing methodological substitution that must be disclosed prominently in any write-up, not glossed over as if real inspection data were used.",
+  "named_baselines": [
+    {
+      "paper_title": "Separability of Mowing and Ploughing Events on Short Temporal Baseline Sentinel-1 Coherence Time Series",
+      "venue": "Remote Sensing (MDPI)",
+      "year": 2020,
+      "doi_or_arxiv_id": "10.3390/rs12223784",
+      "reported_metric": "Mowing coherence rises from 0.18 to 0.35 (VV/VH) post-event; ploughing coherence rises to 0.65 (VV); NDVI drops from 0.75 to 0.5 for mowing, ~0.2 for ploughing; dataset of ~2000 events across >1000 parcels",
+      "dataset": "Estonia, 386 Sentinel-1 dual-pol scenes + 351 Sentinel-2 scenes"
+    },
+    {
+      "paper_title": "Cloud gap-filling with deep learning for improved grassland monitoring",
+      "venue": "arXiv preprint",
+      "year": 2024,
+      "doi_or_arxiv_id": "arXiv:2403.09554",
+      "reported_metric": "NDVI reconstruction MAE 0.024, R^2 = 0.92; downstream mowing-detection F1 improved to up to 84%",
+      "dataset": "Lithuania"
+    },
+    {
+      "paper_title": "Exploiting time series of Sentinel-1 and Sentinel-2 to detect grassland mowing events using deep learning with reject region",
+      "venue": "Scientific Reports (Nature)",
+      "year": 2022,
+      "doi_or_arxiv_id": "10.1038/s41598-022-04932-6",
+      "reported_metric": "Event accuracy 73.3%, end-of-season accuracy 94.8%",
+      "dataset": "Estonia, 2000 fields, 2018 growing season"
+    },
+    {
+      "paper_title": "Mowing event detection in permanent grasslands: Systematic evaluation of input features from Sentinel-1, Sentinel-2, and Landsat 8 time series",
+      "venue": "Remote Sensing of Environment",
+      "year": 2021,
+      "doi_or_arxiv_id": "10.1016/j.rse.2021.112751",
+      "reported_metric": "F1-score 0.84 (best NDVI + backscatter cross-ratio + coherence combination); mean absolute error 0.38 events/year",
+      "dataset": "Germany, 64 meadows, 257 mowing events, 2017-2019"
+    },
+    {
+      "paper_title": "Mowing detection intercomparison exercise (MODCiX) - Evaluation of grassland mowing detection algorithms across Europe",
+      "venue": "Remote Sensing of Environment",
+      "year": 2026,
+      "doi_or_arxiv_id": "10.1016/j.rse.2026.115466",
+      "reported_metric": "Cross-Europe intercomparison of many detection algorithms (specific aggregate metric not extracted this session; only abstract/metadata available)",
+      "dataset": "Multi-country Europe"
+    }
+  ],
+  "evaluation_protocol": "Primary metric: total expected inspection cost saved (in assumed cost-matrix units) versus (a) a fixed blanket-sampling-rate baseline and (b) a naive fixed-threshold-on-raw-detector-score baseline, all evaluated at a matched compliance-risk level (probability of an undetected true violation held constant across methods so cost comparisons are fair, not confounded by different risk levels). Secondary: calibration quality of the probability layer (reliability diagrams, Brier score, expected calibration error) and standard detection F1/accuracy for direct comparability with Voormansik/Tsardanidis/MODCiX baselines. Geographic generalisation: calibrate on one country's parcels (e.g. Estonia) and test calibration transfer to a second (e.g. Lithuania, where Tsardanidis's cloud-gap-filling data exists) to show the decision layer is not overfit to one paying agency's parcel-size/climate distribution. Success number: a demonstrated percentage reduction in total inspection cost at the same (or better) compliance-risk level as the fixed-sample-rate baseline, on held-out parcels.",
+  "novelty_delta": "The entire cited detection literature (Voormansik 2020, Lobert 2021, Komisarenko 2022, Tsardanidis 2024, MODCiX 2026) optimises and evaluates event-detection quality (F1, accuracy, MAE on NDVI reconstruction). None of the identified papers frame the problem as a decision under the paying agency's actual expected-cost trade-off (cost of a missed violation vs. cost of an unnecessary inspector visit) with calibrated probabilities as the deliverable output. This is a genuine 'new deployment constraint / new objective' per H1's own definition: replacing 'detect the event' with 'decide whether the evidence justifies paying for an inspector', requiring probability calibration on top of existing detectors plus an explicit cost matrix, evaluated by inspection-cost-saved at fixed compliance-risk rather than by F1. This is explicitly NOT 'applied X to Y country' -- it is a different objective function and evaluation protocol layered on top of already-published, well-validated detectors, and the closest existing mechanism (Komisarenko et al.'s fixed-threshold 'reject region') is a heuristic abstention rule, not a calibrated Bayes-risk decision framework.",
+  "prior_art_that_threatens_it": "MODCiX (Schwieder et al. 2026, DOI 10.1016/j.rse.2026.115466) is the most direct threat as a large, cross-Europe benchmark/intercomparison of mowing-detection algorithms with many co-authors including Tsardanidis and Kontoes; only its abstract/metadata was available this session, so it is not confirmed whether it already includes any cost/decision-theoretic comparison alongside its detection-accuracy benchmarking -- this must be checked in full before committing. Komisarenko et al. 2022's 'reject region' (a confidence-threshold abstention mechanism) is the closest published approximation to calibrated decision-making and must be explicitly and clearly differentiated from a full expected-cost Bayes-risk framework, or a reviewer could reasonably argue the delta is incremental rather than new.",
+  "h2_generic_check": "Confirmed NOT a chatbot/LLM assistant, a leaf-photo disease classifier, tabular yield prediction, or a re-run of an existing crop-type-classification benchmark. There is a real risk of drifting toward the banned 'plain NDVI/vegetation-index time-series viewer' pattern if the decision layer is not kept as the centrepiece -- the detection backbone alone (S1 coherence + S2 NDVI mowing detection) is exactly that banned pattern, and this idea is only distinct from it because of the calibration + expected-cost decision layer on top. Could the one-sentence summary describe 50 other FYPs? Partially -- 'detect mowing/ploughing from Sentinel-1/2' is an extremely well-trodden theme (5+ named baselines found, plus a 34-author 2026 intercomparison), so the detection half is generic; the decision-theoretic/cost-calibration half is not, and is what must be foregrounded throughout.",
+  "user_segment": "EU national paying agencies' compliance/control units responsible for CAP 'checks by monitoring' -- named examples: Estonia's PRIA/ARIB (which has already operationalised Sentinel-based mowing detection to replace on-the-spot checks), Lithuania's National Paying Agency, Slovenia's ARSKTRP, Denmark's Landbrugsstyrelsen -- who must decide which flagged parcels receive a costly physical inspector visit; indirectly, the farmers subject to monitoring.",
+  "quantified_pain": "EU on-the-spot-check sampling has historically been mandated at a minimum ~5% rate for area-based CAP schemes under EU control regulations (general regulatory knowledge, not independently re-verified against a live 2026 source this session [uncertain]); the explicit policy rationale for 'checks by monitoring' is to reduce the number of costly physical farm visits. A concrete euro-per-inspection cost figure was NOT found in this session's searches (EU Commission CAP pages and OECD policy monitoring reports were surfaced but did not yield a specific number); this is flagged as the key number the student must pin down in week 1, likely via EU Court of Auditors CAP control-cost reports or national paying-agency annual reports.",
+  "compute_feasibility": {
+    "peak_memory_gb": "estimated 4-8GB [uncertain, exact architecture not finalised]",
+    "est_training_hours_mps": "estimated 2-6 hours",
+    "fits_24gb": "Yes, comfortably",
+    "mps_compatible_ops": "Yes - standard CNN/RNN detector backbone plus a lightweight logistic/Platt-scaling or isotonic-regression calibration layer are all MPS-compatible",
+    "colab_kaggle_fallback_needed": "No",
+    "notes": "This is one of the lighter-compute ideas in the batch, since the novel contribution is the decision/calibration layer, not a heavier detection backbone; estimates are reasoned from the scale of the cited published detectors (small CNN/RNN models on tabular/time-series coherence and NDVI features) rather than independently benchmarked this session."
+  },
+  "cash_cost_rm": "Approximately RM 0: Sentinel-1/2 is free via Copernicus Data Space Ecosystem; the Harmonized IACS inventory is free via Zenodo (CC-BY 4.0). Only a small country-subset of the 168GB inventory would likely be needed (Estonia plus possibly one more country), not the full 20-country volume, keeping storage costs negligible.",
+  "demo_artifact": "Live on a laptop: feed a real parcel's Sentinel-1 coherence + Sentinel-2 NDVI time series through the mowing/ploughing detector, show the raw (uncalibrated) detection probability, then show the calibrated probability and the resulting expected-cost-optimal 'inspect / do-not-inspect' recommendation with the underlying cost trade-off displayed; run across a small held-out set of parcels to show aggregate inspection-cost-saved at a fixed compliance-risk level versus a naive fixed-threshold or fixed-sample-rate policy.",
+  "build_vs_research_ratio": "Approximately 70:30. Engineering-heavy: ingesting/reproducing the detector, building the calibration pipeline, constructing the cost-optimal decision engine, and building the comparison/demo dashboard against baseline policies. The research contribution (calibration methodology + cost-sensitive evaluation protocol) is real but more contained than the engineering system around it.",
+  "publication_venue_fit": "Computers and Electronics in Agriculture fits especially well given its applied decision-support framing; IGARSS and the ICLR ML4RS workshop are also realistic given the remote-sensing methodology; Remote Sensing (MDPI) as a fallback given several cited baselines were published there.",
+  "key_risks": [
+    "No confirmed open dataset pairs declared parcels with actual on-the-spot-check/inspection outcomes for Slovenia, Estonia, Lithuania, or Denmark (the Harmonized IACS inventory, 168GB, CC-BY 4.0, explicitly excludes inspection results, confirmed by direct WebFetch); 'evaluated by inspection cost saved' as literally proposed cannot be validated against real paying-agency ground truth without this, forcing a simulated/assumed cost-matrix workaround that must be disclosed.",
+    "Real per-inspection cost figures (euros) for EU paying agencies were not found this session; without them the 'expected cost' objective risks being arbitrary unless grounded in an EU-audit-sourced or literature number found in week 1.",
+    "Crowded, mature detection literature (Voormansik, Lobert, Komisarenko, Tsardanidis, and the 2026 MODCiX 34-author cross-Europe intercomparison) means the student must keep the calibration/decision layer as the clear contribution and not re-solve detection, or the project drifts toward H2's banned 're-running an existing benchmark' territory.",
+    "Calibration quality depends on having enough true event-labelled data per country to fit and validate a cost-optimal decision rule; Estonia (Voormansik/Komisarenko, ~2000 events / 2000 fields) is by far the best-documented source, so the project may need to concentrate on Estonia alone rather than genuinely spanning all four named countries.",
+    "The MODCiX 2026 intercomparison may already contain or directly motivate a follow-up decision-cost analysis; only its abstract/metadata was available this session, and its full text should be checked before committing."
+  ],
+  "kill_criteria": [
+    "Week 1: attempt to obtain real inspection-outcome (on-the-spot-check pass/fail) records for at least one of Slovenia/Estonia/Lithuania/Denmark, directly from the national paying agency's open-data portal or the EU JRC Open IACS project (openiacs.eu, not conclusively checked this session); if none can be obtained even at pilot scale, commit explicitly to the 'detection-event as compliance proxy' design and disclose this substitution prominently in the write-up.",
+    "Week 1: search EU Court of Auditors reports and national paying-agency annual reports for a real euro figure for cost-per-on-the-spot-check; if unavailable, define and justify an assumed cost range from comparable public-sector site-visit cost literature.",
+    "Week 2: confirm the Harmonized IACS inventory's Estonia/Lithuania/Slovenia/Denmark geoparquet subsets download and parse correctly, and contain enough temporal/parcel density to support a meaningful calibration exercise (not just single-year snapshots).",
+    "Week 2: read the MODCiX (2026) full text to confirm it does not already include a cost/decision-theoretic comparison; if it does, pivot the contribution to a specific under-covered piece (e.g. per-country calibration drift, or fairness of the cost trade-off across farm sizes)."
+  ],
+  "hard_constraint_verdict": {
+    "H1": "PASS (thin margin) - the detection backbone is extremely well-covered prior art, but the calibrated expected-cost decision layer evaluated by inspection-cost-saved rather than F1 was not found in any identified prior work; contingent on the MODCiX 2026 full text not already covering this, and on being executed as a genuinely new objective/evaluation protocol rather than a thin wrapper around an existing detector.",
+    "H2": "PASS (conditional) - the decision-theoretic/calibration layer is not one of the 8 banned generic patterns, but the underlying detection task ('detect mowing/ploughing from Sentinel-1/2 time series') is itself extremely close to the banned 'plain NDVI time-series viewer' pattern and must not be allowed to become the de facto centrepiece of the project.",
+    "H3": "PASS - Sentinel-1 SAR coherence and Sentinel-2 optical NDVI time series are the sole primary detector inputs.",
+    "H4": "PASS - named EU user segment: national paying agencies (Estonia, Lithuania, Slovenia, Denmark) and their compliance/control units running CAP checks by monitoring.",
+    "H5": "PASS - this is a compute-light idea (small detector backbone plus a lightweight calibration/decision layer), estimated 40-100GB total data and 2-6h MPS training, comfortably within the 200GB/24GB/12h ceilings."
+  },
+  "overall_recommendation": "VIABLE - the decision-theoretic/calibration contribution is a genuinely under-addressed gap in an otherwise mature and heavily-benchmarked detection literature, and the regulatory driver (CAP checks-by-monitoring) is live and well-documented. The critical open issue is that no confirmed open dataset pairs declared parcels with real inspection outcomes for any of the four named countries, which forces the 'evaluated by inspection cost saved' claim onto a simulated/assumed cost-matrix and a detection-event-based compliance proxy rather than genuine paying-agency audit data -- a workaround that is defensible in cost-sensitive ML research generally, but must be disclosed prominently rather than presented as if real inspection ground truth were used.",
+  "confidence": "Medium - the detection-side literature (Voormansik, Tsardanidis, Komisarenko, Lobert, MODCiX) is very well verified via OpenAlex/arXiv with real DOIs/IDs, and the Harmonized IACS inventory's scope (and its exclusion of inspection results) was directly confirmed via WebFetch. What remains uncertain: (a) whether any true open inspection-outcome dataset exists (openiacs.eu was not conclusively checked after a tool interruption), (b) real per-inspection cost figures, and (c) whether MODCiX's full text already touches decision-cost framing. Completing the openiacs.eu check and reading MODCiX in full would raise confidence substantially.",
+  "key_references": [
+    {
+      "title": "Separability of Mowing and Ploughing Events on Short Temporal Baseline Sentinel-1 Coherence Time Series",
+      "year": 2020,
+      "venue": "Remote Sensing (MDPI)",
+      "doi_or_arxiv_id": "10.3390/rs12223784",
+      "why_it_matters": "The named Sentinel-1 6-day coherence baseline this idea builds its detector on, explicitly cited in the task brief."
+    },
+    {
+      "title": "Cloud gap-filling with deep learning for improved grassland monitoring",
+      "year": 2024,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2403.09554",
+      "why_it_matters": "The cloud-gap-filled-NDVI improvement named in the task brief, confirmed authored by Tsardanidis et al. and tested in Lithuania."
+    },
+    {
+      "title": "Exploiting time series of Sentinel-1 and Sentinel-2 to detect grassland mowing events using deep learning with reject region",
+      "year": 2022,
+      "venue": "Scientific Reports (Nature)",
+      "doi_or_arxiv_id": "10.1038/s41598-022-04932-6",
+      "why_it_matters": "Closest existing work to a calibrated-abstention mechanism (fixed confidence threshold); must be explicitly differentiated from this idea's full Bayes-risk decision framework."
+    },
+    {
+      "title": "Mowing detection intercomparison exercise (MODCiX) - Evaluation of grassland mowing detection algorithms across Europe",
+      "year": 2026,
+      "venue": "Remote Sensing of Environment",
+      "doi_or_arxiv_id": "10.1016/j.rse.2026.115466",
+      "why_it_matters": "The 2026 cross-Europe competitive-landscape benchmark this idea must be read against in full before committing, to rule out an existing cost/decision-theoretic comparison."
+    },
+    {
+      "title": "Mowing event detection in permanent grasslands: Systematic evaluation of input features from Sentinel-1, Sentinel-2, and Landsat 8 time series",
+      "year": 2021,
+      "venue": "Remote Sensing of Environment",
+      "doi_or_arxiv_id": "10.1016/j.rse.2021.112751",
+      "why_it_matters": "Additional named F1 baseline (0.84) for the detection backbone."
+    },
+    {
+      "title": "Harmonized IACS inventory",
+      "year": 2026,
+      "venue": "Zenodo dataset",
+      "doi_or_arxiv_id": "zenodo.org/records/18670815",
+      "why_it_matters": "The declared-parcel data source for Denmark/Estonia/Lithuania/Slovenia; directly confirmed via WebFetch to EXCLUDE inspection outcomes, the central data-access caveat for this project."
+    }
+  ],
+  "uncertain": [
+    "primary_sensor.revisit_days (exact current Sentinel-1 constellation revisit over the EU)",
+    "datasets[Harmonized IACS inventory].approx_size_gb (exact 4-country subset size)",
+    "datasets[Sentinel-1/Sentinel-2].approx_size_gb",
+    "datasets[Voormansik dataset] and datasets[Komisarenko dataset] access_route, auth_required, licence, approx_size_gb",
+    "datasets[Open IACS] entire entry - WebFetch verification was interrupted and not completed",
+    "Whether any open inspection-outcome (on-the-spot-check) dataset exists at all for Slovenia/Estonia/Lithuania/Denmark",
+    "quantified_pain - exact euro cost per CAP on-the-spot-check inspection (not found this session)",
+    "Whether the MODCiX (2026) full text already includes a cost/decision-theoretic comparison (only abstract/metadata read)",
+    "compute_feasibility.peak_memory_gb and est_training_hours_mps (reasoned estimates, not benchmarked)"
+  ]
+}

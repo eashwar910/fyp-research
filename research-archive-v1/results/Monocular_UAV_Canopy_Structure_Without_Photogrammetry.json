@@ -1,0 +1,192 @@
+{
+  "idea_name": "Monocular UAV Canopy Structure Without Photogrammetry",
+  "bucket": "3 - drone / UAV close-range",
+  "one_sentence_pitch": "For orchard/vineyard cooperative agronomists who need a same-visit go/no-go read on tree canopy health, this project replaces hours-long structure-from-motion photogrammetry with a single-pass monocular depth model trained against LiDAR/photogrammetric canopy-height ground truth, measured explicitly as accuracy versus a photogrammetric reference as image overlap is reduced toward zero.",
+  "problem_statement": "Canopy volume and tree height are standard indicators of orchard/vineyard/plantation health, but the standard UAV pipeline (Torres-Sanchez et al. 2015; Frey et al. 2018) requires structure-from-motion photogrammetry with very high image overlap (Frey et al. report best results only above ~95% overlap and >5cm GSD; Dandois et al. 2015 report accurate canopy height, R2=0.86 vs field measurements, R2=0.99 vs LiDAR, RMSE 3.0-3.6m, only above ~80% side overlap) and consequently long flight times plus offline desktop processing. This is impractical for a co-op scout wanting a same-day, on-site read on a subset of trees during a routine pass. No public method was found that is purpose-built to produce reliable per-tree canopy metrics from genuinely non-overlapping (single-pass) UAV RGB imagery, evaluated directly against a photogrammetric/LiDAR reference at realistic, decreasing overlap levels for the specific orchard/plantation use case.",
+  "proposed_technical_approach": "Fine-tune a monocular depth/height estimation backbone (e.g. Depth Anything V2 small, following the 'Depth Any Canopy' recipe, or a lightweight DPT-style head) on paired UAV-RGB-to-canopy-height-model data, where the canopy height ground truth comes from LiDAR point clouds (height above a co-registered digital terrain model) or from high-overlap photogrammetric DSMs on the same public datasets. Two training regimes are compared: (a) transfer/fine-tune from an existing monocular depth foundation model (Depth Anything V2) as in Depth Any Canopy, versus (b) train from scratch on the per-tree domain to test whether foundation-model transfer is even necessary at this smaller, more homogeneous scale. Inference is then run on held-out imagery with progressively reduced overlap (100% down to single-pass/near-0% overlap, simulated by subsampling frames from the same high-overlap flight, following the same protocol used in 'A Novel Solution for Drone Photogrammetry with Low-overlap Aerial Images' (Zhong et al. 2025)), producing per-tree canopy height/volume estimates aggregated over individually detected tree crowns (crown detection via a simple watershed/local-maxima or lightweight instance-segmentation head). Loss: scale-invariant depth loss (as in monocular depth literature) plus an auxiliary per-tree-crown height regression loss. Output: a canopy height raster plus per-tree height/volume summary table, generated from a single flight pass with on-device (MacBook MPS) inference.",
+  "primary_sensor": {
+    "sensor": "UAV-mounted RGB camera (e.g. DJI Phantom/Mavic-class consumer drone RGB) as primary input; LiDAR (e.g. DJI Zenmuse L1) used only for generating training-time ground truth canopy height models, not required at inference time",
+    "spatial_resolution_m": "~0.01-0.05 m GSD typical of close-range orchard/vineyard UAV RGB flights (VineLiDAR, Torres-Sanchez-style surveys); NEON AOP RGB at 0.1 m and CHM at 1 m for the larger-scale validation/pretraining source",
+    "revisit_days": "N/A - one-off/on-demand UAV passes, not a repeat satellite constellation; the entire pitch is that a single pass suffices",
+    "bands_used": "RGB only at inference time (the deployment constraint); LiDAR intensity/return used only to build training-time canopy height ground truth",
+    "licence": "VineLiDAR: CC-BY (Zenodo); NEON AOP data: public domain / NEON open-data terms (US NSF-funded, free); Open-Canopy: open (GitHub, arXiv paper, CC-BY-like per project framing) [uncertain -- exact NEON and Open-Canopy licence text not independently re-verified beyond project pages]"
+  },
+  "imagery_is_primary_input": "Yes - at inference/deployment time the model consumes only single-pass UAV RGB imagery; LiDAR/photogrammetric data is used exclusively as offline training supervision, never as a runtime input, which is the entire point of the deployment constraint.",
+  "datasets": [
+    {
+      "name": "VineLiDAR",
+      "access_route": "Zenodo DOI https://doi.org/10.5281/zenodo.8113105",
+      "auth_required": "No login needed (Zenodo open record)",
+      "licence": "CC-BY 4.0",
+      "approx_size_gb": 2.8,
+      "accessible_from_malaysia": "Yes, Zenodo is globally open HTTPS",
+      "verified_how": "WebFetch of the companion Data in Brief / PMC article (PMC10616138), confirming DJI M300 + Zenmuse L1 LiDAR with embedded RGB, two Galician (Spain) vineyards, ten point-cloud files 76-557MB each"
+    },
+    {
+      "name": "NEON Airborne Observation Platform (AOP) - Canopy Height Model + RGB Camera Imagery",
+      "access_route": "https://data.neonscience.org (data portal) and Google Earth Engine dataset catalog (tag: neon)",
+      "auth_required": "Free account for the NEON data portal bulk download; Earth Engine access requires a free EE account",
+      "licence": "US-government/NSF-funded open data (public-domain-like terms per NEON policy) [uncertain -- exact licence text not independently re-verified]",
+      "approx_size_gb": "Selectable/subsettable by site and tile; a handful of 1km^2 tiles for pretraining/validation is a few GB, full sites are far larger (not needed for MVE)",
+      "accessible_from_malaysia": "Yes, standard HTTPS/Earth Engine API access, not geo-restricted",
+      "verified_how": "WebSearch confirming NEON CHM (LiDAR-derived) and 0.1m RGB camera imagery are both freely downloadable via data.neonscience.org and Earth Engine",
+      "note": "US temperate forest, not an orchard and not SEA/EU -- used only as a large, free, well-documented methodological pretraining/validation source, not as the region-relevant deployment dataset"
+    },
+    {
+      "name": "Open-Canopy",
+      "access_route": "https://github.com/fajwel/Open-Canopy (arXiv:2407.09392)",
+      "auth_required": "No login observed, public GitHub + data links",
+      "licence": "Open per project framing [uncertain -- exact licence text not independently re-verified]",
+      "approx_size_gb": "Country-scale (87,000 km^2 across France) -- full dataset is very large; only a small tile subset would be used for the MVE, estimated a few GB for a handful of tiles",
+      "accessible_from_malaysia": "Presumed yes (GitHub-hosted, standard academic release)",
+      "verified_how": "arXiv abstract (2407.09392) confirms 1.5m resolution satellite imagery + aerial LiDAR canopy height across France, country-scale benchmark",
+      "note": "This is satellite-resolution (1.5m), not UAV close-range resolution -- useful as an EU-relevant large-scale reference/pretraining source but not a substitute for per-tree UAV-scale validation"
+    },
+    {
+      "name": "Open dataset for individual tree detection in UAV LiDAR point clouds and RGB orthophotos in dense mixed forests",
+      "access_route": "Nature Scientific Reports, DOI 10.1038/s41598-024-72669-5 (open-access journal)",
+      "auth_required": "No login needed (Scientific Reports is open access)",
+      "licence": "CC-BY (standard for Nature Scientific Reports) [uncertain -- exact licence text on the data files themselves not independently re-verified]",
+      "approx_size_gb": "Small; plots are 50x100m each, exact GB not confirmed [uncertain]",
+      "accessible_from_malaysia": "Yes, open-access journal, standard HTTPS",
+      "verified_how": "WebFetch of the PubMed/PMC record confirming UAV LiDAR + RGB orthophoto pairing, mixed coniferous/deciduous forest (location appears to be Russia based on author affiliations)",
+      "note": "Dense mixed forest, not an orchard/plantation and not SEA/EU -- supplementary methodological validation only"
+    }
+  ],
+  "total_dataset_gb": "~15-25 GB for a minimum viable experiment (VineLiDAR 2.8GB + a small subsample of NEON AOP tiles + a small subsample of Open-Canopy tiles + the mixed-forest dataset), well under the H5 200GB cap. The country-scale/continental-scale datasets (NEON, Open-Canopy) must be deliberately subsampled rather than downloaded in full.",
+  "labels_and_ground_truth": "Ground truth canopy height comes from LiDAR point clouds (height above a co-registered digital terrain model, standard CHM derivation) in VineLiDAR and the mixed-forest dataset, and from aerial-LiDAR-derived CHMs in Open-Canopy and NEON. This is real, physically-measured 3D ground truth, not a pseudo-label or proxy -- a genuine strength of this idea versus proxy-supervision approaches. The main risk is that none of the four verified datasets is an orchard/plantation in the SEA or EU region the FYP explicitly targets: VineLiDAR is a vineyard (EU, structurally analogous to orchard canopy but not discrete trees), while NEON/Open-Canopy/mixed-forest are natural/temperate forest, not managed plantations. Applying a model trained on these sources to a genuine orchard/plantation demo site introduces a domain-gap risk that must be evaluated directly, not assumed away.",
+  "named_baselines": [
+    {
+      "paper_title": "High-Throughput 3-D Monitoring of Agricultural-Tree Plantations with Unmanned Aerial Vehicle (UAV) Technology",
+      "venue": "PLOS ONE",
+      "year": 2015,
+      "doi_or_arxiv_id": "10.1371/journal.pone.0130479",
+      "reported_metric": "Up to 97% accuracy on tree-crown area quantification via full SfM photogrammetric DSM + object-based image analysis; the classical per-tree canopy-metric photogrammetry baseline this project aims to substitute for at lower overlap",
+      "dataset": "Custom UAV DSM survey of agricultural tree plantations"
+    },
+    {
+      "paper_title": "UAV Photogrammetry of Forests as a Vulnerable Process. A Sensitivity Analysis for a Structure from Motion RGB-Image Pipeline",
+      "venue": "Remote Sensing (MDPI)",
+      "year": 2018,
+      "doi_or_arxiv_id": "10.3390/rs10060912",
+      "reported_metric": "Best photogrammetric reconstruction results require >95% image overlap and >5cm GSD; establishes the 'high overlap requirement' this project directly measures accuracy loss against",
+      "dataset": "Custom forest UAV SfM sensitivity study"
+    },
+    {
+      "paper_title": "Optimal Altitude, Overlap, and Weather Conditions for Computer Vision UAV Estimates of Forest Structure",
+      "venue": "Remote Sensing (MDPI)",
+      "year": 2015,
+      "doi_or_arxiv_id": "10.3390/rs71013895",
+      "reported_metric": "Canopy height RMSE 3.6m (R2=0.86) vs field measurement and RMSE 3.0m (R2=0.99) vs LiDAR, achieved only under >80% side overlap and clear lighting -- the primary named accuracy/overlap curve to beat or match at lower overlap",
+      "dataset": "Custom Temperate Deciduous forest UAV-SfM survey"
+    },
+    {
+      "paper_title": "Depth Any Canopy: Leveraging Depth Foundation Models for Canopy Height Estimation",
+      "venue": "ECCV 2024 Workshops (Springer LNCS)",
+      "year": 2024,
+      "doi_or_arxiv_id": "10.1007/978-3-031-92387-6_5 (arXiv:2408.04523)",
+      "reported_metric": "Fine-tuned Depth Anything V2 surpasses prior state-of-the-art canopy height estimation with a fraction of the compute (<$1.30 total training compute cost); satellite/global scale, not per-tree UAV orchard scale",
+      "dataset": "Global airborne-LiDAR-derived CHM training data"
+    },
+    {
+      "paper_title": "A Novel Solution for Drone Photogrammetry with Low-overlap Aerial Images using Monocular Depth Estimation",
+      "venue": "arXiv preprint (not yet confirmed peer-reviewed venue)",
+      "year": 2025,
+      "doi_or_arxiv_id": "arXiv:2503.04513",
+      "reported_metric": "Monocular-depth-derived DSMs from a 20-image low-overlap subset achieve meter-level accuracy with significantly better spatial completeness than traditional photogrammetry, versus a 296-image high-overlap Metashape reference",
+      "dataset": "Custom drone photogrammetry dataset (296 high-overlap images, subsampled to 20 for the low-overlap test)"
+    }
+  ],
+  "evaluation_protocol": "Primary metric: canopy-height RMSE and MAE against the LiDAR/photogrammetric reference, reported as a curve versus decreasing image overlap (100% -> 50% -> 20% -> single-pass/near-0%), directly comparable in form to Dandois et al. 2015's overlap-vs-RMSE result. Secondary metric: per-tree crown height/volume error against individually delineated reference crowns (comparable to Torres-Sanchez et al. 2015's crown-volume accuracy). Success criterion: a specific number stating the overlap level below which monocular estimation clearly outperforms degraded/failed photogrammetric reconstruction (photogrammetry is known to fail or become incomplete below certain overlap thresholds per Frey et al. 2018), quantified as e.g. 'at X% overlap, monocular RMSE is Y m versus photogrammetric RMSE of Z m or reconstruction failure'. Geographic generalisation is tested by training on one region's paired data (e.g. NEON US forest or VineLiDAR Spain) and evaluating zero-shot on another (e.g. the mixed-forest dataset), reporting the cross-domain RMSE increase.",
+  "novelty_delta": "This is NOT 'applied canopy-height photogrammetry to a new region' -- the technical core is trading a multi-view geometric constraint for a learned monocular prior under an explicitly named deployment constraint (single pass, no overlap, on-device inference), which is a genuine new-deployment-constraint delta per H1. However, this delta is significantly narrowed by directly overlapping 2024-2026 prior art (see below): 'A Novel Solution for Drone Photogrammetry with Low-overlap Aerial Images' (Zhong et al. 2025, arXiv:2503.04513) already measures monocular-depth accuracy versus a photogrammetric reference at reduced overlap (296 vs 20 images) for general terrain DSMs, and 'Depth Any Canopy' (2024) already fine-tunes a monocular depth foundation model for canopy height, albeit at satellite/global scale. The remaining defensible delta, if this candidate is pursued, must be narrowed to: (a) per-tree, orchard/plantation-specific instance metrics (crown volume, individual tree height) rather than a generic terrain DSM or global forest raster -- neither prior-art paper targets this; (b) genuinely zero-overlap single-pass imagery (Zhong et al. still use tie points from aerial triangulation, i.e. some overlap-derived geometric calibration, which is a materially different and easier setting than true zero-overlap); (c) direct, apples-to-apples comparison against the classical orchard photogrammetry baseline (Torres-Sanchez et al. 2015) rather than a generic forest/terrain baseline. Without this narrowing, the project risks being read as 're-implementing Zhong et al. 2025 on trees', which would not clear H1.",
+  "prior_art_that_threatens_it": "Two 2024-2025 papers substantially pre-empt the core mechanism: 'A Novel Solution for Drone Photogrammetry with Low-overlap Aerial Images using Monocular Depth Estimation' (Zhong, Zhou, Li, Gruen & Liao, 2025, arXiv:2503.04513) already does monocular-depth-substitutes-for-low-overlap-photogrammetry, evaluated exactly at decreasing overlap versus a high-overlap photogrammetric reference -- this is the single biggest threat and must be read in full and explicitly differentiated from before committing to this project. 'Depth Any Canopy' (Rege Cambrin, Corley & Garza, 2024, arXiv:2408.04523 / ECCV workshop) already fine-tunes a monocular depth foundation model (Depth Anything V2) for canopy height, at satellite/global scale rather than per-tree UAV scale -- the underlying transfer-learning trick this project would also use is not new. 'AerialMetric' (arXiv:2606.29716, 2026) is a very recent UAV-specific monocular metric depth benchmark that could become a direct competitor if it is extended to canopy/vegetation targets. Given these three, the honest read is: the general technique (monocular depth as a photogrammetry substitute for UAV imagery, including at low overlap) is already an active, populated research area as of 2025-2026, and this project's viability rests entirely on whether the narrower per-tree-orchard-metric, true-zero-overlap framing survives contact with a careful read of Zhong et al. 2025's method section.",
+  "h2_generic_check": "Core is a monocular depth/height estimation model with an explicit deployment-constraint framing, not a chatbot, dashboard, leaf classifier, NDVI viewer, tabular yield model, or a straightforward rerun of an existing crop-classification benchmark -- passes the 8 banned-pattern literal check. However, given the strong 2025-2026 prior art overlap identified above, the honest answer to 'could this one-sentence summary describe 50 other FYPs' is a qualified Yes unless the per-tree orchard-specific framing and the true-zero-overlap (versus Zhong et al.'s tie-point-assisted low-overlap) distinction are foregrounded explicitly and defended against the Zhong et al. paper by name in the proposal.",
+  "user_segment": "Primary: vineyard/orchard cooperative agronomists in Galicia, Spain (the VineLiDAR study region), needing a quick per-vine/per-tree canopy vigour read during a routine visit without waiting for full photogrammetric processing -- an EU user segment with a verified paired dataset. Secondary/aspirational: Malaysian oil palm or durian smallholder cooperative scouts, named per N1(c)/N2 framing, but NOT currently backed by any verified public paired UAV-RGB + canopy-height-ground-truth dataset found in this search -- this is a real, unresolved gap that should be stated plainly rather than assumed solvable.",
+  "quantified_pain": "Manual/terrestrial canopy measurement is documented as labour-intensive, time-consuming and error-prone, requiring long acquisition times when using ground-based LiDAR/ultrasonic sensors (multi-sensor canopy volume literature, ScienceDirect, 2026). Standard UAV photogrammetry for canopy structure requires >80-95% image overlap to achieve acceptable accuracy (Frey et al. 2018, DOI 10.3390/rs10060912; Dandois et al. 2015, DOI 10.3390/rs71013895, RMSE 3.0-3.6m only above ~80% overlap) -- directly translating to several-times-longer flight time and correspondingly longer processing versus a single low-overlap pass. A specific labour-cost figure for orchard/vineyard canopy monitoring specifically (as opposed to general vineyard labour cost, which runs roughly USD 1,000-4,000/acre/year per US extension cost studies) could not be pinned down in this session [uncertain].",
+  "compute_feasibility": {
+    "peak_memory_gb": "Estimated 4-10 GB for a Depth Anything V2 small/base fine-tune at typical UAV tile resolution (512-1024px) with batch size 4-8 on MPS",
+    "est_training_hours_mps": "Estimated 2-6 hours per fine-tuning run on M4 Pro MPS given the small-to-moderate dataset sizes (VineLiDAR-derived tiles plus subsampled NEON/Open-Canopy tiles); the multi-region cross-domain generalisation tests add several more runs but each individually fits well under 12 hours",
+    "fits_24gb": true,
+    "mps_compatible_ops": "Depth Anything V2 (DINOv2-based ViT backbone + DPT decoder) has demonstrated MPS-compatible inference/fine-tuning in community reports; standard conv/attention ops, no exotic CUDA-only kernels required",
+    "colab_kaggle_fallback_needed": "Recommended for the larger Open-Canopy/NEON pretraining passes if local MPS proves slow on bigger tile counts, but not strictly required for the core VineLiDAR-scale experiment",
+    "notes": "Depth Any Canopy's own paper reports its fine-tuning costs under $1.30 in compute, which is a strong existing-proof-point that this class of model is cheap to fine-tune -- directly supports the H5 feasibility case even though it also is part of the prior-art threat"
+  },
+  "cash_cost_rm": "Approximately RM 0 for compute (student's own MacBook Pro M4 Pro) and RM 0 for data (VineLiDAR, NEON, Open-Canopy, and the mixed-forest dataset are all free downloads, no paywall or commercial-imagery dependency observed). Total estimated cash cost: RM 0-50 contingency for cloud storage/burst compute, well within the RM 200 budget.",
+  "demo_artifact": "Live laptop demo: take a held-out high-overlap flight from VineLiDAR (or a similar public source), subsample it down to a single non-overlapping pass on stage, run the monocular model to produce a canopy-height map and per-tree/per-vine height estimates in seconds, and show this side-by-side against the (pre-computed, since full SfM cannot run live in 2 minutes) photogrammetric reference -- a clear 'minutes versus hours, and here is the accuracy trade-off' demo that a CS panel can follow without agronomy background.",
+  "build_vs_research_ratio": "Approximately 60:40 engineering:research. Engineering: the fine-tuning pipeline, the overlap-subsampling evaluation harness, per-tree crown detection/aggregation, and the demo interface. Research: is weighted higher here than in typical FYP ideas because a meaningful fraction of the work is disambiguating this project's contribution from the very similar 2025 Zhong et al. paper and the 2024 Depth Any Canopy paper, which requires careful reading and honest positioning rather than just building a system.",
+  "publication_venue_fit": "ECCV CVPPA workshop or IGARSS are the most natural fits given the direct engagement with Depth Any Canopy (an ECCV CVPPA workshop paper) and the remote-sensing-methodology framing; Remote Sensing MDPI is a plausible alternate given Frey et al. 2018 and Dandois et al. 2015 (the two overlap-requirement baselines) were both published there.",
+  "key_risks": [
+    "1. (Novelty risk, highest) 'A Novel Solution for Drone Photogrammetry with Low-overlap Aerial Images using Monocular Depth Estimation' (arXiv:2503.04513, 2025) is close enough to the proposed core mechanism that this project's H1 pass depends entirely on successfully narrowing and defending a per-tree-orchard-metric, true-zero-overlap distinction from it -- this must be resolved before committing significant engineering time.",
+    "2. (Data-region risk) No verified public dataset pairs UAV RGB with canopy-height ground truth for a genuine SEA or even a non-vineyard EU orchard/plantation -- VineLiDAR is a vineyard (EU) and the rest are natural/temperate forest, not managed orchards/plantations, so the 'orchard and plantation tree health' framing in the pitch is not yet backed by a matching public dataset.",
+    "3. (Domain-gap risk) A model trained on vineyard/forest LiDAR-CHM data may not transfer well to a genuinely different orchard/plantation canopy structure (e.g. discrete, well-spaced fruit trees or oil palms) without a validated in-domain dataset, risking an unquantified generalisation gap at the actual demo site.",
+    "4. (Method risk) True zero-overlap monocular depth is scale-ambiguous (monocular depth is inherently relative/affine-invariant unless metric-calibrated); producing metrically accurate per-tree heights from a single pass without any geometric calibration reference is harder than the 'low-overlap-but-still-tie-point-calibrated' setting Zhong et al. use, and may require a known-height reference object or altitude/camera-intrinsics-based scale recovery.",
+    "5. (Evaluation risk) Comparing across regions (VineLiDAR vs NEON vs Open-Canopy vs mixed-forest) conflates vegetation-type domain shift with the overlap-vs-accuracy question this project wants to isolate, similar to the confound noted in the companion weed-segmentation candidate; careful within-dataset overlap-subsampling ablations (as Zhong et al. and Dandois et al. both did) are needed to isolate the overlap variable cleanly."
+  ],
+  "kill_criteria": [
+    "Week 1: Fully read arXiv:2503.04513 (Zhong et al. 2025) method and results sections in detail -- if its low-overlap-with-tie-points setting already achieves the accuracy this project targets for per-tree metrics with only minor adaptation, the novelty case collapses and the idea should be re-scoped or abandoned.",
+    "Week 1-2: Attempt to locate or negotiate access to any orchard/plantation-specific UAV RGB + canopy-height-ground-truth dataset (contact VineLiDAR authors, search national agricultural research institutes in Malaysia/Spain/Portugal for fruit-orchard LiDAR releases) -- if none can be found or produced within budget, the user-segment claim must be narrowed to 'vineyard' rather than 'orchard and plantation' generally, or the region claim weakened.",
+    "Week 2: Implement true zero-overlap (single frame, no neighbouring frame at all) inference and check whether metric scale recovery is even possible without a calibration reference -- if height estimates are only relative/uncalibrated, the core deliverable (per-tree height/volume in real units) is not achievable as scoped and needs a fallback (e.g. requiring one known-height reference object per flight).",
+    "Week 3: Run the overlap-subsampling ablation on VineLiDAR-derived data end-to-end once -- if the RMSE-vs-overlap curve does not show monocular estimation becoming competitive at low overlap (i.e. photogrammetry with reduced overlap is not measurably degrading in this specific dataset/setup), the central research question may not have an interesting answer here and should be reconsidered."
+  ],
+  "hard_constraint_verdict": {
+    "H1": "PASS WITH SIGNIFICANT CAUTION - the general mechanism (monocular depth substituting for low-overlap photogrammetry) is already demonstrated in 2025 prior art (arXiv:2503.04513); a real but narrower delta exists only if the project commits explicitly to per-tree orchard/plantation metrics and true (not tie-point-assisted) zero-overlap single-pass inference, and defends this distinction against the named prior art.",
+    "H2": "PASS WITH CAUTION - not a banned pattern, but risks reading as 'redo an existing 2025 paper on trees' unless the narrower framing above is foregrounded in the pitch.",
+    "H3": "PASS - UAV RGB imagery is the sole runtime input; LiDAR is training-time-only supervision.",
+    "H4": "PASS for EU (Galician vineyard cooperative, backed by the VineLiDAR dataset); the SEA/oil-palm framing is aspirational only and not currently backed by any verified public dataset -- state this honestly rather than assume it resolves.",
+    "H5": "PASS - all four datasets are free, modest in size when subsampled, and a Depth Anything V2-scale fine-tune fits comfortably in 24GB/MPS within well under 12-hour runs; Depth Any Canopy's own reported <$1.30 fine-tuning cost is direct evidence of feasibility at this scale.",
+    "H6": "PASS WITH CAUTION - the 'minutes not hours' demo is intuitive and demoable, but a sharp panel questioner familiar with 2025 monocular-depth-for-photogrammetry work could reasonably ask 'how is this different from doing the same thing with lower overlap', and the answer needs to be rehearsed and specific."
+  },
+  "overall_recommendation": "VIABLE, not STRONG, and only if narrowed. The deployment-constraint framing (single pass, no overlap, on-device, per-tree orchard metrics) is a legitimate H1 angle in principle, but it is meaningfully pre-empted by 2025 prior art (arXiv:2503.04513) that already tests monocular depth against a photogrammetric reference at reduced overlap, and by 2024 prior art (Depth Any Canopy) that already fine-tunes a monocular depth foundation model for canopy height. The remaining defensible slice -- true zero-overlap (not tie-point-assisted) inference, applied specifically to per-tree orchard/plantation instance metrics rather than generic terrain DSMs or global forest rasters -- is real but narrow, and no verified public dataset currently backs the SEA orchard/plantation framing specifically; the strongest available paired ground-truth dataset (VineLiDAR) is an EU vineyard, not an orchard/plantation in the strict sense. This candidate is recommended only if the student is willing to read the 2503.04513 paper closely first and commit to the narrower framing before starting engineering work; as currently scoped in the brief description, it risks a panel reading it as incremental.",
+  "confidence": "Medium. Confidence would rise with: (a) a full read of arXiv:2503.04513's method section (only the abstract was available in this session) to confirm exactly how much overlap/tie-point support it still requires and whether it already covers the per-tree/orchard case; (b) a successful search for an orchard-specific (not vineyard, not natural forest) public paired UAV-RGB + canopy-height dataset, which was not found in this session; (c) a concrete test of whether true zero-overlap monocular depth can recover metric (not just relative) scale without additional calibration input.",
+  "key_references": [
+    {
+      "title": "A Novel Solution for Drone Photogrammetry with Low-overlap Aerial Images using Monocular Depth Estimation",
+      "year": 2025,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2503.04513",
+      "why_it_matters": "The single biggest prior-art threat -- already measures monocular-depth-derived DSM accuracy against a photogrammetric reference at reduced overlap (296 vs 20 images); this project's novelty depends on differentiating from it explicitly."
+    },
+    {
+      "title": "Depth Any Canopy: Leveraging Depth Foundation Models for Canopy Height Estimation",
+      "year": 2024,
+      "venue": "ECCV 2024 Workshops (Springer LNCS)",
+      "doi_or_arxiv_id": "10.1007/978-3-031-92387-6_5",
+      "why_it_matters": "Already fine-tunes a monocular depth foundation model (Depth Anything V2) for canopy height at very low compute cost (<$1.30); demonstrates both the method's feasibility (supports H5) and that the core transfer-learning trick is not new (threatens H1) at the global/satellite scale."
+    },
+    {
+      "title": "High-Throughput 3-D Monitoring of Agricultural-Tree Plantations with Unmanned Aerial Vehicle (UAV) Technology",
+      "year": 2015,
+      "venue": "PLOS ONE",
+      "doi_or_arxiv_id": "10.1371/journal.pone.0130479",
+      "why_it_matters": "The classical per-tree canopy-metric (crown volume, tree height) photogrammetry baseline this project must be compared against directly for the orchard/plantation use case, rather than a generic forest/terrain DSM baseline."
+    },
+    {
+      "title": "Optimal Altitude, Overlap, and Weather Conditions for Computer Vision UAV Estimates of Forest Structure",
+      "year": 2015,
+      "venue": "Remote Sensing (MDPI)",
+      "doi_or_arxiv_id": "10.3390/rs71013895",
+      "why_it_matters": "Provides the specific overlap-vs-accuracy numbers (RMSE 3.0-3.6m above ~80% overlap) that this project's central evaluation protocol (accuracy versus decreasing overlap) is directly measured against."
+    },
+    {
+      "title": "UAV Photogrammetry of Forests as a Vulnerable Process. A Sensitivity Analysis for a Structure from Motion RGB-Image Pipeline",
+      "year": 2018,
+      "venue": "Remote Sensing (MDPI)",
+      "doi_or_arxiv_id": "10.3390/rs10060912",
+      "why_it_matters": "Establishes the >95% overlap / >5cm GSD requirement for reliable photogrammetric reconstruction that motivates the 'impractical for a quick pass' problem statement."
+    },
+    {
+      "title": "A dataset of aligned RGB and multispectral UAV imagery for VineLiDAR: High-resolution UAV-LiDAR vineyard dataset acquired over two years in northern Spain",
+      "year": 2023,
+      "venue": "Data in Brief",
+      "doi_or_arxiv_id": "10.5281/zenodo.8113105 (dataset); companion paper indexed via PMC10616138",
+      "why_it_matters": "The strongest verified, freely accessible (CC-BY, no login) EU paired UAV-RGB + LiDAR-derived canopy-structure dataset found, and the only one that matches the H4 EU-user framing directly -- central to satisfying H5's no-own-drone constraint."
+    }
+  ],
+  "uncertain": [
+    "Whether arXiv:2503.04513's low-overlap method, on closer reading of its full method section (only the abstract was retrieved in this session, arXiv rate-limiting prevented a deeper read), already covers per-tree/orchard-scale metrics closely enough to eliminate this project's remaining novelty margin.",
+    "Whether any public dataset exists pairing UAV RGB with canopy-height ground truth for a genuine orchard or plantation (as opposed to vineyard or natural/temperate forest) in the SEA or EU region -- none was found in this session despite targeted search for oil-palm and orchard-specific LiDAR releases.",
+    "Exact licence terms for NEON AOP data and Open-Canopy beyond their general 'open' project framing -- not independently re-verified against the primary licence text.",
+    "Whether true zero-overlap monocular depth can recover metric (not merely relative/affine) scale without an additional calibration reference -- this is a live method-risk question, not yet resolved by any paper found.",
+    "A precise labour-cost or time-cost figure specifically for orchard/vineyard canopy monitoring (as opposed to general vineyard labour cost or generic photogrammetry-overlap requirements) could not be pinned down for the quantified_pain field."
+  ]
+}

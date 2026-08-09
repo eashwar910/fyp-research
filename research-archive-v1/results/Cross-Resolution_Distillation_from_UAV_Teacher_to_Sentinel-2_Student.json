@@ -1,0 +1,199 @@
+{
+  "idea_name": "Cross-Resolution Distillation from UAV Teacher to Sentinel-2 Student",
+  "bucket": "4 - satellite-drone fusion / distillation",
+  "one_sentence_pitch": "For Southeast Asian smallholder co-ops whose plots are too small for 10m Sentinel-2 to resolve, we train a segmentation model that only ever sees Sentinel-2 at inference time but is taught, plot-by-plot during training, by a UAV-imagery teacher that saw the true sub-pixel field boundaries.",
+  "problem_statement": "Smallholder and rooftop/urban farm plots in Singapore and much of SEA are smaller than a Sentinel-2 pixel (10m), so satellite-only parcel delineation and crop-type models systematically fail on exactly the plots that matter most to the target users. Drone (UAV) surveys resolve these plots at cm-scale but only cover the few hectares someone actually flew; a model trained on UAV imagery cannot be deployed at satellite scale, and a model trained on satellite imagery never learns what those fine structures look like because it never sees them during training. Current practice picks one sensor and accepts its coverage/resolution trade-off; there is no widely deployed method that lets a satellite-only model inherit sub-pixel structural knowledge from co-located drone flights.",
+  "proposed_technical_approach": "Collect spatially co-located UAV RGB(+NIR) orthomosaic and Sentinel-2 L2A patches over the same plots and dates. Train a teacher encoder-decoder (e.g. a U-Net/ViT segmentation or feature-extraction backbone) on the UAV imagery for parcel-boundary / crop-type labels. Freeze the teacher and train a student with an identical output head that receives ONLY the Sentinel-2 patch (upsampled to a common grid) as input. The distillation loss combines (a) a task loss against the (sparse, UAV-plot-limited) ground truth, and (b) a spatial/feature-alignment distillation loss (not logit-only KD) that forces the student's intermediate feature maps, pooled/aligned to the coarser Sentinel-2 grid, to match the teacher's feature maps at the corresponding UAV locations (e.g. via a projection head + cosine/L2 feature loss, akin to FitNets/attention-transfer style spatial distillation rather than softmax-logit matching). At inference the student runs on Sentinel-2 alone, everywhere, including plots with no UAV coverage. Baselines to beat: (i) plain 'super-resolve Sentinel-2 then classify' pipeline, and (ii) a logit-only cross-resolution KD variant styled after HyperKD (Li et al. 2025, IEEE TGRS, cross-spectral-spatial KD for hyperspectral lifelong learning) adapted to this setting as an ablation.",
+  "primary_sensor": {
+    "sensor": "Sentinel-2 (student, inference-time, primary deployed sensor) + UAV RGB/multispectral orthomosaic (teacher, training-time only)",
+    "spatial_resolution_m": "Sentinel-2: 10m (visible/NIR bands); UAV: 0.02-0.1m orthomosaic (~100-500x finer)",
+    "revisit_days": "Sentinel-2: 5 days (2-satellite constellation); UAV: one-off/campaign flights, not repeat-revisit",
+    "bands_used": "Sentinel-2 B2/B3/B4/B8 (10m RGB+NIR) at minimum, optionally B5/B6/B7/B8A/B11/B12 resampled; UAV RGB or RGB+NIR depending on source dataset",
+    "licence": "Sentinel-2: free/open under Copernicus licence via Copernicus Data Space Ecosystem; UAV: depends on source dataset, targeting CC-BY licensed imagery (AI4Boundaries CC-BY 4.0, OpenAerialMap CC-BY 4.0)"
+  },
+  "imagery_is_primary_input": "Yes - the deployed student model's only input is Sentinel-2 satellite imagery; UAV imagery is used exclusively as a training-time teacher signal and never touches the deployed inference path, so H3 (satellite/drone imagery as primary input) is satisfied at both train and inference stages.",
+  "datasets": [
+    {
+      "name": "AI4Boundaries",
+      "access_route": "JRC Open Data Catalogue (http://data.europa.eu/89h/0e79ce5d-e4c8-4721-8773-59a4acf2c9c9) with a Python downloader at https://github.com/waldnerf/ai4boundaries",
+      "auth_required": "No",
+      "licence": "CC-BY 4.0",
+      "approx_size_gb": "Estimated 30-60GB for a usable subset (full source covers 2.5M parcels/47,105 km2 across 7 EU countries; a single-country or few-tile MVE subset is far smaller)",
+      "accessible_from_malaysia": "Yes (public HTTPS download, verified via WebFetch of the ESSD paper and JRC catalogue page, no geographic restriction stated)",
+      "verified_how": "WebFetch of essd.copernicus.org/articles/15/317/2023/ confirming 10m Sentinel-2 monthly composites paired with 1m aerial orthophoto over Austria, Catalonia, France, Luxembourg, Netherlands, Slovenia, Sweden under CC-BY 4.0, plus a public GitHub downloader"
+    },
+    {
+      "name": "OpenAerialMap (OAM)",
+      "access_route": "Public API/catalogue at openaerialmap.org and github.com/hotosm/OpenAerialMap; imagery served via the Open Imagery Network (OIN)",
+      "auth_required": "No (public API; some uploads require attribution)",
+      "licence": "CC-BY 4.0 across the catalogue",
+      "approx_size_gb": "[uncertain] depends entirely on which SEA farm tiles are found and downloaded; individual UAV orthomosaics are typically 0.5-5GB each",
+      "accessible_from_malaysia": "Yes (public web API, verified via WebSearch summary of OAM documentation)",
+      "verified_how": "WebSearch of OAM documentation confirming 10-30cm resolution UAV imagery, CC-BY 4.0, public API with geographic/date search; SEA-specific agricultural-plot coverage was NOT individually confirmed tile-by-tile - this is the single largest access risk for this idea (see kill_criteria)"
+    },
+    {
+      "name": "Sentinel-2 L2A (Copernicus Data Space Ecosystem)",
+      "access_route": "dataspace.copernicus.eu, STAC API or openEO, free registration",
+      "auth_required": "Yes, free account registration only (no payment)",
+      "licence": "Copernicus free and open data licence",
+      "approx_size_gb": "A few GB for small-parcel regional subsets matched to UAV/AI4Boundaries tiles",
+      "accessible_from_malaysia": "Yes, verified as a standard N3 seed source; Copernicus Data Space Ecosystem has no country restriction",
+      "verified_how": "Per TOOL_ROUTING.md N3 guidance and established public knowledge of the Copernicus Data Space Ecosystem; not independently re-fetched this session but not disputed by any source found"
+    },
+    {
+      "name": "AI4SmallFarms",
+      "access_route": "TU Delft / University of Twente research data repositories (research.tudelft.nl, research.utwente.nl); published IEEE GRSL 2023",
+      "auth_required": "[uncertain] - likely open but exact download portal not directly fetched this session",
+      "licence": "[uncertain]",
+      "approx_size_gb": "[uncertain]",
+      "accessible_from_malaysia": "[uncertain]",
+      "verified_how": "WebSearch only; found 439,001 field polygons across 62 tiles in Vietnam and Cambodia digitized from Sentinel-2 + Google Maps VHR basemap imagery (NOT UAV imagery) - useful as an SEA-specific evaluation/label source for parcel boundaries but does NOT itself provide co-located UAV imagery, so it cannot alone satisfy the 'make-or-break' UAV/Sentinel-2 pairing requirement"
+    }
+  ],
+  "total_dataset_gb": "Estimated 40-80GB for a minimum viable experiment combining an AI4Boundaries subset (EU co-located pairs, primary training/validation bed) with a smaller curated OpenAerialMap SEA sample and matched Sentinel-2 tiles for the deployment-region demo; well under the ~200GB H5 ceiling",
+  "labels_and_ground_truth": "Parcel boundary / crop-type labels come from the UAV-resolution imagery (manually digitized or from existing AI4Boundaries/AI4SmallFarms polygon annotations), which are directly usable as supervision for the teacher and as sparse supervision (only where UAV coverage exists) for the student's task loss. Everywhere the student must generalize beyond UAV-covered plots, the distillation loss (not ground-truth labels) is the only supervisory signal, which carries real risk: the feature-alignment loss assumes the teacher's UAV-derived features are a valid proxy for what the Sentinel-2 pixel 'should' represent, which can silently fail over crop types, soil backgrounds, or field geometries never seen in the (geographically limited) UAV-covered training plots.",
+  "named_baselines": [
+    {
+      "paper_title": "Resolution-Aware Knowledge Distillation for Efficient Inference (introduces Cross-Resolution Knowledge Distillation, CRKD)",
+      "venue": "IEEE Transactions on Image Processing (TIP)",
+      "year": 2021,
+      "doi_or_arxiv_id": "10.1109/TIP.2021.3101158",
+      "reported_metric": "Accuracy/mAP gains on person re-identification, image classification, face recognition, and defect segmentation using LR student distilled from HR teacher via an adversarial + CRKD loss",
+      "dataset": "Multiple general-CV benchmarks (not remote sensing)"
+    },
+    {
+      "paper_title": "Low-Resolution Object Recognition With Cross-Resolution Relational Contrastive Distillation",
+      "venue": "IEEE Transactions on Circuits and Systems for Video Technology (TCSVT)",
+      "year": 2023,
+      "doi_or_arxiv_id": "10.1109/TCSVT.2023.3310042",
+      "reported_metric": "Improved low-resolution classification/face-recognition accuracy via contrastive relational cross-resolution distillation",
+      "dataset": "General-CV low-resolution object/face benchmarks (not remote sensing)"
+    },
+    {
+      "paper_title": "HyperKD: Lifelong Hyperspectral Image Classification With Cross-Spectral-Spatial Knowledge Distillation",
+      "venue": "IEEE Transactions on Geoscience and Remote Sensing (TGRS)",
+      "year": 2025,
+      "doi_or_arxiv_id": "10.1109/TGRS.2025.3552449",
+      "reported_metric": "Reduced catastrophic forgetting across sequential hyperspectral classification tasks (Pavia, Indian Pines, Salinas, Houston) via exemplar replay + cross-spectral-spatial KD",
+      "dataset": "Pavia, Indian Pines, Salinas, Houston hyperspectral benchmarks"
+    },
+    {
+      "paper_title": "Segmentation-Aware Latent Diffusion for Satellite Image Super-Resolution: Enabling Smallholder Farm Boundary Delineation (SEED-SR)",
+      "venue": "arXiv preprint (not yet peer-reviewed as of this check)",
+      "year": 2025,
+      "doi_or_arxiv_id": "arXiv:2511.14481",
+      "reported_metric": "Up to 25.5% relative improvement in instance segmentation and 12.9% in semantic segmentation over state-of-the-art Ref-SR baselines, at a 20x scale factor",
+      "dataset": "Two large real-world smallholder-farm satellite datasets (paired HR reference + LR satellite)"
+    },
+    {
+      "paper_title": "Learning to See More: UAS-Guided Super-Resolution of Satellite Imagery for Precision Agriculture",
+      "venue": "arXiv preprint (not yet peer-reviewed as of this check)",
+      "year": 2025,
+      "doi_or_arxiv_id": "arXiv:2505.21746",
+      "reported_metric": "18% improvement in cover-crop biomass estimation and 31% improvement in nitrogen estimation from a UAS+satellite super-resolution fusion framework",
+      "dataset": "Upper and Lower Chesapeake Bay cover-crop fields (USA)"
+    }
+  ],
+  "evaluation_protocol": "Primary metric: parcel-boundary IoU / F1 (boundary-aware, e.g. BF1) and crop-type classification accuracy on Sentinel-2-only inputs at held-out plots, split by (a) plots with UAV coverage in training (in-distribution) and (b) plots with zero UAV coverage anywhere nearby (the true test of generalization, and the metric that actually matters for H1). Success is defined as the distilled Sentinel-2-only student closing a defined fraction (e.g. >=50%) of the gap between a plain Sentinel-2 baseline and the UAV teacher's own accuracy, on held-out zero-UAV-coverage plots, while beating both the super-resolve-then-classify baseline and the logit-only (HyperKD-style) distillation ablation on the same split. Geographic generalization is tested by holding out an entire region (e.g. one AI4Boundaries country, or the SEA demo region) from training.",
+  "novelty_delta": "The defensible delta is deployment-time sensor asymmetry combined with spatial (not logit) feature alignment: unlike SEED-SR (which still requires performing SR in a segmentation-aware latent space and effectively needs the HR-reference-trained pipeline conceptually tied to the SR step) and unlike 'Learning to See More' (which fuses UAV and satellite inputs at inference and needs both sensors present at deployment time), this proposal's student model has ONLY Sentinel-2 as its inference-time input, everywhere, with the UAV signal fully absorbed into model weights via representation-level distillation rather than being fused as a second input stream. This is a genuine 'new deployment constraint' framing under H1 (no UAV data available or needed at inference) rather than 'applied X to Y country': the technical problem being solved is sub-pixel representation transfer under a hard train/deploy sensor asymmetry, which is a materially different problem from image-level SR-then-classify or dual-sensor fusion-at-inference. However, this delta is narrow and sits in a genuinely crowded, very recently active neighbourhood (both closest competitor papers are from 2025), so the burden of proof (ablating against a same-domain logit-only KD baseline and against SEED-SR-style Ref-SR) is high and must be executed carefully to be defensible as more than an incremental variant.",
+  "prior_art_that_threatens_it": "Two 2025 preprints substantially narrow this idea's white space: (1) 'Segmentation-Aware Latent Diffusion for Satellite Image Super-Resolution: Enabling Smallholder Farm Boundary Delineation' (arXiv:2511.14481, Nov 2025) already targets smallholder farm boundary delineation using a HR-reference + Sentinel-2-like LR input pipeline at a 20x scale factor with segmentation-aware latent SR, beating plain Ref-SR-then-segment baselines - this is close to the exact application (smallholder plots, boundary delineation) and beats one of the two named comparison baselines this candidate proposes. (2) 'Learning to See More: UAS-Guided Super-Resolution of Satellite Imagery for Precision Agriculture' (arXiv:2505.21746, May 2025) already fuses UAS (UAV) and satellite imagery via super-resolution for precision-agriculture regression tasks (biomass, nitrogen), demonstrating the UAV-teaches-satellite concept is already being explored, albeit via image-level SR fusion rather than representation distillation. (3) 'DeepSalt' (arXiv:2510.23124, Oct 2025) demonstrates the general recipe of cross-resolution/cross-modal knowledge distillation (lab spectra to satellite spectra) for a different agri-environmental variable (soil salinity), confirming KD-across-a-resolution-gap is an active, generalizing technique class in this space right now. None of these three papers is identical to the exact proposal (Sentinel-2-only student, spatial feature-alignment KD, SEA-plot framing), but together they mean the 'cross-resolution UAV-to-satellite distillation for agriculture' idea is not a blank space - a defensible, narrow delta must be argued explicitly against all three, especially SEED-SR.",
+  "h2_generic_check": "Confirmed NOT a chatbot/RAG assistant, NOT a dashboard/monitoring portal, NOT leaf-photo disease classification, NOT an NDVI time-series viewer, NOT tabular yield-from-weather prediction, NOT a re-run of an existing crop-classification benchmark, and NOT a thin wrapper calling someone else's model API - it is a genuine representation-learning method with a specific train/deploy asymmetry. Could this one-sentence summary describe 50 other FYPs? No - 'cross-resolution knowledge distillation from UAV teacher to satellite-only student for smallholder parcel delineation' is specific enough (named sensor pair, named deployment constraint, named target user) that it would not describe a generic pattern, though the general technique class (cross-resolution KD) is well-trodden in adjacent CV subfields (face recognition, re-ID) as shown above.",
+  "user_segment": "Primary framing: agronomists/co-op staff serving smallholder and rooftop/vertical farms in Singapore under the '30 by 30' policy, where Sentinel-2 cannot resolve plots directly (per N1); realistic data-sourcing route per N1(c) is to train on UAV+Sentinel-2 pairs from Malaysian or Indonesian smallholder farms (or EU AI4Boundaries regions as a data-rich substitute per N2) and deploy/demo the Sentinel-2-only student against Singapore rooftop/urban farm coordinates. This must be stated honestly: the training-data geography (likely EU or wider SEA) and the demo/deployment geography (Singapore) are not the same, and the pitch must not silently imply Singapore-sourced training data when none was verified to exist.",
+  "quantified_pain": "Singapore has approximately 250 farms and ~1% of land in agriculture under the '30 by 30' food security policy (as stated in RESEARCH_BRIEF.md N1), most of them rooftop/vertical/indoor and well below the ~1-hectare minimum mapping unit that a 10m Sentinel-2 pixel can meaningfully resolve (a single Sentinel-2 pixel covers 0.01 km2 = 1 hectare, comparable to or larger than many of these plots), meaning satellite-only monitoring is structurally blind to the majority of Singapore's own farms - a concrete, sourced resolution-vs-plot-size mismatch rather than a generic 'small farms are hard' claim.",
+  "compute_feasibility": {
+    "peak_memory_gb": "Estimated 8-16GB for a U-Net/ResNet or small ViT teacher+student pair at Sentinel-2 patch resolutions (e.g. 128x128 to 256x256 px), well within 24GB unified memory",
+    "est_training_hours_mps": "Estimated 4-10 hours per full teacher+student+distillation training run on M4 Pro MPS for a dataset in the tens-of-GB range, assuming batch sizes tuned for MPS memory limits",
+    "fits_24gb": "Yes, expected to fit with standard batch-size tuning",
+    "mps_compatible_ops": "Standard conv/transformer segmentation architectures (U-Net, Swin/ViT encoders) are MPS-compatible; feature-alignment distillation losses (L2/cosine on intermediate feature maps) are standard tensor ops, no custom CUDA kernels required",
+    "colab_kaggle_fallback_needed": "Possibly useful for the full multi-region ablation sweep (teacher, student, SR baseline, logit-KD baseline all trained and cross-evaluated), but not strictly required for a single-region MVE",
+    "notes": "Main compute risk is not a single training run but the number of ablations required to make the novelty delta defensible (teacher, satellite-only baseline, SR-then-classify baseline, logit-only KD baseline, and the proposed spatial-KD student, each possibly across 2 geographic splits) - this could add up to a nontrivial number of MPS-hours in aggregate even though no single run is large."
+  },
+  "cash_cost_rm": "Near RM0 for imagery (Sentinel-2 and the identified UAV sources are free/CC-BY); the only plausible cash cost is optional Colab Pro/Kaggle compute credit top-ups if the ablation sweep exceeds free quotas, well within the RM 200 budget. No commercial VHR imagery dependency identified.",
+  "demo_artifact": "Live demo: pull a fresh Sentinel-2 tile over a real Singapore rooftop-farm or Malaysian smallholder coordinate the model never trained on, run the Sentinel-2-only student, and show its parcel-boundary output overlaid on the satellite tile next to (a) a plain Sentinel-2 CNN baseline's blurred/missed boundary and (b) (if available) a same-location UAV/high-res reference image showing the true boundary the panel can visually verify the student's prediction against - all runnable from a local script in well under 2 minutes.",
+  "build_vs_research_ratio": "Approximately 65:35 engineering:research. The engineering load is substantial and real: building the co-located UAV/Sentinel-2 tiling and alignment pipeline, implementing teacher and student architectures, implementing and tuning the spatial feature-distillation loss, and building the two comparison baselines (SR-then-classify, logit-only KD) end-to-end. The research load is the careful ablation and honest evaluation needed to establish the novelty delta against SEED-SR and the UAS-guided-SR paper is real but somewhat smaller than the systems-building effort, so this sits close to but slightly under the 70:30 S2 target.",
+  "publication_venue_fit": "CVPR EarthVision or ECCV CVPPA workshop are realistic targets given the SR/cross-resolution KD angle and the direct thematic overlap with GeoSR-Bench-adjacent work being presented at CV venues; Remote Sensing (MDPI) is a plausible secondary/journal target given several close comparators (AI4Boundaries, WeedMap-style KD papers) were published there or in similar venues.",
+  "key_risks": [
+    "1) DATA-ACCESS RISK (highest): no verified, ready-made, open-licence dataset of co-located cm-scale UAV imagery + Sentinel-2 over SEA smallholder plots was found; the closest real analogues are AI4Boundaries (EU, 1m aerial ortho not UAV) and OpenAerialMap (global crowd-sourced UAV imagery, CC-BY 4.0, but SEA agricultural-plot coverage over specific smallholder farms is unverified tile-by-tile). Building the SEA-specific co-located pair set may require nontrivial manual curation across OAM plus fresh Sentinel-2 downloads, which is feasible but was not directly confirmed to exist ready-to-use.",
+    "2) NOVELTY RISK: SEED-SR (arXiv:2511.14481) already targets smallholder farm boundary delineation from HR-reference + LR satellite pairs and already beats plain Ref-SR baselines; the delta (deployment-time UAV-free student via spatial-not-logit KD) must be argued crisply or a reviewer/panel will read this as an incremental variant of already-published work.",
+    "3) METHOD RISK: representation-level distillation to a sensor that structurally cannot see the fine detail (10m Sentinel-2 vs cm-scale UAV) may hit a hard information-theoretic ceiling - the student may only be able to recover coarse structural correlates (e.g. plot orientation, dominant crop signature) rather than true sub-pixel boundaries, and this ceiling needs to be measured honestly rather than assumed away.",
+    "4) EVALUATION RISK: the meaningful test (zero-UAV-coverage held-out plots) is exactly the hardest and most data-starved split, since almost by definition the training set is UAV-coverage-limited; a small held-out generalization test may not be statistically convincing.",
+    "5) GEOGRAPHY-FRAMING RISK: if the actual usable co-located data ends up being EU (AI4Boundaries) rather than SEA, the Singapore/N1 framing becomes a demo-only hook rather than a genuine data-driven claim, and this must be stated honestly in any write-up rather than implied."
+  ],
+  "kill_criteria": [
+    "Week 1: query the OpenAerialMap API for actual UAV tile coverage over known SEA smallholder-farm coordinates (e.g. Malaysian padi/vegetable smallholdings, Indonesian rice terraces) with usable dates; if zero usable tiles are found within a reasonable search radius, treat the SEA-specific data route as dead and pivot fully to the EU/AI4Boundaries route (or abandon in favour of an EU-framed idea).",
+    "Week 1-2: download a small AI4Boundaries subset and confirm the 1m-orthophoto-to-10m-Sentinel-2 co-registration is accurate enough (sub-pixel alignment) to serve as a genuine teacher/student pair, not just nominally 'co-located'.",
+    "Week 2: train the plain Sentinel-2-only baseline and the teacher on a small subset; if the teacher's UAV-resolution accuracy is not meaningfully higher than the satellite baseline's accuracy on the same held-out plots, there is no signal for distillation to transfer and the idea should be abandoned or re-scoped.",
+    "Week 2: implement the simplest version of the feature-distillation loss and check that it produces ANY measurable improvement over the plain Sentinel-2 baseline on in-distribution (UAV-covered) held-out plots before investing further effort in the harder zero-coverage generalization test."
+  ],
+  "hard_constraint_verdict": {
+    "H1": "PASS (marginal) - a real technical delta exists (train/deploy sensor asymmetry solved via spatial, not logit, distillation to a satellite-only student) but sits close to two 2025 preprints (SEED-SR, UAS-guided SR) that must be explicitly out-argued.",
+    "H2": "PASS - not a banned pattern (not a chatbot, dashboard, leaf-disease classifier, NDVI viewer, tabular yield model, benchmark re-run, or API wrapper).",
+    "H3": "PASS - Sentinel-2 satellite imagery is the sole inference-time input; UAV imagery is a legitimate fusion/teacher signal at train time only, which fits the brief's 'sensor fusion encouraged' guidance.",
+    "H4": "PASS (with caveat) - end user can be named as SEA/EU smallholder co-op agronomists with Singapore as the deployment/demo site (per N1 route (c)), but the exact geography must be honestly matched to wherever the co-located training data actually comes from.",
+    "H5": "PASS - dataset volumes and compute needs both fit comfortably within the RM200/24GB/12-hour MPS constraints for a scoped MVE; no commercial imagery dependency identified.",
+    "H6": "PASS - a live, visually verifiable satellite-only prediction on an unseen plot, benchmarked against a visible UAV/high-res ground truth, is a strong 60-second demo for a CS panel."
+  },
+  "overall_recommendation": "VIABLE. The idea passes all hard constraints but its novelty margin is thinner than the description implies, given two closely adjacent 2025 preprints (SEED-SR and the UAS-guided-SR paper), and its 'make-or-break' co-located SEA UAV/Sentinel-2 dataset check is not fully verified - the most solid data route found (AI4Boundaries) is EU, not SEA, and not literally UAV-resolution. This is buildable and defensible only if the student narrows the delta tightly (satellite-only deployment via spatial KD, explicitly benchmarked against SEED-SR-style Ref-SR and a logit-only KD ablation) and is honest about which geography supplies the training data versus the demo.",
+  "confidence": "Medium. Confidence would rise to High with (a) a direct tile-level check of OpenAerialMap or another source for real SEA smallholder-farm UAV coverage with usable dates, and (b) a closer read of the SEED-SR full method (only the abstract was reviewed here) to confirm exactly how much of this proposal's deployment-time-asymmetry angle it does or does not already cover.",
+  "key_references": [
+    {
+      "title": "Segmentation-Aware Latent Diffusion for Satellite Image Super-Resolution: Enabling Smallholder Farm Boundary Delineation",
+      "year": 2025,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2511.14481",
+      "why_it_matters": "Closest known prior art: targets the identical application (smallholder farm boundary delineation from HR reference + satellite-resolution input) and already beats Ref-SR baselines; the novelty delta of this candidate must be argued directly against this paper."
+    },
+    {
+      "title": "Learning to See More: UAS-Guided Super-Resolution of Satellite Imagery for Precision Agriculture",
+      "year": 2025,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2505.21746",
+      "why_it_matters": "Demonstrates the UAV-teaches-satellite concept is already active research (via image-level SR fusion rather than representation distillation), narrowing the novelty space and providing a concrete quantitative benchmark (18%/31% task improvements) to compare against."
+    },
+    {
+      "title": "Resolution-Aware Knowledge Distillation for Efficient Inference",
+      "year": 2021,
+      "venue": "IEEE Transactions on Image Processing",
+      "doi_or_arxiv_id": "10.1109/TIP.2021.3101158",
+      "why_it_matters": "Origin of the generic 'cross-resolution knowledge distillation' (CRKD) technique class this proposal builds on, established outside remote sensing; useful as a methodological ancestor and a source of the adversarial + distillation-loss recipe to adapt."
+    },
+    {
+      "title": "HyperKD: Lifelong Hyperspectral Image Classification With Cross-Spectral-Spatial Knowledge Distillation",
+      "year": 2025,
+      "venue": "IEEE Transactions on Geoscience and Remote Sensing",
+      "doi_or_arxiv_id": "10.1109/TGRS.2025.3552449",
+      "why_it_matters": "The real published paper behind the 'HyperKD' name used in the candidate description; note it addresses continual/lifelong hyperspectral classification via cross-spectral-spatial KD, not cross-resolution UAV-to-satellite distillation, so using it as a named 'inverse distillation' baseline requires adapting its logit+feature KD recipe to this different problem rather than assuming direct applicability."
+    },
+    {
+      "title": "AI4Boundaries: an open AI-ready dataset to map field boundaries with Sentinel-2 and aerial photography",
+      "year": 2023,
+      "venue": "Earth System Science Data (ESSD)",
+      "doi_or_arxiv_id": "10.5194/essd-15-317-2023",
+      "why_it_matters": "The most concrete, verified, open-licence (CC-BY 4.0) co-located high-resolution/Sentinel-2 pair dataset found in this search; substitutes for a true UAV dataset with 1m aerial orthophoto and can seed the MVE, though it is EU-only, not SEA."
+    },
+    {
+      "title": "AI4SmallFarms: A Dataset for Crop Field Delineation in Southeast Asian Smallholder Farms",
+      "year": 2023,
+      "venue": "IEEE Geoscience and Remote Sensing Letters",
+      "doi_or_arxiv_id": "10.1109/LGRS.2023.3323095",
+      "why_it_matters": "The most directly SEA-relevant open parcel-boundary label source found (Vietnam and Cambodia, 439,001 polygons), useful for evaluation even though its high-resolution reference imagery is Google Maps VHR basemap rather than UAV, so it cannot alone satisfy the UAV-pairing requirement."
+    },
+    {
+      "title": "DeepSalt: Bridging Laboratory and Satellite Spectra through Domain Adaptation and Knowledge Distillation for Large-Scale Soil Salinity Estimation",
+      "year": 2025,
+      "venue": "IEEE International Conference on Big Data 2025",
+      "doi_or_arxiv_id": "arXiv:2510.23124",
+      "why_it_matters": "Shows the general recipe (KD across a resolution/modality gap: lab spectra to satellite spectra) generalizing to a different agri-environmental variable, evidence that 'cross-resolution/cross-modal KD for remote sensing' is an actively expanding technique class right now, not a gap."
+    }
+  ],
+  "uncertain": [
+    "datasets[OpenAerialMap].approx_size_gb",
+    "datasets[OpenAerialMap].verified_how (SEA-specific agricultural tile coverage not individually confirmed)",
+    "datasets[AI4SmallFarms].auth_required",
+    "datasets[AI4SmallFarms].licence",
+    "datasets[AI4SmallFarms].approx_size_gb",
+    "datasets[AI4SmallFarms].accessible_from_malaysia",
+    "compute_feasibility.est_training_hours_mps (estimate, not empirically measured)",
+    "Whether SEED-SR's full method (beyond the abstract) already covers the exact 'satellite-only-at-inference' deployment constraint this candidate claims as its delta - only the abstract was reviewed, not the full paper"
+  ]
+}

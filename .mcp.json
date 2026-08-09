@@ -1,0 +1,31 @@
+{
+  "mcpServers": {
+    "arxiv": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "arxiv-mcp-server"
+      ],
+      "env": {}
+    },
+    "papers": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "paper-search-mcp"
+      ],
+      "env": {}
+    },
+    "zotero": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@oscardvs/zoteus"
+      ],
+      "env": {
+        "ZOTERO_API_KEY": "URuOrqRxDW4tL8BuUBzqMKDH"
+      }
+    }
+  }
+}

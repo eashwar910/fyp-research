@@ -1,0 +1,196 @@
+{
+  "idea_name": "Row-Free Weed Segmentation for Non-Row-Planted Tropical Smallholdings",
+  "bucket": "3 - drone / UAV close-range",
+  "one_sentence_pitch": "For agronomists advising broadcast-sown Southeast Asian smallholder rice and vegetable plots, current UAV weed-segmentation models silently rely on crop-row geometry as a hidden prior, and this project measures and removes that dependency with a row-free density/context model, quantifying exactly how much published accuracy evaporates when the row assumption is false.",
+  "problem_statement": "Public UAV crop/weed segmentation datasets and several published methods (RoWeeder, CRowNet-style row detectors, aerial crop-row pressure mapping) either train on row-planted European/Australian mechanised fields (sugar beet in WeedMap and PhenoBench, maize in WeedsGalore and BAWSeg) or explicitly exploit row geometry as a computational shortcut to build pseudo-labels or localise weeds (inter-row = weed, intra-row = crop). Southeast Asian and Singapore smallholder plots are frequently broadcast-sown, direct-seeded, or intercropped with irregular spacing -- most Mekong Delta rice (the dominant SEA staple) is direct-seeded/broadcast, not transplanted in rows, and Singapore's small rooftop/vertical farms similarly lack row geometry. When the row prior is false, row-dependent methods have no defined fallback: a published crop-row detector (Moldvai et al. 2025, Agronomy) documents its own failure mode -- it cannot determine row direction under heavy weed pressure and silently produces misleading output. No public method or dataset currently quantifies how much of published weed-segmentation performance is actually attributable to the row assumption, nor offers a validated substitute for the non-row case.",
+  "proposed_technical_approach": "Two linked experiments on the same base architecture (a lightweight encoder-decoder segmentation network, e.g. SegFormer-B0 or a MobileNetV3/UNet hybrid, RGB+NIR input where available): (1) Controlled row-prior ablation -- take a row-planted dataset (WeedMap or PhenoBench), synthetically destroy row alignment by jittering/rotating plant-instance positions within the same images (preserving crop/weed class ratios and local density) to create matched row vs. de-rowed versions of the same data, then compare a row-prior-exploiting baseline (re-implementation of RoWeeder's pseudo-label generation) against a row-free model on both versions -- isolating the row-prior contribution without confounding it with a crop-type domain shift. (2) Cross-domain generalization test -- train row-based baselines on WeedMap/PhenoBench and evaluate zero-shot on a genuinely non-row public dataset (the Mekong Delta weedy-rice UAV dataset, broadcast/direct-seeded), quantifying the accuracy drop. The row-free model replaces explicit row-position features with (a) a learned plant-instance density map (auxiliary head predicting local plant count per patch, supervised from instance masks) and (b) a spatial-context encoder (dilated/non-local attention over the tile) that captures crop-weed co-occurrence statistics without assuming periodicity. Loss: combined cross-entropy segmentation loss + density-map MSE auxiliary loss. Training/inference entirely on UAV RGB(+multispectral) orthomosaic tiles; no drone flight required by the student.",
+  "primary_sensor": {
+    "sensor": "UAV-mounted RGB and multispectral (5-band: R,G,B,RedEdge,NIR) cameras (e.g. MicaSense RedEdge-M/Sequoia used in WeedMap; DJI Phantom P4 Multispectral used in WeedsGalore; DJI Mavic 3M used in the Mekong weedy-rice dataset)",
+    "spatial_resolution_m": "0.003-0.01 m GSD (sub-centimetre to ~1cm), typical of 5-20m altitude UAV close-range flights",
+    "revisit_days": "N/A -- one-off/campaign UAV flights, not a repeat-pass satellite constellation",
+    "bands_used": "RGB primary; NIR/RedEdge where available (WeedMap, WeedsGalore) for vegetation-index augmentation",
+    "licence": "Mixed by dataset: WeedMap has no explicit public licence text confirmed (ETH ASL open dataset, download via DOI, no login observed); PhenoBench requires a data-use registration form (free, academic use); WeedsGalore is CC-BY (GFZ data repository, no login observed); the Mekong Delta weedy-rice dataset is CC-BY 4.0 on Mendeley Data (no login)"
+  },
+  "imagery_is_primary_input": "Yes - UAV RGB/multispectral orthomosaic imagery is the sole model input for both segmentation and the density/context auxiliary heads; no other modality is required.",
+  "datasets": [
+    {
+      "name": "WeedMap",
+      "access_route": "https://projects.asl.ethz.ch/datasets/weedmap-2018/ ; DOI https://doi.org/10.3929/ethz-c-000788571",
+      "auth_required": "No login observed on ETH ASL project/download page",
+      "licence": "Not explicitly re-stated on the download page in this check; original paper is open-access MDPI Remote Sensing (CC-BY per MDPI default) [uncertain: whether the data files themselves carry the same licence text]",
+      "approx_size_gb": 5.36,
+      "accessible_from_malaysia": "Yes, plain HTTPS download, no geo-restriction found",
+      "verified_how": "WebSearch of ETH ASL project page and ScienceDirect/MDPI record for WeedMap (Sa et al. 2018), cross-checked against RoWeeder GitHub README which reuses the same dataset"
+    },
+    {
+      "name": "PhenoBench",
+      "access_route": "https://www.phenobench.org/ (dataset page linked from project site; paper at arXiv 2306.04557 / IEEE TPAMI 10.1109/tpami.2024.3419548)",
+      "auth_required": "Likely a free registration/agreement form typical of Uni Bonn IPB releases [uncertain -- could not confirm exact form from the fetched page, which did not expose the download page content]",
+      "licence": "Academic/research use per project site framing [uncertain -- exact licence text not retrieved]",
+      "approx_size_gb": "Not confirmed; dataset comprises 1407 train + 772 val + 693 test images at 1024x1024 (~2872 images total), estimated low single-digit GB [uncertain]",
+      "accessible_from_malaysia": "Presumed yes (standard academic download), not blocked in search results",
+      "verified_how": "WebSearch of phenobench.org and arXiv/TPAMI metadata via OpenAlex; row-crop confirmation (sugar beet) from paper abstract"
+    },
+    {
+      "name": "WeedsGalore",
+      "access_route": "https://doidata.gfz.de/weedsgalore_e_celikkan_2024/ ; code/pointers at https://github.com/GFZ/weedsgalore",
+      "auth_required": "No login observed (GFZ open-data repository)",
+      "licence": "CC-BY (dataset); Apache-2.0 (code)",
+      "approx_size_gb": "0.4 (annotated tiles) + 12 (full-field orthomosaics, optional)",
+      "accessible_from_malaysia": "Yes, plain HTTPS, no geo-restriction found",
+      "verified_how": "WebFetch of GitHub README and WebSearch of GFZ data page; confirms 70cm row spacing (row-planted, maize)"
+    },
+    {
+      "name": "Mekong Delta Weedy-Rice UAV Dataset (WeedyRice-RGBMS-DB)",
+      "access_route": "https://data.mendeley.com/datasets/vt4s83pxx6/1 ; DOI 10.17632/vt4s83pxx6.1 ; companion Data in Brief paper DOI 10.1016/j.dib.2025.112237",
+      "auth_required": "No login needed (confirmed via WebFetch of the Mendeley Data page and PMC article)",
+      "licence": "CC-BY 4.0",
+      "approx_size_gb": "Not stated exactly; 734 RGB images + 2,936 aligned multispectral band images at 1280x960, estimated well under 1GB [uncertain, but small]",
+      "accessible_from_malaysia": "Yes, Mendeley Data is a globally open Elsevier-hosted repository",
+      "verified_how": "WebFetch of PMC article (PMC12670920) and Mendeley Data page; region (Mekong Delta, An Giang Province, Vietnam) confirmed; non-row planting inferred with high confidence but not stated verbatim in the paper -- corroborated separately via independent literature (direct wet/broadcast seeding is the dominant establishment method in the Mekong Delta, ~69-100% of farmers per multiple agronomy sources) rather than a direct quote from the dataset paper itself [uncertain: the dataset paper does not use the words 'broadcast' or 'row' explicitly]"
+    }
+  ],
+  "total_dataset_gb": "~15-20 GB for a minimum viable experiment (WeedMap 5.36GB + WeedsGalore annotated tiles 0.4GB + PhenoBench core split est. <10GB + Weedy-Rice dataset <1GB), well under the H5 200GB cap. Full WeedsGalore orthomosaics (+12GB) are optional and can be skipped for the MVE.",
+  "labels_and_ground_truth": "WeedMap, PhenoBench and WeedsGalore provide expert-annotated pixel-level crop/weed/background masks (plus PhenoBench leaf instances). The Mekong weedy-rice dataset's polygon masks were generated by a fine-tuned Segment Anything Model and then reviewed/corrected by experts (semi-automated, not fully manual) -- this is a real risk: label noise/boundary imprecision from SAM-assisted annotation could be misread as row-prior model failure unless carefully audited. The synthetic row-jittering ablation (destroying row alignment on an already-labelled row dataset) sidesteps this risk for the controlled experiment, since ground truth masks are preserved and only spatial arrangement is perturbed.",
+  "named_baselines": [
+    {
+      "paper_title": "WeedMap: A Large-Scale Semantic Weed Mapping Framework Using Aerial Multispectral Imaging and Deep Neural Network for Precision Farming",
+      "venue": "Remote Sensing (MDPI)",
+      "year": 2018,
+      "doi_or_arxiv_id": "10.3390/rs10091423",
+      "reported_metric": "AUC [background=0.839, crop=0.863, weed=0.782] with 9-channel SegNet input",
+      "dataset": "WeedMap"
+    },
+    {
+      "paper_title": "RoWeeder: Unsupervised Weed Mapping through Crop-Row Detection",
+      "venue": "ECCV 2024 Workshops (CVPPA), Springer LNCS",
+      "year": 2024,
+      "doi_or_arxiv_id": "10.1007/978-3-031-91835-3_9 (also arXiv:2410.04983)",
+      "reported_metric": "F1 = 75.3 on WeedMap, unsupervised, using crop-row detection as its core pseudo-label mechanism",
+      "dataset": "WeedMap"
+    },
+    {
+      "paper_title": "PhenoBench -- A Large Dataset and Benchmarks for Semantic Image Interpretation in the Agricultural Domain",
+      "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI)",
+      "year": 2024,
+      "doi_or_arxiv_id": "10.1109/tpami.2024.3419548 (arXiv:2306.04557)",
+      "reported_metric": "Benchmark PQ/IoU scores on hidden known-field and unseen-field test splits (sugar beet, row-planted)",
+      "dataset": "PhenoBench"
+    },
+    {
+      "paper_title": "WeedsGalore: A Multispectral and Multitemporal UAV-based Dataset for Crop and Weed Segmentation in Agricultural Maize Fields",
+      "venue": "WACV 2025",
+      "year": 2025,
+      "doi_or_arxiv_id": "arXiv:2502.13103",
+      "reported_metric": "Baseline segmentation results across RGB vs multispectral input; maize row spacing 70cm (row-planted)",
+      "dataset": "WeedsGalore"
+    },
+    {
+      "paper_title": "Aerial Image-Based Crop Row Detection and Weed Pressure Mapping Method",
+      "venue": "Agronomy (MDPI)",
+      "year": 2025,
+      "doi_or_arxiv_id": "10.3390/agronomy15081762",
+      "reported_metric": "F1 = 86.32% under moderate weed infestation; explicitly documents failure to detect row direction under high weed density (row-prior fragility, directly motivating this project)",
+      "dataset": "Custom UAV imagery, 208 images + 120 synthetic sets"
+    }
+  ],
+  "evaluation_protocol": "Primary metric: weed IoU / mean IoU (matching WeedMap/RoWeeder convention) and F1, on held-out test tiles. Success criterion: (1) on the synthetic row-jittered ablation, quantify the IoU/F1 delta between row-prior-exploiting baseline and the row-free model as row alignment is progressively destroyed (0% to 100% jitter) -- a defensible result shows the row-exploiting baseline's performance degrades sharply (e.g. >15-20 F1 points) while the row-free model degrades much less; (2) on the cross-domain test, evaluate models trained on WeedMap/PhenoBench zero-shot on the Mekong weedy-rice dataset and report the absolute IoU/F1 drop versus in-domain performance, then show the row-free model narrows that gap. Geographic generalisation is measured directly by the EU/Australia-trained-to-SEA-tested transfer; temporal generalisation is secondary (WeedsGalore's multitemporal splits can be reused if time permits).",
+  "novelty_delta": "This is NOT 'applied weed segmentation to Southeast Asia' -- the region does not merely relocate an existing pipeline, it breaks a load-bearing assumption that several published methods (RoWeeder explicitly, and the row-pressure-mapping literature) rely on to generate training signal or localise weeds at all. No paper found in this search (arXiv cs.CV sweep 2023-2026, OpenAlex/Crossref/dblp sweep) performs a controlled ablation isolating the row-prior's contribution to reported weed-segmentation accuracy, nor benchmarks row-trained models zero-shot against a genuinely non-row/broadcast-sown public UAV dataset. The technical delta is twofold: (a) a clean experimental design (synthetic row-jittering on the same images) that isolates the row-prior variable from confounding crop-type/domain shift, which as far as this search could determine has not been done; (b) a density/context-prior architecture proposed as a working substitute, evaluated for whether it actually survives row removal rather than just documenting that removal hurts. The 'defensible delta' per H1 is best read as new data regime (row vs. non-row planting geometry) plus a measurable comparison against RoWeeder's published F1=75.3 on WeedMap under both original and de-rowed conditions.",
+  "prior_art_that_threatens_it": "RoWeeder (De Marinis et al., ECCV 2024 workshops, arXiv:2410.04983) is the closest prior art: it explicitly builds its entire training signal from crop-row detection, so it is simultaneously the best baseline to interrogate and evidence that the row prior is already known to be load-bearing in the literature -- but it does not test what happens when rows are absent, so it does not pre-empt this project. Moldvai et al. 2025 (Agronomy, 10.3390/agronomy15081762) independently documents crop-row detectors failing under heavy weed pressure, which is adjacent evidence but not a segmentation-accuracy ablation. VL-WS (Vision-Language Semantic Grounding for Multi-Domain Crop-Weed Segmentation, arXiv:2602.23677, 2026) targets cross-domain generalisation across ground+UAV imagery and four benchmark datasets, which is conceptually adjacent (domain-invariant representations) but its stated benchmark datasets are still European/mechanised-field sources as far as could be determined here [uncertain -- could not fully enumerate its four benchmark datasets from the abstract alone; if any of them are non-row, this narrows the novelty gap and should be checked before committing]. No 2024-2026 paper found explicitly frames 'row-prior ablation' or 'non-row generalization' as its research question.",
+  "h2_generic_check": "Core is semantic/instance segmentation with an explicit bias-ablation study, not a chatbot, dashboard, leaf-classifier, NDVI viewer, tabular yield model, or a rerun of an existing crop-type benchmark -- passes the 8 banned-pattern check. Could the one-sentence summary describe 50 other FYPs? No, provided the ablation design (synthetic row-jittering to isolate the prior, plus explicit zero-shot non-row test with a named F1 number to beat) is retained in the pitch; a naive 'weed segmentation with a drone in Malaysia' framing would fail this test, so the write-up must foreground the bias-ablation angle, not the segmentation task itself.",
+  "user_segment": "Primary: agronomists and extension officers at Vietnamese Mekong Delta rice cooperatives who advise smallholder farmers practising direct-seeded/broadcast rice cultivation (the dominant establishment method for ~69-100% of Mekong Delta rice farmers per multiple agronomy sources), who need weed pressure maps but are currently underserved by row-dependent tools. Secondary/demo: Singapore small-plot/rooftop urban farm operators and their agronomic advisors, where intercropping and irregular spacing similarly break the row assumption (per N1(a) in the brief).",
+  "quantified_pain": "Weed infestation in direct-seeded rice (the exact non-row establishment method this project targets) can reduce yield by up to 50% (Shekhawat, Rathore & Chauhan 2020, Agronomy, DOI 10.3390/agronomy10091264). A closely related figure: weed pressure in forage corn causes yield losses of up to 31.5% (USU-Corn-WeedDB, arXiv:2606.06709, 2026). These are the best directly-citable numbers found; a Mekong-Delta-specific weedy-rice yield-loss percentage could not be retrieved in this session (the 2016 Crop Protection paper on weedy rice in the Mekong Delta was paywalled) [uncertain -- flagged, not fabricated].",
+  "compute_feasibility": {
+    "peak_memory_gb": "Estimated 4-8 GB for a SegFormer-B0/MobileNetV3-UNet-scale model at typical 512-1024px tile resolution with batch size 8-16 on MPS",
+    "est_training_hours_mps": "Estimated 3-8 hours per training run (few dozen epochs) on M4 Pro MPS for a single dataset/config; the full ablation grid (row vs de-rowed x baseline vs row-free model x multiple datasets) likely needs 8-15 total runs, feasible within days of wall-clock time using overnight runs, well inside individual 12-hour run caps",
+    "fits_24gb": true,
+    "mps_compatible_ops": "Standard conv/attention/segmentation ops (SegFormer, UNet, DeepLabv3+) are MPS-compatible in current PyTorch; density-map auxiliary head is a simple conv regression head, no exotic ops",
+    "colab_kaggle_fallback_needed": "Not required for the core plan, but Kaggle T4 quota is a reasonable fallback for hyperparameter sweeps to save local MacBook time",
+    "notes": "The heaviest component is not model size but the number of ablation conditions needed to make the row-prior-isolation claim credible; budget engineering time for the synthetic row-jittering data pipeline itself, which is a non-trivial piece of original tooling (not just training a model off the shelf)"
+  },
+  "cash_cost_rm": "Approximately RM 0 for compute (student's own MacBook Pro M4 Pro) and RM 0 for data (all four datasets are free downloads with no login/paywall observed). No commercial imagery dependency. Total estimated cash cost: RM 0-50 (contingency for cloud storage/compute burst if local MPS proves too slow for the full ablation grid, well within the RM 200 budget).",
+  "demo_artifact": "Live laptop demo: load a held-out UAV tile from the Mekong weedy-rice dataset (genuinely non-row/broadcast), run both the RoWeeder-style row-prior baseline and the row-free density/context model side by side, and show the row-prior baseline producing visibly wrong/empty row-structured output (because there is no row to detect) while the row-free model produces a sensible weed mask -- a visual, intuitive 'here is a published method silently failing, and here is what fixes it' moment that a CS panel can grasp in under 2 minutes without needing domain agronomy knowledge.",
+  "build_vs_research_ratio": "Approximately 65:35 engineering:research. Engineering: the synthetic row-jittering ablation pipeline, a working segmentation model with a density-map auxiliary head, a reproduction of RoWeeder's row-detection pseudo-labelling as the baseline, and a demo interface. Research: designing the controlled ablation so it isolates the row-prior variable cleanly, and interpreting cross-dataset generalisation results without over-claiming causality.",
+  "publication_venue_fit": "ECCV CVPPA workshop (where RoWeeder itself and PhenoBench-adjacent work were published) is the most natural fit given the direct engagement with RoWeeder as baseline; IGARSS or Remote Sensing MDPI are plausible alternates given the dataset-bias-audit framing has broad remote-sensing-methodology appeal.",
+  "key_risks": [
+    "1. (Method risk, highest) The synthetic row-jittering ablation must be designed carefully -- naive jittering could inadvertently change local density statistics or create implausible plant overlaps, confounding the row-prior isolation; this needs careful validation before trusting any delta numbers.",
+    "2. (Data-label risk) The Mekong weedy-rice dataset's masks are SAM-generated-then-corrected, not fully manual, and its 'non-row' status is inferred from regional agronomy literature rather than stated explicitly in the dataset paper -- if inspection of the actual imagery shows more row structure than expected (some Mekong Delta farmers do use drum-seeders which impose faint row-like patterns), the core premise weakens.",
+    "3. (Prior-art risk) VL-WS's exact four benchmark datasets were not fully enumerated in this session; if one of them turns out to already be non-row, the novelty claim needs tightening before committing engineering time.",
+    "4. (Evaluation risk) Cross-domain zero-shot transfer conflates row-prior loss with crop-type domain shift (sugar beet/maize to rice) and sensor differences (RedEdge/Sequoia to Mavic 3M multispectral) -- the paper's central claim depends on the synthetic ablation (risk 1) to isolate the row variable cleanly, since the cross-dataset test alone cannot do so.",
+    "5. (Scope risk) A fully convincing row-prior-ablation study plus a working row-free model plus a credible demo is a substantial scope for one FYP; the density/context-prior architecture may need to be simplified (e.g. drop the context-attention branch and keep only the density head) if time runs short in the final weeks."
+  ],
+  "kill_criteria": [
+    "Week 1: Download WeedMap, PhenoBench, WeedsGalore and the Mekong weedy-rice dataset; visually inspect the Mekong imagery directly -- if it shows clear row/drum-seeder structure rather than broadcast irregularity, the core premise fails and the idea should be abandoned or re-scoped to a different non-row dataset.",
+    "Week 1-2: Re-implement RoWeeder's row-detection pseudo-label generator and reproduce its published F1=75.3 on WeedMap within a reasonable tolerance (e.g. +/-5 points) -- if this cannot be reproduced, the baseline-comparison plan needs a fallback (e.g. a simpler row-exploiting heuristic).",
+    "Week 2: Build the synthetic row-jittering pipeline and sanity-check on a small subset that jittering measurably destroys detectable row periodicity (e.g. via autocorrelation/FFT peak analysis) without changing per-tile plant density -- if jittering cannot be made clean, the controlled-ablation design (this project's main novelty claim) is compromised.",
+    "Week 3-4: Run the first ablation pass (baseline vs row-free model, row vs de-rowed) on WeedMap alone -- if the row-exploiting baseline does NOT show a meaningfully larger degradation than the row-free model, the central hypothesis may be false and the project should pivot to reporting that negative result honestly rather than forcing a positive one."
+  ],
+  "hard_constraint_verdict": {
+    "H1": "PASS - genuine gap identified: no found paper isolates the row-prior's contribution via controlled ablation or benchmarks row-trained models zero-shot on a real non-row dataset; RoWeeder gives a concrete named baseline/number to interrogate.",
+    "H2": "PASS with caution - not a banned pattern, but only if the write-up foregrounds the bias-ablation framing rather than presenting as 'yet another weed segmentation model'.",
+    "H3": "PASS - UAV RGB/multispectral imagery is the sole model input throughout.",
+    "H4": "PASS - named user segment is Mekong Delta rice cooperative agronomists (direct-seeded/broadcast rice smallholders), with Singapore small-plot/intercropped farms as a secondary demo angle per N1(a).",
+    "H5": "PASS - all four datasets are free and small (~15-20GB total for MVE), models are lightweight, training fits comfortably in 24GB/MPS and well under 12-hour runs; no drone flight required.",
+    "H6": "PASS - the demo (baseline visibly fails on non-row imagery, row-free model succeeds) is a strong, intuitive 60-second pitch for a CS panel."
+  },
+  "overall_recommendation": "STRONG. This candidate identifies a real, verifiable structural bias in the published weed-segmentation literature (RoWeeder's row-dependence, WeedMap/PhenoBench/WeedsGalore's row-planted training data) and pairs it with a genuinely non-row public dataset (Mekong Delta weedy rice, CC-BY, freely accessible) that substitutes for flying a drone, satisfying H5's no-own-drone constraint. The main execution risk is designing the row-prior isolation ablation rigorously rather than the segmentation model itself, which is a research-design risk rather than a feasibility risk.",
+  "confidence": "Medium-High. Confidence would rise to High with: (a) direct visual/quantitative confirmation that the Mekong weedy-rice dataset imagery is actually non-row (autocorrelation/FFT check), since this was inferred from regional agronomy statistics rather than stated in the dataset paper itself; (b) full enumeration of VL-WS's four benchmark datasets to rule out an existing non-row test already in the literature; (c) a successful reproduction of RoWeeder's published F1 as a sanity check on the re-implementation.",
+  "key_references": [
+    {
+      "title": "WeedMap: A Large-Scale Semantic Weed Mapping Framework Using Aerial Multispectral Imaging and Deep Neural Network for Precision Farming",
+      "year": 2018,
+      "venue": "Remote Sensing (MDPI)",
+      "doi_or_arxiv_id": "10.3390/rs10091423",
+      "why_it_matters": "The primary row-planted (sugar beet) UAV benchmark dataset this project uses both directly and as the substrate for the synthetic row-jittering ablation."
+    },
+    {
+      "title": "RoWeeder: Unsupervised Weed Mapping through Crop-Row Detection",
+      "year": 2024,
+      "venue": "ECCV 2024 Workshops (Springer LNCS)",
+      "doi_or_arxiv_id": "10.1007/978-3-031-91835-3_9",
+      "why_it_matters": "The direct named baseline whose core mechanism is the row prior this project interrogates; provides a concrete F1=75.3 number on WeedMap to reproduce and stress-test."
+    },
+    {
+      "title": "PhenoBench -- A Large Dataset and Benchmarks for Semantic Image Interpretation in the Agricultural Domain",
+      "year": 2024,
+      "venue": "IEEE TPAMI",
+      "doi_or_arxiv_id": "10.1109/tpami.2024.3419548",
+      "why_it_matters": "Second row-planted UAV benchmark (sugar beet) with a held-out unseen-field split, useful for testing whether the row-prior effect generalises across datasets, not just within WeedMap."
+    },
+    {
+      "title": "WeedsGalore: A Multispectral and Multitemporal UAV-based Dataset for Crop and Weed Segmentation in Agricultural Maize Fields",
+      "year": 2025,
+      "venue": "WACV 2025",
+      "doi_or_arxiv_id": "arXiv:2502.13103",
+      "why_it_matters": "A third, more recent (2025) row-planted (70cm row spacing, explicitly confirmed) UAV dataset, showing the row assumption persists even in the newest published benchmarks -- strengthens the H1 case that this is a live, unaddressed bias."
+    },
+    {
+      "title": "A dataset of aligned RGB and multispectral UAV imagery for semantic segmentation of weedy rice",
+      "year": 2025,
+      "venue": "Data in Brief",
+      "doi_or_arxiv_id": "10.1016/j.dib.2025.112237",
+      "why_it_matters": "The candidate non-row public UAV dataset (Mekong Delta, Vietnam, CC-BY 4.0, no login) that lets the student test the row-prior-ablation hypothesis without flying a drone -- central to satisfying the brief's H5 no-own-drone constraint."
+    },
+    {
+      "title": "Aerial Image-Based Crop Row Detection and Weed Pressure Mapping Method",
+      "year": 2025,
+      "venue": "Agronomy (MDPI)",
+      "doi_or_arxiv_id": "10.3390/agronomy15081762",
+      "why_it_matters": "Independently documents crop-row detection failing under heavy weed pressure (cannot determine row direction), corroborating that the row prior is fragile even within its intended row-planted domain, let alone outside it."
+    },
+    {
+      "title": "Weed Management in Dry Direct-Seeded Rice: A Review on Challenges and Opportunities for Sustainable Rice Production",
+      "year": 2020,
+      "venue": "Agronomy (MDPI)",
+      "doi_or_arxiv_id": "10.3390/agronomy10091264",
+      "why_it_matters": "Source of the quantified pain figure (up to 50% yield loss under weed pressure in direct-seeded/non-row rice) that motivates the H6 pitch and H4 user segment."
+    }
+  ],
+  "uncertain": [
+    "PhenoBench exact dataset size in GB and precise licence/registration terms -- the dataset download page content was not directly retrievable in this session.",
+    "Whether the Mekong Delta weedy-rice dataset imagery is genuinely non-row/broadcast at the pixel level -- inferred from regional agronomy statistics (dominant direct-seeding practice in the Mekong Delta), not stated explicitly in the dataset's own paper.",
+    "VL-WS's (arXiv:2602.23677) exact four benchmark datasets and whether any of them are already non-row, which would narrow this project's novelty claim -- could not be fully enumerated from the abstract alone.",
+    "Exact WeedMap data-file licence text (the underlying MDPI paper is open-access/CC-BY, but the dataset download page itself was not confirmed to restate this).",
+    "A precise, Mekong-Delta-specific weedy-rice yield-loss percentage for the quantified_pain field could not be retrieved (source paywalled); the cited direct-seeded-rice and forage-corn figures are the closest verified substitutes."
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "idea_name": "Full-Season SITS Inference on a Laptop in Under a Minute",
+  "bucket": "7 - on-device / edge-efficient inference",
+  "one_sentence_pitch": "For agricultural extension officers who carry an Apple Silicon laptop rather than a server GPU, quantisation-aware distillation of a strong satellite-image-time-series transformer into a small student lets a full growing-season crop map over a co-op-sized area run locally in under a minute, exposing along the way that PyTorch's MPS backend has real, uncharted gaps for exactly this workload.",
+  "problem_statement": "State-of-the-art SITS (satellite image time series) crop-mapping transformers -- TSViT, SITSMamba, VistaFormer -- are developed and benchmarked on server-class NVIDIA GPUs with CUDA. Nobody publishes what these models cost in latency, memory, or accuracy when run on the Apple Silicon hardware (or other low-power, no-CUDA hardware) that a field agronomist or extension officer would actually carry, and PyTorch's MPS backend is known to have operator-coverage and quantization-support gaps relative to CUDA that could silently break or slow down standard efficiency techniques. Current practice implicitly assumes a CUDA GPU is available at inference time, which is false for a laptop-only field/co-op deployment.",
+  "proposed_technical_approach": "Take one of the named SITS transformers (most likely VistaFormer or TSViT, given their manageable size) as a fixed teacher, pretrained on Sentinel-1/2 time series for parcel-level crop classification (PASTIS-R). Perform quantisation-aware distillation: train a smaller student architecture (fewer layers/heads, reduced hidden dim, or a lightweight CNN-temporal-encoder hybrid) using a combined loss of standard cross-entropy against ground truth plus a distillation term (KL divergence / feature-matching) against the teacher's soft outputs, while simulating quantisation noise during training (fake-quantisation / QAT-style weight and activation clamping) so the student is robust to the precision it will actually run at during deployment. Deployment path is chosen based on a week-1 smoke test: either (a) native PyTorch MPS with FP16/INT4 weight-only quantisation via torchao (confirmed to have some MPS support), or (b) export to CoreML via coremltools with CoreMLQuantizer for genuine INT8/Apple Neural Engine execution, since PyTorch's legacy INT8 quantized-tensor backend was never ported to MPS. The core empirical contribution is a full latency/memory/energy/accuracy characterization: measure wall-clock time and peak memory for a full growing-season inference pass over a fixed, co-op-sized area (e.g. one PASTIS-R patch or an equivalent-area Sentinel-1/2 stack) on the M4 Pro, at each precision/architecture point, and report accuracy-vs-latency and accuracy-vs-energy (measured via macOS powermetrics) Pareto fronts against the uncompressed teacher and against the three named baseline architectures run at their default (unoptimized) settings.",
+  "primary_sensor": {
+    "sensor": "Sentinel-1 (SAR, GRD, VV/VH) + Sentinel-2 (MSI, L2A) -- same multi-sensor SITS stack used by TSViT/SITSMamba/VistaFormer and the PASTIS-R benchmark",
+    "spatial_resolution_m": "10 (common resampled grid)",
+    "revisit_days": "Sentinel-1: 6-12 days; Sentinel-2: ~5 days combined constellation",
+    "bands_used": "Sentinel-1 VV/VH backscatter; Sentinel-2 10 optical bands as used in PASTIS-R",
+    "licence": "Copernicus open data licence (free, attribution only)"
+  },
+  "imagery_is_primary_input": "Yes. The entire teacher and student model input is the Sentinel-1/2 season time-series stack; the contribution is about how efficiently that imagery is processed on-device, not about adding any non-imagery input.",
+  "datasets": [
+    {
+      "name": "PASTIS-R",
+      "access_route": "Zenodo (via github.com/VSainteuf/pastis-benchmark), direct zip download, no auth",
+      "auth_required": "No",
+      "licence": "CC (research use) per PASTIS-R repository",
+      "approx_size_gb": "54 GB (full raster) or 27 GB (pixel-set format)",
+      "accessible_from_malaysia": "Yes, no geographic restriction found",
+      "verified_how": "WebSearch confirmed via GitHub repository description of file sizes and Zenodo hosting; this is the same dataset used by TSViT, SITSMamba, and VistaFormer's own papers, making it the natural shared benchmark for teacher/student/baseline comparison"
+    },
+    {
+      "name": "MTLCC (Munich / Lombardia crop-segmentation benchmark)",
+      "access_route": "Referenced in the TSViT/VistaFormer comparative literature (Gatti et al. 2024, arXiv:2412.01944) as a second SITS benchmark; exact hosting URL not independently fetched this session",
+      "auth_required": "[uncertain]",
+      "licence": "[uncertain]",
+      "approx_size_gb": "[uncertain] -- expected small-to-moderate given it predates PASTIS-R in common usage",
+      "accessible_from_malaysia": "[uncertain]",
+      "verified_how": "Identified via arXiv abstract of the comparative study (2412.01944) referencing 'Munich and Lombardia datasets'; not independently verified this session, would need direct confirmation before relying on it"
+    }
+  ],
+  "total_dataset_gb": "27-54 GB using PASTIS-R alone as the single primary benchmark for teacher training, student distillation, and all baseline comparisons -- comfortably under the ~200GB H5 ceiling with no need for a second dataset.",
+  "labels_and_ground_truth": "PASTIS-R provides real parcel-level crop-type labels (18 classes) sourced from the French agricultural parcel register, giving high-quality, publicly verifiable ground truth for both teacher pretraining and student evaluation. No pseudo-labeling or weak supervision is required since the contribution is about efficient inference, not new-region label scarcity -- this sidesteps the label-scarcity risk that the compression-focused sibling candidate (Bandwidth-Aware Satellite Inference) faces for a Malaysia case study.",
+  "named_baselines": [
+    {
+      "paper_title": "ViTs for SITS: Vision Transformers for Satellite Image Time Series (TSViT)",
+      "venue": "arXiv / CVPR 2023",
+      "year": "2023",
+      "doi_or_arxiv_id": "arXiv:2301.04944",
+      "reported_metric": "State-of-the-art accuracy/mIoU on PASTIS and other SITS benchmarks, full-precision, server-GPU inference only",
+      "dataset": "PASTIS and other public SITS datasets"
+    },
+    {
+      "paper_title": "SITSMamba for Crop Classification based on Satellite Image Time Series",
+      "venue": "arXiv",
+      "year": "2024",
+      "doi_or_arxiv_id": "arXiv:2409.09673",
+      "reported_metric": "Competitive crop classification accuracy while addressing the quadratic self-attention complexity of Transformer-based SITS models via a Mamba temporal encoder",
+      "dataset": "SITS crop classification benchmarks (per paper)"
+    },
+    {
+      "paper_title": "VistaFormer: Scalable Vision Transformers for Satellite Image Time Series Segmentation",
+      "venue": "arXiv",
+      "year": "2024",
+      "doi_or_arxiv_id": "arXiv:2409.08461",
+      "reported_metric": "Improves PASTIS mIoU by 0.1% and MTLCC mIoU by up to 3.7% over prior SOTA while using only 8% (MHSA) or 11% (Neighbourhood Attention) of the FLOPs of comparable transformers -- already the most efficiency-oriented of the three named teachers, and the most realistic starting point for further compression",
+      "dataset": "PASTIS, MTLCC"
+    },
+    {
+      "paper_title": "A Comparative Study of Transformer and Convolutional Models for Crop Segmentation from Satellite Image Time Series",
+      "venue": "arXiv",
+      "year": "2024",
+      "doi_or_arxiv_id": "arXiv:2412.01944",
+      "reported_metric": "Head-to-head comparison of 3D U-Net, 3D FPN, 3D DeepLabv3, Swin UNETR, TSViT, and VistaFormer on Munich/Lombardia Sentinel-2 data; confirms TSViT/VistaFormer as the strongest available SITS teachers and VistaFormer as the efficiency-optimal choice",
+      "dataset": "Munich, Lombardia (Sentinel-2)"
+    },
+    {
+      "paper_title": "Profiling Large Language Model Inference on Apple Silicon: A Quantization Perspective",
+      "venue": "arXiv",
+      "year": "2025",
+      "doi_or_arxiv_id": "arXiv:2508.08531",
+      "reported_metric": "Benchmarks M2 Ultra, M2 Max, and M4 Pro against NVIDIA GPUs across 14 quantization schemes; explicitly finds that lower-bit compression is not a universal speed guarantee on Apple Silicon due to dequantization overhead -- a direct, load-bearing risk finding for this proposal's core assumption",
+      "dataset": "N/A (systems profiling study, LLMs not SITS)"
+    }
+  ],
+  "evaluation_protocol": "Primary metrics: (1) macro-F1 / mIoU for crop classification on PASTIS-R's official 5-fold cross-validation test folds; (2) wall-clock latency (seconds) for a full growing-season inference pass over one fixed-size co-op-representative area (e.g. one PASTIS-R patch, ~1.28km x 1.28km) on the M4 Pro; (3) peak resident memory (GB); (4) energy draw (measured via macOS powermetrics) during that inference pass. Report accuracy-vs-latency and accuracy-vs-energy Pareto fronts comparing: the uncompressed named teachers (TSViT, SITSMamba, VistaFormer) run as-is on MPS, the distilled-only student (no quantisation), and the distilled+quantised student (final proposed system). Success criterion, to be pre-registered before building: full-season inference completes in under 60 seconds over the fixed area with no more than a stated acceptable macro-F1 drop (e.g. 3-5 points) relative to the best uncompressed teacher on the same fold.",
+  "novelty_delta": "The defensible delta is a genuine, previously undocumented deployment constraint -- no CUDA, Apple unified memory, full-season (not single-frame) temporal context -- applied to SITS crop-mapping transformers, which is materially different from the existing edge-inference literature that optimises single-frame detection/segmentation on Jetson-class CUDA devices (e.g. AgriJetsonBench, 2026, benchmarks crop/weed detection on Jetson AGX Orin/Orin Nano via TensorRT, not on Apple Silicon and not on multi-temporal SITS). This session's searches found no existing paper benchmarking TSViT/SITSMamba/VistaFormer (or any comparable SITS model) on Apple Silicon/MPS, and confirmed a concrete, verifiable technical fact that strengthens the novelty claim: PyTorch's legacy INT8 quantized-tensor backend was never ported to MPS, meaning a standard CUDA-style QAT/PTQ INT8 workflow will not run as-is on this hardware and must route through CoreML/ANE conversion or MPS-specific workarounds (fake quantisation, torchao INT4 weight-only) -- exactly the kind of 'MPS lacks kernels that CUDA implementations assume' obstacle the proposal names, now evidenced rather than assumed. This is NOT 'applied X to Y hardware' in the trivial sense: the quantisation-aware distillation recipe must be co-designed with the actual MPS/CoreML operator constraints, and the honest operator-coverage-and-throughput study is itself a first-class, previously-missing empirical contribution.",
+  "prior_art_that_threatens_it": "General-purpose (non-SITS) quantization-aware distillation frameworks for edge deployment already exist and would need to be positioned against, not ignored: EdgeRazor (arXiv:2605.04062, 2026, mixed-precision QAT-distillation for LLMs), and earlier CV/edge-AI deployment-strategy benchmarking studies by Singh et al. (arXiv:2403.17154 and arXiv:2411.00907, 2024) that empirically compare quantization, pruning, distillation, and partitioning operators across mobile/edge/cloud tiers on standard CV/NLP models (not SITS, not Apple Silicon specifically). AgriJetsonBench (arXiv:2608.00927, Aug 2026) is the closest agricultural-domain precedent: it rigorously benchmarks crop/weed vision models on Jetson edge GPUs with power-referenced timing, but targets CUDA-based Jetson hardware and single-frame detection/segmentation, not Apple Silicon or full-season temporal SITS -- a real but adjacent, not identical, prior study, and a template this proposal should explicitly differentiate itself from in its writeup. The two Apple Silicon profiling papers found (Benazir & Lin 2025, arXiv:2508.08531; Feng et al. 2025, arXiv:2501.14925) are LLM/training-focused, not vision/SITS-focused, but their findings (quantization is not automatically faster on Apple Silicon; unified memory creates a different training performance profile than CUDA) are directly load-bearing risks for this proposal's core assumption and must be addressed rather than assumed away.",
+  "h2_generic_check": "Confirmed not a chatbot/RAG assistant, dashboard, leaf-photo classifier, NDVI viewer, tabular yield model, plain benchmark re-run, or thin API-wrapper app. The core technical contribution -- quantisation-aware distillation co-designed with a specific, verified hardware constraint (MPS's missing native INT8 path), evaluated as a genuine engineering artifact with latency/memory/energy Pareto fronts -- is a real systems+ML contribution. Could the one-sentence summary describe 50 other FYPs? Less likely than the compression-focused sibling candidate: 'benchmark and compress a specific published model family for a specific, verified hardware gap, with a live working demo' is more distinctive than a generic 'make it fast on edge devices' framing, though the student must be careful the final writeup foregrounds the co-design (student architecture shaped by known MPS/CoreML constraints) rather than reading as a routine efficiency ablation.",
+  "user_segment": "Agricultural extension officers and agronomists working for Malaysian state agriculture departments (e.g. Sarawak Department of Agriculture, or Kedah's Muda Agricultural Development Authority) who visit co-ops and smallholder farms carrying a personal or department-issued laptop, needing an in-field, offline crop-map/season-progress check without depending on a data connection or a returned trip to an office GPU workstation. (The candidate description as given names only a generic 'extension officer'; H4 requires naming the actual segment, so this should be sharpened in any proposal document, e.g. to a specific department or an EU CAP-monitoring inspector doing on-farm eco-scheme verification visits as an EU-segment alternative.)",
+  "quantified_pain": "A quantified pain number specific to 'extension officers carrying laptops in the field' was not found this session and should be treated as a genuine gap: the pitch's implicit pain (no GPU/no connectivity during a farm visit, so cloud-server inference is unavailable) is plausible but currently unquantified. A usable proxy, not independently verified this session: Malaysia's Department of Agriculture reportedly conducts periodic physical crop-condition/subsidy-verification visits to paddy schemes (e.g. under MADA in Kedah) where officers currently rely on manual/visual assessment rather than per-visit data-driven crop maps -- this framing needs a real citation (e.g. MADA or DOA annual report) before being presented to a panel as a hard number.",
+  "compute_feasibility": {
+    "peak_memory_gb": "Estimated 4-8 GB for training a VistaFormer/TSViT-scale teacher on PASTIS-R patches (moderate batch size), and 2-5 GB for the smaller distilled student; both comfortably under 24 GB unified memory",
+    "est_training_hours_mps": "Estimated 4-10 hours per teacher-training run and a further several hours per distillation/QAT configuration on the M4 Pro; per-run time likely 1.5-3x slower than an equivalent CUDA GPU based on the Apple Silicon training-profiling literature (Feng et al. 2025), so a full multi-configuration sweep (student sizes x precision levels) may exceed a single 12-hour session and require spreading across several sessions or offloading teacher pretraining to free Colab/Kaggle T4 quota",
+    "fits_24gb": "Yes for all individual training/inference runs; the binding constraint is wall-clock time across the full experiment matrix, not memory",
+    "mps_compatible_ops": "CONFIRMED (verified via WebSearch this session, not assumed): PyTorch's legacy torch.quantization INT8 quantized-tensor backend was never ported to the MPS backend. Practical routes are (a) 'fake quantization' -- store weights at low bit-width, dequantize to FP16 at matmul time -- which does run with GPU acceleration on MPS; (b) torchao, which is adding native INT4 weight-only quantization support for MPS; or (c) exporting via coremltools to CoreML and using CoreMLQuantizer for genuine 8-bit static quantization targeting the Apple Neural Engine, which is a different runtime/toolchain than 'PyTorch on MPS' as literally stated in H5 and should be clarified in the proposal.",
+    "colab_kaggle_fallback_needed": "Likely yes for teacher pretraining and the full precision/architecture sweep, even though the final on-device demo and MPS-specific benchmarking must happen on the M4 Pro itself (that IS the point of the study)",
+    "notes": "This is the one place in either candidate where a concrete, previously-undocumented (to this session's searches) hardware limitation was found and verified rather than merely assumed, which is a genuine strength for the 'honest MPS operator-coverage study' framing of the pitch."
+  },
+  "cash_cost_rm": "Approximately RM 0. PASTIS-R is free (Zenodo), no commercial imagery needed, all software (PyTorch, coremltools, torchao) is free and open-source. Optional Colab Pro (~RM45/month) could shorten the teacher-pretraining/sweep wall-clock time but is not mandatory given free-tier Colab/Kaggle T4 quota.",
+  "demo_artifact": "Live laptop demo: a full growing-season Sentinel-1/2 stack over a fixed, stated co-op-sized area is fed to the distilled+quantised student running natively on the M4 Pro (unplugged from power to also show battery/energy draw), with an on-screen stopwatch counting down and a crop map rendering as it completes in under a minute; a side-by-side panel shows the same area processed by the unoptimized teacher model taking substantially longer, making the speed/memory/accuracy tradeoff immediately visible to a judging panel.",
+  "build_vs_research_ratio": "Roughly 75:25 engineering-to-research. Engineering: implementing the quantisation-aware distillation training loop, the MPS-vs-CoreML export/deployment toolchain, a latency/memory/energy measurement harness (powermetrics integration), and the live demo application. Research: characterizing the actual MPS/CoreML operator-coverage gaps for this model family, designing the student architecture around those constraints, and honestly reporting the accuracy-efficiency Pareto front including where quantisation does NOT help (per the Benazir & Lin 2025 finding). This matches the stated S2 preference for a build-heavy project with a working demo.",
+  "publication_venue_fit": "IGARSS (a systems/efficiency-oriented track fits its scope) or the ICLR ML4RS workshop are the most realistic venues given the compression + remote-sensing crossover and the emphasis on a reproducible benchmarking contribution; Remote Sensing (MDPI) is a plausible journal fallback given its history of publishing SITS efficiency studies.",
+  "key_risks": [
+    "Novelty risk: while no directly matching SITS-on-Apple-Silicon paper was found this session, general-purpose edge-AI quantization-distillation frameworks (EdgeRazor, torchao, coremltools quantization) already exist, so the contribution rests on the specific combination (SITS temporal models + Apple Silicon + full-season context) rather than a new mechanism -- a full-text literature recheck in week 1 is warranted, not just an abstract-level search.",
+    "Accuracy risk: VistaFormer is already highly FLOP-efficient (8-11% of comparable transformers), so further distillation+quantisation may hit diminishing returns or unacceptable accuracy loss on an already-compact teacher; TSViT or SITSMamba (larger, less optimized) may be a better distillation starting point but were not benchmarked for on-device efficiency in their own papers.",
+    "Toolchain/framework risk: genuine INT8 quantisation gains on Apple hardware likely require routing through CoreML/Apple Neural Engine rather than staying purely in 'PyTorch MPS' as H5 literally specifies; this is a real ambiguity in the H5 constraint that should be resolved explicitly (is the target runtime PyTorch-MPS, or CoreML/ANE, or both compared honestly?) before committing to an architecture.",
+    "Measurement risk: laptop-based energy/latency measurement (accuracy-per-watt, accuracy-per-second) is sensitive to thermal throttling, background processes, and battery vs. plugged-in state; without a controlled measurement protocol (consistent thermal conditions, powermetrics sampling, repeated trials) the headline Pareto front could be noisy or non-reproducible.",
+    "Scope-definition risk: 'co-op-sized area' and 'under a minute' are currently undefined; without pre-registering concrete numbers (hectares, seconds) early, the success criterion can silently drift to whatever the final system happens to achieve."
+  ],
+  "kill_criteria": [
+    "Week 1: run the three named teacher architectures (TSViT, SITSMamba, VistaFormer) as-is, unmodified, as a forward pass on MPS over a representative PASTIS-R patch; record whether each runs at all, and its baseline latency/memory. If none run without extensive custom kernel rewriting, rescope which teacher(s) to use.",
+    "Week 1: attempt an actual INT8 (via CoreMLQuantizer/CoreML export) or INT4 weight-only (via torchao on MPS) quantisation of the smallest teacher and measure the real latency/memory delta versus FP32/FP16. If quantisation yields no measurable speed benefit (consistent with the Benazir & Lin 2025 finding on Apple Silicon), pivot the efficiency story toward distillation-driven size/memory reduction rather than quantisation-driven speed.",
+    "Week 2: pre-register the exact 'co-op-sized area' (in hectares or km^2) and the 'under a minute' latency target as concrete numbers, and confirm a full season of Sentinel-1/2 tiles for that area can realistically be prepared/cached within the compute and time budget.",
+    "Week 2: measure the distilled+quantised student's macro-F1 against the best uncompressed teacher on a PASTIS-R held-out fold; if the drop exceeds a pre-registered acceptable threshold (e.g. 5 F1 points), treat it as a kill/pivot signal per the task's explicit 'verify the accuracy loss is acceptable' instruction."
+  ],
+  "hard_constraint_verdict": {
+    "H1": "LIKELY PASS -- this session's searches (arXiv, OpenAlex, general web) found no existing paper benchmarking TSViT/SITSMamba/VistaFormer or any comparable full-season SITS model specifically on Apple Silicon/MPS; the closest adjacent work (AgriJetsonBench, Aug 2026) targets Jetson/CUDA single-frame agricultural vision models, not Apple Silicon SITS, making the gap plausible though not exhaustively confirmed by full-text review.",
+    "H2": "PASS -- not a banned generic pattern; a real systems+ML co-design contribution with a working demo, though the writeup must foreground the co-design (not just 'we ran a benchmark') to stay clearly outside a routine efficiency-ablation genre.",
+    "H3": "PASS -- Sentinel-1/2 SITS imagery is the entire input to both teacher and student models throughout.",
+    "H4": "PASS WITH CAVEAT -- the candidate as described names only a generic 'extension officer'; H4 requires naming the actual user segment, so a specific department/co-op (e.g. Sarawak DOA, MADA Kedah, or an EU CAP-monitoring inspector) must be named explicitly in the final proposal.",
+    "H5": "PASS WITH CAVEAT -- dataset and model sizes fit easily within 24GB and a free budget, but this session verified a real ambiguity: PyTorch's native INT8 quantization path is not available on MPS, so genuine quantization work likely requires CoreML/ANE export rather than staying in 'PyTorch MPS' as H5 literally states; this must be resolved and stated explicitly rather than discovered mid-project.",
+    "H6": "PASS -- a strong, concrete, demoable pitch (live under-a-minute full-season inference on a laptop, unplugged) built around a genuinely verified hardware limitation that a CS judging panel can appreciate as non-trivial and not previously documented."
+  },
+  "overall_recommendation": "STRONG. This is the stronger of the two 'on-device/edge-efficient inference' candidates reviewed: its H1 novelty rests on a concrete, independently verifiable technical fact (PyTorch's INT8 quantization backend has no native MPS support) rather than a converging, crowded research area, its H6 pitch is highly demoable, and its main open items (naming a specific H4 user segment, resolving the MPS-vs-CoreML runtime ambiguity, and pre-registering accuracy-loss/latency targets) are straightforward fixes rather than fundamental weaknesses.",
+  "confidence": "Medium-High. The core novelty claim (no existing Apple-Silicon/MPS benchmarking of TSViT/SITSMamba/VistaFormer) and the key risk finding (MPS's missing native INT8 path) are both grounded in specific, checkable sources found this session (arXiv/OpenAlex searches across multiple query formulations, and community/vendor sources on PyTorch's MPS quantization gap). Confidence would rise with: a full-text read of AgriJetsonBench and the two Apple Silicon profiling papers to rule out any closer overlap; and an actual week-1 hands-on smoke test of the three named teacher models on MPS, which is exactly the first kill-criterion and has not yet been performed."
+  ,
+  "key_references": [
+    {
+      "title": "ViTs for SITS: Vision Transformers for Satellite Image Time Series (TSViT)",
+      "year": "2023",
+      "venue": "arXiv / CVPR 2023",
+      "doi_or_arxiv_id": "arXiv:2301.04944",
+      "why_it_matters": "One of the three named teacher models explicitly cited in the pitch; the full-precision, server-GPU SOTA baseline to be compressed and benchmarked on MPS."
+    },
+    {
+      "title": "SITSMamba for Crop Classification based on Satellite Image Time Series",
+      "year": "2024",
+      "venue": "arXiv",
+      "doi_or_arxiv_id": "arXiv:2409.09673",
+      "why_it_matters": "Second named teacher; a Mamba-based alternative to attention that may have a different (possibly more MPS-friendly, possibly less) operator profile worth characterizing."
+    },
+    {
+      "title": "VistaFormer: Scalable Vision Transformers for Satellite Image Time Series Segmentation",
+      "year": "2024",
+      "venue": "arXiv",
+      "doi_or_arxiv_id": "arXiv:2409.08461",
+      "why_it_matters": "Third named teacher and already the most FLOP-efficient of the three (8-11% of comparable transformer FLOPs), making it both the most realistic distillation starting point and the model most likely to show diminishing returns from further compression."
+    },
+    {
+      "title": "Profiling Large Language Model Inference on Apple Silicon: A Quantization Perspective",
+      "year": "2025",
+      "venue": "arXiv",
+      "doi_or_arxiv_id": "arXiv:2508.08531",
+      "why_it_matters": "Directly evidences the core risk that quantization is not automatically faster on Apple Silicon due to dequantization overhead -- a finding the proposal must confront rather than assume away, and the closest existing systematic Apple Silicon hardware-profiling methodology to emulate."
+    },
+    {
+      "title": "Profiling Apple Silicon Performance for ML Training",
+      "year": "2025",
+      "venue": "arXiv",
+      "doi_or_arxiv_id": "arXiv:2501.14925",
+      "why_it_matters": "Explains the unified-memory-driven training performance gap between Apple Silicon and NVIDIA GPUs, directly informing the est_training_hours_mps risk and time-budgeting for the teacher-training/distillation sweep."
+    },
+    {
+      "title": "AgriJetsonBench: External-Power-Referenced TensorRT Benchmarking of Agricultural Vision Models on Jetson Edge Platforms",
+      "year": "2026",
+      "venue": "arXiv",
+      "doi_or_arxiv_id": "arXiv:2608.00927",
+      "why_it_matters": "Closest adjacent agricultural-domain edge-benchmarking precedent (power-referenced, deployment-realistic methodology) but targets Jetson/CUDA single-frame vision models, not Apple Silicon/full-season SITS -- an essential paper to differentiate against explicitly in the writeup."
+    },
+    {
+      "title": "A Comparative Study of Transformer and Convolutional Models for Crop Segmentation from Satellite Image Time Series",
+      "year": "2024",
+      "venue": "arXiv",
+      "doi_or_arxiv_id": "arXiv:2412.01944",
+      "why_it_matters": "Independently confirms TSViT and VistaFormer as the strongest available SITS teachers and provides a second benchmark dataset (Munich/Lombardia) beyond PASTIS-R for potential cross-dataset generalisation checks."
+    }
+  ],
+  "uncertain": [
+    "Whether MTLCC (Munich/Lombardia) dataset access route, size, and licence are actually as assumed -- not independently fetched this session, referenced only via a comparative study's abstract",
+    "A real, citable quantified-pain statistic for extension officers/agronomists doing offline in-field crop assessment in Malaysia or the EU -- not found this session, currently a plausible but unverified pain claim",
+    "Whether a full-text read of AgriJetsonBench or the two Apple Silicon profiling papers would reveal closer overlap with this proposal than the abstracts alone suggest",
+    "The exact wall-clock training time for a SITS transformer teacher and its distilled student on M4 Pro MPS specifically -- estimated by analogy to general Apple Silicon vs CUDA profiling literature, not directly measured",
+    "Whether torchao's MPS INT4 weight-only quantization or CoreML's CoreMLQuantizer INT8 path will integrate cleanly with a custom SITS transformer architecture (as opposed to the standard vision/language architectures these tools are most commonly demonstrated on) -- this is precisely the week-1 smoke test, not yet performed"
+  ]
+}

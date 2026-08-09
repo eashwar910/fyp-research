@@ -1,0 +1,211 @@
+{
+  "idea_name": "EU-to-SEA Domain Adaptation with Phenological Time Warping",
+  "bucket": "6 - label-scarce learning",
+  "one_sentence_pitch": "For a Mekong-region agricultural office that has almost no labelled crop-type parcels but can access the EU's rich labelled satellite archives, we learn a differentiable temporal-alignment function that re-maps a single temperate growing season onto tropical multi-cropping cycles so an EU-trained crop classifier transfers instead of defaulting to 'green in June'.",
+  "problem_statement": "EU parcel-level ground truth (LPIS, EuroCrops, PASTIS, BreizhCrops) is abundant; equivalent multi-class, parcel-level crop-type labels in Southeast Asia are not. Naively transferring an EU-trained satellite-image-time-series (SITS) classifier fails because the temporal axis is structurally different, not just numerically shifted: EU crops follow one growing season bounded by a winter dormancy gap, while SEA cropland (e.g. Mekong Delta rice) runs two to three continuous cycles a year with no dormancy. A model that has learned 'peak greenness occurs in June' is not miscalibrated, it is encoding an assumption (one cycle, one dormancy gap) that is false in the target domain. Existing SITS domain-adaptation methods (TimeMatch, Match-And-Deform, T3S) assume source and target share the same cyclic structure and differ only by a shift or rate; none has been demonstrated across a change in the *number* of cycles.",
+  "proposed_technical_approach": "A shared SITS encoder (pixel-set + temporal-attention encoder, PSE+L-TAE style, as used in TimeMatch/PASTIS, ~1-5M parameters) processes Sentinel-2 (optionally +Sentinel-1) time series from both domains. On top of the encoder, a differentiable temporal-alignment module learns a warping function between the EU source calendar and the SEA target calendar. Because the target may contain multiple repetitions of the source's single cycle, the naive single-path soft-DTW used in Match-And-Deform is not directly applicable; the proposed extension is a piecewise/cycle-aware soft-DTW (or a small cycle-detection head that first segments the target series into candidate cycles via autocorrelation/change-point detection, then aligns each candidate segment to the source cycle with a differentiable DTW loss, averaging predictions across segments). The alignment loss is combined with a classification loss on EU-labelled source data and, where a small SEA labelled set is available, a supervised or semi-supervised loss on target. Training is adversarial-free (unlike MMD/DANN feature-space baselines) — the alignment operates on the raw temporal axis rather than the feature space.",
+  "primary_sensor": {
+    "sensor": "Sentinel-2 (MSI, optical, primary); Sentinel-1 (C-band SAR) optional fusion for cloud-robust temporal coverage",
+    "spatial_resolution_m": "10-20m (Sentinel-2 bands used in EuroCrops/PASTIS/BreizhCrops pipelines); 10m (Sentinel-1 GRD)",
+    "revisit_days": "5 days (Sentinel-2, 2-satellite constellation); 6-12 days (Sentinel-1, coverage-dependent)",
+    "bands_used": "Sentinel-2: B2,B3,B4,B5,B6,B7,B8,B8A,B11,B12 (10 bands, standard PASTIS/BreizhCrops selection); Sentinel-1: VV,VH backscatter",
+    "licence": "Free and open (Copernicus programme, ESA/EU); no commercial imagery required"
+  },
+  "imagery_is_primary_input": "Yes. The entire method operates on Sentinel-2 (+ optional Sentinel-1) SITS pixel/parcel time series; no other data modality is used as the primary learning signal.",
+  "datasets": [
+    {
+      "name": "EuroCrops",
+      "access_route": "Zenodo (https://zenodo.org/records/10118572) and GitHub (github.com/maja601/EuroCrops); per-country harmonized shapefiles derived from national LPIS/IACS declarations",
+      "auth_required": "No",
+      "licence": "Open, CC-BY or national open-data equivalents per country (harmonized under one taxonomy, HCAT)",
+      "approx_size_gb": "Varies by country subset; single-country shapefile extracts are typically 1-5GB",
+      "accessible_from_malaysia": "Yes, verified live Zenodo/GitHub hosting, no geographic restriction found",
+      "verified_how": "WebSearch confirmed live Zenodo record 10118572 and GitHub repo maja601/EuroCrops; Nature Scientific Data paper (EuroCrops) describes harmonized taxonomy"
+    },
+    {
+      "name": "PASTIS / PASTIS-R (pixel-set format)",
+      "access_route": "Zenodo (https://zenodo.org/records/5735646 for PASTIS-R; https://zenodo.org/records/5745151 for pixel-set format); GitHub VSainteuf/pastis-benchmark",
+      "auth_required": "No",
+      "licence": "Open (French national parcel data, IGN)",
+      "approx_size_gb": "PASTIS-R full: ~54GB zipped; pixel-set format (recommended for this project's compute budget): ~27GB zipped",
+      "accessible_from_malaysia": "Yes, verified live Zenodo hosting",
+      "verified_how": "WebSearch confirmed live Zenodo records and GitHub repository with stated file sizes"
+    },
+    {
+      "name": "BreizhCrops",
+      "access_route": "GitHub (github.com/dl4sits/BreizhCrops), auto-downloading Python package",
+      "auth_required": "No",
+      "licence": "Open",
+      "approx_size_gb": "~3GB (much smaller than PASTIS; recommended as the lighter-weight EU source option to stay well within H5 budget)",
+      "accessible_from_malaysia": "Yes (prior FYP research sessions have verified this route; not re-verified in this session)",
+      "verified_how": "Not independently re-verified this session; carried forward from known EU crop-mapping benchmark literature [uncertain]"
+    },
+    {
+      "name": "Copernicus Data Space Ecosystem (for SEA target-region Sentinel-2/1 imagery acquisition)",
+      "access_route": "https://dataspace.copernicus.eu/ — OData/OpenSearch/STAC/openEO APIs, free registration for an access token",
+      "auth_required": "Yes, free account + API token (no payment)",
+      "licence": "Free, open, Copernicus data policy",
+      "approx_size_gb": "Depends on AOI/time range; a single province-scale AOI over 1-2 growing years is estimated at 5-20GB of Sentinel-2 L2A tiles",
+      "accessible_from_malaysia": "Yes, global access confirmed by WebSearch of the official portal (no regional restriction stated)",
+      "verified_how": "WebFetch/WebSearch of dataspace.copernicus.eu confirming free instant access to Sentinel-1/2/3/5P for all users including scientific/public"
+    },
+    {
+      "name": "SEA target labelled crop-type parcel set (THE CRITICAL UNRESOLVED ITEM)",
+      "access_route": "NOT FOUND as a ready, open, multi-class crop-type parcel dataset. Closest substitutes investigated: (a) AI4SmallFarms (Vietnam+Cambodia, DANS DOI 10.17026/dans-xy6-ngg6, 439,001 polygons) provides FIELD BOUNDARIES ONLY, no crop-type class labels; (b) SEA-Rice-Ci10 (Ginting et al. 2025, Sci Data, DOI 10.1038/s41597-025-05722-1) provides rice-vs-non-rice cropping-intensity maps at 10m across 9 SEA countries, i.e. a single binary class, not multi-crop; (c) CropHarvest (global harmonized crop dataset) was checked directly and contains NO Southeast Asian country coverage (confirmed via its own datasets.md manifest: covers East Africa, Europe, Central Asia, Americas only); (d) Radiant MLHub's ~33 training datasets are concentrated in Africa/India with no prominent SEA crop-type entry found.",
+      "auth_required": "N/A — dataset does not exist in ready form",
+      "licence": "N/A",
+      "approx_size_gb": "N/A",
+      "accessible_from_malaysia": "N/A",
+      "verified_how": "Multiple WebSearch queries across CropHarvest's own manifest, Radiant MLHub, academic literature (Thailand crop-type studies with 1,400-8,000 ground points that appear to be in-house, unreleased survey data rather than open benchmarks), and dataset registries; no open, downloadable, multi-class, parcel-level SEA crop-type dataset was located. This directly matches the task's own 'Verify' instruction and the verification failed to confirm existence."
+    }
+  ],
+  "total_dataset_gb": "Approximately 30-60GB for a minimum viable experiment using BreizhCrops or PASTIS pixel-set format as the EU source plus a modest Sentinel-2 SEA target AOI (well under the ~200GB H5 ceiling) — PROVIDED a usable SEA target label set can be assembled at all; if none can be assembled, the dataset volume figure is moot because the experiment cannot run as designed.",
+  "labels_and_ground_truth": "EU source side: genuine, government-declared parcel-level crop-type labels via LPIS/IACS, harmonized in EuroCrops/PASTIS/BreizhCrops — high quality, real supervision. SEA target side: NO verified open multi-class crop-type label source was found (see datasets entry above). Substitutes carry serious risk: (1) ESA WorldCover/Dynamic World give land-cover classes (cropland vs not), not crop TYPE, insufficient granularity for the stated task; (2) SEA-Rice-Ci10 gives a single binary class (rice/non-rice); (3) the student manually labelling a small target validation set via visual interpretation (as Rufin et al. did for Mozambique field boundaries) is feasible in principle but requires either agronomist expertise or ground-truth partnership with a co-op/ministry, which is a real logistics and time risk, not a data-download risk, and is not itself verified here.",
+  "named_baselines": [
+    {
+      "paper_title": "TimeMatch: Unsupervised cross-region adaptation by temporal shift estimation",
+      "venue": "ISPRS Journal of Photogrammetry and Remote Sensing",
+      "year": 2022,
+      "doi_or_arxiv_id": "10.1016/j.isprsjprs.2022.04.018 (arXiv:2111.02682)",
+      "reported_metric": "+11% average F1-score over competing UDA methods across five cross-region adaptation scenarios spanning France, Denmark, Austria SITS LPIS data",
+      "dataset": "TimeMatch open-access 4-region EU SITS cross-region benchmark (author-released, github.com/jnyborg/timematch)"
+    },
+    {
+      "paper_title": "Match-And-Deform: Time Series Domain Adaptation through Optimal Transport and Temporal Alignment",
+      "venue": "arXiv preprint (French-language companion at CAp 2024, HAL hal-04644862)",
+      "year": 2023,
+      "doi_or_arxiv_id": "arXiv:2308.12686",
+      "reported_metric": "Reaches similar-or-better classification performance than state-of-the-art deep time-series DA strategies via joint optimal-transport + DTW alignment; validated on remote-sensing time series",
+      "dataset": "Benchmark time-series datasets plus remote sensing (SITS) data"
+    },
+    {
+      "paper_title": "T3S: Think in Thermal Time for Generalizable Crop Mapping from Satellite Image Time Series",
+      "venue": "arXiv preprint",
+      "year": 2025,
+      "doi_or_arxiv_id": "arXiv:2506.12885",
+      "reported_metric": "Consistent improvements in cross-year and cross-region crop classification over thermal positional encoding and other SOTA baselines, plus gains in uncertainty calibration and label-scarcity robustness",
+      "dataset": "SwissCrop (new, author-released) and the cross-region TimeMatch benchmark (Denmark-France)"
+    },
+    {
+      "paper_title": "Benchmarking Geospatial Foundation Models for Agriculture Applications",
+      "venue": "arXiv preprint (motivating evidence, not a method baseline)",
+      "year": 2026,
+      "doi_or_arxiv_id": "arXiv:2606.29664",
+      "reported_metric": "All three tested GFMs (Prithvi, SpectralGPT, SatMAE) degrade sharply under regional distribution shift, predicting only the most common crops and missing rare ones",
+      "dataset": "Four U.S. states (Iowa, North Carolina, California, Minnesota), non-overlapping train/val/test regions"
+    },
+    {
+      "paper_title": "Taking it further: leveraging pseudo labels for field delineation across label-scarce smallholder regions",
+      "venue": "arXiv preprint (no confirmed peer-reviewed venue found)",
+      "year": 2023,
+      "doi_or_arxiv_id": "arXiv:2312.08384",
+      "reported_metric": "Pseudo-label fine-tuning recovers up to 77% of the IoU gain and 68% of the RMSE reduction achieved by human labels, India-to-Mozambique field delineation transfer",
+      "dataset": "Author-released field-delineation dataset (India source, Mozambique target), Zenodo-hosted"
+    }
+  ],
+  "evaluation_protocol": "Train the shared encoder + alignment module on EU source labels (EuroCrops/PASTIS/BreizhCrops); evaluate on a held-out SEA target test set using per-class F1 and macro-F1 (weighting rare classes equally, following the GFM benchmark's finding that models default to dominant classes), plus overall accuracy. Success is defined as a statistically significant macro-F1 gain over: (a) a no-adaptation zero-shot baseline, (b) a feature-space UDA baseline (MMD or adversarial DANN), (c) TimeMatch's single-shift temporal estimation, and (d) T3S's thermal-time reindexing — with the gain specifically concentrated on the deployment-relevant crop classes and specifically attributable to correctly handling multi-cycle target sequences (ablate by testing on a single-cycle SEA sub-season vs a full multi-cycle year). Geographic generalisation is measured by testing on a SEA province never seen during training or alignment fitting.",
+  "novelty_delta": "The general claim 'temporal alignment beats feature-space alignment for SITS domain adaptation' is NOT novel — TimeMatch (2022) and Match-And-Deform (2023) already established this, and T3S (2025) already performs phenology-anchored reparameterisation (via thermal time/growing degree days) for cross-region and cross-year crop-mapping generalisation. The only defensible technical delta available here is narrower and unaddressed by any of the three: none of TimeMatch, MAD, or T3S has been demonstrated, or is obviously applicable, where source and target differ not just in the timing/rate of a shared cycle but in the NUMBER of cycles (one EU season with dormancy vs two-to-three SEA cycles with none). A genuine contribution would be a warping mechanism that explicitly detects and aligns each target cycle segment against the single source cycle (e.g. cycle-segmentation + piecewise soft-DTW, or a repeat-aware alignment operator) — this is a real, currently unaddressed extension, not 'applying TimeMatch to a new country.' However, as described in the candidate brief, the proposed method does not yet specify this cycle-count-aware mechanism; without it, this reduces to exactly the incremental 're-implementing a known pipeline on a new region' pattern that H1 explicitly disqualifies.",
+  "prior_art_that_threatens_it": "TimeMatch (Nyborg et al. 2022, ISPRS J Photogramm Remote Sens, DOI 10.1016/j.isprsjprs.2022.04.018) — establishes temporal-shift-aware UDA for cross-region EU SITS crop classification as state of the art, beating feature-space UDA by 11% F1. Match-And-Deform (Painblanc et al. 2023, arXiv:2308.12686) — combines differentiable DTW with optimal transport for joint temporal-alignment domain adaptation, explicitly validated on remote-sensing time series; this is almost exactly the 'differentiable DTW as adaptation mechanism' idea named in the candidate description. T3S (Turkoglu et al. 2025, arXiv:2506.12885) — performs exactly the 'phenology-anchored reparameterisation of the time axis' named in the candidate description (via growing-degree-day reindexing), tested on the cross-region TimeMatch benchmark. Together these three papers substantially pre-empt the method as generally described; only the multi-cycle/no-dormancy structural mismatch (EU-to-SEA specifically, vs the EU-to-EU or CH-to-DK/FR settings all three prior works use) is a plausible remaining gap, and it is not yet clear this is solvable with a straightforward extension of any of the three.",
+  "h2_generic_check": "Not a chatbot/RAG assistant, not a dashboard/monitoring portal, not leaf-photo disease classification, not an NDVI viewer, not tabular yield-from-CSV prediction, not a mobile app calling someone else's API. It IS structurally close to re-running a known domain-adaptation pipeline (TimeMatch/MAD/T3S-style) on new geography, which H1 explicitly flags as insufficient — this is a borderline H2 case as much as an H1 case: the one-sentence pitch ('temporal-alignment domain adaptation for crop classification') could describe several existing published methods almost verbatim, so it risks reading as generic within the specific niche of SITS domain adaptation, even though it would not describe 50 unrelated FYPs outside that niche.",
+  "user_segment": "A Mekong Delta or Tonle Sap-region provincial department of agriculture, or a rice/cassava smallholder cooperative in Vietnam or Cambodia, that currently has no automated multi-crop-type mapping capability and relies on manual field surveys for subsidy/monitoring purposes (the same user profile as Rufin et al.'s Mozambique field-delineation work, and consistent with N2/N3's SEA framing). This satisfies H4 provided the student names a specific country/co-op rather than 'SEA farmers' generically; Singapore is explicitly not viable here per N1 (negligible farmland) unless reframed around a different domain (e.g. aquaculture), which this idea does not do.",
+  "quantified_pain": "Southeast Asia's total rice growing area was 28.5 Mha in 2020-2021 (Ginting et al. 2025, Scientific Data, DOI 10.1038/s41597-025-05722-1), almost entirely without automated multi-crop-type maps at parcel resolution. AI4SmallFarms notes median smallholder field sizes of 0.06-0.24 ha across Vietnam/Cambodia (Persello et al. 2023, IEEE GRSL, DOI 10.1109/lgrs.2023.3323095), implying millions of individually tiny parcels for which manual crop-type field surveys are prohibitively costly at scale. Chang et al. (arXiv:2409.09451, IGARSS 2025) quantify the labelling cost problem directly: ~100 labels suffice for high overall accuracy but ~900 are needed before rare classes are handled adequately — i.e. the labelling burden this project seeks to reduce is roughly an order of magnitude larger than naive estimates suggest.",
+  "compute_feasibility": {
+    "peak_memory_gb": "Estimated 4-8GB using a lightweight PSE+L-TAE-style encoder (a few million parameters, consistent with TimeMatch/PASTIS baselines) rather than a full transformer foundation model",
+    "est_training_hours_mps": "Estimated 2-8 hours on M4 Pro MPS for BreizhCrops-scale or PASTIS-pixel-set-scale data, well within the 12-hour H5 ceiling",
+    "fits_24gb": "Yes, for the lightweight architecture described; would NOT fit comfortably if the shared encoder is swapped for a full GFM (Prithvi-EO-2.0 at 300M/600M params) without careful memory management",
+    "mps_compatible_ops": "Standard conv1d/attention operations are MPS-compatible. The differentiable soft-DTW component is the main risk: widely-used soft-DTW CUDA kernels (e.g. pytorch-softdtw-cuda) will NOT run on MPS/no-CUDA; a pure-PyTorch vectorised soft-DTW implementation is necessary and will be slower, though feasible at this data scale [uncertain — not empirically benchmarked in this research pass]",
+    "colab_kaggle_fallback_needed": "Not expected to be needed for the lightweight architecture, but recommended as a fallback if the custom soft-DTW backward pass proves too slow on MPS",
+    "notes": "Feasibility conclusion assumes the lightweight PSE/L-TAE-style encoder from the prior-art baselines is reused rather than a heavy pretrained GFM; this keeps the project inside H5's compute ceiling comfortably."
+  },
+  "cash_cost_rm": "Approximately RM 0. All datasets (EuroCrops, PASTIS/BreizhCrops, Copernicus Data Space Sentinel-2/1) are free and open. No commercial VHR imagery is required. The only non-zero cost risk is if the student must commission or travel for SEA ground-truth collection to build a labelled target set, which is unbudgeted and unverified in this research pass.",
+  "demo_artifact": "Live 2-minute demo: load a held-out SEA parcel's Sentinel-2 NDVI/reflectance time series; show side-by-side (a) the naive EU-trained model's crop-type prediction on the SEA parcel (visibly defaulting to the majority/EU-season-shaped class) versus (b) the phenology-aligned adapted model's prediction, plus a visualisation of the learned warping function overlaid on the EU single-season curve and the SEA multi-cycle curve, making the 'this is not just a shift, it's a different number of cycles' argument visually obvious to the panel.",
+  "build_vs_research_ratio": "Approximately 55:45 engineering-to-research. This project is more research-heavy than the S2 target of ~70:30 because its core deliverable IS a new alignment algorithm (the cycle-count-aware warping mechanism), which is a genuine open methods question rather than an engineering integration task; the data pipeline (EU+SEA harmonisation, encoder, demo tool) is substantial but secondary to the algorithmic contribution.",
+  "publication_venue_fit": "ICLR ML4RS workshop or CVPR EarthVision are the best fits — TimeMatch, Match-And-Deform, and T3S all sit in this exact workshop lineage, so a genuinely novel cycle-count-aware extension would be a natural submission there. Remote Sensing (MDPI) is a plausible fallback journal target if the workshop track is missed.",
+  "key_risks": [
+    "1. (Highest, data-access) No verified open, multi-class, parcel-level SEA crop-type labelled dataset was found in this research pass; AI4SmallFarms is boundaries-only, SEA-Rice-Ci10 is rice-binary-only, CropHarvest has no SEA coverage, Radiant MLHub has no prominent SEA crop-type entry. Without this, the entire evaluation protocol cannot run as designed.",
+    "2. (Method) The core novelty depends on solving the multi-cycle alignment problem (mapping one EU season onto 2-3 SEA cycles), which may be fundamentally different from, and harder than, a straightforward DTW/thermal-time extension; it is not yet clear this is well-posed or tractable within an FYP timeline.",
+    "3. (Prior art / H1) TimeMatch, Match-And-Deform, and T3S are well-established, actively-cited methods occupying almost exactly this space; a panel or reviewer familiar with this literature will immediately ask 'how is this different from TimeMatch/MAD/T3S', and the current framing does not yet have a sharp answer.",
+    "4. (Evaluation) Even if a small SEA labelled target set is assembled, it is likely to be small enough that claims of a statistically significant improvement on rare classes will be hard to support rigorously.",
+    "5. (Compute, lower severity) Differentiable soft-DTW lacks MPS-optimised kernels; a custom implementation is needed and its runtime on MPS is unverified."
+  ],
+  "kill_criteria": [
+    "Week 1: Attempt to assemble or locate a real multi-class, parcel-level SEA crop-type labelled set of at least ~200-500 samples (via literature-released data, an agronomist/co-op partnership, or careful visual interpretation). If this cannot be done, abandon the SEA framing entirely (pivot to an EU-only cross-region variant, or to a different candidate idea).",
+    "Week 1-2: Empirically test whether a naive TimeMatch-style single-shift adaptation, or T3S's thermal-time reindexing alone, already closes most of the EU-to-SEA gap on whatever target labels are available. If either baseline already performs well, the proposed method's novelty collapses.",
+    "Week 2: Prototype the pure-PyTorch soft-DTW forward/backward pass at realistic sequence lengths and confirm it trains within the MPS memory/time budget; if it is prohibitively slow, decide early whether to fall back to Colab/Kaggle T4."
+  ],
+  "hard_constraint_verdict": {
+    "H1": "CONDITIONAL FAIL as currently specified — the general temporal-alignment-for-DA idea is pre-empted by TimeMatch/Match-And-Deform/T3S; a genuine delta (cycle-count-aware alignment for dormancy-vs-multi-cropping) is plausible but not yet specified in the proposal, and H1 explicitly disqualifies 'applied X to Y region' without a genuine technical problem being solved.",
+    "H2": "PASS, with caveat — not a banned pattern, but risks reading as 'yet another SITS-DA paper' within its own niche unless the cycle-mismatch framing is made explicit and central.",
+    "H3": "PASS — Sentinel-2 (+ optional Sentinel-1) SITS is the genuine primary input throughout.",
+    "H4": "PASS, if a specific SEA co-op/ministry user is named (e.g. Mekong Delta / Cambodian rice cooperative); fails if left as generic 'SEA farmers'.",
+    "H5": "PASS, provided a lightweight PSE/L-TAE-style encoder is used (not a full GFM) and BreizhCrops/PASTIS-pixel-set is chosen over full PASTIS-R rasters; dataset volumes and compute both fit comfortably.",
+    "H6": "CONDITIONAL PASS — the pitch and demo concept are strong in principle, but cannot be honestly delivered without a real SEA target label set to demo against; currently undermined by the unresolved dataset gap."
+  },
+  "overall_recommendation": "WEAK. The idea sits on two compounding risks: the task's own 'Verify' instruction (a labelled SEA target set must exist) could not be confirmed in this research pass despite a thorough search across CropHarvest, Radiant MLHub, AI4SmallFarms, and academic literature; and the general method (temporal alignment for SITS domain adaptation) is substantially pre-empted by TimeMatch, Match-And-Deform, and T3S, leaving only a narrow, technically uncertain sliver of novelty (handling a change in the number of phenological cycles) that is not yet specified in the proposal as given.",
+  "confidence": "Medium. Based on a reasonably thorough 2024-2026 literature sweep (arXiv + OpenAlex) and explicit, recorded dataset-access checks. Confidence would be raised to High by directly querying SEA government open-data portals (e.g. Vietnam's General Statistics Office, Cambodia's Ministry of Agriculture), IRRI, or SERVIR-Mekong for any unindexed labelled crop-type releases, and by empirically testing whether T3S/TimeMatch already solve most of the EU-to-SEA gap before assuming a new method is needed.",
+  "key_references": [
+    {
+      "title": "TimeMatch: Unsupervised cross-region adaptation by temporal shift estimation",
+      "year": 2022,
+      "venue": "ISPRS Journal of Photogrammetry and Remote Sensing",
+      "doi_or_arxiv_id": "10.1016/j.isprsjprs.2022.04.018",
+      "why_it_matters": "The foundational method this idea's 'temporal rather than feature-space alignment' delta must be differentiated from; sets the SOTA baseline for cross-region SITS crop-classification adaptation in the EU."
+    },
+    {
+      "title": "Match-And-Deform: Time Series Domain Adaptation through Optimal Transport and Temporal Alignment",
+      "year": 2023,
+      "venue": "arXiv preprint / CAp 2024 (French AI conference)",
+      "doi_or_arxiv_id": "arXiv:2308.12686",
+      "why_it_matters": "Already implements differentiable DTW as the domain-adaptation mechanism for time series including remote sensing data — the single closest piece of prior art to the proposed method."
+    },
+    {
+      "title": "T3S: Think in Thermal Time for Generalizable Crop Mapping from Satellite Image Time Series",
+      "year": 2025,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2506.12885",
+      "why_it_matters": "Already implements phenology-anchored temporal reparameterisation (thermal time) for cross-region crop-mapping generalisation, directly overlapping the proposal's second named mechanism."
+    },
+    {
+      "title": "Benchmarking Geospatial Foundation Models for Agriculture Applications",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2606.29664",
+      "why_it_matters": "The 2026 GFM regional-shift benchmark named in the task description; provides the motivating evidence of sharp degradation under regional shift, though on US regions, not EU-SEA."
+    },
+    {
+      "title": "AI4SmallFarms: A Dataset for Crop Field Delineation in Southeast Asian Smallholder Farms",
+      "year": 2023,
+      "venue": "IEEE Geoscience and Remote Sensing Letters",
+      "doi_or_arxiv_id": "10.1109/lgrs.2023.3323095",
+      "why_it_matters": "The most relevant open SEA agricultural parcel dataset found, but provides field BOUNDARIES only, not crop-type labels — central evidence for the unresolved dataset-verification risk."
+    },
+    {
+      "title": "High-resolution maps of rice cropping intensity across Southeast Asia",
+      "year": 2025,
+      "venue": "Scientific Data",
+      "doi_or_arxiv_id": "10.1038/s41597-025-05722-1",
+      "why_it_matters": "Closest thing to an open SEA crop-labelled dataset, but is binary rice/non-rice cropping-intensity, not multi-class crop type — quantifies the pain (28.5 Mha) and confirms the labelling gap."
+    },
+    {
+      "title": "Taking it further: leveraging pseudo labels for field delineation across label-scarce smallholder regions",
+      "year": 2023,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2312.08384",
+      "why_it_matters": "The Rufin et al. pseudo-label fine-tuning baseline explicitly named in the task description as the competing adaptation strategy to beat."
+    },
+    {
+      "title": "On the Generalizability of Foundation Models for Crop Type Mapping",
+      "year": 2024,
+      "venue": "IGARSS 2025 (IEEE International Geoscience and Remote Sensing Symposium)",
+      "doi_or_arxiv_id": "arXiv:2409.09451",
+      "why_it_matters": "Chang et al.'s label-count finding (100 vs 900 labels) quantifies the labelling-cost pain point and is directly cited in the task description."
+    }
+  ],
+  "uncertain": [
+    "novelty_delta: whether a cycle-count-aware DTW extension is actually well-posed/tractable is not established — flagged as the central open research question, not a solved design.",
+    "datasets[BreizhCrops].verified_how: access route not independently re-verified in this research session (carried forward from general knowledge, not a fresh live check).",
+    "datasets[SEA target labelled set]: exhaustive certainty that NO open multi-class SEA crop-type dataset exists cannot be claimed; only that none was found across the specific sources checked (CropHarvest manifest, Radiant MLHub, AI4SmallFarms, general web search). Government portals (Vietnam GSO, Cambodia MAFF), SERVIR-Mekong, and IRRI were not directly queried.",
+    "compute_feasibility.mps_compatible_ops: soft-DTW runtime/memory behaviour on MPS was not empirically benchmarked in this research pass, only reasoned about from known CUDA-kernel dependency of common implementations.",
+    "h2_generic_check: whether this reads as 'too close to TimeMatch/MAD/T3S' to satisfy a skeptical panel is a judgment call, not a fact that can be verified without the panel's actual reaction."
+  ]
+}

@@ -1,0 +1,352 @@
+topic: FYP Candidate Ideas — Agricultural Remote Sensing for SEA (Singapore) and the EU
+
+brief: research/RESEARCH_BRIEF.md
+routing: research/TOOL_ROUTING.md
+
+description: >
+  20 distinct candidate Final Year Project ideas in agricultural remote sensing,
+  each a concrete problem plus a proposed technical approach, spread deliberately
+  across 10 buckets. Every candidate has passed a first-glance check against
+  H1-H6 of the constraints block. Deep research must now verify each candidate
+  against every hard constraint and return a pass/fail verdict per constraint.
+
+execution:
+  output_dir: ./research/results
+  batch_size: 5
+  items_per_agent: 2
+
+items:
+
+  - name: Continuous-Time Rice Phenology from Irregular SAR-Optical Series
+    category: "1 - satellite time-series / phenology"
+    description: >
+      Malaysian granary co-ops (MADA/IADA, Kedah) need per-parcel transplanting and
+      heading dates to schedule irrigation releases and plan double-cropping, but
+      monsoon cloud makes Sentinel-2 series irregular and every mainstream SITS model
+      (TSViT, SITSMamba, 3D U-Net) assumes a regular or interpolated grid, so
+      interpolation invents the very phenological transitions being measured.
+      Proposed approach: a continuous-time sequence model (time-conditioned attention
+      or neural-ODE style latent state) that ingests Sentinel-1 GRD backscatter and
+      Sentinel-2 observations at their true irregular timestamps with no resampling,
+      trained to predict phenological stage dates with calibrated uncertainty.
+      Novelty delta to defend: native irregular-time modelling versus interpolate-then-
+      classify, measured as date-error under increasing simulated cloud fraction against
+      TSViT/SITSMamba on the same parcels. Tropical double-cropping is the data regime
+      that breaks temperate-trained models. Verify: PASTIS-R and BreizhCrops for
+      pretraining, MADA cropping calendars or a public SEA rice reference for validation.
+
+  - name: Within-Season Yield-Gap Ranking of Smallholder Parcels
+    category: "1 - satellite time-series / phenology"
+    description: >
+      Co-op agronomists cannot visit every member parcel, and absolute yield regression
+      needs per-parcel harvest records that do not exist for SEA smallholders. Reframe
+      the task as learning-to-rank: given Sentinel-1/2 phenology curves for all parcels
+      in a scheme, rank them by expected underperformance mid-season so an agronomist
+      can triage field visits. Ranking needs only ordinal supervision (which of two
+      parcels did worse), which can be harvested from sparse co-op records or from
+      end-of-season NDVI-integral proxies, sidestepping the label scarcity that kills
+      absolute yield models. Novelty delta: the task formulation itself plus a
+      pairwise/listwise loss over phenology-curve embeddings, evaluated by NDCG and by
+      how many true worst-decile parcels appear in the top-k visit list, against an
+      absolute-regression baseline. Explicitly NOT tabular yield prediction from
+      weather and soil CSVs — the input is an imagery time series and the output is a
+      triage ordering. Verify what ordinal supervision is actually obtainable.
+
+  - name: Task-Aware SAR Despeckling Optimised for Downstream Agronomy
+    category: "2 - SAR-specific"
+    description: >
+      Despeckling research optimises PSNR, SSIM and ENL, but GeoSR-Bench (2026) showed
+      for super-resolution that fidelity metrics can correlate negatively with downstream
+      task gains, and no equivalent has been established for despeckling in agriculture.
+      Proposed approach: train a self-supervised despeckler (MERLIN-style or log-domain
+      score-based) with an auxiliary downstream loss from a frozen parcel-level crop
+      classifier, so the despeckler learns to preserve agronomically discriminative
+      texture rather than to look smooth. Evaluate on smallholder parcels where speckle
+      dominates because fields are only a few pixels across. Novelty delta: task-coupled
+      despeckling plus the first downstream-integrated despeckling benchmark for
+      agriculture; report the correlation (or lack of it) between ENL/PSNR and crop-map
+      F1. Named baselines to beat: MERLIN, MuChaPro, R-DDPM. Verify Sentinel-1 GRD
+      access route and whether a suitable small-parcel labelled set exists.
+
+  - name: Separating Managed Paddy Flooding from Disaster Flooding in SAR
+    category: "2 - SAR-specific"
+    description: >
+      Generic SAR flood maps (Sen1Floods11-style thresholding and its successors) label
+      deliberately flooded rice paddy as inundation, so flood-extent products and the
+      index-insurance and disaster-response workflows built on them generate false
+      alarms across the entire rice belt of Kedah, the Mekong Delta and Central Thailand.
+      Proposed approach: a temporal-context classifier over Sentinel-1 time series that
+      distinguishes managed flooding (scheduled, parcel-aligned, follows the cropping
+      calendar, bounded by bunds) from disaster flooding (abrupt, crosses parcel
+      boundaries, co-occurs with rainfall anomaly), using parcel geometry and
+      change-point structure rather than single-date backscatter. Novelty delta: a
+      disambiguation task that existing flood benchmarks do not pose at all, with a new
+      evaluation protocol measuring false-alarm rate over agricultural land specifically.
+      Verify: Sen1Floods11 licence and size, Sentinel-1 GRD access, and whether any
+      published flood product already reports agricultural false-alarm rates.
+
+  - name: Row-Free Weed Segmentation for Non-Row-Planted Tropical Smallholdings
+    category: "3 - drone / UAV close-range"
+    description: >
+      Essentially every UAV crop-weed segmentation method and dataset (WeedMap, Sugar
+      Beets 2016, PhenoBench, WeedsGalore) is built on European mechanised row crops,
+      and many methods exploit crop-row geometry explicitly or implicitly as a prior.
+      SEA smallholder and Singapore small-plot horticulture is frequently broadcast-sown,
+      intercropped or irregularly spaced, so the row prior is absent or actively
+      misleading. Proposed approach: a segmentation model with an explicit row-prior
+      ablation, replacing row geometry with a learned plant-instance density and
+      spatial-context prior; quantify how much published performance is actually
+      carried by the row assumption by evaluating row-trained models on
+      deliberately non-row imagery. Novelty delta: identifying and removing a
+      structural dataset bias, plus a method that survives its removal — a genuine
+      technical problem introduced by the region, not a relocation. Verify: which
+      public drone datasets contain non-row planting, and whether one can substitute
+      for flying a drone (the student must not need their own UAV).
+
+  - name: Monocular UAV Canopy Structure Without Photogrammetry
+    category: "3 - drone / UAV close-range"
+    description: >
+      Canopy volume and height for orchard and plantation tree health normally require
+      full structure-from-motion photogrammetry, which needs high overlap, long flights
+      and hours of offline processing — impractical for a co-op scout doing a quick pass.
+      Proposed approach: single-pass monocular depth/height estimation from UAV RGB,
+      supervised by photogrammetric or LiDAR-derived canopy height models on public
+      datasets, then applied to sparse non-overlapping imagery to produce per-tree
+      canopy metrics in one flight with on-site inference. Novelty delta: trading the
+      multi-view constraint for a learned monocular prior under a named deployment
+      constraint (single pass, no overlap, on-device), measured as canopy-height RMSE
+      versus a photogrammetric reference at decreasing image overlap. Verify: public
+      UAV datasets with paired canopy height models, and whether the accuracy is
+      usable at realistic overlap levels.
+
+  - name: Cross-Resolution Distillation from UAV Teacher to Sentinel-2 Student
+    category: "4 - satellite-drone fusion / distillation"
+    description: >
+      Drone imagery gives centimetre detail over a few hectares; satellites give ten
+      metres over everything. Labels and fine structure exist only where someone flew,
+      so models trained on satellite input never see what the drone saw. Proposed
+      approach: cross-resolution knowledge distillation where a teacher trained on
+      co-located UAV imagery supervises a student whose only input is Sentinel-2, using
+      spatially-aligned plot pairs so the student learns a sub-pixel-informed
+      representation; the student then runs everywhere. Directly targets the Singapore
+      resolution problem in N1 — small plots that Sentinel-2 cannot resolve — by asking
+      what a satellite-input model can recover when taught by a drone. Novelty delta:
+      distillation across a ~200x resolution gap with spatial rather than logit
+      alignment; named comparison against plain super-resolution-then-classify and
+      against HyperKD-style inverse distillation. Verify: existence of co-located
+      UAV/Sentinel-2 plot pairs with open licence — this is the make-or-break check.
+
+  - name: Does Super-Resolution Actually Help Agricultural Tasks?
+    category: "4 - satellite-drone fusion / distillation"
+    description: >
+      Remote-sensing super-resolution is a crowded field reporting PSNR/SSIM gains, but
+      GeoSR-Bench (2026) found those gains often fail to transfer, and sometimes
+      correlate negatively with downstream performance. No study has established this
+      for the specific agricultural tasks a co-op cares about: parcel delineation,
+      crop-type mapping and sub-field zoning, at SEA smallholder field sizes.
+      Proposed approach: build a controlled pipeline that takes several published SR
+      models, applies each to Sentinel-2 over small-parcel regions, runs three fixed
+      downstream tasks, and reports the fidelity-vs-utility correlation; then propose
+      a downstream-supervised SR variant that beats the fidelity-optimised ones on task
+      metrics. Flag honestly: this leans benchmark-heavy and must be shaped toward the
+      70:30 build:research target in S2, so the deliverable must be a working pipeline
+      and a released benchmark, not a survey. Verify whether this survives S2.
+
+  - name: Sub-Field Management-Zone Delineation Inside the Parcel
+    category: "5 - field / parcel boundary and sub-field structure"
+    description: >
+      Delineate Anything v2 (2026) mapped field boundaries across 61 countries with a
+      foundation model, which largely closes parcel delineation as an open FYP problem
+      and moves the interesting question inside the parcel. Farmers and agronomists
+      applying variable-rate inputs need consistent sub-field management zones —
+      contiguous areas that behave the same across a season — and these are not
+      boundaries, not crop types, and not a single-date clustering of NDVI.
+      Proposed approach: temporally-consistent unsupervised segmentation of Sentinel-1/2
+      time series within known parcel polygons, optimising for zone stability across
+      seasons and for predictive power over a held-out response variable, rather than
+      for within-date homogeneity. Novelty delta: a stability-based objective and an
+      evaluation protocol for zone quality that does not exist in the literature.
+      Named baselines: k-means/NDVI zoning, and parcel-level SITS models. Verify
+      whether EU LPIS/EuroCrops parcel polygons plus multi-year Sentinel are enough.
+
+  - name: Diagnosing Where Global Boundary Models Fail on SEA Smallholdings
+    category: "5 - field / parcel boundary and sub-field structure"
+    description: >
+      Global field-delineation foundation models (Delineate Anything v2, SAM-based
+      pipelines, FBIS-73M) report strong zero-shot numbers, but SEA smallholder
+      landscapes combine sub-hectare plots, terracing, agroforestry canopy overlap and
+      no crisp boundaries — the conditions GTPBD-MM (2026) showed break flat-farmland
+      benchmarks. Proposed approach: a stratified failure analysis of the current global
+      model across SEA landscape strata (field size, terrain slope, canopy closure,
+      fragmentation), followed by a targeted fix for the dominant failure mode —
+      likely terrain-aware or canopy-aware conditioning using free DEM and land-cover
+      layers. Novelty delta must be the diagnosed mechanism plus the fix, with a
+      measured gain over the global model on the strata where it fails; a pure
+      re-evaluation would fail H1. Flag this candidate as the one most at risk of
+      collapsing into "applied X to Y country" — the deep research must decide whether
+      a real fixable failure mode exists.
+
+  - name: EU-to-SEA Domain Adaptation with Phenological Time Warping
+    category: "6 - label-scarce learning"
+    description: >
+      The EU has parcel-level ground truth (LPIS, EuroCrops, PASTIS, BreizhCrops);
+      SEA has almost none. Naive transfer fails because the temporal axis means
+      something different — one temperate season with a winter versus two or three
+      tropical cycles with no dormancy — so a model that learned "green in June" is
+      structurally wrong, not just miscalibrated. Proposed approach: a domain-adaptation
+      method with an explicit learned temporal alignment (differentiable dynamic time
+      warping or a phenology-anchored reparameterisation of the time axis) between EU
+      source and SEA target, on top of a shared SITS encoder. Novelty delta: temporal
+      rather than feature-space alignment as the adaptation mechanism, against
+      standard UDA and against the pseudo-label fine-tuning of Rufin et al.; the
+      2026 GFM benchmark showing sharp degradation under regional shift is the
+      motivating evidence. Verify: a labelled SEA target set, however small, must exist.
+
+  - name: How Many Labels Does a Co-op Actually Need?
+    category: "6 - label-scarce learning"
+    description: >
+      Benchmarking Geospatial Foundation Models for Agriculture (2026) showed Prithvi,
+      SpectralGPT and SatMAE all degrade sharply under regional shift, and Chang et al.
+      found ~100 labels give high overall accuracy but ~900 are needed before rare
+      classes work. Nobody has turned this into the operational answer a co-op needs:
+      given a fixed field-survey budget, which parcels should be labelled, and when
+      does adding more stop paying? Proposed approach: an active-learning loop over
+      frozen foundation-model embeddings that selects the next parcel to label,
+      producing a labels-versus-accuracy budget curve per crop class, with a
+      class-imbalance-aware acquisition function. Novelty delta: the acquisition
+      strategy plus the deployment-facing budget curve, against random and
+      uncertainty-only selection. Build-heavy: the artifact is a working
+      label-budgeting tool. Verify which GFM checkpoints run on 24GB MPS.
+
+  - name: Bandwidth-Aware Satellite Inference for Low-Connectivity Co-ops
+    category: "7 - on-device / edge-efficient inference"
+    description: >
+      A co-op office in rural Kedah or Sarawak on an intermittent mobile connection
+      cannot pull a season of Sentinel tiles; the bottleneck is bandwidth, not FLOPs,
+      and the standard answer — do it in the cloud — fails when the connection does.
+      Proposed approach: jointly learn a compressed representation of Sentinel time
+      series and the downstream model that consumes it, so the server transmits a
+      task-sufficient code rather than imagery, and inference completes locally on
+      commodity hardware; report an explicit rate-accuracy curve (kilobytes per parcel
+      per season versus crop-map F1). Novelty delta: task-aware learned compression as
+      the deployment constraint, which is a different objective from model efficiency
+      or image compression alone; named comparison against JPEG2000/off-the-shelf codecs
+      plus a full-resolution model, and against pure model quantisation. Verify that
+      the rate-accuracy tradeoff is favourable enough to matter.
+
+  - name: Full-Season SITS Inference on a Laptop in Under a Minute
+    category: "7 - on-device / edge-efficient inference"
+    description: >
+      SITS transformers (TSViT, SITSMamba, VistaFormer) are evaluated on server GPUs;
+      nobody reports what they cost on the Apple Silicon or low-power hardware an
+      extension officer would actually carry, and MPS lacks kernels that CUDA
+      implementations assume. Proposed approach: quantisation-aware distillation of a
+      strong SITS teacher into a student that runs a full growing-season inference over
+      a co-op-sized area within a fixed latency and memory budget on an M-series
+      laptop, with an honest MPS operator-coverage and throughput study as a first-class
+      contribution. Novelty delta: the deployment constraint (no CUDA, unified memory,
+      full-season temporal context) is genuinely different from the edge-inference
+      literature, which optimises single-frame detection on Jetson-class devices;
+      report accuracy-per-watt and accuracy-per-second Pareto fronts. Strong on S2
+      because the artifact is a working demo. Verify the accuracy loss is acceptable.
+
+  - name: Cloud-Robust Algal Bloom Early Warning for Johor Strait Fish Farms
+    category: "8 - coastal and aquaculture"
+    description: >
+      Singapore and Johor coastal fish farms have suffered repeated mass-mortality
+      events from harmful algal blooms, and a 2026 review of HABs in Malaysia states
+      plainly that satellite remote sensing for HAB detection is obstructed by frequent
+      cloud cover and cost, leaving the region on reactive manual microscopy. This is
+      the Singapore-viable route (b) named in N1: farming, satellite-appropriate, and
+      not generic. Proposed approach: bloom-risk nowcasting over the Johor Strait that
+      fuses Sentinel-2 and Sentinel-3 OLCI water bands with Sentinel-1 SAR and
+      meteorological reanalysis, trained to maintain skill under heavy cloud by learning
+      from partially-observed sequences rather than discarding cloudy dates; the metric
+      that matters is lead time before a fish-kill event, not per-pixel chlorophyll
+      accuracy. Novelty delta: cloud-persistent-regime early warning with lead time as
+      the objective. Verify the hardest thing first: does a usable record of Johor
+      Strait / Singapore bloom or fish-kill events exist to supervise and evaluate against?
+
+  - name: Sub-Pixel Detection of Coastal Fish Cages and Kelongs
+    category: "8 - coastal and aquaculture"
+    description: >
+      Coastal aquaculture mapping from satellite is established for China's large raft
+      and pond systems at 10-16m, but Johor Strait and Singapore cage farms are small
+      floating structures often narrower than a single Sentinel-2 pixel, so published
+      pond-extraction methods (U2-Net, HCHNet) have nothing to segment. Proposed
+      approach: sub-pixel detection framed as density or count estimation rather than
+      segmentation, exploiting Sentinel-1 SAR's strong response from metal and floating
+      structures against calm water plus Sentinel-2 multi-temporal persistence, with
+      validation against a public register of licensed farms. Novelty delta: the
+      sub-pixel small-structure regime, where the segmentation formulation itself is
+      wrong and detection-by-density is the fix; this is a genuine technical problem
+      created by the geography, exactly as H1 requires. Also the prerequisite layer for
+      the bloom early-warning candidate. Verify: is there an authoritative list of
+      Johor Strait / Singapore farm locations to validate against?
+
+  - name: Cutting EUDR False Deforestation Alerts Against Smallholder Agroforestry
+    category: "9 - regulatory and compliance"
+    description: >
+      The EU Deforestation Regulation requires proof that commodities are not linked to
+      deforested land, and a 2026 tree-crop mapping study found that the regulatory maps
+      underpinning EUDR frequently classify established smallholder agroforestry as
+      forest — which means SEA smallholders growing cocoa, coffee, rubber or palm under
+      canopy risk false deforestation alerts and loss of EU market access for land they
+      have farmed for decades. Proposed approach: a multi-temporal Sentinel-1/2 model
+      that separates smallholder agroforestry and tree crops from natural forest at 10m,
+      trained where labels exist (COLD-CI, tree-crop maps, ForTy) and evaluated on the
+      false-positive rate against the operational regulatory layers it would correct.
+      Novelty delta: optimising explicitly for the regulator's error asymmetry — the cost
+      of a false deforestation alert against a smallholder — rather than for overall
+      accuracy. Strong H6 pitch: named user, quantified pain, live 2026 regulatory
+      driver, demoable. Verify label availability for a SEA rather than West African site.
+
+  - name: Decision-Calibrated Mowing and Ploughing Verification for CAP
+    category: "9 - regulatory and compliance"
+    description: >
+      CAP has moved to "checks by monitoring", where every parcel is screened by
+      Sentinel data and only flagged parcels get an inspector. Voormansik et al. showed
+      Sentinel-1 6-day coherence separates mowing and ploughing events, and Tsardanidis
+      et al. improved detection through cloud-gap-filled NDVI — but detection accuracy
+      is not the paying agency's problem. The agency needs to know, per parcel, whether
+      the evidence justifies the cost of sending an inspector. Proposed approach: a
+      decision-theoretic layer over an S1-coherence plus S2 event detector that outputs
+      calibrated event probabilities and an expected-cost-optimal inspect/do-not-inspect
+      recommendation, evaluated by inspection cost saved at fixed compliance risk rather
+      than by F1. Novelty delta: calibration and decision cost as the objective, which
+      the detection literature does not address. Verify: is there open declared-parcel
+      and inspection-outcome data (Slovenia, Estonia, Lithuania, Denmark) to evaluate on?
+
+  - name: Crop Stress Early Warning That Fires Before NDVI Moves
+    category: "10 - change detection and early warning"
+    description: >
+      By the time NDVI drops, the yield loss is already incurred, so vegetation-index
+      monitoring is a diagnosis rather than a warning; the operational question is how
+      many days of lead time a method buys over the NDVI-threshold practice farmers and
+      insurers use today. Proposed approach: a self-supervised anomaly detector over
+      joint Sentinel-1 and Sentinel-2 series that learns the normal phenological
+      trajectory of a parcel and flags divergence, exploiting the fact that SAR responds
+      to canopy structure and water content changes that precede visible greenness loss;
+      STS-NET (2026) established self-supervised stress detection on optical indices but
+      did not target lead time or use SAR. Novelty delta: lead-time-in-days as the
+      headline metric against a named NDVI-threshold baseline, plus SAR as the
+      early-signal channel. Explicitly not an NDVI time-series viewer — the output is a
+      dated alert with a measured earliness. Verify: a ground-truth stress-event record
+      with dates is the critical dependency.
+
+  - name: Modelling Outbreak Spread Fronts Instead of Per-Pixel Anomalies
+    category: "10 - change detection and early warning"
+    description: >
+      Pest and disease outbreaks propagate spatially through a landscape, but satellite
+      anomaly detection treats each pixel or parcel independently, so it detects damage
+      where it already is and cannot say where it is going next — which is the only
+      thing that lets a co-op deploy limited intervention resources ahead of the front.
+      Proposed approach: model the spatial spread explicitly, learning a propagation
+      operator over a parcel adjacency graph from Sentinel time series so the system
+      forecasts which parcels are at risk in the next revisit cycle, evaluated by
+      next-cycle prediction of newly affected parcels rather than by current-state
+      detection. Candidate application: oil palm or rice pest spread in Peninsular
+      Malaysia, or an EU equivalent with better records. Novelty delta: forecasting the
+      front versus detecting the state; spatio-temporal graph propagation is the
+      technical core a panel can see is non-trivial. Verify the hardest dependency
+      first: does any dated, spatially-resolved outbreak record exist to train against?

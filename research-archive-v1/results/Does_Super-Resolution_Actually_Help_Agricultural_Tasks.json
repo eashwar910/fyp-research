@@ -1,0 +1,187 @@
+{
+  "idea_name": "Does Super-Resolution Actually Help Agricultural Tasks?",
+  "bucket": "4 - satellite-drone fusion / distillation",
+  "one_sentence_pitch": "For agronomists at Southeast Asian smallholder co-ops deciding whether to buy into remote-sensing super-resolution hype, we build a working pipeline that runs several published SR models over Sentinel-2 small-parcel imagery, measures whether SR actually improves parcel delineation, crop-type mapping and sub-field zoning (not just PSNR/SSIM), and releases a downstream-supervised SR variant that beats fidelity-optimised models on the tasks that matter.",
+  "problem_statement": "Remote-sensing super-resolution papers report PSNR/SSIM gains, but GeoSR-Bench (2026, arXiv:2605.00310) already showed at large scale that these fidelity gains often do not transfer to downstream task performance and can correlate negatively with it. No existing study isolates this question for the specific agricultural tasks a SEA smallholder co-op cares about (parcel delineation, crop-type mapping, sub-field zoning) at smallholder field sizes, so co-ops and researchers currently have no reliable evidence on whether investing in SR preprocessing before these specific tasks is worthwhile, or actively harmful.",
+  "proposed_technical_approach": "Build a controlled evaluation + development pipeline: (1) assemble Sentinel-2 imagery over small-parcel SEA regions (e.g. using AI4SmallFarms Vietnam/Cambodia tiles or Fields of The World Asia-region tiles as the small-parcel ground truth source); (2) apply a set of published SR models spanning GAN, transformer, and diffusion families (e.g. ESRGAN-family, a Swin-based SR model, a lightweight diffusion SR model) to upsample the Sentinel-2 inputs; (3) run three fixed downstream task heads - parcel-boundary segmentation, crop-type classification, and sub-field zoning/clustering - on both the native-resolution and each SR-upsampled input, using the same trained task model per task for fair comparison; (4) report fidelity metrics (PSNR/SSIM/LPIPS) alongside downstream task metrics (IoU/F1/accuracy) per SR model, and compute the correlation between the two; (5) as the constructive contribution, train a new SR model whose loss function is directly supervised by (a proxy for) downstream task performance - e.g. a segmentation-consistency or task-gradient loss added to the SR training objective, in the spirit of segmentation-aware SR - and show it beats the fidelity-optimised SR models on task metrics even if it scores lower on PSNR/SSIM.",
+  "primary_sensor": {
+    "sensor": "Sentinel-2 L2A (input to all SR models); optionally a higher-resolution reference (e.g. AI4SmallFarms/Fields-of-the-World basemap-derived labels or an EU 1m orthophoto source) used only to construct ground-truth labels, not as a model input",
+    "spatial_resolution_m": "Sentinel-2: 10m native input; SR outputs typically 2-4x upsampled (2.5-5m) matching the scale factors used in the closest prior art (GeoSR-Bench evaluates up to 500m-to-0.6m spans; this proposal would use a narrower, more realistic 10m-to-2.5m range for parcel-scale tasks)",
+    "revisit_days": "5 days (Sentinel-2 two-satellite constellation)",
+    "bands_used": "B2/B3/B4/B8 (10m RGB+NIR) at minimum; NDVI derivable from these",
+    "licence": "Sentinel-2: free/open under the Copernicus data licence via Copernicus Data Space Ecosystem; SR model code: mixed open-source licences (each published SR model's own repo licence must be checked individually before use)"
+  },
+  "imagery_is_primary_input": "Yes - Sentinel-2 satellite imagery (native and SR-upsampled) is the sole input to every downstream task model evaluated; the higher-resolution imagery, where used, only supplies ground-truth labels for evaluation, not model inputs.",
+  "datasets": [
+    {
+      "name": "GeoSR-Bench (reference benchmark, not a data source to reuse directly but the direct prior-art comparator)",
+      "access_route": "github.com/ai-spatial/GeoSR-Bench (per the paper's stated data-availability section)",
+      "auth_required": "No",
+      "licence": "CC-BY 4.0",
+      "approx_size_gb": "[uncertain] - not stated in the paper; the benchmark covers ~20,000 SR image pairs and ~16,000 downstream-task triplets across MODIS/Landsat-8/Sentinel-2-to-NAIP pairs, so likely in the tens of GB at minimum",
+      "accessible_from_malaysia": "[uncertain] - public GitHub repo, no stated restriction, but not independently downloaded/tested this session",
+      "verified_how": "WebFetch of the arXiv HTML page (arxiv.org/html/2605.00310) confirming public code+data release, CC-BY 4.0 licence, and the GitHub URL; the repository itself was not fetched to confirm live availability"
+    },
+    {
+      "name": "AI4SmallFarms",
+      "access_route": "TU Delft / University of Twente research data repositories; published in IEEE GRSL 2023",
+      "auth_required": "[uncertain]",
+      "licence": "[uncertain]",
+      "approx_size_gb": "[uncertain]",
+      "accessible_from_malaysia": "[uncertain]",
+      "verified_how": "WebSearch only - confirmed 439,001 field polygons across 62 tiles in Vietnam and Cambodia with multitemporal Sentinel-2 composites, digitized against Sentinel-2 + Google Maps VHR imagery; exact download portal, licence terms, and file sizes were not independently fetched this session"
+    },
+    {
+      "name": "Fields of The World (FTW)",
+      "access_route": "beta.source.coop/repositories/kerner-lab/fields-of-the-world/ with baseline code at github.com/fieldsoftheworld/ftw-baselines",
+      "auth_required": "[uncertain] - source.coop typically requires free account registration",
+      "licence": "CC-BY-SA (country subsets filtered to this licence per the project's stated policy)",
+      "approx_size_gb": "70,462 samples total across 24 countries; a SEA-only subset would be a small fraction of this, likely under 10-20GB",
+      "accessible_from_malaysia": "Yes, source.coop is a public cloud-hosted data repository with no stated geographic restriction",
+      "verified_how": "WebSearch summary of the FTW paper (arXiv:2409.16252) and its stated public source.coop access route and CC-BY-SA licensing policy"
+    },
+    {
+      "name": "Sentinel-2 L2A (Copernicus Data Space Ecosystem)",
+      "access_route": "dataspace.copernicus.eu, STAC API or openEO, free registration",
+      "auth_required": "Yes, free account only",
+      "licence": "Copernicus free and open data licence",
+      "approx_size_gb": "A few GB for the small-parcel SEA regions matched to AI4SmallFarms/FTW tiles",
+      "accessible_from_malaysia": "Yes, per N3 seed list and general public knowledge of the Copernicus Data Space Ecosystem",
+      "verified_how": "Not independently re-fetched this session; treated as verified per RESEARCH_BRIEF.md N3 guidance and no contrary evidence found"
+    },
+    {
+      "name": "Published SR model checkpoints/code (ESRGAN, Swin-based SR e.g. DRCT/EchoSR-family, a lightweight diffusion SR model)",
+      "access_route": "Individual GitHub repositories per model (e.g. github.com/ming053l/DRCT for DRCT, per-paper repos for others)",
+      "auth_required": "No",
+      "licence": "Varies per repository - must be checked individually; most academic SR repos are MIT/Apache-2.0 but this was not verified per-model in this session",
+      "approx_size_gb": "Model weights typically 50MB-2GB each; a handful of models totals well under 10GB",
+      "accessible_from_malaysia": "Yes, standard public GitHub access",
+      "verified_how": "Confirmed via arXiv search that these models (DRCT, EchoSR, general NTIRE-challenge SR models) exist as open-source repos; individual per-model licence terms not verified line-by-line"
+    }
+  ],
+  "total_dataset_gb": "Estimated 30-60GB for a scoped minimum viable experiment (a SEA-focused subset of AI4SmallFarms or Fields of The World, matched Sentinel-2 tiles, and a handful of published SR model checkpoints); well under the ~200GB H5 ceiling, though the full 270-setting scale of GeoSR-Bench itself would be far larger and is explicitly NOT what this proposal should attempt to replicate at full scale",
+  "labels_and_ground_truth": "Parcel-boundary and crop-type labels come directly from existing open benchmarks (AI4SmallFarms polygons, Fields of The World masks), which were originally digitized against Sentinel-2 and VHR basemap imagery rather than collected fresh - this is a real strength (no new labelling campaign needed) but also a limitation, since 'sub-field zoning' (the third named downstream task) has no obvious existing open-label source and would likely need a self-supervised or clustering-based proxy target (e.g. unsupervised zonal clustering on NDVI/biomass proxies) rather than true ground truth, carrying the usual risk that proxy targets do not reflect what an agronomist would actually consider a meaningful zone.",
+  "named_baselines": [
+    {
+      "paper_title": "Beyond Visual Fidelity: Benchmarking Super-Resolution Models for Large-Scale Remote Sensing Imagery via Downstream Task Integration (GeoSR-Bench)",
+      "venue": "Manuscript under review, IEEE TPAMI (per stated data-availability note); arXiv preprint",
+      "year": 2026,
+      "doi_or_arxiv_id": "arXiv:2605.00310",
+      "reported_metric": "270 experimental settings across 9 SR models (ATD, RGT, CFAT, CAMixer, SRNO, ESRGAN, SeD, BiDiff, UPSR), 3 downstream task models (UNet, SegFormer, Swin Transformer), and 5 downstream tasks; core finding is that PSNR/SSIM improvements often do not correlate, and can correlate negatively, with downstream task gains",
+      "dataset": "~36,000 co-located locations, MODIS/Landsat-8/Sentinel-2 paired with NAIP (0.6m) across the USA and diverse global land covers"
+    },
+    {
+      "paper_title": "Segmentation-Aware Latent Diffusion for Satellite Image Super-Resolution: Enabling Smallholder Farm Boundary Delineation (SEED-SR)",
+      "venue": "arXiv preprint",
+      "year": 2025,
+      "doi_or_arxiv_id": "arXiv:2511.14481",
+      "reported_metric": "Up to 25.5% relative improvement in instance segmentation and 12.9% in semantic segmentation over Ref-SR baselines at 20x scale factor, by performing SR directly in a segmentation-aware latent space rather than pixel space",
+      "dataset": "Two large real-world smallholder-farm satellite datasets"
+    },
+    {
+      "paper_title": "LSwinSR: UAV Imagery Super-Resolution based on Linear Swin Transformer",
+      "venue": "arXiv preprint",
+      "year": 2023,
+      "doi_or_arxiv_id": "arXiv:2303.10232",
+      "reported_metric": "Explicitly evaluates SR quality using downstream semantic segmentation accuracy in addition to PSNR/SSIM, an early precedent for the 'PSNR/SSIM is not enough, check downstream task accuracy' argument this candidate is built on",
+      "dataset": "UAV land-cover imagery"
+    }
+  ],
+  "evaluation_protocol": "For each of the 3 fixed downstream tasks (parcel-boundary segmentation IoU/BF1, crop-type classification accuracy/F1, sub-field zoning via a clustering-agreement metric such as adjusted Rand index against an NDVI-derived proxy), evaluate: (a) native Sentinel-2 baseline, (b) each published SR model's output, (c) the proposed downstream-supervised SR variant's output - all fed through the SAME frozen or identically-trained task model per task, on a held-out SEA small-parcel test split. Report per-model PSNR/SSIM/LPIPS alongside task metrics, and compute a fidelity-vs-utility correlation (e.g. Spearman rank correlation across models) per task, replicating GeoSR-Bench's core analysis but at smallholder field sizes specifically. Success is defined as: (i) reproducing or refuting the fidelity/utility decorrelation finding at this specific scale, and (ii) the proposed downstream-supervised SR variant achieving a statistically meaningful task-metric improvement over the best fidelity-optimised SR model, even if its own PSNR/SSIM is lower.",
+  "novelty_delta": "GeoSR-Bench (2026) already established, at large scale (270 settings, global/US NAIP-referenced), that SR fidelity metrics and downstream task performance decorrelate and sometimes anti-correlate - this is exactly the empirical claim this candidate's problem statement leads with, and the candidate's own description cites it. The surviving novelty is narrow and twofold: (1) GeoSR-Bench uses NAIP (US-only, 0.6m aerial) as its high-resolution reference and is not agriculture-specific or smallholder-parcel-specific, whereas this candidate is scoped to SEA smallholder field sizes and the three named agronomic tasks (parcel delineation, crop-type mapping, sub-field zoning) - a genuine 'new data regime' angle (smaller, more fragmented parcels than GeoSR-Bench's US/global mix) under H1; (2) GeoSR-Bench only benchmarks existing SR models, it does not propose a new downstream-supervised SR training method, so the constructive contribution (a task-aware SR variant that outperforms fidelity-tuned models on task metrics) is a real methodological addition, not just a re-run of GeoSR-Bench on a new region. This is NOT 'applied X to Y region' in the trivial sense - the fragmentation/parcel-size regime plausibly changes which SR failure modes actually matter - but the delta is thinner than the description implies, since GeoSR-Bench already includes land-cover/infrastructure segmentation as one of its five downstream tasks and a judge or reviewer will immediately ask why a smaller, SEA-scoped, 3-task re-run with one new model constitutes a distinct contribution rather than 'GeoSR-Bench, but smaller.'",
+  "prior_art_that_threatens_it": "GeoSR-Bench (arXiv:2605.00310, 'Beyond Visual Fidelity: Benchmarking Super-Resolution Models for Large-Scale Remote Sensing Imagery via Downstream Task Integration', posted 2026-05-01, under review at IEEE TPAMI, code+data public under CC-BY 4.0) has already substantially answered this candidate's core research question - that PSNR/SSIM gains often fail to predict, and can anti-correlate with, downstream task performance - across 9 SR models, 3 task models, and 5 downstream tasks including land cover segmentation and infrastructure mapping, at a scale (270 settings, ~36,000 locations) that dwarfs what one student can realistically replicate. SEED-SR (arXiv:2511.14481) additionally already demonstrates a downstream-task-aware SR training method (segmentation-aware latent diffusion) beating fidelity-optimised Ref-SR baselines specifically for smallholder farm boundary delineation - this substantially pre-empts the candidate's proposed constructive contribution (a downstream-supervised SR variant). Together, these two very recent (2025-2026) papers mean the honest framing for this candidate is 'a smaller, SEA-specific replication and extension of an already-published finding and an already-published method category' rather than a first demonstration - the surviving contribution is real but must be pitched as a targeted regional/task extension, not a novel empirical discovery.",
+  "h2_generic_check": "Confirmed NOT a chatbot/RAG assistant, NOT a dashboard/monitoring portal, NOT leaf-disease classification, NOT an NDVI viewer, NOT tabular weather/soil yield prediction, and NOT a thin API wrapper. It IS, however, structurally close to 're-running an existing benchmark' (one of the H2 banned patterns is 're-running an existing crop-type-classification benchmark') - while this candidate is a superset (SR benchmarking + a new method, across three named tasks, not just crop-type classification), the closeness to GeoSR-Bench specifically raises a real H2-adjacent risk that must be actively managed by ensuring the released artifact is a genuinely new pipeline/method, not merely GeoSR-Bench re-run on smaller data. Could the one-sentence summary describe 50 other FYPs? No, if the SEA-smallholder scoping and the specific three-task framing are kept - but the underlying 'does SR help downstream RS tasks' question is now a template other FYPs could equally copy given GeoSR-Bench's precedent, which is worth flagging honestly.",
+  "user_segment": "SEA smallholder-serving agronomists/co-op technical staff (e.g. Vietnam/Cambodia rice smallholder cooperatives, matching the AI4SmallFarms geography) deciding whether to invest engineering effort in SR preprocessing before running parcel delineation or crop-type mapping pipelines; the output (a working pipeline + released benchmark + a validated task-aware SR model) is directly usable by such a co-op's technical team, not just by other researchers.",
+  "quantified_pain": "AI4SmallFarms documents 439,001 field polygons across only 62 tiles (~5x5km each, so ~1,550 km2 total) in Vietnam and Cambodia, implying an average parcel size on the order of a few hundred to low-thousand square meters - well below the 1-hectare (10,000 m2) footprint of a single Sentinel-2 pixel, meaning naive Sentinel-2-only pipelines are structurally under-resolved for most of these parcels; the quantified pain is this parcel-size-to-pixel-size mismatch (sourced from the AI4SmallFarms dataset statistics) combined with the fact that SR is frequently proposed as the fix without task-level evidence it works at this specific scale, which this pipeline would be the first to test in a controlled, task-integrated way at SEA smallholder parcel sizes specifically.",
+  "compute_feasibility": {
+    "peak_memory_gb": "Estimated 8-18GB depending on which published SR models are run - diffusion-based SR models (e.g. BiDiff/UPSR-style) can be memory-heavy at inference and training; running multiple pretrained SR models for inference-only evaluation is far cheaper than training the proposed new downstream-supervised SR variant from scratch",
+    "est_training_hours_mps": "Estimated 6-12 hours total if scoped to running inference with 3-4 pretrained SR models plus training one new downstream-supervised SR variant and three lightweight task heads on M4 Pro MPS; this scope must be actively managed downward from the literal task description ('several published SR models', 'three fixed downstream tasks') to stay within budget",
+    "fits_24gb": "Likely yes if the SR model selection is limited to 3-4 models and batch sizes are tuned; NOT guaranteed if the full GeoSR-Bench-style sweep (9 SR models x 3 task models x 5 tasks = 270 settings) is attempted, which would almost certainly exceed a single-student MPS budget",
+    "mps_compatible_ops": "Standard CNN/GAN/transformer SR architectures are MPS-compatible; some diffusion SR models with custom attention or sampling schedules may need adaptation or a Colab/Kaggle T4 fallback",
+    "colab_kaggle_fallback_needed": "Likely yes for the diffusion-based SR model training/inference and for any full-scale ablation sweep beyond the core 3-4-model comparison",
+    "notes": "The single largest H5 risk for this candidate is scope creep: the task description's own framing ('several published SR models... three fixed downstream tasks... 270 settings' echoing GeoSR-Bench) invites a benchmark sweep at a scale GeoSR-Bench itself required a multi-institution team to execute; a single student must aggressively scope down (e.g. 3 SR models x 2 tasks) to stay within the 12-hour-run / 24GB constraint."
+  },
+  "cash_cost_rm": "Near RM0 for imagery (Sentinel-2, AI4SmallFarms, and Fields of The World are all free/open); possible modest cost if Colab Pro compute credits are needed for diffusion-SR model runs, well within the RM200 budget. No commercial VHR imagery dependency identified.",
+  "demo_artifact": "Live demo: load a held-out SEA smallholder Sentinel-2 tile, run it through 2-3 SR models side by side, show their PSNR/SSIM scores looking similar or even favoring one model, then run the same three outputs through the parcel-boundary segmentation model and show that the 'best PSNR' model does NOT produce the best segmentation - visually and numerically demonstrating the fidelity/utility gap live in under 2 minutes, then show the proposed task-aware SR model correcting this.",
+  "build_vs_research_ratio": "As literally described, this leans research/benchmark-heavy (closer to 50:50 or even 40:60 build:research) because a large share of the effort is running and comparing existing published models rather than building new systems - this is explicitly flagged as a risk in the candidate's own description. To hit the S2 70:30 target, the deliverable must be re-centered on the ENGINEERING artifact: a genuinely reusable, released benchmark pipeline (data loaders, standardized SR-model plug-in interface, task-model harness, automated fidelity/utility correlation reporting) plus a real trained downstream-supervised SR model, with the comparative literature-style analysis kept as a secondary output of running that pipeline rather than the primary deliverable. Even with this re-centering, the ratio is realistically closer to 55:45 or 60:40 given how much of the intellectual content is comparative evaluation rather than novel system-building.",
+  "publication_venue_fit": "CVPR EarthVision or ECCV CVPPA workshop are realistic targets, directly comparable to where GeoSR-Bench itself would likely target or has been positioned (TPAMI submission, per its stated venue); IGARSS is also plausible for a benchmark-style contribution. Remote Sensing (MDPI) is a reasonable secondary/journal target for the SEA-specific benchmark + task-aware SR model angle specifically, echoing LSwinSR's downstream-task-evaluation precedent.",
+  "key_risks": [
+    "1) NOVELTY RISK (highest): GeoSR-Bench (2026) already answers the core research question at far larger scale (270 settings vs. a feasible single-student subset), is public, CC-BY 4.0, and under review at TPAMI - a judge or reviewer's first question will be 'why isn't this just GeoSR-Bench again, smaller.' The surviving delta (SEA smallholder scoping + a new downstream-supervised SR method) must be argued forcefully and is thinner than the candidate description implies.",
+    "2) S2 RISK: as literally scoped ('several published SR models', 'three fixed downstream tasks', echoing GeoSR-Bench's 270-setting design), this idea naturally gravitates toward a literature-synthesis/benchmark-replication shape rather than the 70:30 build-heavy target the brief calls for; without aggressive re-scoping toward a genuinely new, reusable pipeline artifact, this risks reading as 'read-heavy.'",
+    "3) SCOPE/COMPUTE RISK: running multiple SR model families (GAN, transformer, diffusion) x multiple downstream tasks x training a new SR variant is a lot of surface area for a 12-hour-MPS-run / 24GB budget; scope creep toward GeoSR-Bench's own scale would blow the H5 budget.",
+    "4) LABEL RISK: 'sub-field zoning', one of the three named downstream tasks, has no obvious existing open ground-truth source and would need a self-supervised or clustering-based proxy target, which weakens the rigor of that particular task's evaluation.",
+    "5) H2-ADJACENCY RISK: this is structurally close to 're-running an existing benchmark' (a named H2 red flag), and while it is not literally the banned 'crop-type-classification benchmark re-run' pattern, the closeness to GeoSR-Bench specifically means the released artifact must visibly differ in method (the new SR training approach) and not just in geography, or a panel may read it as H2-adjacent."
+  ],
+  "kill_criteria": [
+    "Week 1: read GeoSR-Bench's full method and results (not just the abstract) to establish precisely which downstream tasks, SR models, and correlation findings it already covers; if it already includes a smallholder-parcel-scale or SEA-specific analysis, the novelty case collapses and this idea should be abandoned or radically re-scoped.",
+    "Week 1: confirm the GeoSR-Bench GitHub repository (github.com/ai-spatial/GeoSR-Bench) is actually live and its code/data are usable, since only the paper's own claim of public release was checked, not the repository itself.",
+    "Week 2: run 2-3 published SR models plus the 3 downstream task models on a small SEA subset and check whether the fidelity/utility decorrelation finding actually replicates at parcel scale; if it does not replicate (i.e. results look identical to GeoSR-Bench's US/global findings with no SEA-specific twist), the 'new data regime' novelty argument weakens substantially.",
+    "Week 2: attempt a first version of the downstream-supervised SR loss and check it produces ANY measurable task-metric improvement over the best fidelity-optimised baseline before committing further weeks to this direction; if no improvement is found, the constructive half of the contribution fails and the project reverts to being purely a (thin) benchmark replication."
+  ],
+  "hard_constraint_verdict": {
+    "H1": "WEAK PASS - GeoSR-Bench (2026) already substantially answers this candidate's core empirical question at much larger scale; the surviving novelty (SEA-smallholder scoping + a new downstream-supervised SR training method) is real but narrow and must be argued explicitly against GeoSR-Bench and SEED-SR.",
+    "H2": "PASS (with caveat) - not a banned pattern outright, but structurally adjacent to 're-running an existing benchmark', which must be actively managed by centering the new SR method and SEA-specific pipeline as the deliverable, not the comparative benchmark table alone.",
+    "H3": "PASS - Sentinel-2 satellite imagery (and its SR-upsampled variants) is the sole model input across all evaluated tasks.",
+    "H4": "PASS - SEA smallholder co-op agronomists (e.g. Vietnam/Cambodia, matching AI4SmallFarms) can be named as the specific end user deciding on SR preprocessing investment.",
+    "H5": "PASS (with scope-management caveat) - dataset volumes and a properly-scoped compute plan fit within RM200/24GB/12-hour-MPS constraints, but the literal task description invites a GeoSR-Bench-scale sweep that would NOT fit and must be deliberately cut down.",
+    "H6": "PASS - a live side-by-side demo showing 'best PSNR does not mean best segmentation' is a clear, panel-legible 60-second story, though less visually dramatic than a working end-to-end model demo."
+  },
+  "overall_recommendation": "WEAK. The idea passes the hard constraints but its central research question has already been substantially answered by a very recent (2026), large-scale, publicly released benchmark (GeoSR-Bench) that the candidate's own description cites, and its proposed constructive method (downstream-supervised SR) is closely pre-empted by SEED-SR (2025). The surviving SEA-smallholder-specific delta is real but thin, and the S2 requirement for a 70:30 build-heavy deliverable is genuinely at risk given how naturally this idea gravitates toward benchmark replication at a smaller scale.",
+  "confidence": "Medium-High. Confidence in the novelty concern specifically is high, since GeoSR-Bench was directly located, its abstract and data-availability section were read, and it matches the candidate's own self-cited reference almost exactly. Confidence would rise further with a full read of GeoSR-Bench's methods/results sections (only the abstract and a data-availability summary were reviewed) and a live check that its GitHub repository is actually accessible and complete.",
+  "key_references": [
+    {
+      "title": "Beyond Visual Fidelity: Benchmarking Super-Resolution Models for Large-Scale Remote Sensing Imagery via Downstream Task Integration (GeoSR-Bench)",
+      "year": 2026,
+      "venue": "arXiv preprint / manuscript under review, IEEE TPAMI",
+      "doi_or_arxiv_id": "arXiv:2605.00310",
+      "why_it_matters": "The direct, near-identical prior art this candidate's problem statement is built around; already establishes the fidelity-vs-utility decorrelation finding at large scale (270 settings, 9 SR models, 5 downstream tasks) and is publicly released under CC-BY 4.0, making this the single most important reference to read in full before proceeding."
+    },
+    {
+      "title": "Segmentation-Aware Latent Diffusion for Satellite Image Super-Resolution: Enabling Smallholder Farm Boundary Delineation (SEED-SR)",
+      "year": 2025,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2511.14481",
+      "why_it_matters": "Already demonstrates a downstream-task-aware SR training method beating fidelity-optimised Ref-SR baselines specifically for smallholder farm boundary delineation, substantially pre-empting this candidate's proposed constructive contribution."
+    },
+    {
+      "title": "LSwinSR: UAV Imagery Super-Resolution based on Linear Swin Transformer",
+      "year": 2023,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2303.10232",
+      "why_it_matters": "An early precedent for evaluating remote-sensing SR via downstream semantic segmentation accuracy rather than PSNR/SSIM alone, establishing this as a recognized methodological pattern predating GeoSR-Bench."
+    },
+    {
+      "title": "AI4SmallFarms: A Dataset for Crop Field Delineation in Southeast Asian Smallholder Farms",
+      "year": 2023,
+      "venue": "IEEE Geoscience and Remote Sensing Letters",
+      "doi_or_arxiv_id": "10.1109/LGRS.2023.3323095",
+      "why_it_matters": "The most directly relevant SEA-specific open parcel-boundary dataset (Vietnam and Cambodia), providing both the small-parcel-size evidence for the quantified-pain argument and a candidate evaluation source for the parcel-delineation and crop-type tasks."
+    },
+    {
+      "title": "Fields of The World: A Machine Learning Benchmark Dataset For Global Agricultural Field Boundary Segmentation",
+      "year": 2024,
+      "venue": "AAAI 2025 / arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2409.16252",
+      "why_it_matters": "A larger, multi-continent field-boundary benchmark (including Asia) with an open CC-BY-SA licensed subset, providing an alternative or complementary source of parcel labels and multi-date Sentinel-2 imagery for the evaluation pipeline."
+    },
+    {
+      "title": "Resolution-Aware Knowledge Distillation for Efficient Inference",
+      "year": 2021,
+      "venue": "IEEE Transactions on Image Processing",
+      "doi_or_arxiv_id": "10.1109/TIP.2021.3101158",
+      "why_it_matters": "Background context on cross-resolution methods in remote-sensing-adjacent CV, useful for understanding the broader technique landscape this SR-evaluation study sits within, though not a direct competitor to this specific benchmarking proposal."
+    }
+  ],
+  "uncertain": [
+    "datasets[GeoSR-Bench].approx_size_gb",
+    "datasets[GeoSR-Bench].accessible_from_malaysia (public repo claimed but not independently fetched/tested)",
+    "datasets[AI4SmallFarms].auth_required",
+    "datasets[AI4SmallFarms].licence",
+    "datasets[AI4SmallFarms].approx_size_gb",
+    "datasets[AI4SmallFarms].accessible_from_malaysia",
+    "datasets[Fields of The World].auth_required",
+    "compute_feasibility.est_training_hours_mps (estimate, not empirically measured)",
+    "Whether GeoSR-Bench's five downstream tasks already include a smallholder-parcel-scale or SEA-specific analysis - only the abstract and a data-availability summary were reviewed, not the full methods/results sections",
+    "No open ground-truth source was found for the 'sub-field zoning' downstream task specifically; its evaluation would rely on a self-supervised/proxy target whose validity is unverified"
+  ]
+}

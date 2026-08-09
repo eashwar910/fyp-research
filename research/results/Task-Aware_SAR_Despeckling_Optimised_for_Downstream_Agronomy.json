@@ -1,0 +1,189 @@
+{
+  "idea_name": "Task-Aware SAR Despeckling Optimised for Downstream Agronomy",
+  "bucket": "2 - SAR-specific",
+  "one_sentence_pitch": "For smallholder rice/vegetable farmers in the Mekong Delta and Cambodia whose fields are only a few Sentinel-1 pixels across, we train a self-supervised SAR despeckler with an auxiliary loss from a frozen crop classifier so it preserves crop-discriminative texture instead of chasing PSNR, and show empirically whether standard despeckling metrics (ENL, PSNR, SSIM) actually predict crop-map accuracy at all.",
+  "problem_statement": "SAR despeckling methods (MERLIN, MuChaPro, R-DDPM, diffusion-based approaches) are trained and benchmarked almost exclusively on no-reference fidelity metrics (ENL, PSNR, SSIM, edge-preservation indices). GeoSR-Bench (Li et al. 2026, arXiv:2605.00310) showed for super-resolution that these fidelity metrics can correlate negatively with downstream Earth-observation task performance across 270 experimental settings -- but no equivalent study exists for despeckling. This matters acutely for smallholder agriculture: on parcels a few pixels across (median field size 0.06-0.24 ha in the AI4SmallFarms benchmark), a despeckler optimised purely for smoothness can blur exactly the sub-pixel textural cues (edge sharpness, within-field heterogeneity) that a crop classifier needs, while looking 'better' on ENL/PSNR. Practitioners building crop-monitoring pipelines currently have no evidence on whether plugging in a state-of-the-art despeckler helps or hurts their actual downstream product.",
+  "proposed_technical_approach": "Two-stage pipeline. Stage 1: pretrain a frozen parcel-level crop classifier (e.g. a lightweight temporal CNN/transformer over Sentinel-1 VH/VV time series, following the AI4SmallFarms Sentinel-1 extension or Thailand rice/cassava/maize/sugarcane labels) on noisy (speckled) GRD/multi-look intensity inputs to convergence, then freeze it. Stage 2: train a self-supervised despeckler in one of two variants -- (a) MERLIN-style, requiring Sentinel-1 SLC (single-look complex) data split into real/imaginary channels, or (b) a log-domain score-based/diffusion despeckler operating on detected intensity. Total loss = self-supervised despeckling loss (MERLIN's Gaussian/L2 term on held-out real or imaginary channel, or the score-matching objective) + lambda * cross-entropy loss of the frozen classifier evaluated on the despeckled output vs. the ground-truth crop label, back-propagated only into the despeckler. Sweep lambda to trace out an ENL/PSNR-vs-F1 Pareto frontier, replicating the GeoSR-Bench protocol but for despeckling. Evaluate against MERLIN, MuChaPro and R-DDPM baselines both on standard fidelity metrics AND on frozen-classifier F1, and report the correlation coefficient between the two axes as the primary scientific deliverable.",
+  "primary_sensor": {
+    "sensor": "Sentinel-1 (C-band SAR), IW mode",
+    "spatial_resolution_m": "SLC: ~5x20m single-look (needed for MERLIN-style self-supervision); GRD: 10m multi-looked (needed for the frozen crop classifier and for MuChaPro/R-DDPM baselines trained on intensity)",
+    "revisit_days": "6-12 days depending on latitude and relative orbit overlap (Malaysia/Vietnam/Cambodia typically 12-day single-satellite revisit post Sentinel-1B loss, occasionally 6-day where tracks overlap)",
+    "bands_used": "VV, VH (dual-pol IW)",
+    "licence": "Copernicus free and open data policy (no cost, registration required)"
+  },
+  "imagery_is_primary_input": "Yes. Sentinel-1 SAR intensity/complex imagery is the sole model input for both the despeckler and the downstream classifier; no optical or ancillary imagery is required for the core pipeline (optical could be added later purely for label sourcing).",
+  "datasets": [
+    {
+      "name": "Sentinel-1 GRD (IW, dual-pol)",
+      "access_route": "Copernicus Data Space Ecosystem (dataspace.copernicus.eu) via STAC API, openEO API, or Copernicus Browser; also mirrored on Microsoft Planetary Computer STAC and AWS Earth Search STAC",
+      "auth_required": "Free registration (email) required for Copernicus Data Space Ecosystem; Planetary Computer/AWS mirrors require no auth for anonymous STAC read",
+      "licence": "Copernicus Sentinel Data free and open licence",
+      "approx_size_gb": "~0.9-1.0 GB per IW GRD scene; a study area covering several hundred smallholder parcels across 1-2 growing seasons is estimated at 15-30 GB",
+      "accessible_from_malaysia": "Yes, verified live -- global open access, no geofencing",
+      "verified_how": "WebFetch of dataspace.copernicus.eu confirmed 'open and free access to Copernicus data' with STAC/openEO/Sentinel Hub API routes; general knowledge of Copernicus policy confirms no geographic restriction"
+    },
+    {
+      "name": "Sentinel-1 SLC (IW, single-look complex)",
+      "access_route": "Same Copernicus Data Space Ecosystem route as GRD, selecting SLC product type",
+      "auth_required": "Free registration",
+      "licence": "Copernicus Sentinel Data free and open licence",
+      "approx_size_gb": "~4-8 GB per SLC scene (roughly 5-8x larger than GRD due to full-resolution complex data and swath structure); MERLIN-style training on a handful of scenes over the study parcels is estimated at 40-80 GB",
+      "accessible_from_malaysia": "Yes, same portal as GRD",
+      "verified_how": "Same WebFetch verification as GRD; SLC/GRD size ratio is standard, documented ESA product-type knowledge, not independently re-verified this session [uncertain]"
+    },
+    {
+      "name": "AI4SmallFarms (Sentinel-1 extension)",
+      "access_route": "DANS data archive (doi.org/10.17026/dans-xy6-ngg6) for the original Sentinel-2 field-polygon benchmark; Sentinel-1 VH extension distributed via Zenodo (doi.org/10.5281/zenodo.18921642)",
+      "auth_required": "No authentication reported for DANS/Zenodo downloads",
+      "licence": "Not confirmed in this session -- DANS/Zenodo datasets are typically CC-BY but the exact licence string was not directly verified [uncertain]",
+      "approx_size_gb": "Not stated in the OpenAlex record; 439,001 field polygons across 62 tiles of ~5x5km over Vietnam and Cambodia plus co-registered Sentinel-1 VH and Sentinel-2 composites is estimated at 5-15 GB [uncertain]",
+      "accessible_from_malaysia": "Presumed yes (open archives, no geofencing typical of DANS/Zenodo) but not independently tested this session [uncertain]",
+      "verified_how": "OpenAlex records for 'AI4SmallFarms: A Dataset for Crop Field Delineation in Southeast Asian Smallholder Farms' (IEEE GRSL, DOI 10.1109/lgrs.2023.3323095) and its Sentinel-1 extension (Zenodo DOI 10.5281/zenodo.18921642, 2026)"
+    },
+    {
+      "name": "Weakly-labelled Thailand crop-type map (rice/cassava/maize/sugarcane, 10m, 2022)",
+      "access_route": "Referenced in Laguarta Soler et al. 2023 (arXiv:2309.05930); public release details not independently checked",
+      "auth_required": "Unknown [uncertain]",
+      "licence": "Unknown [uncertain]",
+      "approx_size_gb": "Country-wide 10m map -- likely several GB when clipped to study parcels; full country size not estimated",
+      "accessible_from_malaysia": "Not verified [uncertain]",
+      "verified_how": "arXiv abstract only; this dataset provides only weak/noisy crop-type labels (93% accuracy vs street-view-derived pseudo-labels) and would be a fallback proxy target rather than curated ground truth for the frozen classifier"
+    }
+  ],
+  "total_dataset_gb": "Estimated 60-120 GB for a minimum viable experiment (SLC subset for MERLIN training ~40-80GB + GRD subset for classifier/baselines ~15-30GB + AI4SmallFarms extension ~5-15GB). This is under the ~200GB H5 practical ceiling but is a meaningfully larger footprint than a GRD-only study because MERLIN-style self-supervision specifically requires SLC data.",
+  "labels_and_ground_truth": "Two supervision tracks are needed and neither is fully solved. (1) Despeckling itself is self-supervised (MERLIN's real/imaginary split or score-based log-domain training) and needs no clean-image ground truth. (2) The frozen downstream crop classifier needs parcel-level crop-type labels; AI4SmallFarms provides field BOUNDARY polygons for Vietnam/Cambodia but it is not confirmed whether it carries per-polygon crop-type labels (as opposed to just delineation) -- this is a material gap [uncertain]. The Thailand street-view-derived crop map (Laguarta Soler et al. 2023) offers a weak/noisy proxy crop-type label at country scale but was not built for small-parcel accuracy and carries real label-noise risk that could contaminate the auxiliary loss signal used to train the despeckler.",
+  "named_baselines": [
+    {
+      "paper_title": "As if by Magic: Self-Supervised Training of Deep Despeckling Networks with MERLIN",
+      "venue": "IEEE Transactions on Geoscience and Remote Sensing",
+      "year": 2021,
+      "doi_or_arxiv_id": "10.1109/TGRS.2021.3128621 (arXiv:2110.13148)",
+      "reported_metric": "PSNR/SSIM improvements over classical and supervised despeckling on TerraSAR-X/Sentinel-1 SLC data",
+      "dataset": "TerraSAR-X and Sentinel-1 SLC scenes"
+    },
+    {
+      "paper_title": "Just Project! Multi-Channel Despeckling, the Easy Way (MuChaPro)",
+      "venue": "IEEE Transactions on Geoscience and Remote Sensing",
+      "year": 2025,
+      "doi_or_arxiv_id": "10.1109/TGRS.2025.3531957 (arXiv:2408.11531)",
+      "reported_metric": "PSNR/SSIM on polarimetric/interferometric multi-channel SAR restoration",
+      "dataset": "Multi-channel polarimetric/interferometric SAR data"
+    },
+    {
+      "paper_title": "SAR Despeckling via Regional Denoising Diffusion Probabilistic Model (R-DDPM)",
+      "venue": "arXiv preprint (not yet confirmed peer-reviewed as of this search)",
+      "year": 2024,
+      "doi_or_arxiv_id": "arXiv:2401.03122",
+      "reported_metric": "PSNR/SSIM/ENL vs. existing despeckling methods on Sentinel-1 data at various scales",
+      "dataset": "Sentinel-1 data"
+    },
+    {
+      "paper_title": "MERLIN-Seg: Self-supervised despeckling for label-efficient semantic segmentation",
+      "venue": "Computer Vision and Image Understanding",
+      "year": 2024,
+      "doi_or_arxiv_id": "10.1016/j.cviu.2024.103940",
+      "reported_metric": "IoU/F1/accuracy for building-footprint segmentation with 1% labelled data, joint despeckling+segmentation training vs. vanilla segmentation",
+      "dataset": "SAR building-footprint dataset (simulated and real)"
+    }
+  ],
+  "evaluation_protocol": "Primary metric: Spearman/Pearson correlation between despeckling fidelity metrics (ENL, PSNR, SSIM) and frozen-classifier crop-map F1, computed across a lambda sweep and across MERLIN/MuChaPro/R-DDPM/proposed-method outputs, replicating the GeoSR-Bench protocol. Secondary metric: absolute crop-map F1 of the task-aware despeckler vs. baselines on a held-out set of smallholder parcels, with a geographic split (train on Cambodia tiles, test on Vietnam tiles or vice versa) to measure spatial generalisation. Success is defined as (a) demonstrating a statistically significant negative or near-zero correlation between fidelity metrics and F1 for at least one baseline (replicating the GeoSR-Bench finding for despeckling), and (b) the task-aware despeckler achieving a measurable F1 improvement (target: +3-5 points) over the best fidelity-optimised baseline at matched or lower ENL.",
+  "novelty_delta": "The delta is narrower than the pitch implies and must be stated precisely. Task-coupled despeckling (joint self-supervised despeckling + downstream supervised task loss) is NOT new: MERLIN-Seg (CVIU 2024, DOI 10.1016/j.cviu.2024.103940) already couples MERLIN-style despeckling with a segmentation loss for building-footprint extraction, and a 2025 ISPRS Journal of Photogrammetry and Remote Sensing paper ('A multi-task learning framework for dual-polarization SAR imagery despeckling in temporal change detection scenarios', DOI 10.1016/j.isprsjprs.2025.01.030) does the same for change detection. What remains genuinely undone as of this search: (1) no prior work applies task-coupled despeckling to CROP CLASSIFICATION specifically, nor to smallholder/sub-pixel parcels where speckle-vs-signal tradeoffs are most acute; (2) no prior despeckling paper runs the GeoSR-Bench-style systematic correlation study between fidelity metrics and downstream task performance -- this diagnostic contribution, not the joint-training architecture itself, is the paper's strongest and most defensible novelty claim. This is not 'applied X to Y country': the technical problem (sub-pixel field sizes making despeckling choices materially change classifiable texture) is a genuine data-regime problem specific to smallholder-scale parcels, not present in the building-footprint or change-detection settings MERLIN-Seg and the ISPRS paper addressed. The student should reframe the contribution around the metric-correlation finding rather than the architecture.",
+  "prior_art_that_threatens_it": "1) MERLIN-Seg (Dalsasso, Rambour, Trouve, Thome, CVIU 2024, DOI 10.1016/j.cviu.2024.103940) -- joint despeckling+segmentation, direct architectural precedent. 2) Li, Shi, Lin, Yuan, Shen, Zhang, 'A multi-task learning framework for dual-polarization SAR imagery despeckling in temporal change detection scenarios' (ISPRS JPRS 2025, DOI 10.1016/j.isprsjprs.2025.01.030) -- same joint-training idea applied to change detection, published in a top remote-sensing journal, 13 citations already. 3) GeoSR-Bench itself (Li et al. 2026, arXiv:2605.00310) established the metric-vs-task-performance disconnect for super-resolution and is the direct template this idea copies for despeckling -- the student must clearly differentiate 'despeckling' from 'super-resolution' as the object of study. 4) 'Enhanced Deep Learning SAR Despeckling Networks Based on SAR Assessing Metrics' (Vitale et al., IEEE GRSL 2025, DOI 10.1109/lgrs.2025.3577907) already argues that SAR-specific assessing metrics (not generic image metrics) should guide despeckling network design, adjacent motivation. None of these four addresses smallholder crop classification or reports the ENL/PSNR-vs-crop-F1 correlation specifically, so the idea survives but only on the narrower claim.",
+  "h2_generic_check": "Not a chatbot, dashboard, leaf-photo classifier, NDVI viewer, tabular yield model, or crop-type-benchmark rerun; it is not calling someone else's model API. However, 'despeckling method X evaluated against metric Y' is a well-trodden SAR remote-sensing template (dozens of despeckling papers each propose a new architecture and benchmark against ENL/PSNR/SSIM), so the one-sentence summary alone ('better despeckling for agriculture') could describe many FYPs. What rescues it from genericness is the specific downstream-correlation diagnostic framing, which is a much narrower and less-repeated claim. Answer: No it could not describe 50 other FYPs IF the metric-correlation study is kept as the centrepiece; Yes it could if the student drifts toward 'yet another despeckling architecture'.",
+  "user_segment": "Smallholder rice and mixed-vegetable farmers and the agricultural extension agronomists/cooperatives serving them in the Mekong Delta (Vietnam) and Cambodia (matching the AI4SmallFarms study region), who need parcel-level crop maps built from freely available Sentinel-1 data because optical imagery is frequently cloud-obscured during the wet growing season.",
+  "quantified_pain": "AI4SmallFarms reports median smallholder field sizes of 0.24 ha (Vietnam-side reference) and field sizes in comparable Mozambique smallholder studies of 0.16 ha median, 83% under 0.5 ha (Rufin et al. 2025, arXiv:2507.10499) -- meaning a 10m Sentinel-1 GRD pixel (0.01 ha) can be a meaningful fraction of an entire field, so despeckling choices materially affect the handful of pixels available for classification. No published number quantifies revenue lost specifically to despeckling-induced misclassification in smallholder crop maps; this is a genuine gap the project would need to establish itself rather than cite [uncertain].",
+  "compute_feasibility": {
+    "peak_memory_gb": "MERLIN-style despeckling networks are small U-Nets (a few million parameters) and fit comfortably under 8GB even with SLC complex-channel inputs at reasonable patch sizes (e.g. 256x256); R-DDPM and score-based diffusion baselines are heavier due to iterative denoising but should still fit within 24GB unified memory at patch-based training with modest batch sizes",
+    "est_training_hours_mps": "Despeckler (MERLIN/MuChaPro-style U-Net): 3-6 hours on MPS for a few hundred scene-derived patches over ~100 epochs. Frozen crop classifier (lightweight temporal CNN): 1-3 hours. Diffusion-based baseline reproduction (R-DDPM) is the highest-risk compute item and may need 8-12+ hours or a Colab/Kaggle T4 fallback for the full training schedule",
+    "fits_24gb": true,
+    "mps_compatible_ops": "Standard 2D convolutions, U-Net architectures, and attention layers used in MERLIN/MuChaPro are MPS-compatible; diffusion sampling loops (R-DDPM) are more MPS-sensitive due to iterative overhead but are not blocked outright",
+    "colab_kaggle_fallback_needed": "Likely needed only for full R-DDPM baseline reproduction; the core task-aware despeckler and classifier training should fit within the 12-hour MPS budget on the M4 Pro",
+    "notes": "SLC data volume (40-80GB) and the need to implement/verify a from-scratch MERLIN reproduction (no confirmed lightweight public PyTorch/MPS port checked this session) are the main practical risks, not raw compute"
+  },
+  "cash_cost_rm": "Approximately RM 0 for data (Sentinel-1 GRD/SLC and AI4SmallFarms extension are free with registration only); the only plausible non-zero cost is optional Colab Pro/Kaggle credits if MPS training of the diffusion baseline proves too slow, estimated at under RM 50 if needed, well within the RM 200 budget. No commercial imagery dependency.",
+  "demo_artifact": "A live laptop demo: load a raw speckled Sentinel-1 patch over a smallholder rice parcel cluster, run it through (a) a standard fidelity-optimised despeckler and (b) the task-aware despeckler side by side, then overlay both outputs' resulting crop-type classification maps against ground truth -- visually showing the task-aware version producing a more accurate crop map despite looking 'noisier' by eye/ENL. A second panel showing the live-updating scatter plot of ENL/PSNR vs. F1 across the lambda sweep would make the core scientific finding directly visible within 2 minutes.",
+  "build_vs_research_ratio": "Roughly 65:35 engineering-to-research. Engineering: implementing/reproducing MERLIN and at least one baseline (MuChaPro or R-DDPM) from scratch on MPS, building the SLC/GRD preprocessing pipeline, wiring the frozen classifier's gradient into despeckler training, and building the correlation-analysis + demo dashboard. Research: designing the joint loss and lambda sweep, framing the metric-correlation study rigorously (matching GeoSR-Bench's statistical protocol), and interpreting whether/why the correlation breaks down. This sits close to the S2 target but leans slightly more research-heavy than 70:30 because reproducing three published despeckling baselines faithfully is itself a substantial and somewhat 'read-heavy' undertaking before any original contribution begins.",
+  "publication_venue_fit": "IGARSS or ICLR ML4RS workshop are the most realistic targets given the SAR-specific, benchmark-diagnostic nature of the contribution (close cousin to GeoSR-Bench, which itself reads as an ML4RS/EarthVision-style contribution); Remote Sensing (MDPI) is a plausible fallback journal target given several despeckling papers cited here (MERLIN, MuChaPro, ANED-Net) were published there or in comparable venues.",
+  "key_risks": [
+    "1) Novelty erosion: MERLIN-Seg and the 2025 ISPRS multi-task despeckling+change-detection paper already establish that joint despeckling+task training improves downstream performance, so reviewers may see this as an incremental extension to a new task rather than a new finding -- mitigate by centring the metric-correlation diagnostic, not the architecture.",
+    "2) Data-regime mismatch: MERLIN-style self-supervision needs SLC data, but the AI4SmallFarms benchmark and most SEA smallholder crop-label sources are built around GRD/detected intensity -- reconciling SLC despeckling training with GRD-based downstream labels adds real engineering friction and may force a compromise (e.g. multi-looking SLC down to pseudo-GRD) that weakens the self-supervision.",
+    "3) Crop-type label gap: it is not confirmed that AI4SmallFarms carries per-parcel crop-type labels (only field boundaries were confirmed) -- if crop-type ground truth for SEA smallholder parcels does not exist at usable quality, the frozen classifier's supervision signal may have to rely on noisy weak labels (e.g. the Thailand street-view-derived map), which could produce a classifier too weak to serve as a reliable proxy for the correlation study.",
+    "4) Diffusion baseline reproduction cost: faithfully reproducing R-DDPM (and possibly MuChaPro) from a paper description rather than released code is a real time sink on a single-student budget and could crowd out time needed for the actual novel contribution.",
+    "5) Statistical power of the correlation study: GeoSR-Bench used ~36,000 locations and 270 experimental settings to establish its correlation claim; a single-student replication at despeckling scale will have far fewer settings, risking an underpowered or noisy correlation estimate that cannot support a strong claim either way."
+  ],
+  "kill_criteria": [
+    "Week 1: confirm whether AI4SmallFarms (or any other SEA smallholder dataset) has crop-TYPE labels, not just field boundaries -- if not, and no adequate substitute is found, abandon the crop-classification framing and pivot to field-boundary IoU as the downstream task instead.",
+    "Week 1-2: download 2-3 Sentinel-1 SLC scenes over the target parcels and confirm MERLIN's real/imaginary self-supervision trains stably on MPS within a few hours -- if training is unstable or exceptionally slow, reconsider using only the log-domain score-based despeckler (GRD-compatible) as the sole method under test.",
+    "Week 2: run a minimal 2-setting version of the correlation study (one despeckler, two lambda values) and check whether ENL/PSNR and classifier F1 move in visibly different directions at all -- if they track each other tightly even at this small scale, the core scientific premise (a GeoSR-Bench-style disconnect for despeckling) may not hold and the project should pivot before deeper investment."
+  ],
+  "hard_constraint_verdict": {
+    "H1": "PASS (weak) -- genuine but narrower delta than the pitch suggests; task-coupled despeckling is precedented (MERLIN-Seg, ISPRS 2025 multi-task paper), so novelty rests specifically on the crop-classification/smallholder framing and the GeoSR-Bench-style metric-correlation diagnostic, not on the joint-training mechanism itself.",
+    "H2": "PASS -- not a banned pattern (not a chatbot, dashboard, leaf-photo classifier, NDVI viewer, tabular yield model, or benchmark rerun); core is a genuine despeckling-methods contribution.",
+    "H3": "PASS -- Sentinel-1 SAR (GRD and SLC) is the sole primary input.",
+    "H4": "PASS -- named user segment is smallholder rice/vegetable farmers and agronomists in the Mekong Delta/Cambodia, matching an SEA region with a documented dataset (AI4SmallFarms).",
+    "H5": "PASS with caveats -- estimated 60-120GB total, under the 200GB ceiling; MPS compute for the despeckler and classifier is feasible within 12 hours, though the diffusion baseline (R-DDPM) may need Colab/Kaggle fallback.",
+    "H6": "PASS -- pitch names a user, a quantifiable technical tension (sub-pixel fields + speckle vs. classifiable texture), and a demoable side-by-side visual comparison."
+  },
+  "overall_recommendation": "VIABLE. The idea passes all hard constraints but its central novelty claim is meaningfully weaker than the pitch implies once MERLIN-Seg and the 2025 ISPRS multi-task despeckling paper are accounted for -- the student should explicitly reframe the contribution around the GeoSR-Bench-style metric-correlation diagnostic for despeckling (not yet done by anyone) rather than the joint-training architecture (already done twice). With that reframing and assuming a usable SEA smallholder crop-type label source is confirmed in week 1, this is a solid, buildable, publishable-scale project.",
+  "confidence": "Medium. Confidence in the dataset routes (Sentinel-1 GRD/SLC access, AI4SmallFarms existence) is high, all verified live this session. Confidence in the precise novelty framing is medium-low because the crop-type label availability for AI4SmallFarms was not directly confirmed (only field-boundary labels were confirmed), and because a full read of the two threatening prior-art papers' methods sections (not just abstracts) would sharpen exactly how much delta remains. Raising confidence would require: (a) directly inspecting the AI4SmallFarms data schema for crop-type fields, (b) reading the MERLIN-Seg and ISPRS 2025 papers' full methods to confirm they do not already report a metric-correlation analysis, and (c) a quick local test of MERLIN training stability on MPS.",
+  "key_references": [
+    {
+      "title": "As if by Magic: Self-Supervised Training of Deep Despeckling Networks with MERLIN",
+      "year": 2021,
+      "venue": "IEEE Transactions on Geoscience and Remote Sensing",
+      "doi_or_arxiv_id": "10.1109/TGRS.2021.3128621 (arXiv:2110.13148)",
+      "why_it_matters": "Named baseline; the self-supervised despeckling method the proposed approach directly extends with an auxiliary task loss."
+    },
+    {
+      "title": "Just Project! Multi-Channel Despeckling, the Easy Way (MuChaPro)",
+      "year": 2025,
+      "venue": "IEEE Transactions on Geoscience and Remote Sensing",
+      "doi_or_arxiv_id": "10.1109/TGRS.2025.3531957 (arXiv:2408.11531)",
+      "why_it_matters": "Named baseline to beat; generic multi-channel despeckling framework with self-supervised training option."
+    },
+    {
+      "title": "SAR Despeckling via Regional Denoising Diffusion Probabilistic Model (R-DDPM)",
+      "year": 2024,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2401.03122",
+      "why_it_matters": "Named baseline to beat; diffusion-based despeckling tested on Sentinel-1 data at scale."
+    },
+    {
+      "title": "MERLIN-Seg: Self-supervised despeckling for label-efficient semantic segmentation",
+      "year": 2024,
+      "venue": "Computer Vision and Image Understanding",
+      "doi_or_arxiv_id": "10.1016/j.cviu.2024.103940",
+      "why_it_matters": "Direct novelty threat -- already couples despeckling with a downstream task loss (segmentation), the closest existing precedent to the proposed idea's core mechanism."
+    },
+    {
+      "title": "A multi-task learning framework for dual-polarization SAR imagery despeckling in temporal change detection scenarios",
+      "year": 2025,
+      "venue": "ISPRS Journal of Photogrammetry and Remote Sensing",
+      "doi_or_arxiv_id": "10.1016/j.isprsjprs.2025.01.030",
+      "why_it_matters": "Second, more recent direct novelty threat -- joint despeckling+downstream-task training applied to change detection, published in a top remote-sensing journal with 13 citations already."
+    },
+    {
+      "title": "Beyond Visual Fidelity: Benchmarking Super-Resolution Models for Large-Scale Remote Sensing Imagery via Downstream Task Integration (GeoSR-Bench)",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2605.00310",
+      "why_it_matters": "The direct template and motivating precedent this idea proposes to replicate for despeckling instead of super-resolution; establishes the fidelity-metric-vs-task-performance disconnect methodology."
+    },
+    {
+      "title": "AI4SmallFarms: A Dataset for Crop Field Delineation in Southeast Asian Smallholder Farms",
+      "year": 2023,
+      "venue": "IEEE Geoscience and Remote Sensing Letters",
+      "doi_or_arxiv_id": "10.1109/LGRS.2023.3323095",
+      "why_it_matters": "The only confirmed SEA smallholder-parcel benchmark with field-level granularity matching the 'fields a few pixels across' framing; its Sentinel-1 extension (Zenodo 10.5281/zenodo.18921642) is the primary candidate dataset."
+    }
+  ],
+  "uncertain": [
+    "AI4SmallFarms licence terms and exact dataset size in GB",
+    "Whether AI4SmallFarms (or its Sentinel-1 extension) includes per-parcel crop-TYPE labels or only field-boundary delineation",
+    "Accessibility of AI4SmallFarms/DANS/Zenodo archives specifically tested from Malaysia (assumed yes, not independently confirmed this session)",
+    "Thailand street-view-derived crop map's public licence and access route",
+    "Whether MERLIN-Seg or the ISPRS 2025 multi-task despeckling paper already report any form of fidelity-metric-vs-task-performance correlation analysis (only abstracts were reviewed, not full methods/results sections)",
+    "Quantified revenue/yield loss specifically attributable to despeckling-induced crop misclassification in smallholder settings -- no source found; would need to be established by the project itself",
+    "Exact SLC:GRD size ratio and per-scene GB figures used for the total_dataset_gb estimate (based on general ESA product knowledge, not re-verified this session)"
+  ]
+}

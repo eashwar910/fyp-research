@@ -1,0 +1,107 @@
+# Field definitions for FYP candidate-idea deep research.
+# Output JSON must be FLAT (all field names at the top level of the JSON object).
+# Do NOT nest fields under the category names below — categories organise this file only.
+
+field_categories:
+
+  - category: basic_info
+    fields:
+      - name: idea_name
+        required: true
+        description: The candidate's name, copied verbatim from outline.yaml.
+      - name: bucket
+        required: true
+        description: Which of the 10 buckets this belongs to (copied from outline.yaml).
+      - name: one_sentence_pitch
+        required: true
+        description: One sentence an FYP judging panel of CS academics would understand. Names the user, the problem, and the technical core.
+      - name: problem_statement
+        required: true
+        description: The concrete problem. What breaks today, for whom, and why current practice is inadequate.
+      - name: proposed_technical_approach
+        required: true
+        description: The actual method. Architecture, inputs, outputs, loss/objective, and how it is trained. Be specific enough that someone could start building.
+
+  - category: technical_features
+    fields:
+      - name: primary_sensor
+        required: true
+        description: "Object: {sensor, spatial_resolution_m, revisit_days, bands_used, licence}. H3 requires satellite or drone imagery as PRIMARY input. If fusion, list every sensor."
+      - name: imagery_is_primary_input
+        required: true
+        description: "Yes/No plus one line of justification. H3 check. 'No' disqualifies."
+      - name: datasets
+        required: true
+        description: "List of objects: {name, access_route, auth_required, licence, approx_size_gb, accessible_from_malaysia, verified_how}. Verify each is live — do not trust the seed list in the brief."
+      - name: total_dataset_gb
+        required: true
+        description: Total download volume in GB for the minimum viable experiment. Over ~200GB is a practical fail under H5.
+      - name: labels_and_ground_truth
+        required: true
+        description: Where supervision comes from. If labels do not exist, say what substitutes (pseudo-labels, self-supervision, proxy targets) and the risk that carries.
+
+  - category: performance_metrics
+    fields:
+      - name: named_baselines
+        required: true
+        description: "List of objects: {paper_title, venue, year, doi_or_arxiv_id, reported_metric, dataset}. H1 needs a NAMED published baseline to beat or extend. At least one is mandatory."
+      - name: evaluation_protocol
+        required: true
+        description: The metric(s), the test split, and how geographic/temporal generalisation is measured. Name the specific number that would count as success.
+      - name: novelty_delta
+        required: true
+        description: "H1. The defensible delta in one paragraph: new method, new data regime, new deployment constraint, or a measured improvement over the named baseline. Explicitly state why this is NOT 'applied X to Y country'."
+      - name: prior_art_that_threatens_it
+        required: true
+        description: Papers from 2024-2026 that may already have done this. Cite them. If something has already solved it, say so plainly.
+
+  - category: competition_ecosystem
+    fields:
+      - name: h2_generic_check
+        required: true
+        description: "H2. Confirm the core is NOT any of the 8 banned patterns. Then answer: could this one-sentence summary describe 50 other FYPs? Yes/No with reasoning."
+      - name: user_segment
+        required: true
+        description: "H4. The named end user: who, where, what they do with the output. 'Farmers globally' fails. Must be SEA (Singapore preferred) or EU."
+      - name: quantified_pain
+        required: true
+        description: "H6. A number: hectares affected, yield/revenue lost, inspection cost, false-alert rate, days of delay. Cite the source of the number."
+
+  - category: market_positioning
+    fields:
+      - name: compute_feasibility
+        required: true
+        description: "H5. Object: {peak_memory_gb, est_training_hours_mps, fits_24gb, mps_compatible_ops, colab_kaggle_fallback_needed, notes}. MacBook Pro M4 Pro, 24GB unified, PyTorch MPS, NO CUDA."
+      - name: cash_cost_rm
+        required: true
+        description: Estimated total cash cost in RM against the RM 200 budget. Itemise anything non-zero. Flag any commercial imagery dependency as a fail unless a verified free research tier exists.
+      - name: demo_artifact
+        required: true
+        description: "H6. What is demoable live on a laptop in under 2 minutes. Be concrete: input, what the panel sees, what it proves."
+      - name: build_vs_research_ratio
+        required: true
+        description: "S2. Estimated engineering:research split. Target ~70:30. Describe the system that gets built."
+      - name: publication_venue_fit
+        required: true
+        description: "S1. Realistic target venue (CVPR EarthVision, ECCV CVPPA, IGARSS, ICLR ML4RS, AGU, Remote Sensing MDPI, Computers and Electronics in Agriculture) and why."
+
+  - category: history
+    fields:
+      - name: key_risks
+        required: true
+        description: The 3-5 things most likely to sink this, ranked. Include data-access risk, method risk, and evaluation risk.
+      - name: kill_criteria
+        required: true
+        description: Concrete checks to run in week 1-2 that would tell the student to abandon this early.
+      - name: hard_constraint_verdict
+        required: true
+        description: "Object with a pass/fail and one-line reason for each of H1, H2, H3, H4, H5, H6. Any single fail disqualifies the idea — say so."
+      - name: overall_recommendation
+        required: true
+        description: "One of: STRONG / VIABLE / WEAK / DISQUALIFIED, with two sentences of justification."
+      - name: confidence
+        required: true
+        description: High/Medium/Low confidence in this assessment, and what would raise it.
+      - name: key_references
+        required: true
+        description: "List of objects: {title, year, venue, doi_or_arxiv_id, why_it_matters}. Minimum 5. These get written into Zotero."

@@ -1,0 +1,198 @@
+{
+  "idea_name": "Bandwidth-Aware Satellite Inference for Low-Connectivity Co-ops",
+  "bucket": "7 - on-device / edge-efficient inference",
+  "one_sentence_pitch": "For rice and oil-palm cooperative offices in rural Kedah and Sarawak that rely on intermittent mobile backhaul, jointly train a task-sufficient compressed code for Sentinel-1/2 season time series and the crop-mapping model that consumes it, so the server sends kilobytes per parcel instead of gigabytes of imagery, and classification runs locally on a laptop.",
+  "problem_statement": "Crop-type mapping from Sentinel time series normally assumes the analyst can pull a full season of tiles to a well-connected machine (local or cloud). A co-op office on an intermittent 3G/4G/satellite backhaul in rural Malaysia cannot reliably do this: a season of Sentinel-2 L2A tiles for even a modest area is multiple gigabytes, and 'just run it in the cloud' does not help if the last-mile link to the co-op is the bottleneck, not compute. Current practice (download-then-process, or full cloud dependency) breaks under exactly this condition, and standard image-compression pipelines (JPEG2000) are optimized for visual fidelity, not for preserving the specific downstream decision (crop type) per bit spent.",
+  "proposed_technical_approach": "An encoder-decoder split trained end-to-end: a server-side encoder E_theta (small CNN/temporal encoder) maps a per-parcel Sentinel-1 (VV/VH) + Sentinel-2 (10 optical bands) season stack to a low-dimensional latent code z, quantized and entropy-coded through a learned hyperprior/entropy bottleneck (à la Ballé-style neural compression, e.g. via CompressAI). A lightweight decoder D_phi (small transformer or 1D-CNN, sized to run on a laptop) consumes only z and predicts the crop-type map. Both are trained jointly with a rate-task loss: L = R(z) + lambda * CrossEntropy(D_phi(z), y) -- deliberately NOT a pixel-reconstruction loss, so the code is optimized for the classification decision, not image fidelity. Sweeping lambda / bottleneck width produces a rate-accuracy curve (KB per parcel per season vs macro-F1). Two named comparisons: (1) JPEG2000 (or a standard off-the-shelf codec) compressing the raw tiles at matched bitrates, then run through a standard SITS classifier (e.g. a small TSViT/VistaFormer-style model) -- isolates 'compress-then-classify' vs 'compress-for-classification'; (2) a quantized/pruned full-resolution classifier (post-training quantization or QAT on the same classifier architecture, fed uncompressed data) -- isolates model-efficiency gains from data-transmission gains. The demo throttles a real network link to co-op-realistic bandwidth and shows the KB-sized code arriving and classifying in seconds versus a simulated multi-minute full-tile download.",
+  "primary_sensor": {
+    "sensor": "Sentinel-1 (SAR, GRD, VV/VH) + Sentinel-2 (MSI, L2A)",
+    "spatial_resolution_m": "10 (both, resampled to common grid)",
+    "revisit_days": "Sentinel-1: 6-12 days depending on orbit overlap; Sentinel-2: ~5 days with both satellites",
+    "bands_used": "Sentinel-1 VV, VH backscatter; Sentinel-2 10 reflectance bands (B2,B3,B4,B5,B6,B7,B8,B8A,B11,B12) as used in PASTIS-R",
+    "licence": "Copernicus open data licence (free, unrestricted, attribution only)"
+  },
+  "imagery_is_primary_input": "Yes. The entire pipeline's input is the Sentinel-1/2 time-series stack per parcel; nothing else (weather, soil, text) is used. The compression and classification models both operate directly on satellite pixel/backscatter values.",
+  "datasets": [
+    {
+      "name": "PASTIS-R",
+      "access_route": "Zenodo record (github.com/VSainteuf/pastis-benchmark points to the Zenodo DOI); direct zip download, no auth",
+      "auth_required": "No",
+      "licence": "CC (research use), see PASTIS-R GitHub for exact terms",
+      "approx_size_gb": "54 GB (full raster format) or 27 GB (pixel-set format, sufficient for parcel-level classification)",
+      "accessible_from_malaysia": "Yes (confirmed via GitHub repo describing public Zenodo hosting; no geographic restriction noted)",
+      "verified_how": "WebSearch confirmed via github.com/VSainteuf/pastis-benchmark description of file sizes and Zenodo hosting; not independently re-downloaded this session"
+    },
+    {
+      "name": "EuroCrops",
+      "access_route": "Zenodo (zenodo.org/records/10118572) for vector parcel labels; imagery must be pulled separately via Copernicus Data Space Ecosystem",
+      "auth_required": "No for EuroCrops vectors; free registration for Copernicus imagery pull",
+      "licence": "CC-BY (EuroCrops)",
+      "approx_size_gb": "Vectors: low single-digit GB; paired imagery pull adds 10-40 GB depending on AOI/season chosen",
+      "accessible_from_malaysia": "Yes",
+      "verified_how": "WebSearch confirmed live Zenodo record and GitHub repo (maja601/EuroCrops); exact size not independently downloaded"
+    },
+    {
+      "name": "Copernicus Data Space Ecosystem",
+      "access_route": "dataspace.copernicus.eu -- Copernicus Browser (web), STAC API, openEO, Sentinel Hub API, JupyterLab; free account registration",
+      "auth_required": "Free registration required for API/bulk pulls; browser preview needs no login",
+      "licence": "Copernicus open data licence",
+      "approx_size_gb": "Depends on AOI; a season over one Kedah/Sarawak district-sized case-study area is estimated 5-20 GB",
+      "accessible_from_malaysia": "Yes",
+      "verified_how": "WebFetch of dataspace.copernicus.eu confirmed live, free-registration access with STAC/API/browser routes, 2026-08-05"
+    },
+    {
+      "name": "SEA-Rice-Ci10 (rice cropping intensity, Southeast Asia)",
+      "access_route": "Published in Scientific Data (2025) / preprint at essd.copernicus.org; dataset repository not independently confirmed this session",
+      "auth_required": "[uncertain]",
+      "licence": "[uncertain] -- likely open given ESSD/Sci Data norms, not independently confirmed",
+      "approx_size_gb": "[uncertain]",
+      "accessible_from_malaysia": "Coverage explicitly includes Peninsular Malaysia (Kedah) and Sarawak per abstract/search snippets",
+      "verified_how": "WebSearch found the paper (essd.copernicus.org preprint and Nature Scientific Data page); PDF fetch did not yield a clean data-availability statement this session, so exact host/size/licence are unverified"
+    },
+    {
+      "name": "Global oil palm plantation dataset (Descals et al.)",
+      "access_route": "Zenodo, DOI 10.5281/zenodo.13379129",
+      "auth_required": "No",
+      "licence": "[uncertain] -- open per Zenodo norms, not independently confirmed",
+      "approx_size_gb": "[uncertain]",
+      "accessible_from_malaysia": "Yes (global coverage includes Sarawak oil palm areas)",
+      "verified_how": "WebSearch found Zenodo DOI reference; not independently fetched this session"
+    }
+  ],
+  "total_dataset_gb": "Primary EU-based training/validation on PASTIS-R: 27-54 GB. Plus an optional Malaysia case-study Sentinel-1/2 pull (5-20 GB) and small SEA rice/oil-palm pseudo-label layers. Realistic ceiling well under 100 GB, comfortably inside the H5 ~200GB practical limit.",
+  "labels_and_ground_truth": "Primary supervision comes from PASTIS-R's real parcel-level crop-type labels (18 classes, sourced from French agricultural register/LPIS) -- this is genuine, high-quality ground truth. No equivalent public parcel-level crop-type ground truth exists for Malaysia; a Kedah/Sarawak case study would have to substitute coarse pseudo-labels from SEA-Rice-Ci10 (rice/non-rice cropping-intensity maps) and the global oil-palm plantation layer (plantation/non-plantation, with planting year). This is a real risk: these are extent/intensity layers, not multi-class crop-type ground truth, carry their own model-derived label noise, and provide no independent Malaysia validation set -- so any Malaysia-specific accuracy claim would be qualitative/illustrative rather than a rigorously validated result.",
+  "named_baselines": [
+    {
+      "paper_title": "ViTs for SITS: Vision Transformers for Satellite Image Time Series (TSViT)",
+      "venue": "arXiv (CVPR 2023)",
+      "year": "2023",
+      "doi_or_arxiv_id": "arXiv:2301.04944",
+      "reported_metric": "State-of-the-art overall accuracy/mIoU on PASTIS semantic segmentation and classification, full-resolution input, no compression",
+      "dataset": "PASTIS"
+    },
+    {
+      "paper_title": "Co-Design of Communication and Machine Inference for Cloud Robotics",
+      "venue": "Robotics: Science and Systems (RSS)",
+      "year": "2021",
+      "doi_or_arxiv_id": "10.15607/rss.2021.xvii.046",
+      "reported_metric": "Up to 11x sensory-data compression while preserving downstream task accuracy (Mars terrain classification, motion planning)",
+      "dataset": "Mars terrain imagery / robot sensory streams (not satellite/crop)"
+    },
+    {
+      "paper_title": "FOOL: Addressing the Downlink Bottleneck in Satellite Computing with Neural Feature Compression",
+      "venue": "arXiv",
+      "year": "2024",
+      "doi_or_arxiv_id": "arXiv:2403.16677",
+      "reported_metric": "Over 100x downlinkable data volume increase via task-agnostic feature compression, evaluated on satellite imagery",
+      "dataset": "Nanosatellite/orbital imagery (task-agnostic, not crop-specific)"
+    },
+    {
+      "paper_title": "Lossy Neural Compression for Geospatial Analytics: A Review",
+      "venue": "IEEE Geoscience and Remote Sensing Magazine",
+      "year": "2025",
+      "doi_or_arxiv_id": "10.1109/mgrs.2025.3546527 (arXiv:2503.01505)",
+      "reported_metric": "Survey; no single reported metric, but explicitly frames 'transferring compressed feature representations for machine-to-machine communication' as an open direction",
+      "dataset": "N/A (review)"
+    },
+    {
+      "paper_title": "VistaFormer: Scalable Vision Transformers for Satellite Image Time Series Segmentation",
+      "venue": "arXiv",
+      "year": "2024",
+      "doi_or_arxiv_id": "arXiv:2409.08461",
+      "reported_metric": "Improves PASTIS mIoU by 0.1% over prior SOTA using only 8-11% of the FLOPs of comparable transformers",
+      "dataset": "PASTIS, MTLCC"
+    }
+  ],
+  "evaluation_protocol": "Primary metric: macro/micro F1 for parcel-level crop-type classification on PASTIS-R's official 5-fold cross-validation split (train/test folds as released). Rate axis: KB transmitted per parcel per season (entropy-coded code size, excluding one-time model-weight transfer). Report a rate-accuracy curve across a lambda/bottleneck-width sweep, overlaid with (a) JPEG2000-compressed-tiles-then-classify at matched bitrates and (b) quantized/pruned full-resolution classifier at its native (uncompressed) transmission cost. Geographic generalisation checked via PASTIS-R's built-in multi-region French folds (four agro-climatic regions); temporal generalisation via held-out year if available. Success criterion: matching within ~2-3 F1 points of the full-resolution TSViT/VistaFormer baseline at under ~10% of the raw-tile transmission volume, and beating JPEG2000-then-classify by a clear, stated F1 margin at equal bitrate.",
+  "novelty_delta": "The claimed delta is a joint rate-task (not rate-distortion) optimization objective for multi-temporal Sentinel-1/2 crop mapping, explicitly benchmarked against both a standard image codec (JPEG2000) and model-only compression (quantization) under a last-mile-bandwidth framing rather than an onboard-satellite-downlink or generic-image-quality framing. This is not 'applied X to Y country': the technical contribution (what to optimize the code for, and how to measure it) is the same regardless of region. However, the general mechanism -- co-designing a learned compressed representation with a downstream task model and reporting a rate-accuracy tradeoff -- is not new: Nakanoya et al. (RSS 2021) already do exactly this for robotic perception, and multiple 2024-2025 EO papers (FOOL, PICM-Net, IRST) already pursue task-oriented compression for satellite/EO data specifically. The genuinely defensible remainder is narrower than the pitch implies: (i) applying the joint rate-task objective specifically to multi-sensor (SAR+optical) Sentinel time series for parcel-level crop classification, (ii) the specific three-way comparison (learned task-aware code vs JPEG2000-then-classify vs quantized-full-resolution) on a common benchmark (PASTIS-R) with an explicit KB/parcel/season vs F1 curve, and (iii) the last-mile co-op bandwidth framing as distinct from orbital downlink. This is a real but incremental delta, not a first-of-its-kind mechanism.",
+  "prior_art_that_threatens_it": "Nakanoya et al., 'Co-Design of Communication and Machine Inference for Cloud Robotics' (RSS 2021, DOI 10.15607/rss.2021.xvii.046) already demonstrates the core mechanism (task-relevant learned compression codesigned with a downstream perception model, rate-accuracy tradeoff, applied to Mars terrain classification) years before this proposal. Furutanpey et al., 'FOOL' (arXiv:2403.16677, 2024) does task-preserving neural feature compression for satellite imagery, though task-agnostic and framed around orbital downlink rather than ground-side last-mile bandwidth. Kim et al., 'Progressive Learned Image Compression for Machine Perception' (arXiv:2512.20070, Dec 2025) explicitly optimizes a learned codec for machine-perception downstream confidence with adaptive decoding -- very close in spirit, general-purpose rather than SITS/crop-specific. Cao et al., 'Importance-Aware Robust Semantic Transmission for LEO Satellite-Ground Communication' (arXiv:2508.11457, 2025) does task-driven semantic selection for satellite-ground transmission under bandwidth/SNR constraints. Gomes et al.'s 2025 IEEE GRSM review explicitly identifies 'transferring compressed feature representations for machine-to-machine communication' as a live, actively-forming research direction for EO -- meaning this is not an unexplored gap but a converging area with several 2024-2026 entrants. None of these, as far as this search found, specifically targets parcel-level multi-temporal Sentinel-1/2 crop classification with a co-op/last-mile framing and a named-baseline (JPEG2000 + quantization) comparison, but a student should expect close competition and should re-verify this gap with full-text reads before committing, not just abstracts.",
+  "h2_generic_check": "Confirmed not a chatbot/RAG assistant, dashboard/monitoring portal, leaf-photo disease classifier, NDVI viewer, tabular yield-from-CSV model, benchmark re-run, or API-wrapper mobile app -- the core is a learned compression-classification codesign with a genuine rate-accuracy engineering artifact. Could the one-sentence summary describe 50 other FYPs? Partially -- 'compress satellite data for bandwidth-constrained edge AI' is a recognizable genre and several adjacent 2024-2025 papers already exist in it (see prior art above), so the summary is more specific than the 8 banned patterns but sits inside an increasingly crowded sub-genre; the specific PASTIS-R + JPEG2000 + quantization three-way comparison narrows it further. Net: does not fail H2, but is not maximally distinctive either.",
+  "user_segment": "Malaysian rice and oil-palm smallholder cooperatives and their extension/agronomy offices in rural Kedah (e.g. within the Muda Agricultural Development Authority, MADA, command area) and rural Sarawak (interior longhouse communities and oil-palm smallholder co-ops served by the Sarawak Department of Agriculture), who would use a laptop-based crop-map output to plan input use, verify planted area for subsidy/co-op reporting, and monitor season progress without depending on a reliable fixed broadband link.",
+  "quantified_pain": "State-level MCMC (Malaysian Communications and Multimedia Commission) Q1 2025 data shows 4G coverage of 99.9% in Kedah and 91.5% in Sarawak, with 5G coverage at 80.2% (Kedah) and only 63.8% (Sarawak) [WebSearch, mcmc.gov.my 1Q2025 report]. These are aggregate state-level coverage figures, not rural/interior figures, and coverage does not equal usable throughput/reliability -- interior Sarawak longhouse areas and small rural Kedah co-op offices plausibly sit well below the state average, but this session could not find a rural-disaggregated bandwidth or reliability statistic. This is a real gap in the pitch: the state-level numbers as found do not, by themselves, strongly support a 'cannot pull a season of tiles' framing for Kedah (99.9% 4G), and even Sarawak's 91.5% 4G coverage is high; the pain likely hinges on throughput/latency/data-cost in covered-but-poor-quality areas rather than binary no-coverage, which needs a better-targeted citation before the pitch is presented to a panel.",
+  "compute_feasibility": {
+    "peak_memory_gb": "Estimated 4-10 GB for joint encoder+entropy-bottleneck+decoder training on PASTIS-R patches (128x128 px, ~60 timesteps, 10-12 bands) at small batch sizes (8-16); well under 24GB",
+    "est_training_hours_mps": "Estimated 4-8 hours per lambda setting on M4 Pro MPS; a full rate-accuracy curve (5-8 lambda points) could total 20-60 hours, likely exceeding a single 12-hour MPS session and requiring either fewer curve points or free Colab/Kaggle T4 quota for some runs",
+    "fits_24gb": "Yes, per-run memory footprint is small; the constraint is wall-clock time across the full lambda sweep, not memory",
+    "mps_compatible_ops": "[uncertain] -- standard entropy-bottleneck/hyperprior implementations (e.g. CompressAI) are built on PyTorch, but the arithmetic/range coder used for actual bit-length estimation and real entropy coding sometimes uses CPU-side or custom C++ code rather than GPU kernels; needs a week-1 smoke test on MPS specifically, since a stall or silent CPU fallback for the whole training loop would blow the time budget",
+    "colab_kaggle_fallback_needed": "Likely yes for completing the full rate-accuracy sweep within a reasonable calendar time, even though any single lambda run fits the M4 Pro",
+    "notes": "The classifier decoder itself (small transformer/1D-CNN operating on already-compressed codes) is lightweight and should run comfortably on MPS or even CPU for the live demo; the training-time risk is entirely in the compression/entropy-bottleneck stack."
+  },
+  "cash_cost_rm": "Approximately RM 0. PASTIS-R, EuroCrops, and Copernicus Data Space access are all free; no commercial imagery is required. Optional Colab Pro (~RM 45/month) could be used to shorten the lambda-sweep wall-clock time but is not mandatory given the free T4 quota discussed in TOOL_ROUTING.md.",
+  "demo_artifact": "Live 2-minute laptop demo: a throttled network link (simulated via a bandwidth limiter) shows a 'baseline' progress bar downloading a raw Sentinel-2 season tile stack crawling toward completion, while in parallel a ~tens-of-KB learned code for the same parcel arrives near-instantly and is decoded locally into a crop-type map with its F1 score displayed, visually proving the KB-vs-GB gap and that classification happens without ever transmitting the imagery.",
+  "build_vs_research_ratio": "Roughly 65:35 engineering-to-research. Engineering: the joint compression-classification training pipeline, entropy bottleneck integration on MPS, JPEG2000-then-classify baseline reimplementation, quantized-classifier baseline, the bandwidth-throttled demo harness, and a Malaysia case-study data-pull script. Research: designing and validating the rate-task loss and lambda sweep, interpreting the resulting rate-accuracy curve against named baselines, and honestly characterizing where task-aware compression helps vs where it does not.",
+  "publication_venue_fit": "IGARSS or the ICLR ML4RS workshop are the most realistic targets given the compression + remote-sensing crossover; Remote Sensing (MDPI) is a plausible journal fallback given its history of publishing SITS classification and compression work.",
+  "key_risks": [
+    "Novelty erosion: task-aware/goal-oriented compression for EO and robotics is an active, converging 2021-2025 research thread (Nakanoya 2021, FOOL 2024, PICM-Net 2025, IRST 2025); the delta may look incremental to a panel or reviewer who knows this literature.",
+    "Data-access/H4 honesty gap: no public Malaysia parcel-level crop-type ground truth exists, so the rigorous rate-accuracy validation must run on EU data (PASTIS-R) while the named user is Malaysian; the Malaysia component is necessarily a weakly-labeled qualitative case study, not a validated result.",
+    "Method risk: differentiable entropy-bottleneck training is finicky (rate/distortion balance, lambda scheduling) and MPS compatibility of the arithmetic/range-coding components is unverified.",
+    "Pain-quantification risk: state-level MCMC coverage statistics found this session (99.9% 4G Kedah, 91.5% Sarawak) are high enough that the 'cannot get connectivity' framing needs a better rural-disaggregated statistic or a reframe around throughput/cost/reliability rather than binary coverage.",
+    "Evaluation-honesty risk: 'KB per parcel per season' must exclude one-time model-weight transmission and be defined identically across the three compared methods, or the headline rate-accuracy curve will overstate the advantage."
+  ],
+  "kill_criteria": [
+    "Week 1: run a smoke test of a standard entropy-bottleneck/hyperprior compression library (e.g. CompressAI) end-to-end on MPS; if it silently falls back to CPU with prohibitive slowdown or errors out, either find an MPS-safe reimplementation or pivot.",
+    "Week 1: read the full text (not just abstracts) of Nakanoya et al. 2021, FOOL 2024, and PICM-Net 2025 to confirm none of them already reports a crop-mapping-specific KB/parcel/season vs F1 curve against JPEG2000 and quantization baselines; if one does, narrow or pivot the contribution claim.",
+    "Week 1-2: download PASTIS-R and confirm a baseline classifier (small TSViT-style model) trains to a sane F1 on MPS within a few hours; if PASTIS-R loading/training is itself a multi-day struggle, the timeline is at risk.",
+    "Week 2: find a rural-disaggregated (not state-aggregate) connectivity/bandwidth or data-cost statistic for Kedah/Sarawak co-ops; if none exists, reframe the pain around cost-per-GB or field-visit intermittency rather than coverage percentage."
+  ],
+  "hard_constraint_verdict": {
+    "H1": "BORDERLINE PASS -- a real delta exists (crop-mapping-specific joint rate-task compression with a named three-way baseline comparison) but is narrower than pitched given close 2021-2025 prior art in task-aware EO/robotics compression; needs sharpening and a full-text prior-art recheck.",
+    "H2": "PASS -- not one of the 8 banned generic patterns; core is a genuine compression-classification codesign system, though it sits in an increasingly crowded 'edge-AI compression' sub-genre.",
+    "H3": "PASS -- Sentinel-1/2 time series is the sole and primary input throughout.",
+    "H4": "PASS WITH CAVEAT -- names a real SEA user segment (Kedah/Sarawak co-ops), but rigorous technical validation must lean on EU data (PASTIS-R) since no Malaysia parcel-level ground truth exists; the Malaysia tie is honest deployment framing, not the validation region.",
+    "H5": "LIKELY PASS -- dataset volumes (well under 100GB) and per-run model memory fit comfortably in 24GB; main open item is verifying MPS compatibility of the entropy-coding stack and budgeting Colab/Kaggle time for the full lambda sweep.",
+    "H6": "PASS WITH CAVEAT -- the kilobytes-vs-gigabytes live demo lands well, but the quantified pain number needs a better rural-specific connectivity/cost statistic than the state-aggregate MCMC coverage figures found this session."
+  },
+  "overall_recommendation": "VIABLE. It clears all six hard constraints on the evidence gathered, but H1's margin is the thinnest of the six given how much 2021-2025 prior art already explores task-aware/goal-oriented compression for EO and robotics, and H4 carries an honesty gap between the named Malaysian user and the EU data used for rigorous validation. Both are addressable with a narrower novelty claim and an explicit, labeled 'illustrative case study' treatment of the Malaysia component, but the student should not present this as an unclaimed research gap without first reading the closest prior art in full.",
+  "confidence": "Medium. Named baselines, dataset access routes, and the core novelty-erosion risk are grounded in verified sources (arXiv abstracts, OpenAlex records, a live WebFetch of the Copernicus Data Space Ecosystem). Confidence would rise with: a full-text read of Nakanoya 2021 / FOOL 2024 / PICM-Net 2025 to nail down exactly what has and hasn't been done; independent verification of the SEA-Rice-Ci10 dataset's hosting/size/licence (this session's PDF fetch did not yield a clean data-availability statement); and a rural-disaggregated Malaysia connectivity statistic rather than the state-aggregate MCMC figures used here.",
+  "key_references": [
+    {
+      "title": "ViTs for SITS: Vision Transformers for Satellite Image Time Series",
+      "year": "2023",
+      "venue": "arXiv / CVPR 2023",
+      "doi_or_arxiv_id": "arXiv:2301.04944",
+      "why_it_matters": "TSViT is the named full-resolution SOTA baseline on PASTIS that the compressed pipeline must be measured against."
+    },
+    {
+      "title": "Co-Design of Communication and Machine Inference for Cloud Robotics",
+      "year": "2021",
+      "venue": "Robotics: Science and Systems (RSS)",
+      "doi_or_arxiv_id": "10.15607/rss.2021.xvii.046",
+      "why_it_matters": "Closest methodological precedent -- already demonstrates task-relevant learned sensor-data compression codesigned with a downstream model and a rate-accuracy tradeoff, predating this proposal by years; the strongest single threat to H1."
+    },
+    {
+      "title": "FOOL: Addressing the Downlink Bottleneck in Satellite Computing with Neural Feature Compression",
+      "year": "2024",
+      "venue": "arXiv",
+      "doi_or_arxiv_id": "arXiv:2403.16677",
+      "why_it_matters": "Directly competing framing (task-preserving compression for satellite bandwidth bottlenecks), though task-agnostic and orbital-downlink-focused rather than crop-mapping/last-mile-focused."
+    },
+    {
+      "title": "Lossy Neural Compression for Geospatial Analytics: A Review",
+      "year": "2025",
+      "venue": "IEEE Geoscience and Remote Sensing Magazine",
+      "doi_or_arxiv_id": "10.1109/mgrs.2025.3546527",
+      "why_it_matters": "Frames the entire neural-compression-for-EO space and explicitly flags task-aware compressed representations for machine-to-machine communication as a live, converging direction -- essential context for scoping the true novelty gap."
+    },
+    {
+      "title": "VistaFormer: Scalable Vision Transformers for Satellite Image Time Series Segmentation",
+      "year": "2024",
+      "venue": "arXiv",
+      "doi_or_arxiv_id": "arXiv:2409.08461",
+      "why_it_matters": "An efficient SITS classifier (low FLOPs, competitive PASTIS mIoU) that is a strong, realistic decoder-side model choice for the laptop-side classifier."
+    },
+    {
+      "title": "Progressive Learned Image Compression for Machine Perception",
+      "year": "2025",
+      "venue": "arXiv",
+      "doi_or_arxiv_id": "arXiv:2512.20070",
+      "why_it_matters": "Very recent (Dec 2025) machine-perception-oriented learned codec with adaptive decoding tied to downstream confidence -- close conceptual competitor published while this idea would be in development."
+    }
+  ],
+  "uncertain": [
+    "SEA-Rice-Ci10 dataset hosting location, exact size in GB, and licence terms -- WebFetch of the ESSD preprint PDF did not yield a readable data-availability statement this session",
+    "Global oil-palm plantation dataset (Zenodo 10.5281/zenodo.13379129) exact size and licence -- not independently fetched this session",
+    "MPS compatibility and throughput of standard entropy-bottleneck/arithmetic-coding compression libraries (e.g. CompressAI) -- flagged as a week-1 smoke test, not verified this session",
+    "Rural-disaggregated (sub-state) connectivity/bandwidth/reliability statistics for Kedah/Sarawak co-op offices specifically -- only state-aggregate MCMC 4G/5G coverage percentages were found, which are surprisingly high and may weaken the stated pain",
+    "Whether a 2024-2026 paper already reports the exact combination of joint rate-task Sentinel-1/2 compression for crop classification with a JPEG2000 + quantization comparison -- this session found close prior art but did not do full-text reads of the closest candidates"
+  ]
+}

@@ -1,0 +1,251 @@
+{
+  "idea_name": "Continuous-Time Rice Phenology from Irregular SAR-Optical Series",
+  "bucket": "1 - satellite time-series / phenology",
+  "one_sentence_pitch": "For MADA and IADA rice-granary co-ops in Kedah, Malaysia, who currently schedule irrigation releases and double-cropping windows using coarse, manually-monitored field calendars, a continuous-time SAR-optical fusion model ingests Sentinel-1 and Sentinel-2 observations at their true irregular acquisition timestamps (no interpolation) to output per-parcel transplanting/heading dates with calibrated uncertainty, evaluated explicitly against interpolate-then-classify baselines under increasing simulated monsoon cloud loss.",
+  "problem_statement": "MADA (Muda Agricultural Development Authority, Kedah/Perlis) and IADA co-ops need per-parcel transplanting and heading dates to time irrigation releases and coordinate double-cropping across a >100,000 ha granary. Today this relies on manual field monitoring (MADA is reported to log planting activity on drawings roughly every 7 days) rather than dense remote sensing. Sentinel-2 optical revisit in this monsoon-tropical region is heavily degraded by persistent cloud cover, producing genuinely irregular, gappy time series -- not a regular grid with occasional missing frames. Standard SITS deep learning pipelines (3D U-Net, TSViT, SITSMamba) are built and benchmarked on temperate, single-cropping regions (France, Germany) where irregularity is comparatively mild; when applied naively to a tropical double-cropping regime, the usual fix (interpolate to a regular grid, then classify/regress) risks manufacturing the very phenological transitions the model is meant to detect, especially under long cloud runs.",
+  "proposed_technical_approach": "A two-stream spatio-temporal encoder ingests co-registered Sentinel-1 GRD (VV/VH) and Sentinel-2 L2A (10 bands) patches per parcel at their real, irregular acquisition timestamps. Each observation carries its true day-of-year/absolute-time value; the temporal encoder is a time-conditioned attention module (in the L-TAE/TSViT family, using continuous timestamp positional encodings rather than sequence-index positions) or, as a research-stretch variant, a neural-CDE/ODE-style latent state that can be queried at arbitrary continuous times. A lightweight CNN spatial encoder (as in U-TAE/PSE) produces per-timestamp parcel embeddings; the temporal module fuses them into a continuous latent trajectory. Two heads read out from this trajectory: (1) a phenological-date regression head predicting transplanting date and heading date per parcel with a calibrated predictive distribution (e.g. Gaussian NLL or quantile loss) rather than a point estimate, and (2) an auxiliary reconstruction/classification head (crop presence, growth-stage) for regularization, following the SITSMamba dual-branch pattern. Training: pretrain/validate on PASTIS-R (Sentinel-1+2, France) with an artificial cloud-dropout curriculum that removes optical frames with increasing probability while preserving true SAR/optical timestamps for the remaining frames, comparing date-error (for a synthetic phenology-like proxy target, since PASTIS-R does not have phenology-date labels) against interpolate-then-classify TSViT/SITSMamba/3D U-Net baselines fed a regularly-resampled version of the same dropped series. Transfer/fine-tune on Sentinel-1+2 series over one or more MADA/IADA blocks in Kedah for a single growing season, evaluated qualitatively against literature-established SAR growth-stage/transplanting-date detection accuracy (Rudiyanto et al. 2019/2023; Manago et al. 2020) in the absence of confirmed public per-parcel MADA ground truth.",
+  "primary_sensor": {
+    "sensor": "Sentinel-1 (C-band SAR, GRD, IW mode) + Sentinel-2 (MSI optical, L2A)",
+    "spatial_resolution_m": "10 m (Sentinel-1 GRD IW); 10-20 m depending on band (Sentinel-2 L2A)",
+    "revisit_days": "Sentinel-2: ~5 days with both satellites operating. Sentinel-1: nominally 6 days with a full 2-satellite constellation, but degraded to ~12 days over much of the globe since Sentinel-1B's failure in Dec 2021; current effective revisit over Malaysia at time of writing is [uncertain] and should be re-checked against the live Copernicus constellation status before committing to a revisit assumption.",
+    "bands_used": "Sentinel-1: VV and VH backscatter (as in PASTIS-R, ~70 ascending + ~70 descending acquisitions per patch per year). Sentinel-2: 10-band L2A stack as used in PASTIS, or full 13-band L2A for the MADA fine-tuning stage.",
+    "licence": "Free, open Copernicus data licence for both sensors (no commercial imagery dependency)."
+  },
+  "imagery_is_primary_input": "Yes - Sentinel-1 SAR backscatter and Sentinel-2 optical reflectance time series are the sole model inputs; there is no non-imagery primary signal (weather/soil CSVs are not used as inputs, only as optional auxiliary context for interpretation).",
+  "datasets": [
+    {
+      "name": "PASTIS (Panoptic Segmentation of Satellite Image Time Series)",
+      "access_route": "Zenodo record https://zenodo.org/record/5012942, companion GitHub github.com/VSainteuf/pastis-benchmark",
+      "auth_required": "No - public Zenodo download",
+      "licence": "Open/free (code repo is MIT; exact data-specific licence text not independently re-verified this session) [uncertain]",
+      "approx_size_gb": 29,
+      "accessible_from_malaysia": "Yes - Zenodo has no geographic restriction",
+      "verified_how": "WebFetch on github.com/VSainteuf/pastis-benchmark, 2026-08-05; corroborated by OpenAlex record W3208247095 (DOI 10.5281/zenodo.5012942)"
+    },
+    {
+      "name": "PASTIS-R (Sentinel-1 + Sentinel-2 multimodal extension of PASTIS)",
+      "access_route": "Zenodo record https://zenodo.org/record/5735646",
+      "auth_required": "No",
+      "licence": "Open/free (same as PASTIS) [uncertain exact licence text]",
+      "approx_size_gb": 54,
+      "accessible_from_malaysia": "Yes",
+      "verified_how": "WebFetch on github.com/VSainteuf/pastis-benchmark, 2026-08-05; source paper Garnot, Landrieu & Chehata, arXiv:2112.07558, confirms PASTIS-R is 'the first large-scale, multimodal, and open-access satellite time series dataset with semantic and instance annotations'"
+    },
+    {
+      "name": "BreizhCrops",
+      "access_route": "pip install breizhcrops, or clone github.com/dl4sits/BreizhCrops (data auto-fetched by the package)",
+      "auth_required": "No",
+      "licence": "GPL-3.0 (code); underlying label data derived from French RPG registre parcellaire graphique",
+      "approx_size_gb": "~2-5 GB (pixel-level parcel time series, not full image patches, so much smaller than PASTIS) [uncertain, exact figure not confirmed - a direct README size fetch 404'd]",
+      "accessible_from_malaysia": "Yes",
+      "verified_how": "WebFetch on github.com/dl4sits/BreizhCrops, 2026-08-05; corroborated by OpenAlex record for Rußwurm et al. 2020 (DOI 10.5194/isprs-archives-XLIII-B2-2020-1545-2020)"
+    },
+    {
+      "name": "Sentinel-1 GRD + Sentinel-2 L2A over a MADA/IADA scheme area (Kedah), one growing season",
+      "access_route": "Copernicus Data Space Ecosystem (dataspace.copernicus.eu) via Copernicus Browser, STAC API, or openEO; alternative routes: Microsoft Planetary Computer STAC catalog, or Google Earth Engine (the exact route used by Rudiyanto et al. 2019/2023 for this same Kedah/Selangor region)",
+      "auth_required": "Free registration required for Copernicus Data Space Ecosystem and for Google Earth Engine non-commercial use; no payment",
+      "licence": "Free, open Copernicus data policy",
+      "approx_size_gb": "Estimated 5-15 GB for one MADA scheme AOI (~100,000-190,000 ha), one growing season, S1+S2 [uncertain - not empirically downloaded/measured this session]",
+      "accessible_from_malaysia": "Yes - no geographic restriction found",
+      "verified_how": "WebFetch on dataspace.copernicus.eu, 2026-08-05, confirmed free/open access with STAC/openEO/Sentinel Hub APIs; Microsoft Planetary Computer dataset page fetch returned no substantive content and was not independently confirmed this session [uncertain]; GEE route precedent independently confirmed via Rudiyanto et al. 2019 (DOI 10.3390/rs11141666) and 2023 (DOI 10.46754/umtjur.v5i3.381), both of which used GEE over this exact Kedah/Selangor area"
+    },
+    {
+      "name": "MADA/IADA per-parcel cropping calendar / phenology ground truth",
+      "access_route": "NOT FOUND as an openly downloadable dataset. Web search turned up only a description that MADA conducts internal field monitoring (drawings updated roughly every 7 days) and that Rudiyanto et al. (2023) compared their remote-sensing output against 'existing data from IADA BLS' -- implying IADA holds internal records, but no public portal, API, or download link was located.",
+      "auth_required": "Would require a direct data-sharing request to MADA / IADA / Department of Agriculture Malaysia; no evidence of a self-service access route",
+      "licence": "Unknown / not public",
+      "approx_size_gb": "N/A - not accessible",
+      "accessible_from_malaysia": "The agency is physically in Malaysia but the data is NOT confirmed to be openly or programmatically accessible to an independent student without institutional request",
+      "verified_how": "WebSearch 'MADA Kedah rice cropping calendar transplanting date dataset open', 2026-08-05; cross-checked against Rudiyanto et al. 2019 (rs11141666) and 2023 (umtjur.v5i3.381) and Zahir et al. 2024 (Agricultural Water Management, DOI 10.1016/j.agwat.2024.109175), none of which provide a public download link for the underlying MADA/IADA ground truth they used"
+    },
+    {
+      "name": "RiceAtlas and Monsoon Asia Rice Calendar (coarse regional proxy/validation only)",
+      "access_route": "RiceAtlas: Scientific Data paper nature.com/articles/sdata201774 (direct dataset download link not independently re-verified this session, page required an authentication redirect) [uncertain]. Monsoon Asia Rice Calendar: Zhao et al., ESSD 2023/2024, essd.copernicus.org, with data supplement referenced at DOI 10.5194/essd-2023-283-supplement",
+      "auth_required": "No (open access publications)",
+      "licence": "Open access",
+      "approx_size_gb": "<1 GB (both are coarse gridded products)",
+      "accessible_from_malaysia": "Yes",
+      "verified_how": "Crossref search 2026-08-05 (DOI 10.5194/essd-2023-283); resolution confirmed as 0.5 deg x 0.5 deg grid (~55 km cells) for the Monsoon Asia Rice Calendar -- far too coarse for per-parcel validation, useful only as a sanity-check baseline, not ground truth"
+    }
+  ],
+  "total_dataset_gb": "Approximately 60-80 GB for a minimum viable experiment (PASTIS-R 54GB used in place of separately downloading plain PASTIS, since PASTIS-R is a superset with the same annotations plus Sentinel-1; + BreizhCrops ~2-5GB; + MADA AOI Sentinel-1/2 season ~5-15GB; + RiceAtlas/Monsoon Asia Rice Calendar <1GB). Well under the ~200GB practical H5 ceiling, though not trivial for a laptop's local SSD -- external/cloud storage or selective patch download is recommended over bulk PASTIS-R download.",
+  "labels_and_ground_truth": "For the France-based pretraining/ablation stage, PASTIS-R provides real panoptic/semantic crop-parcel annotations (from the French RPG) and BreizhCrops provides real crop-type labels (also RPG-derived) -- solid supervision, but neither has genuine phenological DATE labels (transplanting/heading), so the cloud-dropout date-error ablation on PASTIS-R must use a constructed proxy target (e.g. a phenology-like signal derived from the known acquisition dates themselves, or crop-type-conditioned synthetic dates) rather than true field-verified phenology dates. For the Malaysia target domain, no public per-parcel MADA/IADA ground truth was found (see datasets list); supervision there would have to come from (a) weak/pseudo-labels generated by SAR backscatter curve-fitting heuristics comparable to Manago et al. (2020) / Rudiyanto et al. (2019), used as noisy pseudo-ground-truth, (b) coarse 0.5-degree-grid sanity checks against the Monsoon Asia Rice Calendar / RiceAtlas, or (c) a small hand-annotated set built by the student from Sentinel-2 true-colour inspection plus the Muda Irrigation Scheme's known 3-phase water-release calendar (as used by Zahir et al. 2024). Risk: this makes the target-region evaluation qualitative/pseudo-labelled rather than a rigorously benchmarked 'measured improvement' claim -- the rigorous, quantitatively defensible comparison against named baselines can only be done on the French PASTIS-R data with simulated cloud dropout.",
+  "named_baselines": [
+    {
+      "paper_title": "ViTs for SITS: Vision Transformers for Satellite Image Time Series (TSViT)",
+      "venue": "CVPR 2023 (pp. 10418-10428)",
+      "year": 2023,
+      "doi_or_arxiv_id": "arXiv:2301.04944",
+      "reported_metric": "State-of-the-art accuracy/mIoU on PASTIS, MTLCC and T31TFM-2018 SITS benchmarks, surpassing prior CNN/RNN/attention approaches by a reported significant margin; exact numeric table not independently re-extracted from the paper this session [uncertain]",
+      "dataset": "PASTIS, MTLCC, T31TFM-2018"
+    },
+    {
+      "paper_title": "SITSMamba for Crop Classification based on Satellite Image Time Series",
+      "venue": "arXiv preprint (peer-reviewed venue not confirmed as of this research) [uncertain]",
+      "year": 2024,
+      "doi_or_arxiv_id": "arXiv:2409.09673",
+      "reported_metric": "Improved crop classification accuracy over Transformer-based SITS baselines via a CNN spatial encoder + Mamba temporal encoder with dual classification/reconstruction decoder branches; exact numeric accuracy not independently re-extracted this session [uncertain]",
+      "dataset": "Not fully specified in abstract; code released at github.com/XiaoleiQinn/SITSMamba"
+    },
+    {
+      "paper_title": "Panoptic Segmentation of Satellite Image Time Series with Convolutional Temporal Attention Networks (introduces PASTIS and the U-TAE model; re-implements 3D U-Net as a baseline)",
+      "venue": "ICCV 2021",
+      "year": 2021,
+      "doi_or_arxiv_id": "10.1109/ICCV48922.2021.00483 (arXiv:2107.07933)",
+      "reported_metric": "U-TAE achieves 63.1 mIoU semantic segmentation on PASTIS, reported as ~5 mIoU points above re-implemented 3D U-Net / ConvLSTM+U-Net / Feature-Pyramid+U-Net baselines (exact 3D U-Net number ~58 mIoU triangulated from secondary sources, not directly re-extracted from the paper's table) [uncertain]",
+      "dataset": "PASTIS"
+    },
+    {
+      "paper_title": "Multi-Modal Temporal Attention Models for Crop Mapping from Satellite Time Series (introduces PASTIS-R)",
+      "venue": "arXiv preprint / later published venue not confirmed [uncertain]",
+      "year": 2021,
+      "doi_or_arxiv_id": "arXiv:2112.07558",
+      "reported_metric": "Multimodal (S1+S2) fusion outperforms single-modality models in parcel classification, pixel segmentation and panoptic segmentation, with improved resilience to cloud cover; exact numeric deltas not independently re-extracted this session [uncertain]",
+      "dataset": "PASTIS-R"
+    },
+    {
+      "paper_title": "Transplanting Date Estimation Using Sentinel-1 Satellite Data for Paddy Rice Damage Assessment in Indonesia",
+      "venue": "Agriculture (MDPI)",
+      "year": 2020,
+      "doi_or_arxiv_id": "10.3390/agriculture10120625",
+      "reported_metric": "Transplanting-date estimation standard deviation of ~5-6 days; 69%/92%/97% of fields estimated within 5/10/15 days of the interview-reported transplanting date",
+      "dataset": "Sentinel-1 VH time series, Cihea irrigation district, West Java, Indonesia"
+    },
+    {
+      "paper_title": "Automated Near-Real-Time Mapping and Monitoring of Rice Extent, Cropping Patterns, and Growth Stages in Southeast Asia Using Sentinel-1 Time Series on a Google Earth Engine Platform",
+      "venue": "Remote Sensing (MDPI)",
+      "year": 2019,
+      "doi_or_arxiv_id": "10.3390/rs11141666",
+      "reported_metric": "Rice extent mapping overall accuracy 96.5%, kappa 0.92, at 10 m resolution, using monthly Sentinel-1 VH composites and classical ML (K-means, SVM, ANN, RF, C5.0) -- NOT deep learning, and reports growth-stage classes rather than continuous dates",
+      "dataset": "Sentinel-1 time series over West Java (Indonesia) and Kedah + Perlis states (Malaysia) - directly overlaps the MADA target region"
+    },
+    {
+      "paper_title": "Paving the Way Toward Foundation Models for Irregular and Unaligned Satellite Image Time Series (ALISE)",
+      "venue": "IEEE Transactions on Geoscience and Remote Sensing",
+      "year": 2025,
+      "doi_or_arxiv_id": "10.1109/TGRS.2025.3589013 (arXiv:2407.08448)",
+      "reported_metric": "Improved linear-probing performance on crop segmentation, land-cover segmentation and unsupervised crop change detection versus prior self-supervised SITS methods, using aligned fixed-size representations learned from irregular/unaligned input series; exact numeric deltas not independently re-extracted this session [uncertain]",
+      "dataset": "Custom multi-year Sentinel-2 SITS dataset"
+    }
+  ],
+  "evaluation_protocol": "Primary quantitative protocol (rigorous, on PASTIS-R, France): inject an artificial, increasing cloud-dropout fraction (e.g. 0%, 20%, 40%, 60%, 80% of optical frames removed at random within each sequence, SAR frames always retained) while preserving each remaining frame's true acquisition timestamp; train the proposed continuous-time model directly on the resulting irregular series, and separately train TSViT / SITSMamba / 3D U-Net baselines on a linearly-interpolated regular-grid version of the same dropped series; report date-error (MAE in days) on a constructed phenology-proxy target and/or segmentation mIoU degradation curve as cloud fraction increases; success = the proposed model's error curve stays materially flatter (e.g. <50% of the baselines' error growth) as cloud fraction rises from 0% to 80%. Secondary qualitative protocol (Malaysia, MADA/IADA): apply the pretrained model to one or more Kedah blocks for one season, compare predicted transplanting/heading dates against (a) SAR-curve-fit pseudo-labels in the style of Manago et al. (2020)/Rudiyanto et al. (2019), and (b) the coarse Monsoon Asia Rice Calendar grid cell covering the AOI, reporting agreement rather than a certified accuracy figure given the lack of confirmed per-parcel ground truth. Geographic/temporal generalisation is measured by the France-to-Malaysia domain gap (temperate single-cropping to tropical double-cropping) and by held-out years within PASTIS-R.",
+  "novelty_delta": "The genuine, narrow delta is: calibrated per-parcel PHENOLOGICAL DATE regression (not crop-type classification, not growth-stage bucket classification) from natively irregular, timestamp-true SAR+optical fusion, benchmarked explicitly as a function of increasing simulated cloud fraction against named interpolate-then-classify baselines (TSViT, SITSMamba, 3D U-Net), in a tropical double-cropping regime where cloud runs are long and existing regional SAR-only methods (Rudiyanto 2019, Manago 2020) use classical curve-fitting/clustering rather than deep learning and only output coarse growth-stage buckets or single-season transplanting dates, not calibrated continuous dates with uncertainty. This is NOT 'applied X to Y country': the double-cropping regime and persistent monsoon cloud genuinely break the resampling assumption that FYI most temperate SITS benchmarks (PASTIS, BreizhCrops) get away with, because temperate single-cropping series have shorter within-season gaps. However, the delta must be stated carefully: it is NOT 'the first native irregular-time model for SITS' (see prior art below) -- it is the first to combine (i) native irregular-time fusion, (ii) calibrated date-level (not class-level) phenology output, and (iii) an explicit cloud-fraction stress-test comparison against TSViT/SITSMamba/3D U-Net, in a tropical double-cropping setting.",
+  "prior_art_that_threatens_it": "Three findings meaningfully weaken the pitch's framing that 'every mainstream SITS model assumes a regular grid': (1) TSViT (Tarasiou et al., CVPR 2023, arXiv:2301.04944) already introduces 'acquisition-time-specific temporal positional encodings' -- i.e. it already encodes true, irregular acquisition dates rather than assuming a uniform grid, so calling it a naive regular-grid baseline is not fully accurate and should be corrected in the proposal. (2) ALISE (Dumeur, Valero & Inglada, IEEE TGRS 2025, arXiv:2407.08448) explicitly targets 'foundation models for irregular and unaligned satellite image time series,' directly occupying the 'native irregular-time SITS' research niche, albeit for general-purpose representation learning rather than phenology date regression. (3) In the target application itself, Manago et al. (2020, DOI 10.3390/agriculture10120625) and Rudiyanto et al. (2019, DOI 10.3390/rs11141666; 2023, DOI 10.46754/umtjur.v5i3.381) already estimate rice transplanting dates / growth stages from Sentinel-1 in tropical Southeast Asia (Indonesia, and Kedah/Selangor Malaysia specifically) with strong reported accuracy (96.5% growth-stage OA; transplanting date within 5-15 days for 69-97% of fields) using classical signal-processing/ML, not deep learning -- this raises the bar for what 'materially better' must mean and means the student cannot claim to be first to detect rice phenology from SAR in this exact region. T3S (Turkoglu et al., 2025, arXiv:2506.12885) is a related but distinct reframing (thermal-time re-indexing rather than continuous-time deep architecture) that also addresses phenology-alignment-across-years, worth citing as adjacent prior art.",
+  "h2_generic_check": "Confirmed NOT any of the 8 banned H2 patterns: this is not a chatbot/RAG assistant, not a dashboard/monitoring portal/farm-management system, not leaf-photo disease classification, not a plain NDVI viewer, not tabular yield prediction from weather/soil CSVs, not a rerun of an existing crop-type-classification benchmark (it targets date regression with uncertainty, a different task from classification), and not a mobile app that only calls someone else's model API. Could the one-sentence summary describe 50 other FYPs? No -- 'continuous-time date regression with calibrated uncertainty from natively irregular SAR+optical fusion, stress-tested under simulated cloud dropout against named interpolate-then-classify baselines, for a specific Malaysian granary co-op' is specific enough in task, method, and user that it would not describe a generic 'apply deep learning to satellite images' FYP, though the narrower and better-known 'detect rice growth stage from Sentinel-1 time series' framing risks overlapping with several existing SEA remote-sensing theses/papers (see prior art) if not kept tightly scoped to the date-regression + irregular-time-native + uncertainty angle.",
+  "user_segment": "MADA (Muda Agricultural Development Authority) and IADA (Integrated Agricultural Development Area) rice co-ops in Kedah/Perlis and Selangor, Malaysia -- specifically the irrigation-scheduling and agronomy staff who currently plan tertiary irrigation releases and double-cropping calendars for the Muda granary scheme (Malaysia's largest, ~100,000-190,000 ha across Kedah and Perlis) using field monitoring rather than dense per-parcel remote sensing. This is explicitly a Malaysia-based Southeast Asian user segment, not 'farmers globally,' and not Singapore.",
+  "quantified_pain": "The Muda Irrigation Scheme (MADA) covers on the order of 100,000-190,000 ha of paddy land across Kedah and Perlis (sources disagree: 130,282 ha total / 100,685 ha in Kedah+Perlis per one source, 191,853 ha per another [uncertain, reconcile with MADA's own published statistics before finalising]) and produces roughly 940,561 tonnes of rice, about 41.5% of total granary rice production in Peninsular Malaysia. Delayed or mistimed transplanting-date knowledge directly affects irrigation-release timing and double-cropping feasibility across this area; Zahir et al. (2024, DOI 10.1016/j.agwat.2024.109175) found MADA's tertiary irrigation system's water-management 'equity' performance varies substantially by phase and season, underscoring that current scheduling is imperfectly matched to actual field-level crop timing at this scale.",
+  "compute_feasibility": {
+    "peak_memory_gb": "Estimated 8-16 GB for a compact CNN+attention spatio-temporal encoder (U-TAE/TSViT-scale, roughly 1-5M parameters) on parcel-cropped patches with batch size 4-8; a literal neural-ODE/CDE temporal encoder adds solver-state memory overhead that could push usage toward 20-24GB depending on solver tolerance and number of function evaluations [uncertain, not empirically profiled this session]",
+    "est_training_hours_mps": "Reference point: the original U-TAE/PASTIS training completed in hours on a single datacenter-class GPU (V100/A100-tier). On an M4 Pro via MPS, expect roughly 2-5x slower per-step for MPS-supported CNN/attention ops, plausibly fitting within 12 hours for a time-conditioned-attention formulation on a reduced fold/epoch budget. A literal continuous ODE/CDE integration is a much bigger unknown -- if MPS lacks support for ops used by torchdiffeq/torchcde and forces CPU fallback, a full PASTIS-R run could take 15-30+ hours, exceeding the 12-hour ceiling [uncertain, not empirically tested]",
+    "fits_24gb": "Likely yes for a time-conditioned-attention (non-ODE) formulation; marginal/uncertain for a literal neural-ODE/CDE formulation [uncertain]",
+    "mps_compatible_ops": "Standard convolution and attention operations are well supported on the current PyTorch MPS backend. Adaptive-step ODE solvers (torchdiffeq) and controlled differential equation libraries (torchcde) have historically patchy MPS operator coverage and may silently or explicitly fall back to CPU, degrading throughput substantially -- this was not empirically verified in this research session and should be the very first smoke test run in week 1 [uncertain]",
+    "colab_kaggle_fallback_needed": "Yes, recommended as a fallback specifically for (a) any full PASTIS-R pretraining run and (b) any literal neural-ODE/CDE variant, where free Kaggle/Colab T4 (CUDA, 16GB VRAM) removes the MPS operator-support risk entirely",
+    "notes": "The single biggest H5 risk in this idea is the literal neural-ODE/neural-CDE mechanism implied by the pitch's 'neural-ODE style latent state' phrasing. A safer, still-defensible implementation is a time-conditioned attention encoder using real timestamp positional encodings (as in TSViT/L-TAE) rather than an explicit ODE solver -- this is far more MPS- and Colab-portable while still supporting the 'native irregular time, no resampling' novelty claim."
+  },
+  "cash_cost_rm": "Approximately RM 0-50 against the RM 200 budget. All primary data sources (Copernicus Data Space Ecosystem, Zenodo-hosted PASTIS/PASTIS-R, BreizhCrops via pip/GitHub, Google Earth Engine free tier) are free with no commercial VHR imagery dependency. The only plausible non-zero cost is an optional Colab Pro subscription (~RM 50/month) if free Colab/Kaggle T4 quotas prove insufficient as an MPS fallback; this is optional, not required, and comfortably fits the budget either way.",
+  "demo_artifact": "A live laptop demo: load one MADA/Muda irrigation block's Sentinel-1+2 time series for a single season; show the model ingesting the raw, irregular acquisition dates (no interpolation) and outputting a per-parcel predicted transplanting/heading date with a calibrated uncertainty band; then interactively increase a 'simulated monsoon cloud' dropout slider on the optical stream and show the proposed model's date-error staying roughly flat while a re-run of the TSViT/SITSMamba interpolate-then-classify baseline's error visibly grows -- this proves the H1 claim live, in under 2 minutes, on real data.",
+  "build_vs_research_ratio": "Approximately 65:35 engineering-to-research. Engineering: the Copernicus/GEE data-fetch and S1/S2 co-registration pipeline, an irregular-timestamp-native batching/training harness, re-implementations of three named baselines (TSViT, SITSMamba, 3D U-Net) for fair comparison, the cloud-fraction-simulation and date-error evaluation framework, and the live demo UI. Research: justifying the specific continuous-time architecture choice (time-conditioned attention vs literal neural-ODE/CDE) against MPS feasibility constraints, designing the uncertainty-calibration method, and constructing a defensible proxy phenology target for PASTIS-R (which lacks true date labels). This slightly overshoots the target 70:30 toward research because the continuous-time modelling choice and its MPS feasibility genuinely need to be worked out experimentally rather than just engineered.",
+  "publication_venue_fit": "ICLR ML4RS workshop or IGARSS are the most realistic near-term targets given the SITS-plus-irregular-time-modelling angle and workshop-scale novelty. Remote Sensing (MDPI) is a plausible mid-tier journal fallback, following the precedent of Rudiyanto et al. publishing Kedah/Selangor rice remote-sensing work there. CVPR EarthVision or ECCV CVPPA would require a more decisively novel architecture than time-conditioned attention alone, since TSViT and ALISE already occupy adjacent ground in that tier of venue.",
+  "key_risks": [
+    "1. Data-access risk (highest): no public per-parcel MADA/IADA phenology ground truth was found; only coarse 0.5-degree gridded products exist, forcing the Malaysia-side evaluation to rely on pseudo-labels rather than a rigorous held-out test set.",
+    "2. Novelty-framing risk: the pitch's premise that mainstream SITS models assume a regular grid is partly incorrect (TSViT already uses acquisition-time positional encodings; ALISE (2025) already targets irregular/unaligned SITS foundation models) -- the delta must be narrowed to calibrated date-level regression + explicit cloud-fraction stress test, or it will read as already-solved to a knowledgeable reviewer.",
+    "3. Compute/method risk: a literal neural-ODE/CDE continuous latent-state model has real, unverified MPS operator-support gaps and may not train within the 12-hour MPS budget without falling back to Colab/Kaggle T4 or descoping to a non-ODE time-conditioned-attention formulation.",
+    "4. Evaluation risk: heading date (reproductive stage) is a weaker, less-established SAR/optical signal than transplanting date (which has a strong, well-documented flooding backscatter signature); heading-date accuracy may be much lower and could confound the headline date-error metric.",
+    "5. Domain-shift risk: pretraining on temperate, single-cropping France (PASTIS-R) / Brittany (BreizhCrops) and transferring to tropical double/triple-cropping Malaysia is itself a nontrivial domain shift layered on top of the irregular-time claim, adding a second axis of difficulty that must be explicitly controlled for in evaluation."
+  ],
+  "kill_criteria": [
+    "Week 1: run a minimal neural-ODE/CDE temporal encoder (torchdiffeq or torchcde) on a small PASTIS-R subset (~5 tiles) on the MacBook's MPS backend; if this repeatedly throws 'operator not implemented for MPS' or forces a >10x CPU fallback slowdown, abandon the literal-ODE approach in favour of a time-conditioned-attention (L-TAE/TSViT-style) formulation before investing further.",
+    "Week 1-2: attempt to contact MADA / IADA / Department of Agriculture Malaysia for any per-parcel transplanting/heading date records; if no access is granted within two weeks, commit explicitly to the pseudo-label/proxy evaluation plan (SAR curve-fit pseudo-labels + coarse gridded sanity check) for the Malaysia side and reduce claims about the Malaysia evaluation's rigor accordingly.",
+    "Week 2: on a small PASTIS-R subset, check whether the proposed continuous-time model's date-error under simulated cloud dropout is measurably better (not just within noise, e.g. >1-2 days difference) than a re-implemented TSViT/SITSMamba interpolate-then-classify baseline; if the gap is not measurable at small scale, the core H1 claim is unlikely to survive full-scale experiments and the idea should be re-scoped or abandoned."
+  ],
+  "hard_constraint_verdict": {
+    "H1": "PASS (borderline) - a genuine narrow delta exists (calibrated per-parcel date regression under simulated cloud dropout vs named interpolate-then-classify baselines, in a tropical double-cropping regime), but the pitch's broader framing is weakened by TSViT's existing acquisition-time positional encoding and by ALISE (2025) already targeting irregular/unaligned SITS; scope must be narrowed to survive scrutiny.",
+    "H2": "PASS - core is date/uncertainty regression via a specific temporal architecture, not any of the 8 banned generic patterns (no chatbot, dashboard, leaf-photo classifier, NDVI viewer, tabular yield model, benchmark rerun, or thin API wrapper).",
+    "H3": "PASS - Sentinel-1 GRD SAR and Sentinel-2 L2A optical are the sole primary inputs, both free-licence Copernicus data, used as genuine sensor fusion (not a garnish).",
+    "H4": "PASS - named user is MADA/IADA rice co-ops in Kedah/Perlis and Selangor, Malaysia, Southeast Asia; explicitly not 'farmers globally' and explicitly not a Singapore idea -- the brief's N1 Singapore-resolution problem does not apply here since the real user and deployment site is Malaysian.",
+    "H5": "PASS WITH RISK - total data volume (~60-80GB) fits comfortably under the 200GB ceiling and the cash cost is near-zero, but the literal neural-ODE/CDE mechanism the pitch specifies has real, unverified MPS operator-support risk and may not complete within 12 hours without descoping to a non-ODE time-conditioned-attention formulation or falling back to Colab/Kaggle T4.",
+    "H6": "PASS - the one-sentence pitch names the user (MADA/IADA Kedah co-ops), a quantified pain (irrigation scheduling across a >100,000ha double-cropping granary), and a visibly non-trivial, demoable technical core (native irregular-time SAR-optical fusion vs interpolate-then-classify, live under a cloud-dropout slider)."
+  },
+  "overall_recommendation": "WEAK to VIABLE - no single hard constraint outright fails, so the idea is not DISQUALIFIED, but it only survives with real narrowing: from 'the first continuous-time SITS architecture' to 'calibrated per-parcel phenology date regression under simulated cloud dropout vs named baselines,' and from a literal neural-ODE mechanism to an MPS-feasible time-conditioned-attention mechanism. The complete absence of public per-parcel MADA/IADA ground truth is the single biggest practical risk, forcing the Malaysia-side evaluation to be qualitative/pseudo-labelled rather than rigorously benchmarked, which meaningfully weakens the H1 'measured improvement' claim specifically for the deployment story even though the France-based PASTIS-R comparison can be done rigorously.",
+  "confidence": "Medium - the SITS/TSViT/SITSMamba/PASTIS baseline landscape and the Copernicus/Zenodo/GEE dataset access routes are verified with concrete DOIs, arXiv IDs and URLs. Confidence is lower on (a) exact reported numeric result tables for TSViT/SITSMamba (abstracts and secondary sources were used, not a direct extraction of the papers' result tables), and (b) real-world MPS operator support for neural-ODE/CDE solvers (not empirically profiled in this session). Confidence would rise to High with (1) a direct pull of the TSViT/SITSMamba/ALISE result tables and (2) a one-hour MPS smoke test of torchdiffeq/torchcde on a toy irregular time series.",
+  "key_references": [
+    {
+      "title": "ViTs for SITS: Vision Transformers for Satellite Image Time Series",
+      "year": 2023,
+      "venue": "CVPR 2023",
+      "doi_or_arxiv_id": "arXiv:2301.04944",
+      "why_it_matters": "Primary named baseline (TSViT); its acquisition-time positional encoding also undercuts the pitch's 'assumes a regular grid' premise and must be addressed directly in the novelty argument."
+    },
+    {
+      "title": "SITSMamba for Crop Classification based on Satellite Image Time Series",
+      "year": 2024,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2409.09673",
+      "why_it_matters": "Second named baseline explicitly listed in the candidate idea; a recent (2024) Mamba-based SITS temporal encoder to reimplement and compare against."
+    },
+    {
+      "title": "Panoptic Segmentation of Satellite Image Time Series with Convolutional Temporal Attention Networks",
+      "year": 2021,
+      "venue": "ICCV 2021",
+      "doi_or_arxiv_id": "10.1109/ICCV48922.2021.00483 (arXiv:2107.07933)",
+      "why_it_matters": "Introduces the PASTIS dataset and the U-TAE model, and reimplements a 3D U-Net baseline -- the source of the third named baseline in the candidate idea and the primary pretraining/ablation dataset."
+    },
+    {
+      "title": "Multi-Modal Temporal Attention Models for Crop Mapping from Satellite Time Series",
+      "year": 2021,
+      "venue": "arXiv preprint",
+      "doi_or_arxiv_id": "arXiv:2112.07558",
+      "why_it_matters": "Introduces PASTIS-R, the Sentinel-1+2 multimodal extension that is the core dataset this project needs for SAR-optical fusion pretraining."
+    },
+    {
+      "title": "Paving the Way Toward Foundation Models for Irregular and Unaligned Satellite Image Time Series (ALISE)",
+      "year": 2025,
+      "venue": "IEEE Transactions on Geoscience and Remote Sensing",
+      "doi_or_arxiv_id": "10.1109/TGRS.2025.3589013 (arXiv:2407.08448)",
+      "why_it_matters": "The single most direct prior-art threat: a 2025 foundation model explicitly designed for irregular and unaligned SITS, occupying much of the 'native irregular-time modelling' novelty space this idea claims."
+    },
+    {
+      "title": "Transplanting Date Estimation Using Sentinel-1 Satellite Data for Paddy Rice Damage Assessment in Indonesia",
+      "year": 2020,
+      "venue": "Agriculture (MDPI)",
+      "doi_or_arxiv_id": "10.3390/agriculture10120625",
+      "why_it_matters": "Closest regional task-level prior art: SAR-based rice transplanting-date estimation in tropical monsoon Southeast Asia, already achieving 5-6 day error with a much simpler (non-deep-learning) method -- raises the bar for 'materially better.'"
+    },
+    {
+      "title": "Automated Near-Real-Time Mapping and Monitoring of Rice Extent, Cropping Patterns, and Growth Stages in Southeast Asia Using Sentinel-1 Time Series on a Google Earth Engine Platform",
+      "year": 2019,
+      "venue": "Remote Sensing (MDPI)",
+      "doi_or_arxiv_id": "10.3390/rs11141666",
+      "why_it_matters": "Directly overlaps the target region (Kedah and Perlis, Malaysia) with a working Sentinel-1 rice growth-stage mapping method at 96.5% accuracy -- the closest existing geographic/task precedent and a strong prior-art threat if the delta is not narrowed."
+    },
+    {
+      "title": "BREIZHCROPS: A Time Series Dataset for Crop Type Mapping",
+      "year": 2020,
+      "venue": "ISPRS Archives (XLIII-B2-2020)",
+      "doi_or_arxiv_id": "10.5194/isprs-archives-XLIII-B2-2020-1545-2020",
+      "why_it_matters": "A well-established, free, small-footprint benchmark SITS dataset usable for additional pretraining/ablation alongside PASTIS-R."
+    }
+  ],
+  "uncertain": [
+    "named_baselines[0].reported_metric",
+    "named_baselines[1].venue",
+    "named_baselines[1].reported_metric",
+    "named_baselines[2].reported_metric",
+    "named_baselines[3].venue",
+    "named_baselines[3].reported_metric",
+    "named_baselines[6].reported_metric",
+    "primary_sensor.revisit_days",
+    "datasets[0].licence",
+    "datasets[1].licence",
+    "datasets[2].approx_size_gb",
+    "datasets[2].verified_how",
+    "datasets[3].approx_size_gb",
+    "datasets[3].verified_how",
+    "datasets[5].access_route",
+    "compute_feasibility.peak_memory_gb",
+    "compute_feasibility.est_training_hours_mps",
+    "compute_feasibility.fits_24gb",
+    "compute_feasibility.mps_compatible_ops",
+    "quantified_pain"
+  ]
+}
