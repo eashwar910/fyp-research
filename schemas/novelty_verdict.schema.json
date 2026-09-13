@@ -3,41 +3,169 @@
   "$id": "schemas/novelty_verdict.schema.json",
   "title": "Stage 4a novelty adversary verdict",
   "type": "object",
-  "required": ["id", "verdict", "reason", "queries", "prior_art"],
+  "required": [
+    "id",
+    "verdict",
+    "reason",
+    "queries",
+    "prior_art"
+  ],
   "properties": {
-    "id": { "type": "string" },
-    "verdict": { "type": "string", "enum": ["closed", "type_a", "type_b", "unclear"] },
-    "reason": { "type": "string", "maxLength": 600, "description": "Blunt. For closed: which item and why it matches problem + output space, or why the delta is geographic only." },
-    "queries": { "$ref": "_common.schema.json#/$defs/query_log", "minItems": 3 },
+    "id": {
+      "type": "string"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "closed",
+        "type_a",
+        "type_b",
+        "unclear"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 600,
+      "description": "Blunt. For closed: which item and why it matches problem + output space, or why the delta is geographic only."
+    },
+    "queries": {
+      "$ref": "_common.schema.json#/$defs/query_log",
+      "minItems": 3
+    },
     "prior_art": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["url", "date", "title", "tier", "closes", "why"],
+        "required": [
+          "url",
+          "date",
+          "title",
+          "tier",
+          "closes",
+          "why"
+        ],
         "properties": {
-          "url": { "type": "string" }, "date": { "type": "string" }, "title": { "type": "string" },
-          "tier": { "type": "string", "enum": ["A", "B", "C"] },
-          "closes": { "type": "boolean" },
-          "why": { "type": "string", "maxLength": 300 },
-          "relation": { "type": "string", "enum": ["same_problem", "same_output_space", "same_method_other_domain", "same_thing_other_region", "product"] }
+          "url": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "A",
+              "B",
+              "C"
+            ]
+          },
+          "closes": {
+            "type": "boolean"
+          },
+          "why": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "relation": {
+            "type": "string",
+            "enum": [
+              "same_problem",
+              "same_output_space",
+              "same_method_other_domain",
+              "same_thing_other_region",
+              "product"
+            ]
+          }
         }
       }
     },
-    "closing_item": { "type": ["object", "null"], "description": "Required when verdict=closed. One of prior_art." },
+    "closing_item": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Required when verdict=closed. One of prior_art."
+    },
     "type_b_fields": {
-      "type": ["object", "null"],
+      "type": [
+        "object",
+        "null"
+      ],
       "description": "Required when verdict=type_b.",
-      "required": ["named_prior_solution_url", "measurable_axis", "attributable_to", "prior_deployed_in_target_region"],
+      "required": [
+        "named_prior_solution_url",
+        "measurable_axis",
+        "attributable_to",
+        "prior_deployed_in_target_region"
+      ],
       "properties": {
-        "named_prior_solution_url": { "type": "string" },
-        "measurable_axis": { "type": "string", "maxLength": 200 },
-        "attributable_to": { "type": "string", "maxLength": 200 },
-        "prior_deployed_in_target_region": { "type": "string", "enum": ["true", "false", "unknown"] }
+        "named_prior_solution_url": {
+          "type": "string"
+        },
+        "measurable_axis": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "attributable_to": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "prior_deployed_in_target_region": {
+          "type": "string",
+          "enum": [
+            "true",
+            "false",
+            "unknown"
+          ]
+        }
       }
     },
-    "human_should_check": { "type": ["string", "null"], "description": "Required when verdict=unclear." },
-    "nearest_neighbours_do_not": { "type": "string", "maxLength": 400, "description": "What the closest prior art does NOT do — raw material for a reframe, not a reframe." },
-    "budget_exhausted": { "type": "boolean" },
-    "notes": { "type": "string", "maxLength": 500 }
+    "human_should_check": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Required when verdict=unclear."
+    },
+    "nearest_neighbours_do_not": {
+      "type": "string",
+      "maxLength": 400,
+      "description": "What the closest prior art does NOT do \u2014 raw material for a reframe, not a reframe."
+    },
+    "budget_exhausted": {
+      "type": "boolean"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "product_search": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Always filled; mandatory evidence for C11 not_already_a_product on standout candidates.",
+      "required": [
+        "queries_run",
+        "shipping_products_found"
+      ],
+      "properties": {
+        "queries_run": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "shipping_products_found": {
+          "type": "array",
+          "items": {
+            "$ref": "_common.schema.json#/$defs/url_evidence"
+          }
+        }
+      }
+    }
   }
 }

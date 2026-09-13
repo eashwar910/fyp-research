@@ -33,6 +33,9 @@ Exit: RUN_LOG stage 0 block filled; archive index written to `.research/archive_
 
 Prompt: `agents/landscape_scout.json`
 Dispatch once per job market with `input.market ∈ {india, singapore_malaysia, eu}`.
+(`singapore_malaysia` now also feeds the Malaysia region in stage 2; tell that
+scout to give Malaysian companies and MPOB/EUDR-palm forcing functions equal
+weight to Singapore ones.)
 
 What you want back (schema `schemas/landscape_report.schema.json`):
 - companies actively shipping, with product one-liners and evidence URLs dated ≤ 12 months
@@ -54,8 +57,10 @@ scouts were lazy — re-dispatch with `input.depth: "deep"`).
 
 Prompts: `agents/gap_hunter.json`
 Dispatch matrix: for each bucket in `buckets.yml` × each region listed in that
-bucket. Run 4 baseline: bucket_1 × {india, eu, singapore_source_basket},
-bucket_2 × {india, eu, singapore}, bucket_3 × {singapore} = 7 dispatches.
+bucket. Run 4: bucket_1 × {india, eu, malaysia, singapore_source_basket},
+bucket_2 × {india, eu, malaysia, singapore}, bucket_3 (standout) × {global}
+= 9 dispatches. The standout hunter gets a higher target count and must fill
+`standout_fields` on every line.
 
 Each hunter receives: its bucket block, constraints.yml, `landscape/merged.json`,
 and the archive index. Nothing else.
@@ -79,7 +84,9 @@ hunters with `input.avoid` = the ids already produced.
 
 Run `.claude/skills/fyp-constraint-gate/SKILL.md` in SCREEN mode on
 `candidates.jsonl`. Four gates only, in order: C3 patterns → C1 imagery-native
-(skip for SG) → exclusions → C7 regional-transfer sniff. Also apply the archive
+(skip for SG and for `standout`; for `standout` run C11's two cheap checks —
+layperson sentence and demo moment — in its place) → exclusions → C7
+regional-transfer sniff. Read `constraints.yml bucket_exemptions` first. Also apply the archive
 check: if a one-liner restates an archived candidate, mark `restates: <id>` and
 inherit that candidate's verdict unless the `delta_claim` explicitly addresses
 the archived `failed_gate`.
@@ -148,7 +155,8 @@ Write `.research/elaborated/<id>.json`.
 ## Stage 6 — FULL gate (you, no dispatch)
 
 Run the gate in FULL mode on every elaborated candidate. All hard gates, then
-soft scores. Verdicts PASS / CONDITIONAL / FAIL with reframes written out in
+soft scores. `standout` candidates skip C1/C2 and must clear C11 with the
+adversary's `product_search` as evidence for `not_already_a_product`. Verdicts PASS / CONDITIONAL / FAIL with reframes written out in
 full (the skill forbids "could be adjusted"). Use the novelty verdict for C7 —
 do not re-judge from memory. Use the data verification for C9 — do not
 re-judge from memory.
@@ -188,7 +196,7 @@ as an observation.
 ## Budgets (run 4 defaults)
 
 - Stage 1: 3 dispatches × ≤ 25 searches
-- Stage 2: 7 dispatches × ≤ 30 searches
+- Stage 2: 9 dispatches × ≤ 30 searches (standout hunter may use 40)
 - Stage 4: ≤ 25 survivors × (adversary ≤ 15 searches + verifier ≤ 10 fetches)
 - Stage 5: ≤ 15 dispatches × 0 searches
-- Total ceiling ≈ 900 tool calls. If exceeded, the run log must say where.
+- Total ceiling ≈ 1000 tool calls. If exceeded, the run log must say where.

@@ -7,7 +7,7 @@ One JSON file per subagent role. Each file is the complete dispatch spec:
 | File | Stage | Fan-out (run 4) | Tools | Returns |
 |---|---|---|---|---|
 | landscape_scout.json | 1 | 3 (india, singapore_malaysia, eu) | search, fetch | landscape_report |
-| gap_hunter.json | 2 | 7 (bucket × region) | search, fetch | candidate_oneliner[] |
+| gap_hunter.json | 2 | 9 (bucket × region; standout ×1 global) | search, fetch | candidate_oneliner[] |
 | novelty_adversary.json | 4a | 1 per screen_pass | search, fetch | novelty_verdict |
 | data_verifier.json | 4b | 1 per screen_pass | search, fetch | data_verification |
 | elaborator.json | 5 | 1 per cleared survivor | none | elaborated_candidate |

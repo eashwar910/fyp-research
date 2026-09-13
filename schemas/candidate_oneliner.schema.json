@@ -6,21 +6,94 @@
   "minItems": 5,
   "items": {
     "type": "object",
-    "required": ["one_liner", "region", "bucket", "data_class", "delta_claim", "seed_urls", "crowded_area_entered"],
+    "required": [
+      "one_liner",
+      "region",
+      "bucket",
+      "data_class",
+      "delta_claim",
+      "seed_urls",
+      "crowded_area_entered"
+    ],
     "properties": {
-      "one_liner": { "type": "string", "minLength": 60, "maxLength": 420,
-        "description": "1-2 sentences: region, data class, user, output, and what is new. No method sketch." },
-      "region": { "$ref": "_common.schema.json#/$defs/region" },
-      "bucket": { "$ref": "_common.schema.json#/$defs/bucket" },
-      "data_class": { "type": "string",
-        "description": "e.g. sentinel_1_sar | sentinel_2_optical | nicfi | hyperspectral_open | aef_embeddings | open_uav_dataset:IMPaCT | open_orthophoto:BD_ORTHO | non_imagery" },
-      "delta_claim": { "type": "string", "maxLength": 200, "description": "One clause: what is new. Not 'applies X to region Y'." },
-      "forcing_function": { "type": ["string", "null"] },
-      "user_guess": { "type": "string", "maxLength": 120 },
-      "seed_urls": { "type": "array", "minItems": 1, "maxItems": 3, "items": { "$ref": "_common.schema.json#/$defs/url_evidence" } },
-      "crowded_area_entered": { "type": "boolean" },
-      "restates": { "type": ["string", "null"], "description": "archived candidate id this restates, if any" },
-      "hunter_confidence": { "type": "string", "enum": ["low", "medium", "high"] }
+      "one_liner": {
+        "type": "string",
+        "minLength": 60,
+        "maxLength": 420,
+        "description": "1-2 sentences: region, data class, user, output, and what is new. No method sketch."
+      },
+      "region": {
+        "$ref": "_common.schema.json#/$defs/region"
+      },
+      "bucket": {
+        "$ref": "_common.schema.json#/$defs/bucket"
+      },
+      "data_class": {
+        "type": "string",
+        "description": "e.g. sentinel_1_sar | sentinel_2_optical | nicfi | hyperspectral_open | aef_embeddings | open_uav_dataset:IMPaCT | open_orthophoto:BD_ORTHO | non_imagery:<what> . Standout bucket may use any."
+      },
+      "delta_claim": {
+        "type": "string",
+        "maxLength": 200,
+        "description": "One clause: what is new. Not 'applies X to region Y'."
+      },
+      "forcing_function": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "user_guess": {
+        "type": "string",
+        "maxLength": 120
+      },
+      "seed_urls": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 3,
+        "items": {
+          "$ref": "_common.schema.json#/$defs/url_evidence"
+        }
+      },
+      "crowded_area_entered": {
+        "type": "boolean"
+      },
+      "restates": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "archived candidate id this restates, if any"
+      },
+      "hunter_confidence": {
+        "type": "string",
+        "enum": [
+          "low",
+          "medium",
+          "high"
+        ]
+      },
+      "standout_fields": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "description": "Required when bucket=standout. The SCREEN gate fails the line on C11 if either is missing or needs a preamble.",
+        "properties": {
+          "layperson_sentence": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "demo_moment": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "headline_claim": {
+            "type": "string",
+            "maxLength": 120
+          }
+        }
+      }
     }
   }
 }

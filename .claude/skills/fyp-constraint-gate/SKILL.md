@@ -35,16 +35,23 @@ If `constraints.yml` is missing, stop and say so. Do not improvise constraints.
 Input: a list of candidate one-liners (typically 20–40, from `gap-to-topic` or
 a brainstorm). Each is a sentence or two. No elaboration yet.
 
-Check ONLY the four cheapest hard gates, in this order, stopping at first fail:
+First read `constraints.yml bucket_exemptions` and note which bucket each
+candidate is in (`bucket` field on the one-liner). Then check ONLY the four
+cheapest hard gates, in this order, stopping at first fail:
 
 1. **C3 auto-fail patterns** — pattern-match against the banned list. Fastest kill.
 2. **C1 imagery-native** — is imagery the primary signal, or decoration?
-   **Skip this check entirely for Singapore candidates** — they are exempt.
-3. **Excluded domains** — aquaculture always. Indoor and vertical farming only
-   for EU and India; both are permitted for Singapore.
+   **Skip for Singapore candidates and for the `standout` bucket** — both are
+   exempt. For `standout`, run **C11_standout** here instead: can you name, in
+   one clause each, the layperson sentence and the visible demo moment? If not,
+   fail on C11.
+3. **Excluded domains** — aquaculture always (also for `standout`). Indoor and
+   vertical farming only for EU, India and Malaysia; permitted for Singapore
+   and for `standout`.
 4. **C7 regional-transfer sniff test** — does the novelty reduce to "existing
    method, new place"? If the one-liner's only distinguishing feature is the
-   region, fail it here.
+   region, fail it here. (`standout` has no region gate, but regional transfer
+   is still not novelty.)
 
 Do NOT attempt scope floor, feasibility, or licence checks in SCREEN mode —
 they need detail the one-liner doesn't have. Mark them `unassessed`.
@@ -58,9 +65,12 @@ re-read the C3 auto-fail patterns and try again.
 Input: elaborated candidates (a paragraph or more each, with a named data
 source and a named prior-art comparison).
 
-Evaluate every hard gate: C1, C2 (incl. sensor rules), C3, C7, C8 scope floor,
-C9 feasibility (incl. NICFI licence check), C10 impact. Then score the soft
-criteria C4, C5, C6.
+Evaluate every hard gate: C1, C2 (incl. sensor rules, now four regions), C3,
+C7, C8 scope floor, C9 feasibility (incl. NICFI licence check), C10 impact.
+For the `standout` bucket: skip C1 and C2, and evaluate **C11_standout** as a
+hard gate with all five `requires_all` items written out; `not_already_a_product`
+needs the novelty adversary's product-search evidence. Then score the soft
+criteria C4, C5, C6 (C6 is folded into C11 for `standout`).
 
 ## Verdicts
 
@@ -74,6 +84,10 @@ criteria C4, C5, C6.
 **Mark, never delete.** Every candidate stays in the output with its verdict and
 reason, including fails. A gap that fails on data access is often two degrees
 from one that passes, and that is only visible if it is still on the page.
+
+**Bucket exemptions are not loopholes.** A `standout` candidate skips C1/C2
+only. If it would fail C3, C7, C8, C9 or C10 in another bucket, it fails here.
+"Catchy" never rescues "generic".
 
 **There is no region quota.** Report the region mix as an observation only.
 Never invent, pad, promote, or demote a candidate to balance regions, and never
@@ -108,7 +122,8 @@ candidates:
   - id: C07
     one_liner: "..."
     verdict: pass | conditional | fail
-    region: eu | india | singapore
+    region: eu | india | singapore | malaysia | global
+    bucket: satellite | drone_and_aerial | standout
     failed_gate: C7_novelty        # omit if pass
     reason: "Delta is geographic only — SAR flood mapping already published for the Mekong."
     reframe: "..."                 # required if conditional
@@ -120,6 +135,8 @@ region_mix:          # observation only — not a target
   eu: 4
   india: 3
   singapore: 1
+  malaysia: 2
+  global: 1          # standout-bucket candidates with no single region
 notes: "..."
 ```
 

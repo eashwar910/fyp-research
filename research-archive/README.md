@@ -22,5 +22,5 @@ one-liner restates an archived one without addressing its failed gate.
 
 ## Ids
 
-Run-scoped: `R<run>-<letter><nn>`. Run 3 used `S01/D01/G01` without a prefix;
+Run-scoped: `R<run>-<letter><nn>` (S satellite, D drone/aerial, X standout, G legacy SG lane). Run 3 used `S01/D01/G01` without a prefix;
 the stage-0 indexer prefixes them as `R3-S01` etc. Do not rename files.

@@ -4,39 +4,244 @@
   "title": "Stage 5 elaborated candidate (input to FULL gate)",
   "type": "object",
   "oneOf": [
-    { "required": ["needs"], "properties": { "needs": { "type": "array", "minItems": 1, "items": { "type": "string" } } } },
     {
-      "required": ["id", "title", "summary", "components", "research_question", "non_obvious_failure_mode",
-                   "reusable_artifact", "user", "decision_changed", "user_evidence_url", "compute_plan",
-                   "phase_plan_8_months", "novelty_positioning", "pitch", "pitch_fails_if",
-                   "what_would_kill_this", "scope_floor"],
+      "required": [
+        "needs"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "title": { "type": "string", "maxLength": 100 },
-        "summary": { "type": "string", "maxLength": 1200 },
-        "components": { "type": "array", "minItems": 2, "items": { "type": "string", "maxLength": 200 } },
-        "research_question": { "type": "string", "maxLength": 300 },
-        "non_obvious_failure_mode": { "type": "string", "maxLength": 300 },
-        "reusable_artifact": { "type": "string", "maxLength": 200 },
-        "user": { "type": "string", "maxLength": 150 },
-        "decision_changed": { "type": "string", "maxLength": 200 },
-        "user_evidence_url": { "type": "string" },
-        "compute_plan": { "type": "array", "items": { "type": "object", "required": ["step", "platform", "why_no_gpu_needed"],
-          "properties": { "step": { "type": "string" }, "platform": { "type": "string" }, "why_no_gpu_needed": { "type": "string" } } } },
-        "phase_plan_8_months": { "type": "array", "minItems": 4, "maxItems": 6, "items": { "type": "object", "required": ["months", "goal", "deliverable"],
-          "properties": { "months": { "type": "string" }, "goal": { "type": "string" }, "deliverable": { "type": "string" } } } },
-        "novelty_positioning": { "type": "object", "required": ["type", "statement"],
-          "properties": { "type": { "type": "string", "enum": ["type_a", "type_b", "unclear"] }, "statement": { "type": "string", "maxLength": 400 },
-            "prior_solution_url": { "type": ["string", "null"] }, "measurable_axis": { "type": ["string", "null"] } } },
-        "pitch": { "type": "string", "maxLength": 200 },
-        "pitch_fails_if": { "type": "string", "maxLength": 200 },
-        "what_would_kill_this": { "type": "string", "minLength": 40, "maxLength": 400 },
-        "scope_floor": { "type": "object",
-          "required": ["two_or_more_integrating_components", "genuine_research_question", "non_obvious_failure_mode", "reusable_artifact", "not_one_sentence"],
-          "additionalProperties": { "type": "object", "required": ["met", "line"],
-            "properties": { "met": { "type": "boolean" }, "line": { "type": "string", "maxLength": 200 } } } },
-        "publishable_venue_guess": { "type": "string" },
-        "dev_research_split_guess": { "type": "string" }
+        "needs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "required": [
+        "id",
+        "title",
+        "summary",
+        "components",
+        "research_question",
+        "non_obvious_failure_mode",
+        "reusable_artifact",
+        "user",
+        "decision_changed",
+        "user_evidence_url",
+        "compute_plan",
+        "phase_plan_8_months",
+        "novelty_positioning",
+        "pitch",
+        "pitch_fails_if",
+        "what_would_kill_this",
+        "scope_floor"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 1200
+        },
+        "components": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "research_question": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "non_obvious_failure_mode": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "reusable_artifact": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "user": {
+          "type": "string",
+          "maxLength": 150
+        },
+        "decision_changed": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "user_evidence_url": {
+          "type": "string"
+        },
+        "compute_plan": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "step",
+              "platform",
+              "why_no_gpu_needed"
+            ],
+            "properties": {
+              "step": {
+                "type": "string"
+              },
+              "platform": {
+                "type": "string"
+              },
+              "why_no_gpu_needed": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "phase_plan_8_months": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "required": [
+              "months",
+              "goal",
+              "deliverable"
+            ],
+            "properties": {
+              "months": {
+                "type": "string"
+              },
+              "goal": {
+                "type": "string"
+              },
+              "deliverable": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "novelty_positioning": {
+          "type": "object",
+          "required": [
+            "type",
+            "statement"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "type_a",
+                "type_b",
+                "unclear"
+              ]
+            },
+            "statement": {
+              "type": "string",
+              "maxLength": 400
+            },
+            "prior_solution_url": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "measurable_axis": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "pitch": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "pitch_fails_if": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "what_would_kill_this": {
+          "type": "string",
+          "minLength": 40,
+          "maxLength": 400
+        },
+        "scope_floor": {
+          "type": "object",
+          "required": [
+            "two_or_more_integrating_components",
+            "genuine_research_question",
+            "non_obvious_failure_mode",
+            "reusable_artifact",
+            "not_one_sentence"
+          ],
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "met",
+              "line"
+            ],
+            "properties": {
+              "met": {
+                "type": "boolean"
+              },
+              "line": {
+                "type": "string",
+                "maxLength": 200
+              }
+            }
+          }
+        },
+        "publishable_venue_guess": {
+          "type": "string"
+        },
+        "dev_research_split_guess": {
+          "type": "string"
+        },
+        "standout": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Required when bucket=standout (C11). All five must be filled.",
+          "required": [
+            "one_sentence_to_a_layperson",
+            "visible_demo_moment",
+            "headline_claim",
+            "not_already_a_product_evidence",
+            "surprise"
+          ],
+          "properties": {
+            "one_sentence_to_a_layperson": {
+              "type": "string",
+              "maxLength": 160
+            },
+            "visible_demo_moment": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "headline_claim": {
+              "type": "string",
+              "maxLength": 160
+            },
+            "not_already_a_product_evidence": {
+              "type": "string",
+              "description": "url(s) from the novelty adversary's product search"
+            },
+            "surprise": {
+              "type": "string",
+              "maxLength": 300,
+              "description": "why the first reaction is 'wait, you can do that?'"
+            }
+          }
+        }
       }
     }
   ]

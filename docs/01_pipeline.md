@@ -11,7 +11,7 @@ Files live under `.research/` for the current run and are copied verbatim to
 |---|---|---|---|---|---|
 | 0 | Preflight | orchestrator | constraints.yml, buckets.yml, research-archive/* | `RUN_LOG.md`, `archive_index.json` | no open TODO; no placeholder bucket |
 | 1 | Landscape | 3 × landscape_scout (Sonnet) | market id, depth | `landscape/<market>.json`, `landscape/merged.json`, `landscape/SUMMARY.md` | ≥ 10 crowded entries; ≥ 5 dated forcing functions; every company has ≥ 1 URL ≤ 12 months old |
-| 2 | Gap hunt | 7 × gap_hunter (Sonnet) | bucket block, constraints, merged landscape, archive index | `candidates.jsonl` | 40–80 unique one-liners; every line has region + data_class + delta_claim |
+| 2 | Gap hunt | 9 × gap_hunter (Sonnet) | bucket block, constraints, merged landscape, archive index | `candidates.jsonl` | 40–80 unique one-liners; every line has region + data_class + delta_claim |
 | 3 | SCREEN | orchestrator (skill) | candidates.jsonl, archive index | `gate_screen.yml` | 60–75 % killed; every kill has a gate + one-line reason |
 | 4a | Novelty | 1 × novelty_adversary per survivor (Sonnet) | one-liner, delta_claim, seed_urls, crowded list | `novelty/<id>.json` | verdict ∈ {closed, type_a, type_b, unclear}; ≥ 3 queries logged; every prior-art item has URL+date |
 | 4b | Data | 1 × data_verifier per survivor (Sonnet) | one-liner, data_class, region | `data/<id>.json` | every needed source has fetched URL + licence quote + access mode + ground-truth path |
@@ -25,7 +25,7 @@ Files live under `.research/` for the current run and are copied verbatim to
   orchestrator wants to pass a landscape insight to a hunter, it passes the JSON
   entry, not its own paraphrase.
 - **Ids are assigned once**, at stage 2 merge, as `R<run>-<bucket-letter><nn>`
-  (e.g. `R4-S07`, `R4-D03`, `R4-G02`). All later files are keyed by this id.
+  (e.g. `R4-S07`, `R4-D03`, `R4-X02` — X for standout). All later files are keyed by this id.
 - **Stage 4a and 4b run in parallel** and neither sees the other's output. This is
   deliberate: a data verifier that knows the novelty verdict starts rationalising.
 - **Stage 5 has no tools.** If the elaborator needs something, it returns

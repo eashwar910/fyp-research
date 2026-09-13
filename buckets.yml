@@ -2,7 +2,7 @@
 # The hunter receives its bucket block verbatim, plus constraints.yml, plus the
 # landscape reports, plus the crowded list. Nothing else.
 
-version: 4
+version: 5
 
 global_hunter_rules:
   - >
@@ -22,7 +22,7 @@ buckets:
 
   bucket_1:
     name: satellite
-    regions: [india, eu, singapore_source_basket]
+    regions: [india, eu, malaysia, singapore_source_basket]
     note_on_singapore: >
       Singapore has no visible farmland, but a Singapore-targeted candidate may use
       satellite imagery over the countries that FEED Singapore (Malaysia, China,
@@ -45,7 +45,7 @@ buckets:
 
   bucket_2:
     name: drone_and_aerial
-    regions: [india, eu, singapore]
+    regions: [india, eu, malaysia, singapore]
     note: >
       "Drone" includes UAV, aerial survey, and open national orthophoto programmes
       (IGN BD ORTHO, PDOK Luchtfoto, Danish/Spanish/Austrian orthophotos). C2
@@ -58,18 +58,38 @@ buckets:
     forcing_functions_to_exploit:
       - India: Namo Drone Didi (15k SHGs) + Kisan Drone subsidies → repeat flights at scale, no analytics
       - EU: vine grubbing-up scheme 2024–25; GAEC 8 landscape features; national orthophoto refresh cycles
-      - Malaysia/SG drone service firms (Aonic, Aerodyne, Garuda) whose bottleneck is data consistency, not flying
+      - Malaysia/SG drone service firms (Aonic, Aerodyne, Meraque, Garuda) whose bottleneck is data consistency, not flying
+      - Malaysia: MPOB smallholder replanting incentives; EUDR palm-oil plot verification from 30 Dec 2026
     target_count: 15-25 one-liners per hunter
 
   bucket_3:
-    name: TODO_resolve_T1
-    status: placeholder
-    run3_assumption: >
-      Treated as the Singapore C1-exempt lane: any genuinely novel AI for the SG
-      agri-food landscape (indoor/vertical, supply chain & import resilience,
-      Lim Chu Kang re-parcelling, farm–biodiversity interface). Two candidates
-      passed (S21 import-shock early warning, G01 LCK re-parcelling optimiser).
-    owner_must_confirm: >
-      Keep this definition, or replace it. If replaced, write regions,
-      in_scope_data_classes, forcing_functions and target_count exactly as above.
-      The orchestrator refuses to dispatch a bucket_3 hunter while status=placeholder.
+    name: standout
+    status: active
+    definition: >
+      Any agriculture / agri-food AI project with very high potential to STAND
+      OUT — unique and catchy. No region constraint, no sensor constraint, no
+      sub-field constraint. Imagery is welcome but not required. This lane
+      exists to catch the idea the other two lanes are structurally unable to
+      find because they start from a sensor or a region.
+    regions: [global]               # one dispatch; hunter may range anywhere
+    gates: >
+      Skips C1 and C2. Adds hard C11_standout (one-sentence-to-a-layperson,
+      visible demo moment, headline claim, not-already-a-product, surprise).
+      C3, C7, C8, C9, C10 and excluded_domains (aquaculture) still apply.
+      See constraints.yml bucket_exemptions.standout.
+    in_scope_data_classes:
+      - anything under buckets 1 and 2
+      - non_imagery (market, logistics, genomics, weather, IoT, text, audio) IF C3 is not triggered
+      - novel combinations across data classes
+    hunting_heuristics:
+      - "Start from the DEMO, not the data: what would a judge see on screen in 30 seconds?"
+      - 'Start from a headline number a hiring manager would repeat: cuts X by Y.'
+      - Look for problems that are famous but unsolved cheaply (locusts, elephant crop raids, monsoon onset, mango grading at the mandi, saffron adulteration).
+      - "Look for a mismatch between hype and shipped products: an area everyone talks about where a product search returns nothing."
+      - "Look outside agri for a technique that has never touched a farm: audio ML, event cameras, LLM agents over EO, satellite thermal, GNSS reflectometry, night-lights, citizen-science photos."
+      - 'Reject anything you would describe with: well, basically...'
+    target_count: "25-40 one-liners (higher than other lanes; expect a brutal kill rate at C3/C11)"
+    note_for_screen_gate: >
+      The SCREEN gate applies C11 as the FOURTH cheap check for this bucket
+      (replacing the C1 check it skips). A one-liner that needs a preamble, or
+      whose demo moment cannot be named in one clause, fails there.

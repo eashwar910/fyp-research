@@ -29,7 +29,7 @@ fetch, and return structured JSON*.
    │ 1 landscape │  landscape_scout ×3 (one per job market: IN / SG+MY / EU)
    └──────┬──────┘  → .research/landscape/*.json
    ┌──────▼──────┐
-   │ 2 gap hunt  │  gap_hunter ×N (one per bucket × region), fed the landscape + crowded list
+   │ 2 gap hunt  │  gap_hunter ×9 (bucket × region; standout ×1 global), fed the landscape + crowded list
    └──────┬──────┘  → .research/candidates.jsonl   (40–80 one-liners)
    ┌──────▼──────┐
    │ 3 SCREEN    │  orchestrator runs fyp-constraint-gate SCREEN. Expect 60–75 % killed.
@@ -66,6 +66,7 @@ docs/
   03_search_playbook.md      query construction, source tiers, adversarial search
   04_evidence_standards.md   what counts as proof for novelty / data / user
   05_run_log_template.md     what the orchestrator writes as it goes
+  06_runbook_claude_code.md  the exact per-stage prompts to type into Claude Code
 agents/                      one JSON prompt per subagent role (system prompt + I/O + budget)
 schemas/                     JSON schemas every subagent output is validated against
 .research/                   per-run working files (gitignored except README)
@@ -75,8 +76,8 @@ research-archive/            prior runs; the gate checks new candidates against 
 
 ## Starting a run
 
-1. Resolve every item under `todo:` in `constraints.yml`. The orchestrator will not start otherwise.
-2. Fill `buckets.yml` (bucket 3 is a placeholder until T1 is resolved).
+1. `constraints.yml` v2: T1 and T2 are resolved (standout bucket; Malaysia in C2). Re-open a TODO if you change either.
+2. Check `buckets.yml` — bucket 3 is the `standout` lane (no region/sensor constraint, hard C11).
 3. Open the repo in Claude Code and say: `run the fyp pipeline per ORCHESTRATOR.md`.
 4. Read `.research/ROSTER.md` when it finishes. Do not ask it for a single winner.
 

@@ -1,22 +1,23 @@
 # FYP candidate constraints — machine-readable source of truth.
 # The fyp-constraint-gate skill reads this file. Edit here, not in prose.
-# (Copied verbatim from run 3, plus F4 and a TODO block. Resolve TODOs before run 4.)
+# v2 (2026-09-13): Malaysia added to C2; bucket_3 'standout' defined via bucket_exemptions + C11.
 
-version: 1
+version: 2
 owner: eashwar
 project: FYP — AI for agriculture from satellite/drone imagery
 
 hard:
 
   C1_imagery_native:
-    applies_to: [eu, india]
+    applies_to: [eu, india, malaysia]
+    exempt_buckets: [standout]     # bucket_3 — see bucket_exemptions
     rule: >
       The core technical problem must be solved FROM satellite or drone imagery.
       Imagery must be the primary signal, not a supporting layer.
     fail_if:
       - imagery is decorative, contextual, or one input among many tabular features
       - the same result could be achieved with weather/soil/market data alone
-    note: non-negotiable for EU and India
+    note: non-negotiable for EU, India and Malaysia
 
   C1_singapore_exemption:
     rule: >
@@ -35,11 +36,12 @@ hard:
       If it is not, ignore them.
 
   C2_region:
-    rule: Candidate must target EU, India, or Singapore.
+    rule: Candidate must target EU, India, Singapore, or Malaysia.
+    exempt_buckets: [standout]     # bucket_3 may target any region or be global
     coverage_goal: >
-      Want at least a few surviving candidates from EACH region. There are NO
-      target numbers and NO quota. Do not balance, do not pad, do not reject a
-      strong candidate because its region is already well represented.
+      Want at least a few surviving candidates from EACH region (now four). There
+      are NO target numbers and NO quota. Do not balance, do not pad, do not
+      reject a strong candidate because its region is already well represented.
     sensor_rules:
       applies_when: candidate is imagery-based
       singapore:
@@ -58,6 +60,23 @@ hard:
           NICFI does NOT cover the EU (tropics only). Sentinel-1/2, LPIS parcel
           data, EuroCrops available. Most crowded literature — novelty bar is
           highest here.
+      malaysia:
+        allowed: [sentinel_scale, landsat_scale, nicfi, drone, uav, aerial, sub_metre_commercial]
+        note: >
+          Estates (oil palm, rubber, durian) are large enough for Sentinel scale.
+          Smallholder plots (<4 ha, ~40% of oil palm) need NICFI or sub-metre.
+          NICFI covers Malaysia but the C9 purpose-bound licence check applies:
+          frame around deforestation-free commodities / EUDR / forest-edge.
+          Cameron Highlands is cloud-locked most of the year — SAR is the
+          realistic optical substitute there.
+        extra_check: >
+          Self-collected drone flights are OUT OF SCOPE here too. Name an
+          existing accessible source (open dataset, national orthophoto, or a
+          partner company's archive with written access) or FAIL.
+        local_forcing_functions:
+          - EUDR palm-oil obligations from 30 Dec 2026 (MSPO ↔ EUDR alignment)
+          - MPOB smallholder replanting incentive verification
+          - drone service firms (Aonic, Aerodyne, Meraque) as named users
 
   C3_not_generic:
     rule: Must not be a generic agri-AI artifact.
@@ -122,16 +141,46 @@ hard:
       Must produce meaningful impact for an identifiable user. Name the user
       and the decision the output changes. "Researchers" is not a user.
 
+  C11_standout:
+    applies_to_buckets: [standout]   # HARD for bucket_3 only; not evaluated elsewhere
+    rule: >
+      A bucket_3 candidate must be one a judge or hiring manager would still
+      remember a week later. It must satisfy ALL of the following.
+    requires_all:
+      - one_sentence_to_a_layperson    # a non-technical person gets it in one sentence, no preamble
+      - visible_demo_moment            # something you can SHOW in 30 seconds: a map, a live run, a before/after
+      - headline_claim                 # a single number or binary outcome the project is built to produce
+      - not_already_a_product          # no shipping commercial product does this (search evidence required)
+      - surprise                       # the obvious first reaction is "wait, you can do that?" — the elaborator must write out what the surprise is
+    note: >
+      C6_pitch is soft for buckets 1–2 and is folded into C11 here. Catchy is
+      necessary, not sufficient: C3, C7, C8, C9, C10 still apply in full.
+
+# ---------------------------------------------------------------
+# BUCKET EXEMPTIONS — which hard gates a bucket skips
+# ---------------------------------------------------------------
+bucket_exemptions:
+  satellite:        { skips: [] }
+  drone_and_aerial: { skips: [] }
+  standout:
+    skips: [C1_imagery_native, C2_region]
+    adds:  [C11_standout]
+    still_applies: [C3_not_generic, C7_novelty, C8_scope_floor, C9_feasibility, C10_impact]
+    domain: >
+      Still agriculture / agri-food. "No domain constraint" means no sensor,
+      region, or sub-field restriction — not "any topic".
+    excluded_domains_apply: true      # aquaculture stays excluded unless the owner lifts it here
+
 excluded_domains:
   - aquaculture
 
 conditionally_excluded:
   indoor_farming:
-    excluded_for: [eu, india]
-    allowed_for: [singapore]
+    excluded_for: [eu, india, malaysia]
+    allowed_for: [singapore, standout_bucket]
   vertical_farming:
-    excluded_for: [eu, india]
-    allowed_for: [singapore]
+    excluded_for: [eu, india, malaysia]
+    allowed_for: [singapore, standout_bucket]
     warning: >
       Crowded space with well-funded incumbents. A vertical-farming candidate
       must clear C7 against commercial products, not just against papers.
@@ -173,12 +222,19 @@ prior_run_failures:
     fix: dedicated novelty_adversary and data_verifier subagents run on EVERY screen_pass BEFORE elaboration
 
 # ---------------------------------------------------------------
-# TODO before run 4 — the orchestrator refuses to start while any item is open
+# TODO — all resolved 2026-09-13; orchestrator may start
 # ---------------------------------------------------------------
 todo:
   - id: T1
-    what: "Define bucket 3. Run 3 assumed it was the Singapore C1-exempt (non-imagery) lane. Confirm or replace."
-    resolves_in: buckets.yml
+    what: "Define bucket 3."
+    resolved: true
+    resolution: >
+      bucket_3 = "standout": any agri/agri-food project with very high potential
+      to stand out — unique and catchy. No region or sensor/sub-field constraint.
+      Encoded as bucket_exemptions.standout (skips C1, C2; adds hard C11_standout).
   - id: T2
-    what: "Decide whether Malaysia joins C2_region. It is in the job-target list but not the constraint. If yes, add sensor_rules.malaysia."
-    resolves_in: hard.C2_region.rule
+    what: "Decide whether Malaysia joins C2_region."
+    resolved: true
+    resolution: >
+      Yes. Malaysia added to C2 with sensor_rules.malaysia; C1 applies to it;
+      indoor/vertical excluded for it like EU/India.
