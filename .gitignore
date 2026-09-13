@@ -1,0 +1,4 @@
+# current-run working files are ephemeral; archives are committed
+.research/*
+!.research/README.md
+.DS_Store

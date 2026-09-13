@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/gate_verdicts.schema.json",
+  "title": "Stages 3 & 6 gate output (mirrors fyp-constraint-gate SKILL.md format; YAML on disk)",
+  "type": "object",
+  "required": ["mode", "assessed", "passed", "candidates", "region_mix"],
+  "properties": {
+    "mode": { "type": "string", "enum": ["screen", "full"] },
+    "assessed": { "type": "integer" },
+    "passed": { "type": "integer" },
+    "conditional": { "type": "integer" },
+    "failed": { "type": "integer" },
+    "kill_rate": { "type": "number" },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "one_liner", "verdict", "region", "reason"],
+        "properties": {
+          "id": { "type": "string" },
+          "rank": { "type": "integer" },
+          "one_liner": { "type": "string" },
+          "verdict": { "type": "string", "enum": ["screen_pass", "screen_fail", "pass", "conditional", "fail"] },
+          "region": { "$ref": "_common.schema.json#/$defs/region" },
+          "failed_gate": { "type": "string" },
+          "reason": { "type": "string" },
+          "reframe": { "type": "string", "description": "required when verdict=conditional; must be a concrete rewrite, not 'could be adjusted'" },
+          "restates": { "type": ["string", "null"] },
+          "novelty_type": { "type": "string", "enum": ["type_a", "type_b", "unclear", "closed", "unassessed"] },
+          "novelty_file": { "type": "string" },
+          "data_verdict": { "type": "string", "enum": ["open", "conditional", "blocked", "unassessed"] },
+          "data_file": { "type": "string" },
+          "scope_floor_met": { "type": "integer", "minimum": 0, "maximum": 5 },
+          "data_source": { "type": "string" },
+          "user": { "type": "string" },
+          "pitch": { "type": "string" },
+          "soft_scores": { "type": "object", "properties": { "C4": { "type": "string" }, "C5": { "type": "string" }, "C6": { "type": "string" } } }
+        }
+      }
+    },
+    "region_mix": { "type": "object", "additionalProperties": { "type": "integer" } },
+    "notes": { "type": "string" }
+  }
+}

@@ -1,0 +1,75 @@
+# Search buckets for gap hunting. One gap_hunter dispatch per (bucket × region).
+# The hunter receives its bucket block verbatim, plus constraints.yml, plus the
+# landscape reports, plus the crowded list. Nothing else.
+
+version: 4
+
+global_hunter_rules:
+  - >
+    The ONLY constraints are those in constraints.yml. Do not add your own
+    resolution, sensor, cloud-cover, revisit, or crop restrictions. In earlier
+    runs models silently narrowed "satellite imagery" to "Sentinel-2 optical
+    NDVI over row crops"; that is a bug. Sentinel-1 SAR, NICFI, Landsat,
+    hyperspectral (EnMAP/PRISMA), aerial orthophotos, foundation-model
+    embeddings, and commercial sub-metre are ALL in scope wherever C2/C9 allow.
+  - Output one-liners only. No elaboration, no method sketch beyond one clause.
+  - Every one-liner must name the region and the sensor/data class in the line itself.
+  - Do not self-censor on implementation difficulty. The owner codes fast.
+  - Do not balance regions. Emit what the evidence supports.
+  - Check the crowded list in the landscape reports; if you enter a crowded area, the one-liner must state the technical delta explicitly.
+
+buckets:
+
+  bucket_1:
+    name: satellite
+    regions: [india, eu, singapore_source_basket]
+    note_on_singapore: >
+      Singapore has no visible farmland, but a Singapore-targeted candidate may use
+      satellite imagery over the countries that FEED Singapore (Malaysia, China,
+      Australia, Vietnam). C2 sensor rules only bite when imaging SG farmland itself.
+    in_scope_data_classes:
+      - sentinel_1_sar (GRD, coherence)
+      - sentinel_2_optical
+      - landsat
+      - nicfi_planet_basemaps (tropics only; licence purpose-bound — see C9)
+      - hyperspectral_open (EnMAP, PRISMA, upcoming Pixxel open samples)
+      - foundation_model_embeddings (AlphaEarth annual; Custom Embeddings academic program)
+      - lpis_eurocrops_ftw (parcel/boundary layers as substrate, not as the contribution)
+    forcing_functions_to_exploit:
+      - EUDR large-operator deadline 30 Dec 2026 (coffee, cocoa, rubber, palm, soy, cattle, wood)
+      - FTW global 10 m boundary product (2024/2025) with self-declared smallholder weakness
+      - AlphaEarth Custom Satellite Embeddings academic program (deadline 15 Oct 2026)
+      - PMFBY / YES-TECH satellite-based yield estimation mandate in India
+      - CAP 2023–27 GAEC conditionality and eco-schemes in the EU
+    target_count: 20-30 one-liners per hunter
+
+  bucket_2:
+    name: drone_and_aerial
+    regions: [india, eu, singapore]
+    note: >
+      "Drone" includes UAV, aerial survey, and open national orthophoto programmes
+      (IGN BD ORTHO, PDOK Luchtfoto, Danish/Spanish/Austrian orthophotos). C2
+      allows aerial for Singapore, but extra_check requires a NAMED accessible
+      source — self-collected flights are out of scope everywhere.
+    in_scope_data_classes:
+      - open_uav_datasets (IMPaCT-UAV India paddy; WeedsGalore; PhenoBench; Agriculture-Vision; ricber list)
+      - open_national_orthophotos (EU)
+      - raw_frames_with_metadata (prefer over orthomosaics when the problem is pipeline-level)
+    forcing_functions_to_exploit:
+      - India: Namo Drone Didi (15k SHGs) + Kisan Drone subsidies → repeat flights at scale, no analytics
+      - EU: vine grubbing-up scheme 2024–25; GAEC 8 landscape features; national orthophoto refresh cycles
+      - Malaysia/SG drone service firms (Aonic, Aerodyne, Garuda) whose bottleneck is data consistency, not flying
+    target_count: 15-25 one-liners per hunter
+
+  bucket_3:
+    name: TODO_resolve_T1
+    status: placeholder
+    run3_assumption: >
+      Treated as the Singapore C1-exempt lane: any genuinely novel AI for the SG
+      agri-food landscape (indoor/vertical, supply chain & import resilience,
+      Lim Chu Kang re-parcelling, farm–biodiversity interface). Two candidates
+      passed (S21 import-shock early warning, G01 LCK re-parcelling optimiser).
+    owner_must_confirm: >
+      Keep this definition, or replace it. If replaced, write regions,
+      in_scope_data_classes, forcing_functions and target_count exactly as above.
+      The orchestrator refuses to dispatch a bucket_3 hunter while status=placeholder.

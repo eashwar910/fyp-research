@@ -1,0 +1,184 @@
+# FYP candidate constraints — machine-readable source of truth.
+# The fyp-constraint-gate skill reads this file. Edit here, not in prose.
+# (Copied verbatim from run 3, plus F4 and a TODO block. Resolve TODOs before run 4.)
+
+version: 1
+owner: eashwar
+project: FYP — AI for agriculture from satellite/drone imagery
+
+hard:
+
+  C1_imagery_native:
+    applies_to: [eu, india]
+    rule: >
+      The core technical problem must be solved FROM satellite or drone imagery.
+      Imagery must be the primary signal, not a supporting layer.
+    fail_if:
+      - imagery is decorative, contextual, or one input among many tabular features
+      - the same result could be achieved with weather/soil/market data alone
+    note: non-negotiable for EU and India
+
+  C1_singapore_exemption:
+    rule: >
+      Singapore candidates do NOT have to be imagery-based. Any genuinely novel
+      AI solution for the Singapore agricultural landscape qualifies. This exists
+      because Singapore has almost no remotely-visible farmland (<1% of land,
+      <10 km2), so requiring imagery would rule the region out entirely.
+    still_applies: [C3_not_generic, C7_novelty, C8_scope_floor, C9_feasibility, C10_impact]
+    opens_up:
+      - indoor / vertical / controlled-environment agriculture
+      - agri-food supply chain and import-resilience
+      - Lim Chu Kang master plan: plot re-parcelling, land-use optimisation
+      - farm-biodiversity interface (Sungei Buloh / Kranji buffer zones)
+    note: >
+      If a Singapore candidate IS imagery-based, the sensor rules under C2 apply.
+      If it is not, ignore them.
+
+  C2_region:
+    rule: Candidate must target EU, India, or Singapore.
+    coverage_goal: >
+      Want at least a few surviving candidates from EACH region. There are NO
+      target numbers and NO quota. Do not balance, do not pad, do not reject a
+      strong candidate because its region is already well represented.
+    sensor_rules:
+      applies_when: candidate is imagery-based
+      singapore:
+        allowed: [drone, uav, aerial, sub_metre_commercial]
+        forbidden: [sentinel_scale, landsat_scale]
+        reason: >
+          Singapore farmland is <1% of land area (<10 km2). Average vegetable
+          farm ~2 ha. At Sentinel-2 10 m that is ~20x10 px — unusable.
+        extra_check: >
+          Self-collected drone flights are OUT OF SCOPE (permits, cost, access).
+          Candidate MUST name an existing, accessible imagery source or FAIL.
+      india:
+        note: NICFI 4.77 m available via GEE, but licence-restricted (see C9).
+      eu:
+        note: >
+          NICFI does NOT cover the EU (tropics only). Sentinel-1/2, LPIS parcel
+          data, EuroCrops available. Most crowded literature — novelty bar is
+          highest here.
+
+  C3_not_generic:
+    rule: Must not be a generic agri-AI artifact.
+    auto_fail_patterns:
+      - dashboard or visualisation platform for satellite data
+      - chatbot, LLM assistant, or RAG-over-agronomy-documents
+      - 'yield prediction with a CNN, with no further specificity'
+      - crop type classification as the whole contribution
+      - NDVI time series + off-the-shelf classifier
+      - generic pest/disease detection on a public leaf-image dataset
+      - 'IoT sensors + dashboard for farmers'
+
+  C7_novelty:
+    rule: Must be genuinely novel. Classify as TYPE_A or TYPE_B or FAIL.
+    type_a_unexplored:
+      requires: no prior work attempts this problem framing
+      evidence_required: adversarial search found no closing paper
+    type_b_significant_improvement:
+      requires_all:
+        - a named prior solution exists and is beaten on a MEASURABLE axis
+        - the improvement is attributable to a specific technical choice
+        - the solution is unavailable in the target region
+      hard_rejection: >
+        "Same method, new region" is an AUTO-FAIL even if the region is
+        genuinely underserved. Regional transfer alone is NOT novelty.
+        There must be a technical delta, not just a geographic one.
+
+  C8_scope_floor:
+    rule: Must satisfy at least 3 of the 5 criteria below.
+    criteria:
+      - two_or_more_integrating_components
+      - genuine_research_question
+      - non_obvious_failure_mode
+      - reusable_artifact
+      - not_one_sentence
+    min_satisfied: 3
+
+  C9_feasibility:
+    timeline_months: 8
+    mode: part_time
+    compute:
+      local: macbook_no_cuda
+      rule: >
+        NO sustained local GPU training. Candidate must run on free hosted
+        compute: Google Earth Engine, Copernicus Data Space, Microsoft
+        Planetary Computer, Kaggle free GPU hours, Colab free tier.
+      fail_if: requires multi-day GPU training or >30 GPU-hours/week
+    budget_myr: 200
+    data:
+      preferred: open
+      free_sources: [sentinel_1, sentinel_2, landsat, nicfi_asia, lpis, eurocrops, openstreetmap]
+      nicfi_licence_check: >
+        NICFI is non-commercial AND purpose-bound to reducing tropical forest
+        loss. An India/SEA candidate using NICFI must frame around agricultural
+        expansion, deforestation-free commodities, or forest-edge farming.
+        Generic yield prediction on NICFI = LICENCE FAIL.
+    coding_capacity: high
+    fail_if_data: no accessible dataset named, or ground truth does not exist
+
+  C10_impact:
+    rule: >
+      Must produce meaningful impact for an identifiable user. Name the user
+      and the decision the output changes. "Researchers" is not a user.
+
+excluded_domains:
+  - aquaculture
+
+conditionally_excluded:
+  indoor_farming:
+    excluded_for: [eu, india]
+    allowed_for: [singapore]
+  vertical_farming:
+    excluded_for: [eu, india]
+    allowed_for: [singapore]
+    warning: >
+      Crowded space with well-funded incumbents. A vertical-farming candidate
+      must clear C7 against commercial products, not just against papers.
+
+soft:
+  C4_publishable:
+    weight: high
+    note: >
+      Aim for systems / dataset / benchmark contributions, not novel model
+      architectures. Venues: CVPR EarthVision, NeurIPS Datasets & Benchmarks,
+      IGARSS, ICLR ML4RS, Remote Sensing of Environment.
+  C5_dev_research_ratio:
+    target: {dev: 0.7, research: 0.3}
+    note: >
+      Implementation difficulty is NOT a limiting factor and must not be used
+      to down-scope a candidate. The 30% research budget is the scarce
+      resource: prefer candidates whose novelty is verifiable from few papers.
+  C6_pitch:
+    rule: Must survive a one-line elevator pitch that grabs a judge.
+    test: >
+      Write the one-liner. If it needs a "well, basically..." preamble to land,
+      the candidate fails this criterion.
+
+prior_run_failures:
+  - id: F1
+    observed: 17 of 20 candidates were elaborated then discarded
+    cause: constraints applied AFTER elaboration
+    fix: gate runs in SCREEN mode on one-liners BEFORE any elaboration
+  - id: F2
+    observed: the 3 surviving candidates felt like 3-4 month side projects
+    cause: no scope floor existed
+    fix: C8_scope_floor
+  - id: F3
+    observed: owner wants a roster of ALL strong candidates, not a single pick
+    fix: emit every PASS and CONDITIONAL, ranked; do not pre-select a winner
+  - id: F4
+    observed: run 3 — 8 of 14 survivors left FULL mode as CONDITIONAL with novelty_type=needs_novelty_check; data access was assumed, not fetched
+    cause: novelty and data checks done by the orchestrator, from memory + a few searches, AFTER screening
+    fix: dedicated novelty_adversary and data_verifier subagents run on EVERY screen_pass BEFORE elaboration
+
+# ---------------------------------------------------------------
+# TODO before run 4 — the orchestrator refuses to start while any item is open
+# ---------------------------------------------------------------
+todo:
+  - id: T1
+    what: "Define bucket 3. Run 3 assumed it was the Singapore C1-exempt (non-imagery) lane. Confirm or replace."
+    resolves_in: buckets.yml
+  - id: T2
+    what: "Decide whether Malaysia joins C2_region. It is in the job-target list but not the constraint. If yes, add sensor_rules.malaysia."
+    resolves_in: hard.C2_region.rule

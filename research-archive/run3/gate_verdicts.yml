@@ -1,0 +1,638 @@
+# fyp-constraint-gate output — run 3 (2026-09-10)
+# constraints.yml v1 read in full before judging. research-archive-v1/ was NOT
+# available in this session, so the "check against v1" rule could not be applied;
+# re-run that check locally before trusting any C7 verdict below.
+
+# =====================================================================
+# SCREEN MODE — one-liners, four cheap gates only
+# (C3 auto-fail → C1 imagery-native [skipped for SG] → exclusions → C7 regional-transfer sniff)
+# =====================================================================
+screen:
+  mode: screen
+  assessed: 41
+  passed: 14
+  kill_rate: 0.66
+  candidates:
+
+    # ---------------- SATELLITE ----------------
+    - id: S01
+      region: india
+      one_liner: "For Indian shade-coffee / rubber / cocoa smallholders facing EUDR, type every post-2020 canopy-loss event as {shade-tree pruning, crop renovation, genuine forest conversion} from Sentinel-1 + Sentinel-2 + NICFI, instead of the binary 'deforestation alert' current maps emit."
+      verdict: screen_pass
+      reason: "Not a generic artifact; imagery is the only signal; delta is event-typing (a new output space), not geography."
+      scope_floor: unassessed
+      feasibility: unassessed
+
+    - id: S02
+      region: india
+      one_liner: "Refine and confidence-calibrate the FTW global 10 m field-boundary product in Indian smallholder landscapes using AlphaEarth embeddings + cross-year boundary stability, benchmarked on the FTW-India 10k labels."
+      verdict: screen_pass
+      reason: "FTW itself documents that its confidence layer is conservative in smallholder systems — a stated gap in a named product. Delta must be technical (AEF + temporal consistency), watch for regional-transfer collapse in FULL."
+
+    - id: S03
+      region: eu
+      one_liner: "Grassland mowing-event detection from Sentinel-1 coherence + Sentinel-2 for CAP compliance."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "Done repeatedly (Estonia, Hungary, JRC). No technical delta stated."
+
+    - id: S04
+      region: india
+      one_liner: "Classify the FATE of paddy residue per field in Punjab — burnt / incorporated in-situ / baled ex-situ / left standing — from Sentinel-1 + Sentinel-2 in the 10–20 day harvest-to-sowing window, so CRM subsidy payouts can be verified without field visits."
+      verdict: screen_pass
+      reason: "Burn detection is crowded, but a 4-class residue-fate output tied to subsidy verification is a different problem. Prior tillage/zero-till work exists — FULL must check."
+
+    - id: S05
+      region: eu
+      one_liner: "Crop nitrogen status mapping from free EnMAP / PRISMA hyperspectral imagery."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "Hyperspectral N-mapping is a mature sub-field; one-liner has no delta beyond 'use the free sensor'."
+
+    - id: S06
+      region: india
+      one_liner: "Paddy transplanting-date estimation from Sentinel-1 for PMFBY prevented-sowing claims."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "S1 rice phenology is standard (MNCFC/FASAL use it). Only the use-case is new — regional/application transfer."
+
+    - id: S07
+      region: india
+      one_liner: "Village-level in-season crop-failure early warning from drift in AlphaEarth embedding space, evaluated against PMFBY crop-cutting-experiment yields."
+      verdict: screen_pass
+      reason: "Novel framing (embedding drift as loss signal). Data feasibility (annual-only embeddings) is a FULL-mode question."
+
+    - id: S08
+      region: eu
+      one_liner: "Detect eco-scheme fallow-land non-compliance from Sentinel-2."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "Hungary nationwide (2022) and JRC CbM already do this."
+
+    - id: S09
+      region: eu
+      one_liner: "Flag LPIS parcels whose declared geometry diverges from observed field geometry using the FTW global 2024/2025 boundary product as an independent reference, and type the divergence (merge / split / encroachment / mis-registration)."
+      verdict: screen_pass
+      reason: "Uses a brand-new open product as a reference; output is a typed divergence, not a boundary. JRC LPIS quality assessment is prior art — FULL must check."
+
+    - id: S10
+      region: india
+      one_liner: "Post-flood cropland damage extent and recovery from Sentinel-1 for insurers."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "SAR flood mapping over cropland is textbook; nothing here but the region."
+
+    - id: S11
+      region: india
+      one_liner: "Map groundwater-irrigated vs rainfed fields in Punjab from Sentinel time series."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "Irrigation mapping from S1/S2 exists for India already."
+
+    - id: S12
+      region: eu
+      one_liner: "Multi-year stable management-zone delineation from Sentinel-2."
+      verdict: screen_fail
+      failed_gate: C3_not_generic
+      reason: "This is the FieldView / EOSDA product. Auto-fail pattern: NDVI time series + off-the-shelf method."
+
+    - id: S13
+      region: eu
+      one_liner: "Few-shot crop-type mapping without LPIS labels using AlphaEarth embeddings."
+      verdict: screen_fail
+      failed_gate: C3_not_generic
+      reason: "Auto-fail pattern: crop type classification as the whole contribution."
+
+    - id: S14
+      region: india
+      one_liner: "Kharif sowing-failure / re-sowing detection from S1+S2 for seed companies."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "Sowing-date detection is established; new user, same method."
+
+    - id: S15
+      region: india
+      one_liner: "Turn a single EUDR GPS point (<4 ha smallholder plot) into an audit-ready plot polygon + 2020-baseline verdict from NICFI imagery, for tree crops where boundaries are hidden under canopy."
+      verdict: screen_pass
+      reason: "Imagery-native, not generic, tied to a regulation with a hard date. Some vendors advertise point→boundary suggestion; delta (tree-crop / under-canopy) must be proven in FULL."
+
+    - id: S16
+      region: india
+      one_liner: "Stubble-burning detection in Punjab from Sentinel-2 burn indices."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "PRSC, CEEW and S1+S2 papers already cover this. Crowded, no delta."
+
+    - id: S17
+      region: india
+      one_liner: "Map shifting-cultivation (jhum) expansion into forest edge in NE India from NICFI."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "Jhum mapping from Planet/Sentinel exists; the one-liner adds only the sensor."
+
+    - id: S18
+      region: eu
+      one_liner: "Winter cover-crop (GAEC 6) compliance from Sentinel-1 + Sentinel-2."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "Cover-crop detection is a JRC CbM marker already."
+
+    - id: S19
+      region: eu
+      one_liner: "Field-level yield-gap estimation from Sentinel-2 time series."
+      verdict: screen_fail
+      failed_gate: C3_not_generic
+      reason: "Auto-fail pattern: yield prediction with no further specificity."
+
+    - id: S20
+      region: india
+      one_liner: "Optimise PMFBY crop-cutting-experiment placement via satellite stratification."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "MNCFC already stratifies CCEs with satellite data; sampling-design delta not stated."
+
+    - id: S21
+      region: singapore
+      one_liner: "Field-level early warning of vegetable-import shocks to Singapore by monitoring its actual source basket (Cameron Highlands, Johor, etc.) with Sentinel-1/2 crop anomalies, and measuring lead time against Singapore wholesale/retail price series."
+      verdict: screen_pass
+      reason: "SG is C1-exempt anyway; not generic; not regional transfer (JRC ASAP is coarse and global, SFA's new dashboard is logistics-based). Sensor rules don't apply — imagery is over Malaysia, not SG farmland."
+
+    - id: S22
+      region: india
+      one_liner: "Solar-farm encroachment on cropland from Sentinel-2."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "Solar-park mapping from S2 is established; and it is land-use, not agri decision support."
+
+    # ---------------- DRONE / AERIAL ----------------
+    - id: D01
+      region: india
+      one_liner: "Learn a panel-free, cross-date radiometric harmonisation for consumer multispectral drone flights using overlap consistency between raw frames, and release a benchmark on IMPaCT-UAV (Vijayawada paddy, all growth stages) measuring whether growth-stage change is preserved after harmonisation."
+      verdict: screen_pass
+      reason: "Radiometric block adjustment exists but needs panels / DLS; a learned self-supervised version with a public benchmark is a technical delta. Data is open and Indian."
+
+    - id: D02
+      region: india
+      one_liner: "Verify pesticide spray coverage from post-spray drone RGB imagery for Namo Drone Didi operators."
+      verdict: screen_pass
+      reason: "Not generic; imagery-native. Data likely does not exist — that is a FULL-mode kill, not a SCREEN one."
+
+    - id: D03
+      region: eu
+      one_liner: "Few-shot crop/weed segmentation with SAM / DINOv2 on WeedsGalore."
+      verdict: screen_fail
+      failed_gate: C3_not_generic
+      reason: "Auto-fail pattern: generic detection on a public dataset; 'fine-tune X on Y' describes it fully."
+
+    - id: D04
+      region: india
+      one_liner: "Stitch-free plant-level detection: run detectors on raw overlapping drone frames and fuse per-plant predictions by multi-view geometric consensus with uncertainty, never building an orthomosaic; benchmark against the Pix4D/ODM orthomosaic pipeline on IMPaCT-UAV."
+      verdict: screen_pass
+      reason: "Two 2025 papers use raw frames but still map through a DOM; a DOM-free consensus is a technical delta. FULL must confirm."
+
+    - id: D05
+      region: india
+      one_liner: "Missing-hill / transplant-gap detection in paddy from IMPaCT drone imagery."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "Rice seedling counting / gap detection exists (China); only the dataset is new."
+
+    - id: D06
+      region: india
+      one_liner: "Use IMPaCT drone orthomosaics as dense labels to train Sentinel-2 paddy-stage models."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "Drone-as-reference for satellite is a well-reviewed pattern; and 5 acres is ~20 Sentinel pixels."
+
+    - id: D07
+      region: eu
+      one_liner: "Drone SfM canopy height as a biomass proxy vs NDVI."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "Crowded, no delta."
+
+    - id: D08
+      region: eu
+      one_liner: "Temporal crop/weed instance tracking on PhenoBench."
+      verdict: screen_fail
+      failed_gate: C3_not_generic
+      reason: "Public-dataset benchmark chasing; one sentence describes it."
+
+    - id: D09
+      region: eu
+      one_liner: "Verify vine grubbing-up and detect abandoned / dead-vine rows across years from France's open 20 cm BD ORTHO aerial imagery, to audit the 2024–25 EU vine pull-out subsidy and flag abandonment risk."
+      verdict: screen_pass
+      reason: "Aerial imagery is allowed under C2 sensor rules; open national orthophotos are an existing accessible source; tied to a real subsidy with a verification need. Novelty vs UAV vine-gap papers must be checked."
+
+    - id: D10
+      region: eu
+      one_liner: "Hedgerow and tree-line loss/gain detection for CAP GAEC 8 from multi-year open national orthophotos (FR 20 cm, NL 8 cm) against LPIS landscape-feature layers."
+      verdict: screen_pass
+      reason: "Aerial-native, open data, real compliance user. France's hedgerow pact makes it timely. Prior IGN / national inventories must be checked."
+
+    - id: D11
+      region: eu
+      one_liner: "Orchard tree count / age / gap inventory from open orthophotos."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "Restates D09 with a different crop; tree-crown inventory from aerial is mature."
+
+    - id: D12
+      region: india
+      one_liner: "Paddy growth-stage classification from IMPaCT drone images."
+      verdict: screen_fail
+      failed_gate: C3_not_generic
+      reason: "Off-the-shelf classifier on one dataset; one sentence."
+
+    - id: D13
+      region: singapore
+      one_liner: "Map Lim Chu Kang farm plots, structures and land-use intensity from Singapore aerial basemap imagery to support master-plan re-parcelling."
+      verdict: screen_pass
+      reason: "SG imagery candidate → sensor rules apply. Aerial is allowed; whether an accessible source exists is the FULL-mode question (extra_check)."
+
+    - id: D14
+      region: india
+      one_liner: "Exploit opportunistic RGB frames captured by Namo Drone Didi spray drones as a free crop-monitoring by-product."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "No such open data exists and spray flights have no overlap/geometry; would collapse to generic RGB stress detection."
+
+    - id: D15
+      region: eu
+      one_liner: "Ablation: does NIR/red-edge beat RGB for maize weed segmentation on WeedsGalore?"
+      verdict: screen_fail
+      failed_gate: C3_not_generic
+      reason: "One-sentence experiment on a public dataset."
+
+    - id: D16
+      region: india
+      one_liner: "View-angle (BRDF) invariant vegetation indices from multi-view UAV multispectral frames."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "A June-2026 arXiv paper already extracts multi-angular reflectance from raw UAV sub-images."
+
+    # ---------------- SINGAPORE non-imagery (C1-exempt lane) ----------------
+    - id: G01
+      region: singapore
+      one_liner: "Multi-objective re-parcelling optimiser for the Lim Chu Kang agri-food cluster: assign farm types to parcels to maximise output under shared-facility co-location, waste→input circularity flows, and ecological buffer distance to Sungei Buloh / Kranji."
+      verdict: screen_pass
+      reason: "C1 exempt; not generic; explicitly listed in constraints.yml opens_up; no obvious prior work — needs check."
+
+    - id: G02
+      region: singapore
+      one_liner: "Energy-price-aware crop scheduling for vertical farms."
+      verdict: screen_fail
+      failed_gate: C7_novelty
+      reason: "Well-funded incumbents (constraints.yml warning); no delta vs commercial products."
+
+    - id: G03
+      region: singapore
+      one_liner: "Camera-based disease detection for indoor leafy greens."
+      verdict: screen_fail
+      failed_gate: C3_not_generic
+      reason: "Auto-fail pattern: generic disease detection."
+
+# =====================================================================
+# FULL MODE — survivors only, every hard gate + soft scoring
+# Ranked. All PASS and CONDITIONAL are emitted; no winner pre-selected (F3).
+# =====================================================================
+full:
+  mode: full
+  assessed: 14
+  passed: 4
+  conditional: 8
+  failed: 2
+  candidates:
+
+    # ---------------------------------------------------------------
+    - id: S01
+      rank: 1
+      region: india
+      verdict: pass
+      one_liner: "Event-typed canopy change for EUDR shade crops: pruning vs renovation vs conversion."
+      elaboration: >
+        Industry (Coffee Canopy Partnership, JDE Peet's, Space Intelligence, AidData) says the
+        EUDR failure mode for coffee/cocoa is FALSE POSITIVES: shade-grown plots read as forest,
+        and a legitimate shade-tree prune or coffee renovation reads as deforestation. India's
+        coffee (Coorg/Chikmagalur/Wayanad) is almost entirely shade-grown under native canopy and
+        ~70% is exported, largely to the EU; Kerala/Karnataka also export rubber and cocoa.
+        Contribution: (1) a canopy-loss EVENT detector on Sentinel-1 backscatter/coherence +
+        Sentinel-2 + NICFI monthly 4.77 m; (2) an event TYPER that uses post-event trajectory
+        (regrowth speed, texture regularity from NICFI, SAR structure recovery) to label each
+        event {shade pruning, crop renovation, conversion}; (3) a plot-level DDS evidence pack
+        (GeoJSON + event timeline + confidence) — with the S15 point→polygon component folded in
+        as the plot-definition step; (4) an open labelled event set for Indian agroforestry.
+      novelty_type: type_b
+      novelty_note: >
+        Beats binary alert products (GLAD/RADD, generic land-cover maps) on a MEASURABLE axis:
+        false-positive rate on renovation/pruning events. Attributable to a specific choice
+        (post-event trajectory typing + SAR structural recovery). Not available for Indian
+        agroforestry. Still run the stage-6 adversarial search for
+        "shade coffee renovation vs deforestation classification" — Central America /
+        East Africa work exists on MAPPING coffee, not on event typing.
+      data_source: "Sentinel-1 GRD + coherence (Copernicus Data Space / GEE), Sentinel-2 L2A, NICFI Planet Basemaps via GEE, Hansen GFC 2020 baseline, Coffee Board of India estate registry, Global Forest Watch alerts as a comparator"
+      nicfi_licence: "PASS — framed on deforestation-free commodities / forest-edge agroforestry, squarely within NICFI's purpose."
+      ground_truth: "Construct from NICFI monthly time series visual interpretation + high-res Google Earth historical imagery for known estates; validate a subset via Coffee Board / exporter partner. Label existence is the real risk — start labelling in month 1."
+      scope_floor_met: 5
+      scope_floor_detail: [two_or_more_integrating_components, genuine_research_question, non_obvious_failure_mode, reusable_artifact, not_one_sentence]
+      research_question: "Can post-event trajectory separate renovation from conversion at 10 m / 4.77 m, or is the separation only visible at sub-metre?"
+      non_obvious_failure_mode: "Monsoon cloud + SAR speckle in the very months when pruning happens; NICFI radiometric drift between mosaics."
+      compute: "All on GEE server-side; classifier on tabular event features (no GPU)."
+      user: "Indian coffee/rubber exporters and cooperatives (e.g. Coffee Board, Tata Coffee, CAMPCO) filing DDS on TRACES; decision changed: whether a plot goes into the shipment or gets held for audit."
+      C4_publishable: high (dataset + system; EarthVision / IGARSS / RSE)
+      C5_dev_research: "70:30 fits — pipeline is dev-heavy, novelty verifiable from ~5 papers."
+      C6_pitch: "Turn EUDR's 'deforestation' alerts for Indian coffee into 'pruned / replanted / cleared' verdicts — so smallholders stop being flagged for pruning their own shade trees."
+
+    # ---------------------------------------------------------------
+    - id: S21
+      rank: 2
+      region: singapore
+      verdict: pass
+      one_liner: "Source-basket satellite early warning for Singapore vegetable-import shocks."
+      elaboration: >
+        Singapore imports >90% of food; leafy-vegetable supply concentrates in Cameron Highlands,
+        Johor, and a few Chinese/Australian regions. SFA's 2026 COS speech describes a new
+        risk-monitoring / supply-visibility dashboard built with PSA BDP — logistics-side.
+        JRC ASAP does crop-anomaly early warning but at 250 m–1 km and for food-insecure
+        countries. Contribution: (1) a source-basket geography (which parcels feed SG) built
+        from FAMA/SFA/trade data + FTW field polygons; (2) per-source anomaly detection from
+        Sentinel-2 + Sentinel-1 (Cameron Highlands is cloud-locked in the NE monsoon — SAR is
+        essential, and is the technical delta); (3) a lead-time evaluation: do anomalies precede
+        SG wholesale/retail price spikes (SingStat CPI vegetable series; SFA wholesale data;
+        FAMA prices) and by how many days.
+      novelty_type: type_b
+      novelty_note: "vs JRC ASAP (resolution, basket-specific) and vs SFA's logistics dashboard (field-level signal). Needs adversarial search on 'import-weighted crop anomaly index'."
+      data_source: "Sentinel-1/2 via GEE; FTW global boundaries; SingStat CPI (vegetables); FAMA daily prices; UN Comtrade / SFA import statistics"
+      scope_floor_met: 4
+      scope_floor_detail: [two_or_more_integrating_components, genuine_research_question, reusable_artifact, not_one_sentence]
+      research_question: "Is there usable lead time between a highland crop anomaly and a Singapore price move, or does market news beat the satellite?"
+      compute: "GEE + CPU statistics."
+      user: "SFA supply-resilience team / large vegetable importers (decision: pre-emptively diversify sourcing or release stock)."
+      C4_publishable: medium-high (systems paper; Food Security / RSE applications)
+      C6_pitch: "Singapore can't see its farms from space — so watch the Malaysian highlands that feed it and get two weeks' notice before vegetable prices jump."
+      note: "Malaysian imagery is used but the CANDIDATE targets Singapore. C2 sensor rules apply only to SG farmland imagery; none is used."
+
+    # ---------------------------------------------------------------
+    - id: D01
+      rank: 3
+      region: india
+      verdict: pass
+      one_liner: "Panel-free learned radiometric harmonisation for repeat drone flights, benchmarked on IMPaCT-UAV."
+      elaboration: >
+        Every drone service provider (Aonic, Garuda, Namo Drone Didi CHCs) flies the same field
+        repeatedly, but cloud passage and sun angle make NDVI/NDRE from two dates non-comparable
+        unless calibration panels + downwelling sensors are used correctly — which in practice
+        they aren't. Radiometric block adjustment (2024) still needs panels. Contribution:
+        (1) a self-supervised harmonisation model trained on the constraint that overlapping
+        raw frames of the same ground patch must agree after correction, using IMPaCT's raw
+        multispectral frames + GPS metadata; (2) a benchmark: does harmonisation preserve true
+        growth-stage change while removing illumination change (IMPaCT covers nursery→harvest);
+        (3) an ODM-compatible plugin so it slots into a real pipeline.
+      novelty_type: type_b
+      novelty_note: "vs radiometric block adjustment / DLS methods on the axis 'reflectance consistency without panels'. Adversarial search: 'self-supervised radiometric normalization UAV overlap'."
+      data_source: "IMPaCT-UAV-MsRGB (IEEE DataPort, CC-BY 4.0, 414 GB raw RGB+MS with GPS/altitude/weather metadata); WeedsGalore (4 dates, Germany) as a second-site test"
+      data_note: "414 GB is a Colab/Kaggle storage problem, not a compute one — subsample per flight; ask authors for band-separated subsets."
+      scope_floor_met: 4
+      scope_floor_detail: [two_or_more_integrating_components, genuine_research_question, non_obvious_failure_mode, reusable_artifact]
+      non_obvious_failure_mode: "The model can 'harmonise away' real crop change if overlap constraints are applied across dates carelessly — the benchmark exists to catch exactly this."
+      compute: "Small CNN on patches; Kaggle free GPU is enough."
+      user: "Drone service operators doing repeat flights (decision: is this field's NDRE drop real, i.e. spray/fertilise, or just a cloud?)."
+      C4_publishable: high (benchmark; CVPR EarthVision / ISPRS)
+      C6_pitch: "Make two drone flights a week apart actually comparable — without the calibration panel nobody carries."
+
+    # ---------------------------------------------------------------
+    - id: G01
+      rank: 4
+      region: singapore
+      verdict: pass
+      one_liner: "Multi-objective re-parcelling optimiser for the Lim Chu Kang agri-food cluster."
+      elaboration: >
+        SFA's LCK master plan explicitly aims to re-parcel plots, co-locate shared facilities
+        (waste treatment, packing, logistics) and design circular by-product flows, while not
+        encroaching on Sungei Buloh. Contribution: (1) a parcel graph from URA Master Plan
+        geometry + road/utility network; (2) a farm-type library (yield/ha, water, energy,
+        waste outputs, input needs) from published SFA/ACT-fund figures; (3) a constrained
+        multi-objective optimiser (output, circularity closure, ecological buffer, transport
+        cost) producing Pareto plans; (4) a stress test: which plan is most robust to a farm
+        failing (the 2024–25 vertical-farm closures make this concrete).
+      novelty_type: needs_novelty_check
+      novelty_note: "Industrial-symbiosis siting optimisation exists in eco-industrial-park literature; application to an agri-food cluster with ecological buffers and farm-failure robustness appears unexplored. Must confirm."
+      data_source: "URA Master Plan 2019 land-use (data.gov.sg), SFA LCK master-plan documents, OneMap, NParks nature-reserve boundaries, published farm productivity figures"
+      scope_floor_met: 4
+      scope_floor_detail: [two_or_more_integrating_components, genuine_research_question, reusable_artifact, not_one_sentence]
+      compute: "CPU — MILP/evolutionary optimisation."
+      user: "SFA / URA master planners; farm operators deciding what to bid for."
+      C4_publishable: medium (planning / operations-research venues rather than EO venues)
+      C6_pitch: "Re-draw Lim Chu Kang's farm plots so one farm's waste is the next farm's input — and prove the layout survives a farm going bust."
+      C1_status: exempt (Singapore)
+
+    # ---------------------------------------------------------------
+    - id: S02
+      rank: 5
+      region: india
+      verdict: conditional
+      failed_gate: C7_novelty
+      one_liner: "Confidence-calibrate and stabilise FTW-global boundaries in Indian smallholder systems."
+      reason: >
+        As written, 'apply FTW to India' is regional transfer: FTW-India already exists and the
+        global map already covers India. Fails C7 unless the contribution is redefined.
+      reframe: >
+        Contribution becomes a METHOD + BENCHMARK, not a map: (1) a calibrated confidence model
+        for FTW-global that uses AlphaEarth embedding neighbourhood consistency and 2024↔2025
+        polygon stability as features, trained/evaluated on the FTW-India 10k labels and
+        AI4SmallFarms; (2) a 'boundary reliability' benchmark with a fixed protocol so anyone can
+        report smallholder performance honestly; (3) an error taxonomy (over-merge / over-split
+        / bund-vs-field) with per-class confidence. If the adversarial search finds FTW's own
+        PRUE / confidence follow-ups already do this, drop the candidate.
+      novelty_type: needs_novelty_check
+      data_source: "FTW global 2024/2025 (source.coop), FTW-India 10k labels (Zenodo 7315090), AI4SmallFarms, AlphaEarth annual embeddings (GEE), Sentinel-2"
+      scope_floor_met: 3
+      compute: "GEE + CPU/Kaggle."
+      user: "Anyone consuming FTW boundaries in India — crop insurers, EUDR operators (feeds S01), SatSure-type firms — decision: trust this polygon or send a surveyor."
+      C6_pitch: "A trust score for every one of India's 100 M auto-drawn field boundaries."
+
+    # ---------------------------------------------------------------
+    - id: D04
+      rank: 6
+      region: india
+      verdict: conditional
+      failed_gate: C7_novelty
+      one_liner: "Orthomosaic-free multi-view consensus for per-plant detection on raw drone frames."
+      reason: >
+        Two 2025 papers (EasyIDP raw→DOM mapping for organ-level detection; raw-frame palm
+        detection) already argue raw frames beat orthomosaics. Their georeferencing still passes
+        through a DOM or SfM solution, but the headline claim is taken.
+      reframe: >
+        Make the contribution the FUSION, not the raw-frame observation: per-plant detections
+        from N overlapping frames are associated via direct georeferencing (GPS + IMU + flat-
+        field assumption) and fused with a probabilistic consensus that yields a per-plant
+        confidence and a geolocation uncertainty ellipse — no SfM, no DOM, runs on a laptop in
+        the field. Benchmark vs ODM-orthomosaic pipeline on IMPaCT for count accuracy, geolocation
+        error, and wall-clock. Pair with D01 as one 'raw-frame agronomy' system if you want a
+        bigger FYP.
+      novelty_type: needs_novelty_check
+      data_source: "IMPaCT-UAV-MsRGB raw frames + GPS/altitude metadata; OpenDroneMap for the baseline"
+      scope_floor_met: 4
+      compute: "CPU-bound geometry; small detector on Kaggle GPU."
+      user: "Drone operators needing same-day plant counts (decision: gap-fill / re-spray today, not after a 6-hour stitch)."
+      C6_pitch: "Plant-level maps from a drone flight in minutes on a laptop — skip the stitch entirely."
+
+    # ---------------------------------------------------------------
+    - id: S04
+      rank: 7
+      region: india
+      verdict: conditional
+      failed_gate: C7_novelty
+      one_liner: "Residue-fate classification (burnt / incorporated / baled / standing) for CRM subsidy verification in Punjab."
+      reason: >
+        Burn detection is saturated (PRSC, CEEW, S1+S2 papers). Zero-till detection from S2
+        SWIR and S1/S2/Planet tillage-practice mapping already exist for Indian smallholders.
+        A 4-class residue-fate classifier sits close to 'same method, new labels'.
+      reframe: >
+        Two options. (a) Make partial-burn quantification the core (CEEW explicitly flags
+        partial vs complete burn as unresolved) with a sub-field burn-fraction output and an
+        evasion-behaviour analysis (night burns, edge burns) — a measurement problem, not a
+        classification one. (b) Make the SUBSIDY-VERIFICATION SYSTEM the contribution: link the
+        classifier to Punjab's CRM machinery-subsidy and bio-decomposer plot lists and measure
+        verification precision at the payout decision. Option (a) is more publishable; (b) more
+        hireable at SatSure-type firms. Either must survive an adversarial search on
+        'residue management practice mapping Sentinel Punjab'.
+      novelty_type: needs_novelty_check
+      data_source: "Sentinel-1 GRD, Sentinel-2 L2A (SWIR bands), VIIRS active fire as comparator, Punjab CRM scheme plot lists (public RTI / PRSC reports) for weak labels"
+      ground_truth_risk: "Field-level residue-fate labels are the bottleneck; weak labels from scheme lists are noisy."
+      scope_floor_met: 3
+      compute: "GEE."
+      user: "Punjab Dept of Agriculture / PRSC (decision: pay or withhold CRM incentive)."
+      C6_pitch: "Pay farmers for NOT burning — and prove it from orbit."
+
+    # ---------------------------------------------------------------
+    - id: D09
+      rank: 8
+      region: eu
+      verdict: conditional
+      failed_gate: C7_novelty
+      one_liner: "Vine grubbing-up verification and abandonment detection from open 20 cm French orthophotos."
+      reason: >
+        Missing-vine / dead-vine detection from UAV imagery has published baselines; national
+        orthophoto multi-year change for grubbing-up verification is less explored but must be
+        confirmed. Aerial cadence (BD ORTHO ~3-yearly) may be too slow for a 2024–25 scheme.
+      reframe: >
+        Combine scales: use BD ORTHO 20 cm for the baseline row geometry and Sentinel-2 /
+        AlphaEarth for the in-between years to detect the grubbing event date, then use the
+        next orthophoto to confirm. Output: per-parcel {grubbed, abandoned-standing, active}
+        with date. This cross-scale event dating is the technical delta.
+      novelty_type: needs_novelty_check
+      data_source: "IGN BD ORTHO (open, 20 cm, France), RPG (French LPIS, open), Sentinel-2, AlphaEarth; FranceAgriMer grubbing-scheme statistics for validation"
+      scope_floor_met: 3
+      compute: "GEE + CPU tile processing."
+      user: "FranceAgriMer / regional paying agency auditing the pull-out subsidy; wine cooperatives tracking abandonment."
+      C6_pitch: "Audit Europe's €120 M vine pull-out scheme from free aerial photos."
+
+    # ---------------------------------------------------------------
+    - id: D10
+      rank: 9
+      region: eu
+      verdict: conditional
+      failed_gate: C7_novelty
+      one_liner: "Hedgerow / tree-line change for GAEC 8 from multi-year open national orthophotos."
+      reason: >
+        France (IGN, Observatoire de la haie) and the Netherlands already produce hedgerow
+        layers from orthophotos; change detection between epochs is the natural next step and
+        may already be published. High crowding risk.
+      reframe: >
+        Only survives if the contribution is a CROSS-COUNTRY benchmark (FR 20 cm + NL 8 cm +
+        DK) with a shared label protocol and a model that transfers across resolutions and
+        GSDs — i.e. the resolution-transfer problem, not hedgerow detection itself. Drop if the
+        adversarial search finds an existing multi-country hedgerow benchmark.
+      novelty_type: needs_novelty_check
+      data_source: "IGN BD ORTHO, PDOK Luchtfoto (NL, open), Danish orthophotos (open), LPIS landscape-feature layers"
+      scope_floor_met: 3
+      user: "CAP paying agencies (decision: GAEC 8 compliance)."
+      C6_pitch: "One hedgerow model for three countries' aerial photos."
+
+    # ---------------------------------------------------------------
+    - id: S09
+      rank: 10
+      region: eu
+      verdict: conditional
+      failed_gate: C7_novelty
+      one_liner: "Typed LPIS-vs-observed geometry divergence using FTW-global as reference."
+      reason: >
+        JRC and national agencies already run LPIS quality assessment; 'compare LPIS to a
+        boundary map' is a known workflow. Delta must be the typing and the use of FTW-global.
+      reframe: >
+        Contribution = an open divergence taxonomy + detector (merge / split / encroachment /
+        registration offset) with per-type accuracy on EuroCrops/AI4Boundaries ground truth,
+        and a study of WHERE FTW-global disagrees with LPIS systematically (which is also a
+        useful error analysis of FTW itself). Keep only if this analysis does not exist.
+      novelty_type: needs_novelty_check
+      data_source: "FTW global 2024/2025, EuroCrops, AI4Boundaries, open LPIS layers (AT, DK, FR, NL, LV)"
+      scope_floor_met: 3
+      user: "Paying agencies (decision: which parcels to re-survey)."
+      C6_pitch: "Every place the new global field map disagrees with Europe's official parcels — and why."
+
+    # ---------------------------------------------------------------
+    - id: S07
+      rank: 11
+      region: india
+      verdict: conditional
+      failed_gate: C9_feasibility
+      one_liner: "Embedding-drift early warning for in-season crop failure (PMFBY)."
+      reason: >
+        AlphaEarth public embeddings are ANNUAL — no in-season signal exists in the free
+        product. As written, the data does not exist.
+      reframe: >
+        Apply to Google's Custom Satellite Embeddings academic program (deadline 15 Oct 2026)
+        for monthly/on-demand embeddings; if declined, replace with your own lightweight
+        S1+S2 monthly embedding (a small autoencoder on GEE exports) and evaluate whether
+        drift in that space precedes reported PMFBY losses at village level. Ground truth:
+        district/tehsil-level CCE yields and notified-calamity lists.
+      novelty_type: type_a (if embeddings obtained) / needs_novelty_check
+      data_source: "AlphaEarth Custom Embeddings (conditional), Sentinel-1/2, PMFBY yield & claim data (public dashboards), IMD rainfall"
+      scope_floor_met: 4
+      user: "Insurers / state agriculture departments (decision: trigger mid-season adversity payouts earlier)."
+      C6_pitch: "Detect a failing kharif season from a change in the field's 'fingerprint' — before the crop-cutting experiment."
+
+    # ---------------------------------------------------------------
+    - id: S15
+      rank: 12
+      region: india
+      verdict: conditional
+      failed_gate: C8_scope_floor
+      one_liner: "GPS point → plot polygon + 2020 verdict for EUDR tree crops."
+      reason: >
+        Some compliance vendors already offer point→boundary suggestion; as a standalone it
+        is one component and one sentence. Scope floor 2/5.
+      reframe: "Fold into S01 as the plot-definition component. Not a standalone FYP."
+      novelty_type: needs_novelty_check
+      data_source: "NICFI, Sentinel-2, FTW-India"
+
+    # ---------------------------------------------------------------
+    - id: D02
+      rank: 13
+      region: india
+      verdict: fail
+      failed_gate: C9_feasibility
+      one_liner: "Spray-coverage verification from post-spray drone RGB."
+      reason: "No accessible dataset of post-spray imagery exists; self-collected flights are out of scope per C2 extra_check. Ground truth (deposition) would need water-sensitive paper trials. Kept on the page: two degrees from D01/D04 if a partner (Aonic, a KVK) supplies flights."
+
+    # ---------------------------------------------------------------
+    - id: D13
+      rank: 14
+      region: singapore
+      verdict: fail
+      failed_gate: C9_feasibility
+      one_liner: "LCK plot / asset mapping from Singapore aerial basemap."
+      reason: "No named, licence-clear sub-metre imagery source for analytical use over Lim Chu Kang (OneMap/SLA basemap tiles are display-licensed). Fails C2 extra_check. Would flip to CONDITIONAL if SLA research access or an open sub-metre tile is confirmed; the non-imagery version of this problem is G01."
+
+  region_mix:   # observation only — not a target
+    india: 8    # S01, S02, S04, S07, S15, D01, D02, D04
+    eu: 3       # S09, D09, D10
+    singapore: 3  # S21, G01, D13
+  notes: >
+    India dominates because two forcing functions (EUDR deadline, open IMPaCT drone data)
+    sit there; EU survivors are all aerial/LPIS and all carry crowding risk; Singapore yields
+    two clean passes only because it is C1-exempt. This is the correct uneven outcome.
+    Every CONDITIONAL and the two PASSes with needs_novelty_check must go through the
+    stage-6 adversarial search before elaboration continues. research-archive-v1 was not
+    checked this run.

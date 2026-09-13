@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/landscape_report.schema.json",
+  "title": "Stage 1 landscape report (one per job market)",
+  "type": "object",
+  "required": ["market", "companies", "forcing_functions", "crowded_list", "queries"],
+  "properties": {
+    "market": { "type": "string", "enum": ["india", "singapore_malaysia", "eu"] },
+    "companies": {
+      "type": "array", "minItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["name", "country", "what_they_ship", "evidence", "fresher_fyp_should_signal"],
+        "properties": {
+          "name": { "type": "string" },
+          "country": { "type": "string" },
+          "what_they_ship": { "type": "string", "maxLength": 300 },
+          "imagery_classes_used": { "type": "array", "items": { "type": "string" } },
+          "hiring_for": { "type": "array", "items": { "type": "string" } },
+          "hiring_evidence": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/url_evidence" } },
+          "evidence": { "type": "array", "minItems": 1, "items": { "$ref": "_common.schema.json#/$defs/url_evidence" } },
+          "fresher_fyp_should_signal": { "type": "string", "maxLength": 300 },
+          "do_not_compete_here": { "type": "boolean", "description": "true if the company IS the generic-dashboard zone (C3)" }
+        }
+      }
+    },
+    "forcing_functions": {
+      "type": "array", "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["name", "kind", "date_that_matters", "why_it_creates_a_gap", "evidence"],
+        "properties": {
+          "name": { "type": "string" },
+          "kind": { "type": "string", "enum": ["regulation", "subsidy", "deadline", "dataset_release", "model_release", "policy_programme", "market_event"] },
+          "date_that_matters": { "type": "string" },
+          "regions": { "type": "array", "items": { "$ref": "_common.schema.json#/$defs/region" } },
+          "why_it_creates_a_gap": { "type": "string", "maxLength": 400 },
+          "evidence": { "type": "array", "minItems": 1, "items": { "$ref": "_common.schema.json#/$defs/url_evidence" } }
+        }
+      }
+    },
+    "crowded_list": {
+      "type": "array", "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["area", "why_crowded", "evidence"],
+        "properties": {
+          "area": { "type": "string" },
+          "why_crowded": { "type": "string", "enum": ["papers_ge5_in_24mo", "products_ge2", "both"] },
+          "evidence": { "type": "array", "minItems": 2, "items": { "$ref": "_common.schema.json#/$defs/url_evidence" } },
+          "delta_that_would_still_be_novel": { "type": "string", "maxLength": 200 }
+        }
+      }
+    },
+    "open_datasets_noticed": {
+      "type": "array",
+      "items": { "type": "object", "required": ["name", "url"],
+        "properties": { "name": { "type": "string" }, "url": { "type": "string" }, "note": { "type": "string" } } }
+    },
+    "queries": { "$ref": "_common.schema.json#/$defs/query_log" },
+    "budget_exhausted": { "type": "boolean" },
+    "notes": { "type": "string", "maxLength": 800 }
+  }
+}
