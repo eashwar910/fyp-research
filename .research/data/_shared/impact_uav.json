@@ -1,0 +1,24 @@
+{
+  "family": "IMPaCT-UAV",
+  "checked_at": "2026-09-18T09:00:10Z",
+  "candidates_at_stake": ["R4-S74", "R4-S75", "R4-S76", "R4-S79"],
+  "precheck_verdict": "conditional",
+  "reason": "The arXiv landing page confirms dataset scale, coverage, and IEEE DataPort availability, but not the IEEE DataPort access terms or licence. Candidate verifiers must fetch the DataPort page before marking access open.",
+  "sources": [
+    {
+      "name": "arXiv landing page",
+      "url": "https://arxiv.org/abs/2601.01084",
+      "fetched_ok": true,
+      "licence_quote": "view license",
+      "licence_status": "paper_license_only_not_dataset_terms",
+      "size_quote": "42,430 raw images (415 GB)",
+      "coverage_quote": "Vijayawada region, Andhra Pradesh, India",
+      "date_range_quote": "Submitted on 3 Jan 2026",
+      "notes": "The paper says the dataset is available on IEEE DataPort; the dataset landing page still needs per-candidate fetch."
+    }
+  ],
+  "required_followup": [
+    "Fetch IEEE DataPort DOI page and quote its licence/access terms.",
+    "Check whether IEEE DataPort requires payment, institutional login, or application."
+  ]
+}

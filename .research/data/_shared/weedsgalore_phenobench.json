@@ -1,0 +1,32 @@
+{
+  "family": "WeedsGalore + PhenoBench",
+  "checked_at": "2026-09-18T09:00:10Z",
+  "candidates_at_stake": ["R4-S101"],
+  "precheck_verdict": "open",
+  "reason": "Both landing pages are fetch-verified and expose download size, crop/weed labels, dates, and permissive Creative Commons dataset licences suitable for a cross-dataset failure-map candidate.",
+  "sources": [
+    {
+      "name": "WeedsGalore GitHub landing page",
+      "url": "https://github.com/GFZ/weedsgalore/blob/main/README.md",
+      "fetched_ok": true,
+      "licence_quote": "Creative Commons Attribution (CC BY) Licence",
+      "size_quote": "weedsgalore-dataset, 0.4GB",
+      "coverage_quote": "maize fields",
+      "date_range_quote": "2023-05-25",
+      "notes": "Landing page also lists 12GB orthomosaics and dated folder structure."
+    },
+    {
+      "name": "PhenoBench dataset landing page",
+      "url": "https://www.phenobench.org/dataset.html",
+      "fetched_ok": true,
+      "licence_quote": "Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+      "size_quote": "PhenoBench-v110.zip (7.6 GB",
+      "coverage_quote": "sugar beet) and weeds",
+      "date_range_quote": "April 25, 2020",
+      "notes": "Landing page lists labelled training/validation sets and unlabeled dates through July 02, 2020."
+    }
+  ],
+  "required_followup": [
+    "Per-candidate verifier should confirm class ontology compatibility and whether WeedsGalore download link is reachable."
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "family": "BCA_TR78_thermal_archive",
+  "checked_at": "2026-09-18T09:00:10Z",
+  "candidates_at_stake": ["R4-S124", "R4-S131"],
+  "precheck_verdict": "blocked",
+  "reason": "Fetched BCA/SAC pages confirm the regulatory drone-inspection regime and report templates, but no public thermal imagery/archive dataset or reusable licence was found on the landing pages.",
+  "sources": [
+    {
+      "name": "BCA Periodic Facade Inspection",
+      "url": "https://www1.bca.gov.sg/safety-and-standards/periodic-building-inspections/periodic-facade-inspection/",
+      "fetched_ok": true,
+      "licence_quote": null,
+      "licence_status": "no_dataset_licence_found",
+      "size_quote": "PFI Guidelines for Competent Person [PDF, 2.04 MB]",
+      "coverage_quote": "visual inspection of building facades",
+      "date_range_quote": "effective since Jan 2022",
+      "notes": "The page lists rules, forms, and PDFs, not an archive of images/thermal data."
+    },
+    {
+      "name": "SAC drone facade inspection accreditation",
+      "url": "https://www.sac-accreditation.gov.sg/media/launch-of-building-facade-inspection-using-drones/",
+      "fetched_ok": true,
+      "licence_quote": null,
+      "licence_status": "no_dataset_licence_found",
+      "size_quote": null,
+      "coverage_quote": "Building Façade Inspection using Drones",
+      "date_range_quote": "12 July 2023",
+      "notes": "Confirms accreditation pathway and TR 78 references, not public data access."
+    }
+  ],
+  "required_followup": [
+    "Treat R4-S124/R4-S131 as data-blocked unless a named partner archive with written access appears.",
+    "Do not infer public access from the existence of BCA forms or accredited vendors."
+  ]
+}

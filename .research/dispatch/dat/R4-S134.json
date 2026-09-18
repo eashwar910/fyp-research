@@ -1,0 +1,25 @@
+{
+  "role": "data_verifier",
+  "source_sha256": {
+    "RUNBOOK.md": "8275a87c9539b348cc3cf4e8b2b79479debd962c63fd21a89735648892f18670",
+    "constraints.yml": "abeba9167470f791510b6d25a2db003c6571f539485b768b16d59816a7ae260b",
+    "agents/data_verifier.json": "7b27ef4467d6c9347a6526bcbe9556e20186c7300b58cf1fdf3283c9f4eef02c",
+    "agents/novelty_adversary.json": "f0fcadacc5278476a8d7b9d060381504f1a4d1bba65ea0658ad74247a75546cf",
+    "schemas/data_verification.schema.json": "036ab9454b9f53250eff6bd6f70d5df4b721e650bf8c28c9c4ec445f22defaed",
+    "schemas/novelty_verdict.schema.json": "7043ed6cfbf7afa5e0fd94ce93994d59045a9f0ab14cd7f43e97cb3dae9d5474",
+    "schemas/_common.schema.json": "94a39269541616ccedb6c1a67f125daf6813635e2e5f04bdc4857f9a2ebb99fd",
+    ".research/candidates.jsonl": "45b9a15333b4c06d67519daf367892e669dcb4587c5cd120b19a99a44f6e72a0",
+    ".research/gate_screen.yml": "9f779a4b18ba36fce34cb48c74a4484b0809bec1b5fd4d7f8502c82151468497",
+    ".research/landscape/merged.json": "1c34dd82f14a583ba3e5c84283b8fe458afac0f99558b76c874174dee13ff658"
+  },
+  "input": {
+    "id": "R4-S134",
+    "one_liner": "For Singapore agri-tech buyers procuring drone-as-a-service contracts from firms like Aonic, Aerodyne and Garuda Robotics, re-process the same raw farm flight through each vendor's proprietary pipeline under written data-sharing terms to quantify how much delivered NDVI or health-map variance is pipeline-choice artifact versus true agronomic signal, a benchmark no vendor currently publishes.",
+    "data_class": "raw_frames_with_metadata",
+    "region": "singapore",
+    "constraints_C9": "  C9_feasibility:\n    timeline_months: 8\n    mode: part_time\n    compute:\n      local: macbook_no_cuda\n      rule: >\n        NO sustained local GPU training. Candidate must run on free hosted\n        compute: Google Earth Engine, Copernicus Data Space, Microsoft\n        Planetary Computer, Kaggle free GPU hours, Colab free tier.\n      fail_if: requires multi-day GPU training or >30 GPU-hours/week\n    budget_myr: 200\n    data:\n      preferred: open\n      free_sources: [sentinel_1, sentinel_2, landsat, nicfi_asia, lpis, eurocrops, openstreetmap]\n      nicfi_licence_check: >\n        NICFI is non-commercial AND purpose-bound to reducing tropical forest\n        loss. An India/SEA candidate using NICFI must frame around agricultural\n        expansion, deforestation-free commodities, or forest-edge farming.\n        Generic yield prediction on NICFI = LICENCE FAIL.\n    coding_capacity: high\n    fail_if_data: no accessible dataset named, or ground truth does not exist",
+    "constraints_C2_sensor_rules": "    sensor_rules:\n      applies_when: candidate is imagery-based\n      singapore:\n        allowed: [drone, uav, aerial, sub_metre_commercial]\n        forbidden: [sentinel_scale, landsat_scale]\n        reason: >\n          Singapore farmland is <1% of land area (<10 km2). Average vegetable\n          farm ~2 ha. At Sentinel-2 10 m that is ~20x10 px — unusable.\n        extra_check: >\n          Self-collected drone flights are OUT OF SCOPE (permits, cost, access).\n          Candidate MUST name an existing, accessible imagery source or FAIL.\n      india:\n        note: NICFI 4.77 m available via GEE, but licence-restricted (see C9).\n      eu:\n        note: >\n          NICFI does NOT cover the EU (tropics only). Sentinel-1/2, LPIS parcel\n          data, EuroCrops available. Most crowded literature — novelty bar is\n          highest here.\n      malaysia:\n        allowed: [sentinel_scale, landsat_scale, nicfi, drone, uav, aerial, sub_metre_commercial]\n        note: >\n          Estates (oil palm, rubber, durian) are large enough for Sentinel scale.\n          Smallholder plots (<4 ha, ~40% of oil palm) need NICFI or sub-metre.\n          NICFI covers Malaysia but the C9 purpose-bound licence check applies:\n          frame around deforestation-free commodities / EUDR / forest-edge.\n          Cameron Highlands is cloud-locked most of the year — SAR is the\n          realistic optical substitute there.\n        extra_check: >\n          Self-collected drone flights are OUT OF SCOPE here too. Name an\n          existing accessible source (open dataset, national orthophoto, or a\n          partner company's archive with written access) or FAIL.\n        local_forcing_functions:\n          - EUDR palm-oil obligations from 30 Dec 2026 (MSPO ↔ EUDR alignment)\n          - MPOB smallholder replanting incentive verification\n          - drone service firms (Aonic, Aerodyne, Meraque) as named users",
+    "reverify": [],
+    "today": "2026-09-18"
+  }
+}

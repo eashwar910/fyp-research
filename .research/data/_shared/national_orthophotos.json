@@ -1,0 +1,53 @@
+{
+  "family": "national_orthophotos",
+  "checked_at": "2026-09-18T09:00:10Z",
+  "candidates_at_stake": ["R4-S90", "R4-S93", "R4-S95"],
+  "precheck_verdict": "open",
+  "reason": "At least PDOK/Beeldmateriaal, basemap.at, PNOA, and BD ORTHO have fetched primary/public landing pages showing public national orthophoto access. Per-candidate verifiers still need to pick the exact country/product.",
+  "sources": [
+    {
+      "name": "Beeldmateriaal Nederland / PDOK orthophotos",
+      "url": "https://www.beeldmateriaal.nl/dataroom",
+      "fetched_ok": true,
+      "licence_quote": "De beelden worden beschikbaar gesteld met een CC BY 4.0 licentie.",
+      "size_quote": "2025  | .ecw (188 GB)",
+      "coverage_quote": "luchtfoto’s in van heel Nederland",
+      "date_range_quote": "2016  | Nee  | Ja",
+      "notes": "Fetched page lists 2016-2025 availability and high/low resolution download sizes."
+    },
+    {
+      "name": "basemap.at orthophoto",
+      "url": "https://basemap.at/en/",
+      "fetched_ok": true,
+      "licence_quote": "Open Government Data license of Austria",
+      "size_quote": "Resolution: 29cm (in generall), 15cm (in areas of detail)",
+      "coverage_quote": "The map covers the entire Austrian territory.",
+      "date_range_quote": "Update: annual",
+      "notes": "Fetched page states official Austrian administrative geodata and free use."
+    },
+    {
+      "name": "PNOA Spain",
+      "url": "https://pnoa.ign.es/",
+      "fetched_ok": true,
+      "licence_quote": null,
+      "licence_status": "not_found_on_landing_page",
+      "size_quote": "resolución de al menos 25 cm",
+      "coverage_quote": "todo el territorio español",
+      "date_range_quote": "se inicia en el año 2004",
+      "notes": "Landing page confirms national coverage and 25 cm product; licence needs exact download/service page."
+    },
+    {
+      "name": "BD ORTHO data.gouv.fr",
+      "url": "https://www.data.gouv.fr/datasets/bd-ortho-r",
+      "fetched_ok": true,
+      "licence_quote": "Licence Ouverte / Open Licence version 2.0",
+      "size_quote": null,
+      "coverage_quote": null,
+      "date_range_quote": "Dernière mise à jour 11 septembre 2026",
+      "notes": "Fetched dataset catalogue page for IGN BD ORTHO."
+    }
+  ],
+  "required_followup": [
+    "For R4-S90/R4-S93/R4-S95, bind the verifier to the exact national product and quote that product's licence."
+  ]
+}

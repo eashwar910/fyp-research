@@ -1,0 +1,35 @@
+{
+  "family": "MOPAD",
+  "checked_at": "2026-09-18T09:00:10Z",
+  "candidates_at_stake": ["R4-S108", "R4-S110", "R4-S113", "R4-S115", "R4-S118"],
+  "precheck_verdict": "conditional",
+  "reason": "Landing pages confirm the dataset exists, has downloadable Site 1/Site 2 links, and includes labels. The GitHub landing page did not expose an explicit dataset licence, so per-candidate verifiers must classify access conservatively unless a licence is found in the downloaded package.",
+  "sources": [
+    {
+      "name": "MOPAD GitHub landing page",
+      "url": "https://github.com/rs-dl/MOPAD",
+      "fetched_ok": true,
+      "licence_quote": null,
+      "licence_status": "not_found_on_landing_page",
+      "size_quote": null,
+      "coverage_quote": "Our dataset for Site 2 can be downloaded from",
+      "date_range_quote": null,
+      "notes": "The page lists Google Drive/Baidu dataset links and COCO-format annotations but no licence text."
+    },
+    {
+      "name": "MOPAD paper landing page",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0924271621000083",
+      "fetched_ok": true,
+      "licence_quote": null,
+      "licence_status": "not_found_on_landing_page",
+      "size_quote": null,
+      "coverage_quote": "The datasets and our codes are available on https://github.com/rs-dl/MOPAD.",
+      "date_range_quote": "year={2021}",
+      "notes": "Search/open page confirms the paper points back to the fetched GitHub landing page."
+    }
+  ],
+  "required_followup": [
+    "Fetch the actual Google Drive or package licence file during candidate-specific data verification.",
+    "Do not mark MOPAD open unless the downloaded dataset package exposes a reusable licence."
+  ]
+}

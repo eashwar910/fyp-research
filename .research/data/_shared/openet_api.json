@@ -1,0 +1,46 @@
+{
+  "family": "OpenET API",
+  "checked_at": "2026-09-18T09:00:10Z",
+  "candidates_at_stake": ["R4-S141", "R4-S152"],
+  "precheck_verdict": "conditional",
+  "reason": "OpenET API exists and has a free individual quota, but it requires an API key and has query/area limits. Candidate verifiers must confirm region coverage and whether the free quota fits the proposed workflow.",
+  "sources": [
+    {
+      "name": "OpenET API reference",
+      "url": "https://openet.gitbook.io/docs/reference/api-reference",
+      "fetched_ok": true,
+      "licence_quote": null,
+      "licence_status": "terms_not_on_api_reference_page",
+      "size_quote": "Retrieve daily data",
+      "coverage_quote": "OpenET provides data at different scales.",
+      "date_range_quote": "date_range: Inclusive start and end dates",
+      "notes": "API reference confirms raster/geodatabase endpoints and monthly date_range parameter."
+    },
+    {
+      "name": "OpenET quick start",
+      "url": "https://openet.gitbook.io/docs/quick-start",
+      "fetched_ok": true,
+      "licence_quote": null,
+      "licence_status": "terms_not_on_quick_start_page",
+      "size_quote": null,
+      "coverage_quote": "Your API requests are authenticated using API keys.",
+      "date_range_quote": "2020-01-01",
+      "notes": "The example uses authenticated requests and a 2020 date range."
+    },
+    {
+      "name": "OpenET quota page",
+      "url": "https://openet.gitbook.io/docs/additional-resources/quota",
+      "fetched_ok": true,
+      "licence_quote": null,
+      "licence_status": "terms_not_on_quota_page",
+      "size_quote": "Max Area Acres: 50,000",
+      "coverage_quote": "Monthly Query Limit: 100",
+      "date_range_quote": null,
+      "notes": "Free individual quota is small but potentially enough for an FYP prototype."
+    }
+  ],
+  "required_followup": [
+    "Fetch OpenET terms/data policy before classifying licence.",
+    "Check whether the candidate's geography is inside OpenET's available coverage."
+  ]
+}

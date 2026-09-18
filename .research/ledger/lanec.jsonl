@@ -1,0 +1,6 @@
+{"ts":"2026-09-18T09:00:10Z","lane":"c","role":"shared_precheck","id":"MOPAD","status":"written","path":".research/data/_shared/mopad.json"}
+{"ts":"2026-09-18T09:00:10Z","lane":"c","role":"shared_precheck","id":"IMPaCT-UAV","status":"written","path":".research/data/_shared/impact_uav.json"}
+{"ts":"2026-09-18T09:00:10Z","lane":"c","role":"shared_precheck","id":"national_orthophotos","status":"written","path":".research/data/_shared/national_orthophotos.json"}
+{"ts":"2026-09-18T09:00:10Z","lane":"c","role":"shared_precheck","id":"OpenET API","status":"written","path":".research/data/_shared/openet_api.json"}
+{"ts":"2026-09-18T09:00:10Z","lane":"c","role":"shared_precheck","id":"BCA_TR78_thermal_archive","status":"written","path":".research/data/_shared/bca_tr78_thermal_archive.json"}
+{"ts":"2026-09-18T09:00:10Z","lane":"c","role":"shared_precheck","id":"WeedsGalore + PhenoBench","status":"written","path":".research/data/_shared/weedsgalore_phenobench.json"}
