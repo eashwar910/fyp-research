@@ -1,0 +1,10 @@
+{
+  "attempt": 1,
+  "schema_valid": true,
+  "contract_valid": true,
+  "valid": true,
+  "count": 25,
+  "errors": [],
+  "queries": 28,
+  "under_15": false
+}

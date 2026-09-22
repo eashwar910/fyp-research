@@ -1,0 +1,107 @@
+{
+  "id": "R4-S26",
+  "verdict": "type_b",
+  "reason": "Not unexplored. EEA/Copernicus already ships a pan-EU soil-sealing time series from EO (Land 2024, 'Harmonized Pan-European Time Series for Monitoring Soil Sealing'), undercutting the 'coarse land-take inventories' framing. A 2025 peer-reviewed evaluation of the EU's own IMCC product on agricultural parcels (Poland/Norway) already documents this candidate's exact target failure: high commission error from bare-soil/sand misclassified as sealing. Nobody yet fixes it with per-parcel crop-duration gating: a technical delta on a known, deployed, diagnosed problem, not an unexplored one.",
+  "queries": [
+    {
+      "q": "Sentinel-2 CLMS cropland history distinguish soil sealing from bare soil crop parcel EU",
+      "useful": true,
+      "note": "Surfaced CLMS HRL Croplands background and general bare-soil-detection literature; no direct closing hit."
+    },
+    {
+      "q": "Copernicus soil sealing detection satellite time series parcel level monitoring",
+      "useful": true,
+      "note": "Surfaced Copernicus HRL Imperviousness/IMCC and the Land 2025 agricultural-areas evaluation paper - key hit."
+    },
+    {
+      "q": "distinguish permanent land take from temporary bare soil time series remote sensing classification",
+      "useful": true,
+      "note": "Method-space (domain-removed) search confirming this is a recognised general spectral-confusion problem in EO literature, not unique to this framing."
+    },
+    {
+      "q": "soil sealing detection satellite bare soil crop rotation false positive",
+      "useful": true,
+      "note": "Surfaced Sinergise/Sentinel Hub Bare Soil Marker (used in EU CAP Area Monitoring) and a German PMC case study combining IMCC+CORINE for agricultural soil loss."
+    },
+    {
+      "q": "soil sealing land take monitoring software platform startup",
+      "useful": false,
+      "note": "Product-space search; only generic soil-health/precision-ag startups surfaced, nothing on sealing/land-take specifically."
+    },
+    {
+      "q": "crossref bibliographic lookup: Automated Identification of Soil Sealing Hotspots Sentinel-2 Time-Series",
+      "useful": true,
+      "note": "Could not confirm the original ResearchGate paper's venue/date, but the lookup surfaced 'Harmonized Pan-European Time Series for Monitoring Soil Sealing' (Land, 2024-07-19) instead."
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://www.mdpi.com/2073-445X/14/4/794",
+      "date": "2025-04-07",
+      "title": "The Potential of the Copernicus Product 'Imperviousness Classified Change' to Assess Soil Sealing in Agricultural Areas in Poland and Norway",
+      "tier": "A",
+      "closes": false,
+      "why": "Same problem framing on the EU's own operational product: finds high commission error from 'misclassification of bare soil or sand as impervious' on agricultural fields. Diagnoses the exact confound but proposes manual verification, not an automated crop-duration fix, so it does not close.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://www.mdpi.com/2073-445X/13/7/1087",
+      "date": "2024-07-19",
+      "title": "Harmonized Pan-European Time Series for Monitoring Soil Sealing",
+      "tier": "A",
+      "closes": false,
+      "why": "Same output space: an EEA38+UK annual soil-sealing change-layer product from EO time series, already positioned as the best current EU policy dataset, contradicting the candidate's 'coarse inventory' framing. Explicitly does not handle crop-rotation bare soil, so it does not close alone.",
+      "relation": "same_output_space"
+    },
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11069490/",
+      "date": "2024-05-04",
+      "title": "A novel remote sensing-based approach to determine loss of agricultural soils due to soil sealing - a case study in Germany",
+      "tier": "A",
+      "closes": false,
+      "why": "Uses IMCC change layers plus CORINE land use to quantify agricultural soil loss from sealing in Germany, but does not explicitly test or filter the bare-soil-crop-rotation confound; inherits IMCC's own documented misclassification risk.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://medium.com/sentinel-hub/area-monitoring-bare-soil-marker-608bc95712ae",
+      "date": "2020-09-01",
+      "title": "Area Monitoring - Bare Soil Marker",
+      "tier": "B",
+      "closes": false,
+      "why": "Adjacent, live product family: S2-time-series per-parcel bare-soil classification used in EU CAP Area Monitoring. Classifies ploughing/harvest bare soil as farming activity but never tests that bare soil against a sealing hypothesis.",
+      "relation": "same_method_other_domain"
+    }
+  ],
+  "type_b_fields": {
+    "named_prior_solution_url": "https://land.copernicus.eu/en/products/high-resolution-layer-imperviousness/imperviousness-classified-change-2015-2018",
+    "measurable_axis": "Commission-error rate for false 'sealed' flags on ag parcels during normal crop bare-soil windows, vs IMCC's documented commission error from bare-soil/sand misclassification.",
+    "attributable_to": "Gating the sealing flag per parcel against CLMS main-crop-duration history (expected bare-soil calendar), instead of IMCC's NDVI-threshold classification with no crop-phenology conditioning.",
+    "prior_deployed_in_target_region": "true"
+  },
+  "nearest_neighbours_do_not": "None tie the sealing signal to per-parcel CLMS crop-duration/phenology history: IMCC uses plain NDVI thresholds (high commission error from bare soil per Land 2025); the harmonized pan-EU time series explicitly skips crop-rotation handling; and CAP's bare-soil marker classifies ploughing/harvest bare soil as farming activity rather than screening it for sealing.",
+  "budget_exhausted": true,
+  "notes": "Global session WebSearch quota was exhausted mid-dispatch, so step-6 recency reruns with '2026'/'2025' appended were not run as separate searches; recency was partly covered anyway since several hits were already 2024-2025. Could not confirm a reliable date for the IMCC product landing page, so it is named only in type_b_fields, not prior_art, to avoid fabricating a date. EU Soil Monitoring Law seed URL is regulatory motivation, not prior art.",
+  "product_search": {
+    "queries_run": [
+      "soil sealing land take monitoring software platform startup",
+      "Copernicus soil sealing detection satellite time series parcel level monitoring",
+      "Sentinel-2 CLMS cropland history distinguish soil sealing from bare soil crop parcel EU"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://www.mdpi.com/2073-445X/13/7/1087",
+        "date": "2024-07-19",
+        "title": "Harmonized Pan-European Time Series for Monitoring Soil Sealing",
+        "tier": "A",
+        "note": "Documents EEA/CLMS's operational pan-EU soil-sealing change-layer product; the closest thing to a shipping land-take monitoring output in this exact problem space."
+      },
+      {
+        "url": "https://medium.com/sentinel-hub/area-monitoring-bare-soil-marker-608bc95712ae",
+        "date": "2020-09-01",
+        "title": "Area Monitoring - Bare Soil Marker",
+        "tier": "B",
+        "note": "Live Sentinel Hub / EU CAP Area Monitoring feature already classifying per-parcel bare soil from Sentinel-2 time series; adjacent product family, no sealing flag."
+      }
+    ]
+  }
+}

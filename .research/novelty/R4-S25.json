@@ -1,0 +1,69 @@
+{
+  "id": "R4-S25",
+  "verdict": "unclear",
+  "reason": "No paper or product triages parcels among durable rewetting, seasonal flood, and continued cultivation via S1 wetness-persistence + S2 phenology for CRCF credit gating. Closest neighbour (Frontiers, Nov 2025 UK peatland-EO review) calls separating durable rewetting from seasonal wetness an unresolved gap in the S1/S2 toolkit, but doesn't solve it. A 2025 water-table-depth paper (S1+S2, rewetted sites) could not be opened (403 x2) to confirm scope. WebSearch quota was cut off mid-procedure, before region-swap and the full product sweep ran, so this is not a confident type_a.",
+  "queries": [
+    {
+      "q": "Sentinel-1 wetness persistence Sentinel-2 phenology distinguish rewetting seasonal flooding peatland carbon credit",
+      "useful": true,
+      "note": "Step 1 exact framing: surfaced S1+S2 peatland restoration/water-table papers, none matching the exact 3-way triage."
+    },
+    {
+      "q": "satellite monitoring separate durable peatland rewetting from seasonal flooding remote sensing",
+      "useful": true,
+      "note": "Step 1/2: surfaced the Nov 2025 UK review that flags this exact separation as unresolved."
+    },
+    {
+      "q": "CRCF EU carbon farming peatland MRV satellite verification service provider rewetting",
+      "useful": true,
+      "note": "Step 5 (region-fixed): CRCF regulatory docs name no satellite methodology; no dedicated peatland MRV vendor surfaced."
+    },
+    {
+      "q": "peatland rewetting verification satellite platform startup carbon credits company",
+      "useful": false,
+      "note": "Blocked: session WebSearch quota exhausted before step 5 product sweep could complete."
+    },
+    {
+      "q": "SAR time series classify permanent inundation versus seasonal flooding wetland",
+      "useful": false,
+      "note": "Blocked: session WebSearch quota exhausted before step 3 (method-space, domain removed) could run."
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://www.frontiersin.org/journals/environmental-science/articles/10.3389/fenvs.2025.1685165/full",
+      "date": "2025-11-14",
+      "title": "Open-access satellite data for peatland condition and restoration monitoring in the UK: a review",
+      "tier": "A",
+      "closes": false,
+      "why": "Reviews S1/S2 peatland restoration monitoring and states SAR-to-water-table links are site/season-dependent, so distinguishing durable rewetting from temporary wetness remains an unresolved research need, not a demonstrated capability.",
+      "relation": "same_problem"
+    }
+  ],
+  "nearest_neighbours_do_not": "Published S1+S2 peatland studies model water-table depth or vegetation trajectories at sites already confirmed rewetted, or catalogue the open-access toolkit's limits. None triage candidate parcels among durable rewetting, seasonal flood, and continued cultivation to gate CRCF credit issuance before crediting, and none map onto CRCF's three named risk categories.",
+  "budget_exhausted": true,
+  "notes": "ScienceDirect 'Modelling water table depth at rewetted peatlands with Sentinel-1 and Sentinel-2' (2025, pii S2666017225000446) recalled from search snippets but blocked by 403 on both article/pii and article/abs/pii paths and via Semantic Scholar (429, then empty); exact date/scope unconfirmed so excluded from prior_art. Session WebSearch quota was exhausted session-wide after 5 queries, short of the 15-search budget, before region-swap and method-space (step 3/4) queries could run.",
+  "human_should_check": "Confirm whether the ScienceDirect/RSASE 2025 paper 'Modelling water table depth at rewetted peatlands with Sentinel-1 and Sentinel-2' (pii S2666017225000446) already triages durable rewetting vs seasonal flood vs continued cultivation on organic soils; also complete the region-swap (non-EU/tropical peatland rewetting programs) and product-sweep (dedicated peatland-CRCF MRV vendors) once search quota resets.",
+  "product_search": {
+    "queries_run": [
+      "CRCF EU carbon farming peatland MRV satellite verification service provider rewetting",
+      "peatland rewetting verification satellite platform startup carbon credits company"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://kermap.com/theme/agriculture/",
+        "date": "2025-09-04",
+        "title": "Kermap agriculture EO deployments",
+        "tier": "A",
+        "note": "General satellite MRV for cover vegetation and agricultural practices; not peatland-rewetting-specific and does not triage flood vs cultivation vs durable rewetting."
+      },
+      {
+        "url": "https://www.xfarm.ag/en/release-notes",
+        "date": "2026-06-16",
+        "title": "xFarm release notes (sustainability/LUC/MRV updates)",
+        "tier": "A",
+        "note": "General land-use-change/MRV verification features; no documented peatland rewetting-vs-flood-vs-cultivation triage capability."
+      }
+    ]
+  }
+}

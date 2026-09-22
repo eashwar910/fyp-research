@@ -1,0 +1,392 @@
+[
+  {
+    "one_liner": "For Singapore drone-service operators flying repeat missions over Lim Chu Kang and Kranji farm clusters, fuse NParks' no-fly-zone polygons with CAAS's OneMap UAS layer and named farm-plot boundaries to auto-generate a legal flight-corridor and permit-need map before each mission, replacing manual per-flight zone lookups.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "non_imagery:geofence_dataset",
+    "delta_claim": "Automates per-mission airspace-legality checks; not spray-dose or coverage mission planning.",
+    "seed_urls": [
+      {
+        "url": "https://data.gov.sg/datasets/d_15457a8f67905fb6ed890fca2ebac5f7/view",
+        "date": "2026-05-13",
+        "tier": "A",
+        "title": "Prohibited Drone flying areas at NParks Nature Reserves, Nature Parks and Gardens",
+        "note": "GeoJSON, Open Data Licence, boundaries of 22 reserves/parks/gardens where drone flying is prohibited."
+      },
+      {
+        "url": "https://www.caas.gov.sg/public-passengers/unmanned-aircraft/permitted-flying-areas-and-no-fly-zones",
+        "date": "2026-09-03",
+        "tier": "A",
+        "title": "Permitted Flying Areas and No-Fly Zones - CAAS",
+        "note": "CAAS page directs UA operators to the OneMap UAS layer for permitted-flying and permit-required areas."
+      }
+    ],
+    "crowded_area_entered": true,
+    "forcing_function": "Singapore Lim Chu Kang land-use change and farm lease expiries",
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For SFA's Lim Chu Kang farm-consolidation planners, combine the same NParks and CAAS drone-restriction layers with SLA's updated cadastral parcels to site shared drone launch, charging and data-relay pads across the newly co-located farms so flight-time coverage is maximised while every pad respects no-fly buffers.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "non_imagery:geofence_dataset",
+    "delta_claim": "Optimises shared drone-infrastructure siting for flight-time coverage, not general facility or circularity layout.",
+    "seed_urls": [
+      {
+        "url": "https://data.gov.sg/datasets/d_15457a8f67905fb6ed890fca2ebac5f7/view",
+        "date": "2026-05-13",
+        "tier": "A",
+        "title": "Prohibited Drone flying areas at NParks Nature Reserves, Nature Parks and Gardens",
+        "note": "GeoJSON, Open Data Licence, boundaries of 22 reserves/parks/gardens where drone flying is prohibited."
+      },
+      {
+        "url": "https://www.caas.gov.sg/public-passengers/unmanned-aircraft/permitted-flying-areas-and-no-fly-zones",
+        "date": "2026-09-03",
+        "tier": "A",
+        "title": "Permitted Flying Areas and No-Fly Zones - CAAS",
+        "note": "CAAS page directs UA operators to the OneMap UAS layer for permitted-flying and permit-required areas."
+      },
+      {
+        "url": "https://data.gov.sg/datasets?query=land&resultId=d_e7395d743076a2bcc487b0d12b9bf33b",
+        "date": "2026-09-07",
+        "tier": "A",
+        "title": "SLA Cadastral Land Parcel",
+        "note": "Parcel polygons, data from Nov 2025, last updated 7 Sep 2026, reusable licence."
+      }
+    ],
+    "crowded_area_entered": false,
+    "forcing_function": "Singapore Lim Chu Kang land-use change and farm lease expiries",
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For URA and SFA officials reviewing new Lim Chu Kang farm-parcel layouts, overlay NParks' protected-reserve boundary polygons with SLA's updated cadastral parcels to automatically flag any proposed plot that breaches ecological buffer-distance rules near Sungei Buloh or Kranji before construction begins.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "non_imagery:geofence_dataset",
+    "delta_claim": "Flags ecological buffer violations pre-construction; not a multi-objective facility optimiser.",
+    "seed_urls": [
+      {
+        "url": "https://data.gov.sg/datasets/d_15457a8f67905fb6ed890fca2ebac5f7/view",
+        "date": "2026-05-13",
+        "tier": "A",
+        "title": "Prohibited Drone flying areas at NParks Nature Reserves, Nature Parks and Gardens",
+        "note": "GeoJSON, Open Data Licence, boundaries of 22 reserves/parks/gardens where drone flying is prohibited."
+      },
+      {
+        "url": "https://data.gov.sg/datasets?query=land&resultId=d_e7395d743076a2bcc487b0d12b9bf33b",
+        "date": "2026-09-07",
+        "tier": "A",
+        "title": "SLA Cadastral Land Parcel",
+        "note": "Parcel polygons, data from Nov 2025, last updated 7 Sep 2026, reusable licence."
+      }
+    ],
+    "crowded_area_entered": false,
+    "forcing_function": "Singapore Lim Chu Kang land-use change and farm lease expiries",
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For SFA and HDB managing multi-storey-carpark rooftop vegetable farms, fuse the BCA TR78-mandated periodic drone thermal facade and roof inspection imagery these buildings already undergo with per-site harvest logs, to flag which rooftops are losing crop output to heat or waterproofing defects the inspection already photographed but never linked to farming outcomes.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "raw_frames_with_metadata:thermal_inspection_archive",
+    "delta_claim": "Links mandatory building-inspection thermal imagery to farm yield loss, a source no vertical-farm monitoring product uses.",
+    "seed_urls": [
+      {
+        "url": "https://www1.bca.gov.sg/resources/newsroom/new-regulations-for-periodic-inspection-of-building-fa-ades-to-start-from-1-january-2022/",
+        "date": "2021-10-21",
+        "tier": "A",
+        "title": "New Regulations for Periodic Inspection of Building Facades to start from 1 January 2022",
+        "note": "BCA press release on TR78:2020, the world-first Technical Reference for drone facade inspections; BCA-recognised for PFI submissions."
+      },
+      {
+        "url": "https://www.hdb.gov.sg/about-us/news-and-publications/press-releases/24032021-JTender-Closing-For-7-HDB-MSCP-Rooftop-Sites-For-Urban-Farming",
+        "date": "2021-03-24",
+        "tier": "A",
+        "title": "Tender Closing For 7 HDB MSCP Rooftop Sites For Urban Farming",
+        "note": "HDB press release confirming the multi-storey-carpark rooftop urban farming programme."
+      }
+    ],
+    "crowded_area_entered": true,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Singapore Food Agency import-resilience planners, use sub-metre drone imagery from Malaysian smallholder partner archives such as Aonic and ProLadang service flights over Cameron Highlands and Johor vegetable plots too small for Sentinel-2's 10 m pixels, to detect plot-level crop-stress anomalies and estimate a finer-grained supply-shock lead time than existing satellite-based early-warning work.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "sub_metre_commercial",
+    "delta_claim": "Plot-level drone resolution resolves smallholder fields Sentinel-2 cannot; a sensor delta, not a method transfer.",
+    "seed_urls": [
+      {
+        "url": "https://resource.aonic.com/event/maha-2026/",
+        "date": "2026-08-28",
+        "tier": "A",
+        "title": "MAHA 2026 - Aonic Resource Hub",
+        "note": "Aonic showcased agricultural drone solutions for spraying/spreading efficiency."
+      },
+      {
+        "url": "https://proladang.com.my/",
+        "date": "2026-06-30",
+        "tier": "A",
+        "title": "AgriAssist | Precision Satellite Monitoring for Agriculture",
+        "note": "ProLadang official page; satellite/AI pest-disease service for Malaysian paddy smallholders."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": "run3:S21",
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Singapore and Johor drone-service firms deciding whether to buy an off-the-shelf weed-detection model, quantify the domain gap between temperate open-field UAV datasets such as WeedsGalore and PhenoBench and drone frames from a partner archive of tropical leafy-vegetable farms, producing a calibrated deploy-without-retraining score.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:WeedsGalore+PhenoBench",
+    "delta_claim": "Produces a calibrated domain-gap deployment score, not another crop or weed segmentation model.",
+    "seed_urls": [
+      {
+        "url": "https://arxiv.org/abs/2502.13103",
+        "date": "2025-02",
+        "tier": "A",
+        "title": "WeedsGalore: A Multispectral and Multitemporal UAV-based Dataset for Crop and Weed Segmentation",
+        "note": "WACV 2025 open UAV dataset for temperate maize-field weed segmentation."
+      },
+      {
+        "url": "https://arxiv.org/abs/2306.04557",
+        "date": "2023-06",
+        "tier": "A",
+        "title": "PhenoBench: A Large Dataset and Benchmarks for Semantic Image Interpretation in the Agricultural Domain",
+        "note": "Open UAV dataset, temperate sugar-beet fields, pixel-wise crop/weed/leaf annotations."
+      }
+    ],
+    "crowded_area_entered": false,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Singapore and Malaysia drone-service firms such as Aonic and Meraque, screen raw geotagged frames and flight metadata straight off the aircraft to flag orthomosaic-stitching failures such as blur, ghosting and misregistration before the multi-hour stitching job runs, cutting their current days-long fly-stitch-inspect cycle.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "raw_frames_with_metadata",
+    "delta_claim": "Pre-stitch raw-frame QA gate for stitching artifacts, not a spray, count or health analytics product.",
+    "seed_urls": [
+      {
+        "url": "https://resource.aonic.com/event/maha-2026/",
+        "date": "2026-08-28",
+        "tier": "A",
+        "title": "MAHA 2026 - Aonic Resource Hub",
+        "note": "Aonic showcased agricultural drone solutions for spraying/spreading efficiency."
+      },
+      {
+        "url": "https://www.linkedin.com/posts/meraque-my_meraque-hybriddrone-dronetechnology-activity-7475764318014287872-9Wnx",
+        "date": "2026-06-25",
+        "tier": "B",
+        "title": "Meraque hybrid drone MAEPS demonstration",
+        "note": "Meraque hybrid agricultural drone demo, one of several regional drone-service vendors with proprietary pipelines."
+      }
+    ],
+    "crowded_area_entered": false,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Singapore fresh-produce importers using the Aerodyne-DroneDash cross-border drone corridor between Johor and Singapore, convert each flight's in-transit telemetry on temperature, vibration and flight time into a real-time spoilage-risk score per perishable shipment, triggering reroute or reject decisions the delivery service itself does not make.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "non_imagery:flight_telemetry",
+    "delta_claim": "Turns delivery telemetry into a spoilage decision signal; the delivery service itself makes no such call.",
+    "seed_urls": [
+      {
+        "url": "https://technode.global/2024/02/21/aerodyne-partners-dronedash-technologies-to-introduce-cross-border-drone-delivery-services-between-malaysia-and-singapore/",
+        "date": "2024-02-21",
+        "tier": "B",
+        "title": "Aerodyne partners DroneDash Technologies to introduce cross-border drone delivery services between Malaysia and Singapore",
+        "note": "Confirms operational cross-border SG-Johor drone delivery corridor including perishable cargo."
+      }
+    ],
+    "crowded_area_entered": false,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Singapore drone-service firms serving both BCA-regulated building inspections and farm clients, reuse the TR78-mandated face, licence-plate and window anonymisation pipeline already required near residential blocks to pre-process farm drone imagery flown over Lim Chu Kang and Kranji plots bordering HDB estates, avoiding a second PDPA-compliance build per client.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "raw_frames_with_metadata",
+    "delta_claim": "Reuses TR78's mandated anonymisation pipeline as a compliance shortcut for farm imagery, not a new privacy tool.",
+    "seed_urls": [
+      {
+        "url": "https://www1.bca.gov.sg/resources/newsroom/new-regulations-for-periodic-inspection-of-building-fa-ades-to-start-from-1-january-2022/",
+        "date": "2021-10-21",
+        "tier": "A",
+        "title": "New Regulations for Periodic Inspection of Building Facades to start from 1 January 2022",
+        "note": "BCA press release on TR78:2020, the world-first Technical Reference for drone facade inspections; BCA-recognised for PFI submissions."
+      }
+    ],
+    "crowded_area_entered": false,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For SFA staff evaluating additional HDB multi-storey-carpark rooftops for future urban-farm tenders, rank untested rooftops by heat-load and structural-loading suitability using existing BCA TR78 drone thermal and structural inspection archives, instead of issuing tenders under today's uniform site criteria.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "raw_frames_with_metadata:thermal_inspection_archive",
+    "delta_claim": "Ranks rooftop sites from existing inspection data before tendering, not a crop-monitoring or automation product.",
+    "seed_urls": [
+      {
+        "url": "https://www1.bca.gov.sg/resources/newsroom/new-regulations-for-periodic-inspection-of-building-fa-ades-to-start-from-1-january-2022/",
+        "date": "2021-10-21",
+        "tier": "A",
+        "title": "New Regulations for Periodic Inspection of Building Facades to start from 1 January 2022",
+        "note": "BCA press release on TR78:2020, the world-first Technical Reference for drone facade inspections; BCA-recognised for PFI submissions."
+      },
+      {
+        "url": "https://www.hdb.gov.sg/about-us/news-and-publications/press-releases/24032021-JTender-Closing-For-7-HDB-MSCP-Rooftop-Sites-For-Urban-Farming",
+        "date": "2021-03-24",
+        "tier": "A",
+        "title": "Tender Closing For 7 HDB MSCP Rooftop Sites For Urban Farming",
+        "note": "HDB press release confirming the multi-storey-carpark rooftop urban farming programme."
+      }
+    ],
+    "crowded_area_entered": true,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For JTC-tenant indoor vertical-farm operators such as Singrow, mine the periodic BCA TR78 drone facade-inspection thermal imagery their industrial buildings already undergo to pre-empt HVAC or cooling-system failures before they cause temperature-sensitive crop loss, instead of waiting for in-house IoT alerts.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "raw_frames_with_metadata:thermal_inspection_archive",
+    "delta_claim": "Pre-empts HVAC failure from inspection thermal data already collected, not an added IoT sensor layer.",
+    "seed_urls": [
+      {
+        "url": "https://www1.bca.gov.sg/resources/newsroom/new-regulations-for-periodic-inspection-of-building-fa-ades-to-start-from-1-january-2022/",
+        "date": "2021-10-21",
+        "tier": "A",
+        "title": "New Regulations for Periodic Inspection of Building Facades to start from 1 January 2022",
+        "note": "BCA press release on TR78:2020, the world-first Technical Reference for drone facade inspections; BCA-recognised for PFI submissions."
+      },
+      {
+        "url": "https://www.singrow.com/jobs",
+        "date": "2026-09",
+        "tier": "A",
+        "title": "Jobs (All) - Singrow",
+        "note": "Confirms Singrow is an operating Singapore vertical-farm company hiring for agritech integration."
+      }
+    ],
+    "crowded_area_entered": true,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For SFA verifying physical build-out on redeveloped Lim Chu Kang parcels, task a named drone-service firm under written data-access terms with periodic structure-footprint flights and difference successive raw frames against each farm's approved production-capability plan, flagging under-built or non-compliant construction months before the current manual site visit would.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "raw_frames_with_metadata",
+    "delta_claim": "Verifies physical construction against the approved plan via frame differencing, not administrative deadline tracking.",
+    "seed_urls": [
+      {
+        "url": "https://www.mindef.gov.sg/news-and-events/latest-releases/25may26-nr/",
+        "date": "2026-05-25",
+        "tier": "A",
+        "title": "Government to Implement Land-Use Change in Lim Chu Kang",
+        "note": "Joint SFA/MINDEF/NParks/SLA release; some farm tenures expire Dec 2026 and Mar 2027; consolidation map of affected plots."
+      },
+      {
+        "url": "https://data.gov.sg/datasets?query=land&resultId=d_e7395d743076a2bcc487b0d12b9bf33b",
+        "date": "2026-09-07",
+        "tier": "A",
+        "title": "SLA Cadastral Land Parcel",
+        "note": "Parcel polygons, data from Nov 2025, last updated 7 Sep 2026, reusable licence."
+      }
+    ],
+    "crowded_area_entered": false,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For PUB and SFA monitoring the farm-reservoir interface at Kranji, tap PUB's existing BVLOS drone video feed at Kranji Reservoir, already operational for illegal-activity detection, via a data-sharing agreement to also flag farm runoff or encroachment events, instead of commissioning separate agricultural survey flights.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "non_imagery:reservoir_drone_video_feed",
+    "delta_claim": "Repurposes an operational government drone feed for a new detection task it wasn't built for.",
+    "seed_urls": [
+      {
+        "url": "https://smartwatermagazine.com/news/pub-singapores-national-water-agency/pub-deploy-autonomous-drones-enhance-reservoir-monitoring",
+        "date": "2021-05-27",
+        "tier": "B",
+        "title": "PUB to deploy autonomous drones to enhance reservoir monitoring",
+        "note": "PUB/ST Engineering BVLOS drones rolled out at six reservoirs including Kranji; live video feed and dashboard access."
+      }
+    ],
+    "crowded_area_entered": false,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Singapore agri-tech buyers procuring drone-as-a-service contracts from firms like Aonic, Aerodyne and Garuda Robotics, re-process the same raw farm flight through each vendor's proprietary pipeline under written data-sharing terms to quantify how much delivered NDVI or health-map variance is pipeline-choice artifact versus true agronomic signal, a benchmark no vendor currently publishes.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "raw_frames_with_metadata",
+    "delta_claim": "Decomposes vendor-pipeline artifact from true agronomic signal, a benchmark no vendor publishes.",
+    "seed_urls": [
+      {
+        "url": "https://resource.aonic.com/event/maha-2026/",
+        "date": "2026-08-28",
+        "tier": "A",
+        "title": "MAHA 2026 - Aonic Resource Hub",
+        "note": "Aonic showcased agricultural drone solutions for spraying/spreading efficiency."
+      },
+      {
+        "url": "https://www.linkedin.com/posts/meraque-my_meraque-hybriddrone-dronetechnology-activity-7475764318014287872-9Wnx",
+        "date": "2026-06-25",
+        "tier": "B",
+        "title": "Meraque hybrid drone MAEPS demonstration",
+        "note": "Meraque hybrid agricultural drone demo, one of several regional drone-service vendors with proprietary pipelines."
+      }
+    ],
+    "crowded_area_entered": false,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Singapore and Malaysia drone-service firms running repeat weekly health-map missions over the same farm plots, detect sensor-to-sensor radiometric calibration drift across a mixed multi-vendor fleet by comparing overlapping raw-frame statistics between flights, flagging when an NDVI change looks like crop stress but is actually camera drift.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "raw_frames_with_metadata",
+    "delta_claim": "Flags radiometric camera drift as a distinct failure mode from true crop-stress change.",
+    "seed_urls": [
+      {
+        "url": "https://resource.aonic.com/event/maha-2026/",
+        "date": "2026-08-28",
+        "tier": "A",
+        "title": "MAHA 2026 - Aonic Resource Hub",
+        "note": "Aonic showcased agricultural drone solutions for spraying/spreading efficiency."
+      },
+      {
+        "url": "https://www.linkedin.com/posts/meraque-my_meraque-hybriddrone-dronetechnology-activity-7475764318014287872-9Wnx",
+        "date": "2026-06-25",
+        "tier": "B",
+        "title": "Meraque hybrid drone MAEPS demonstration",
+        "note": "Meraque hybrid agricultural drone demo, one of several regional drone-service vendors with proprietary pipelines."
+      }
+    ],
+    "crowded_area_entered": false,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For the same repeat-flight drone-service operations over Lim Chu Kang and Kranji, correct sub-pixel geometric misregistration between successive missions using each raw frame's GNSS and RTK metadata, so a farm's week-over-week canopy-change signal isn't confounded by drone-positioning drift rather than real field change.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "raw_frames_with_metadata",
+    "delta_claim": "Corrects geometric drift between repeat flights, a distinct failure mode from radiometric drift.",
+    "seed_urls": [
+      {
+        "url": "https://resource.aonic.com/event/maha-2026/",
+        "date": "2026-08-28",
+        "tier": "A",
+        "title": "MAHA 2026 - Aonic Resource Hub",
+        "note": "Aonic showcased agricultural drone solutions for spraying/spreading efficiency."
+      },
+      {
+        "url": "https://www.linkedin.com/posts/meraque-my_meraque-hybriddrone-dronetechnology-activity-7475764318014287872-9Wnx",
+        "date": "2026-06-25",
+        "tier": "B",
+        "title": "Meraque hybrid drone MAEPS demonstration",
+        "note": "Meraque hybrid agricultural drone demo, one of several regional drone-service vendors with proprietary pipelines."
+      }
+    ],
+    "crowded_area_entered": false,
+    "hunter_confidence": "low"
+  }
+]

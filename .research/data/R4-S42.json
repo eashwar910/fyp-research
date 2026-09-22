@@ -1,0 +1,97 @@
+{
+  "id": "R4-S42",
+  "verdict": "conditional",
+  "verdict_reason": "EuroCropsML (Zenodo, CC BY-SA 4.0) and AI4Boundaries (JRC, EU reuse licence) both fetched and open, but cover only 3 and 7 countries respectively, not EU-wide, undermining the per-country EU framing. CLMS Croplands page rendered no extractable licence/coverage/crop-type text (JS site); whether it is a genuine per-crop-type output vs binary cropland extent is unconfirmed.",
+  "sources": [
+    {
+      "name": "EuroCropsML",
+      "role": "labels",
+      "url": "https://zenodo.org/records/10629609",
+      "fetched_ok": true,
+      "licence_quote": "Creative Commons Attribution Share Alike 4.0 International",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "platform_id": "10.5281/zenodo.10629609",
+      "size_gb": 4.8,
+      "coverage_quote": "Estonia, Latvia, Portugal: 175,906 / 431,143 / 99,634 labelled datapoints respectively",
+      "covers_target_region": "partial",
+      "date_range": "2021",
+      "caveats_quoted": [
+        "Only 3 of 27 EU member states covered (Estonia, Latvia, Portugal) despite the EuroCrops-derived name"
+      ]
+    },
+    {
+      "name": "AI4Boundaries",
+      "role": "auxiliary",
+      "url": "http://data.jrc.ec.europa.eu/dataset/0e79ce5d-e4c8-4721-8773-59a4acf2c9c9",
+      "fetched_ok": true,
+      "licence_quote": "Reuse is authorised, provided the source is acknowledged",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "Austria, Catalonia, France, Luxembourg, Netherlands, Slovenia, Sweden: 7,831 samples, 2.5M parcels, 47,105 km2",
+      "covers_target_region": "partial",
+      "date_range": "2019",
+      "caveats_quoted": [
+        "Ships field BOUNDARY masks, not per-crop-type labels; covers 7 countries/regions of 27 EU states"
+      ]
+    },
+    {
+      "name": "CLMS High Resolution Layer Croplands",
+      "role": "auxiliary",
+      "url": "https://land.copernicus.eu/en/products/high-resolution-layer-croplands",
+      "fetched_ok": true,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "size_gb": null,
+      "covers_target_region": "partial",
+      "caveats_quoted": [
+        "Page is JS-rendered; fetch returned only the product title, no licence, coverage, resolution or crop-type-vs-extent text could be extracted"
+      ]
+    }
+  ],
+  "ground_truth": {
+    "status": "shipped",
+    "source_url": "https://zenodo.org/records/10629609",
+    "construction_protocol": null,
+    "label_count_estimate": "EuroCropsML: 706,683 labelled parcels, 176 crop classes, but only EE/LV/PT. AI4Boundaries: 2.5M boundary parcels across 7 countries/regions, no crop-type labels."
+  },
+  "compute_path": {
+    "platform": "Kaggle free GPU / Colab free tier; direct downloads (Zenodo ~4.8GB, AI4Boundaries FTP)",
+    "fits_C9": true,
+    "why": "Total download ~5GB-scale, parcel/time-series classification, no multi-day GPU training needed",
+    "gpu_hours_per_week_estimate": 5
+  },
+  "queries": [
+    {
+      "q": "EuroCropsML dataset Zenodo",
+      "useful": false,
+      "note": "WebSearch tool budget exhausted session-wide; used direct WebFetch on known URLs instead"
+    },
+    {
+      "q": "AI4Boundaries dataset JRC field boundaries",
+      "useful": false,
+      "note": "WebSearch tool budget exhausted"
+    },
+    {
+      "q": "CLMS Copernicus Land Monitoring Service crop type high resolution layer",
+      "useful": false,
+      "note": "WebSearch tool budget exhausted"
+    }
+  ],
+  "fetched": [
+    "https://www.eurocrops.tum.de/",
+    "https://essd.copernicus.org/articles/15/317/2023/",
+    "https://github.com/dida-do/eurocropsml",
+    "https://land.copernicus.eu/en/products/crop-type",
+    "https://zenodo.org/records/10629609",
+    "http://data.europa.eu/89h/0e79ce5d-e4c8-4721-8773-59a4acf2c9c9",
+    "http://data.jrc.ec.europa.eu/dataset/0e79ce5d-e4c8-4721-8773-59a4acf2c9c9",
+    "https://land.copernicus.eu/en/products/vegetation/high-resolution-layer-croplands",
+    "https://land.copernicus.eu/en/products/pan-european-high-resolution-layers",
+    "https://land.copernicus.eu/en/products/high-resolution-layer-croplands",
+    "https://land.copernicus.eu/en/products/high-resolution-layer-croplands/high-resolution-layer-croplands-2018"
+  ],
+  "budget_exhausted": true,
+  "notes": "Crux finding: neither named ML-ready source is EU-wide. EuroCropsML = 3 countries (EE/LV/PT), label density varies 4.3x (LV 431k vs PT 99.6k), a real per-country density axis but a tiny country set. AI4Boundaries = 7 countries/regions and boundaries only, not crop labels. CLMS crop-type product existence/coverage unconfirmed after fetch. Raw EuroCrops (not EuroCropsML) covers more countries but was not the named source and was not independently re-verified here."
+}

@@ -1,0 +1,135 @@
+{
+  "id": "R4-S22",
+  "verdict": "open",
+  "verdict_reason": "EuroCrops (LPIS), FTW boundaries, and AlphaEarth embeddings are all openly licensed, direct-download or GEE-accessible; none needs an application. EU scope capped at ~16-17 LPIS-open states; error-type ground truth must be hand-constructed.",
+  "sources": [
+    {
+      "name": "EuroCrops (harmonized LPIS parcel declarations)",
+      "role": "comparator",
+      "url": "https://github.com/maja601/EuroCrops",
+      "fetched_ok": true,
+      "licence_quote": "This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "17 EU countries: Austria, Belgium, Czechia, Germany, Denmark, Estonia, Spain, France, Croatia, Lithuania, Latvia, Netherlands, Portugal, Romania, Sweden, Slovenia, Slovakia",
+      "covers_target_region": "partial",
+      "date_range": "Varies by country, mostly 2018-2021 (e.g. Austria 2021, France 2018, Denmark 2019)",
+      "caveats_quoted": [
+        "From all red coloured countries...it was not possible to obtain publicly available data: GDPR issues, missing incentive to publish, no response from responsible authorities"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Fields of The World (FTW) benchmark dataset",
+      "role": "labels",
+      "url": "https://source.coop/kerner-lab/fields-of-the-world",
+      "fetched_ok": true,
+      "licence_quote": "CC-BY-4.0 (Austria, Spain,...); CC0-1.0 (Denmark, Luxembourg, Netherlands); CC-BY-NC-4.0 (Latvia, Portugal)",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "70,462 samples, ~1.6M parcel boundaries; 45 countries incl. 17 EU states: Austria, Belgium, Croatia, Denmark, Estonia, Finland, France, Germany + 9 more",
+      "covers_target_region": "true",
+      "date_range": "Polygons collected 2016-2023, most data from 2021",
+      "caveats_quoted": [
+        "Per-country licence varies: Latvia and Portugal are CC-BY-NC-4.0 (non-commercial), not plain CC-BY"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Fields of The World (FTW) Global boundary + confidence product",
+      "role": "labels",
+      "url": "https://source.coop/ftw/global-data",
+      "fetched_ok": true,
+      "licence_quote": "CC-BY-4.0",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "First global, wall-to-wall agricultural field-boundary dataset at 10 m resolution, 195 countries and territories, ~3.2 billion polygons (2024+2025)",
+      "covers_target_region": "true",
+      "date_range": "2024-2025, independent global predictions per year",
+      "caveats_quoted": [
+        "This is the conservative-by-design behavior of the confidence layer: it does not certify predictions in regions whose visual signature differs from those seen during training",
+        "real fields in underrepresented smallholder systems may be filtered out; examine unfiltered product and continuous confidence raster rather than the default threshold"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "AlphaEarth Foundations Satellite Embedding V1 Annual",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+      "fetched_ok": true,
+      "licence_quote": "This dataset is licensed under CC-BY 4.0",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL",
+      "size_gb": null,
+      "coverage_quote": "Global, 10-meter pixel, 64-dimensional embedding (bands A00-A63), ±82° latitude",
+      "covers_target_region": "true",
+      "date_range": "2017-01-01 to 2025-01-01, one image per calendar year",
+      "caveats_quoted": [
+        "The dataset provides one year of data per image, with time properties reflecting calendar years - confirmed ANNUAL, not sub-annual"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    }
+  ],
+  "ground_truth": {
+    "status": "must_construct",
+    "source_url": null,
+    "construction_protocol": "Hand-classify a stratified sample of LPIS-FTW mismatched parcels into merge/split/encroachment/offset via visual overlay on Sentinel-2/orthophoto, using IoU and centroid-offset geometry rules to pre-screen candidates.",
+    "label_count_estimate": "Low hundreds of hand-verified parcels across 2-3 pilot LPIS-open countries (e.g. Austria, Denmark, Netherlands)"
+  },
+  "compute_path": {
+    "platform": "Google Earth Engine (AlphaEarth embeddings, Sentinel-2) for feature extraction; local MacBook/Colab CPU with GeoPandas/Shapely for LPIS-FTW polygon comparison and a shallow classifier (RF/XGBoost) for error typing",
+    "fits_C9": true,
+    "why": "All embedding/imagery pulled server-side via GEE catalog; polygon geometry comparison and a shallow tabular classifier run on CPU only, no sustained GPU training.",
+    "gpu_hours_per_week_estimate": 0
+  },
+  "queries": [
+    {
+      "q": "EuroCrops dataset LPIS harmonized crop classification GitHub",
+      "useful": true
+    },
+    {
+      "q": "Fields of The World FTW dataset field boundary delineation benchmark",
+      "useful": true
+    },
+    {
+      "q": "AlphaEarth Foundations embeddings Google DeepMind Earth Engine annual",
+      "useful": true
+    },
+    {
+      "q": "which EU member states publish LPIS open data INSPIRE parcel",
+      "useful": true
+    },
+    {
+      "q": "\"Fields of The World\" FTW dataset \"confidence\" layer smallholder conservative",
+      "useful": true
+    }
+  ],
+  "fetched": [
+    "https://github.com/maja601/EuroCrops",
+    "https://source.coop/kerner-lab/fields-of-the-world",
+    "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+    "https://arxiv.org/abs/2409.16252",
+    "https://data.europa.eu/data/datasets/91fa7ef1-21c6-4c98-92f4-535634250c26?locale=en",
+    "https://github.com/fieldsoftheworld/ftw-data-catalog",
+    "https://arxiv.org/pdf/2605.11055",
+    "https://arxiv.org/html/2605.11055",
+    "https://source.coop/ftw/global-data",
+    "https://www.nature.com/articles/s41597-023-02517-0",
+    "https://ncbi.nlm.nih.gov/pmc/articles/PMC10495462",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC10495462"
+  ],
+  "budget_exhausted": true,
+  "notes": "Fetch budget (12) exhausted reaching a working verbatim LPIS-open-country list via PMC after Nature paywalled the primary EuroCrops article. Only ~16-17 of 27 EU member states publish LPIS openly (EuroCrops already restricts to those); other states' raw LPIS access remains unverified, which narrows but does not block the candidate."
+}

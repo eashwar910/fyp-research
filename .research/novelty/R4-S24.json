@@ -1,0 +1,142 @@
+{
+  "id": "R4-S24",
+  "verdict": "closed",
+  "reason": "CLOSED. Agreena already ships this: EU cover-crop carbon-credit BAU/additionality determination from 5-yr historical field data plus explicit leakage/buffer-risk accounting, live across 4.5M ha in 17 EU countries since 2023, with satellite+onsite+third-party verification under VM0042. Same problem, same output space (additional-vs-BAU label plus leakage flag), same region. Swapping in AlphaEarth+CLMS features is a method variant on an already-shipping problem, not a new problem space.",
+  "queries": [
+    {
+      "q": "AlphaEarth embeddings carbon credit additionality cover crop verification",
+      "useful": true,
+      "note": "No paper/product combines AlphaEarth embeddings with cover-crop additionality; confirms the specific technical combo is unexplored, but see product-level closing item."
+    },
+    {
+      "q": "cover crop additionality business-as-usual leakage satellite classification carbon MRV",
+      "useful": true,
+      "note": "Confirms remote sensing is an established route to additionality/leakage evidence for cover crops generally."
+    },
+    {
+      "q": "carbon credit additionality verification software vendor platform 2026",
+      "useful": true,
+      "note": "Surfaced rating agencies (BeZero, Sylvera, Renoster) doing additionality/leakage assessment as a live commercial category."
+    },
+    {
+      "q": "remote sensing counterfactual matching additionality leakage carbon offset multi-year analogue fields",
+      "useful": true,
+      "note": "Found Badgley et al. 2022 (GCB): multi-year spatial-analogue/matched-control-area method for offset additionality, forest domain."
+    },
+    {
+      "q": "Regrow OR Agreena OR CIBO Technologies additionality baseline counterfactual satellite cover crop carbon credit",
+      "useful": true,
+      "note": "Found Agreena's live BAU-determination + leakage-accounting workflow for EU cover crops -- the closing item."
+    },
+    {
+      "q": "Sylvera OR Renoster OR BeZero Carbon agricultural soil carbon rating additionality leakage satellite",
+      "useful": true,
+      "note": "Found BeZero 'dynamic baselines' matched-control-pixel method; confirmed forest-only, not agriculture."
+    },
+    {
+      "q": "\"cover crop\" carbon credit fraud detection satellite verification startup Europe",
+      "useful": false,
+      "note": "Generic fraud-detection marketing content, nothing on field-level additionality/leakage labeling."
+    },
+    {
+      "q": "CLMS crop history satellite embeddings carbon farming EU certification methodology additionality",
+      "useful": true,
+      "note": "Confirms CLMS High Resolution Layers are already positioned as the standard EU baseline data source for carbon-farming certification."
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://agreena.com/news/quantifying-creating-carbon-credits/",
+      "date": "2025-03-10",
+      "title": "From credit to credibility: Quantifying carbon credits",
+      "tier": "A",
+      "closes": true,
+      "why": "Agreena determines 'business as usual' for EU cover-crop/regen-ag fields from 5-yr historical field data and explicitly addresses leakage, uncertainty and buffer risk, at 4.5M ha scale in 17 EU countries.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://carboncredits.com/agreena-lands-50m-to-expand-regen-ag-and-carbon-credits/",
+      "date": "2023-03-31",
+      "title": "Agreena Lands $50M to Expand Regen Ag and Carbon Credits",
+      "tier": "A",
+      "closes": false,
+      "why": "Corroborates Agreena's EU-wide (16 countries) per-field historical baseline plus satellite/onsite/third-party verification workflow, showing the closing item was already shipping in 2023, not a 2025 add-on.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://onlinelibrary.wiley.com/doi/10.1111/gcb.16380",
+      "date": "2022-09-12",
+      "title": "Using remote sensing to quantify the additional climate benefits of California forest carbon offset projects",
+      "tier": "A",
+      "closes": false,
+      "why": "Same core method as the delta_claim -- multi-year remote sensing comparison of project land to nearby/matched non-project analogues to test additionality -- but applied to forest offsets, not cropland cover crops.",
+      "relation": "same_method_other_domain"
+    },
+    {
+      "url": "https://bezerocarbon.com/insights/earth-observation-in-the-bezero-carbon-rating",
+      "date": "2022-07-25",
+      "title": "Earth Observation and Dynamic Baselines in the BeZero Carbon Rating",
+      "tier": "A",
+      "closes": false,
+      "why": "Rating agency already uses matched-control-pixel 'dynamic baselines' for additionality/leakage causal inference, confirming the method-space is commercially active, but scoped to forest/nature projects, not agriculture.",
+      "relation": "same_method_other_domain"
+    }
+  ],
+  "closing_item": {
+    "url": "https://agreena.com/news/quantifying-creating-carbon-credits/",
+    "date": "2025-03-10",
+    "title": "From credit to credibility: Quantifying carbon credits",
+    "tier": "A",
+    "closes": true,
+    "why": "Agreena determines 'business as usual' for EU cover-crop/regen-ag fields from 5-yr historical field data and explicitly addresses leakage, uncertainty and buffer risk, at 4.5M ha scale in 17 EU countries.",
+    "relation": "same_problem"
+  },
+  "nearest_neighbours_do_not": "Agreena's baseline is temporal (a field's own multi-year history plus a financial breakeven test), not spatial cross-field analogue matching, and it isn't a verifier-side audit tool independent of the project developer. Badgley (2022) and BeZero run spatial multi-year analogue/matched-control baselines for additionality, but only for forest carbon, never cropland cover crops.",
+  "budget_exhausted": true,
+  "notes": "No paper or product found combining AlphaEarth Foundations embeddings with CLMS crop-history layers specifically for cover-crop additionality/leakage; that exact technical combination looks unexplored, but it sits on top of an already-solved problem framing (see closing item). Recall VM0042 may already permit comparable-field 'performance benchmark' baselines but could not confirm exact clause text before the session's web-search quota was exhausted.",
+  "product_search": {
+    "queries_run": [
+      "carbon credit additionality verification software vendor platform 2026",
+      "Regrow OR Agreena OR CIBO Technologies additionality baseline counterfactual satellite cover crop carbon credit",
+      "Sylvera OR Renoster OR BeZero Carbon agricultural soil carbon rating additionality leakage satellite",
+      "\"cover crop\" carbon credit fraud detection satellite verification startup Europe"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://agreena.com/news/quantifying-creating-carbon-credits/",
+        "date": "2025-03-10",
+        "title": "Agreena: quantifying carbon credits (BAU + leakage methodology)",
+        "tier": "A",
+        "note": "Live EU cover-crop carbon-credit platform, 4.5M ha, 17 countries, BAU determination from 5-yr field history plus leakage/buffer accounting."
+      },
+      {
+        "url": "https://carboncredits.com/agreena-lands-50m-to-expand-regen-ag-and-carbon-credits/",
+        "date": "2023-03-31",
+        "title": "Agreena $50M raise coverage",
+        "tier": "A",
+        "note": "Corroborates Agreena's per-field 5-yr baseline and third-party verification workflow across 16 EU countries as of 2023."
+      },
+      {
+        "url": "https://business.esa.int/projects/covercrop",
+        "date": "2026-06-04",
+        "title": "eAgronom CoverCrop pilot",
+        "tier": "A",
+        "note": "ESA-funded pilot on EO-based cover-crop MRV in the same EU carbon-farming space; pilot stage, not sole shipping proof."
+      },
+      {
+        "url": "https://www.xfarm.ag/en/release-notes",
+        "date": "2026-06-16",
+        "title": "xFarm release notes (sustainability/MRV/LUC features)",
+        "tier": "A",
+        "note": "Shipping EU farm-management platform adding MRV and land-use-change verification features relevant to carbon claims."
+      },
+      {
+        "url": "https://bezerocarbon.com/insights/earth-observation-in-the-bezero-carbon-rating",
+        "date": "2022-07-25",
+        "title": "BeZero Carbon: Earth Observation and Dynamic Baselines",
+        "tier": "A",
+        "note": "Shipping carbon-credit rating product using matched-control-pixel dynamic baselines for additionality/leakage, currently forest-scoped."
+      }
+    ]
+  }
+}

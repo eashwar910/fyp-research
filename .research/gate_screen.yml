@@ -1,0 +1,2102 @@
+# Stage 3 SCREEN gate — run 4
+# Written by the orchestrator (no dispatch), per ORCHESTRATOR.md stage 3 and
+# .claude/skills/fyp-constraint-gate/SKILL.md SCREEN mode.
+# Gates applied, in order, stopping at first fail:
+#   1. C3 auto_fail_patterns AND the C3 rule itself (must not be a generic agri-AI artifact)
+#   2. C1 imagery_native  — SKIPPED for singapore and for bucket=standout;
+#      for standout, C11's two cheap checks (layperson sentence, visible demo moment) run in its place
+#   3. excluded_domains   — aquaculture always; indoor/vertical only for eu/india/malaysia
+#   4. C7 regional-transfer sniff (no technical delta => fail)
+# Scope floor (C8), feasibility/licence (C9), impact (C10) and C2 sensor rules are
+# NOT assessed here — they need detail a one-liner does not carry.
+mode: screen
+assessed: 155
+passed: 63
+failed: 92
+kill_rate: "59.4%"
+passes_run: 2
+pass_1_kill_rate: "25.2%"   # too generous; skill requires >50%, so a second stricter pass was run
+unassessed_in_screen: [C2_region_sensor_rules, C8_scope_floor, C9_feasibility, C10_impact, C11_remaining_three_requirements]
+candidates:
+  - id: R4-S01
+    one_liner: "For Indian PMFBY teams running YES-TECH, use Sentinel-1/2 plus EOS-04 crop maps to flag insurance units where the technology yield estimate, crop calendar and observed phenology disagree before claims are settled."
+    verdict: screen_pass
+    region: india
+    bucket: satellite
+    reason: "Output is a three-way disagreement audit (yield estimate vs crop calendar vs observed phenology), not another yield model. Not a listed C3 pattern; imagery primary; delta is a cross-source contradiction detector, not geography."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+eos_04_sar"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S02
+    one_liner: "For Indian PMFBY supervisors, use Sentinel-1/2 around CCE plots to flag crop-cutting experiments whose photographed plot is phenologically unrepresentative of its insurance unit."
+    verdict: screen_pass
+    region: india
+    bucket: satellite
+    reason: "Post-hoc representativeness audit of CCE evidence. Restates run3:S20 but its delta_claim addresses that candidate's C7 kill directly: run3:S20 was CCE placement/stratification, this audits whether the photographed plot represents its insurance unit."
+    restates: run3:S20
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S03
+    one_liner: "For Indian AgriStack crop-sown registries, use Sentinel-1/2 and AlphaEarth annual embeddings to create a re-survey queue for parcels whose declared crop-season history conflicts with observed field behaviour."
+    verdict: screen_fail
+    region: india
+    bucket: satellite
+    failed_gate: C3_not_generic
+    reason: "Detecting a conflict between declared and observed crop-season history requires crop-type classification as the engine; the re-survey queue is a wrapper around it. C3 lists crop type classification as the whole contribution."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+aef_embeddings"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S04
+    one_liner: "For MNCFC users of ISRO's SASYA C-band SAR crop maps, use Sentinel-1/2 and AlphaEarth neighbours to emit per-district model-drift alerts when crop-calendar shifts make the operational map unreliable."
+    verdict: screen_fail
+    region: india
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Monitoring another operational map for drift is the same move as R4-S20 and R4-S57. No technical delta over standard model-drift monitoring, and the SASYA outputs it must audit are not public."
+    novelty_type: needs_novelty_check
+    data_source: "eos_04_sar+sentinel_1_sar+sentinel_2_optical+aef_embeddings"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S05
+    one_liner: "For Indian PMFBY claim officers, type satellite-visible loss cases as prevented sowing, failed germination, mid-season flood damage or post-harvest loss from Sentinel-1/2 instead of returning one damage mask."
+    verdict: screen_fail
+    region: india
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Relabels established loss detection (prevented sowing, flood, post-harvest each already detected) into PMFBY payout clauses. New regulation and user, no new measurement."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S06
+    one_liner: "For YES-TECH states onboarding new crops, use Sentinel-1/2 and GeoCrEST/FASAL outputs to publish insurance-unit uncertainty bands that expose when a crop lacks enough local calibration."
+    verdict: screen_fail
+    region: india
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Publishing per-crop uncertainty bands is standard uncertainty quantification applied to a third party's yield model, whose internals are not public. No technical delta."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+geocrest_outputs"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S07
+    one_liner: "For eastern Indian rice-fallow programmes, use Sentinel-1/2 to separate post-kharif land as waterlogged, residue-blocked, late-harvested or genuinely cultivable before rabi intensification money is targeted."
+    verdict: screen_fail
+    region: india
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Types an existing fallow map into reasons. Relabelling of an established detection with no new measurement."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S08
+    one_liner: "For India's Potato Crop Monitoring programme, use Sentinel-1/2 plus open hyperspectral samples to type district potato anomalies as acreage error, cold injury, water stress or disease-scouting priority."
+    verdict: screen_fail
+    region: india
+    bucket: satellite
+    failed_gate: C3_not_generic
+    reason: "Four output classes including 'water stress' and 'disease-scouting priority' from S1/S2 is generic crop-health anomaly detection with a relabelled output."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+hyperspectral_open"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S09
+    one_liner: "For CHAMAN horticulture planners, use Landsat/Sentinel-2 trajectories to classify mango and citrus orchards as expanding, senescent, gap-filled or freshly rejuvenated, not merely present."
+    verdict: screen_fail
+    region: india
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Orchard lifecycle-state mapping is the typing template over tree crops; tree-crop state mapping from satellite is mature and run3:D11 was already killed in this space."
+    novelty_type: needs_novelty_check
+    data_source: "landsat+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S10
+    one_liner: "For Indian horticulture infrastructure planners, use CHAMAN orchard layers and Sentinel-2 change to flag cold stores and mandis whose catchment crop base has shifted since the infrastructure was sited."
+    verdict: screen_fail
+    region: india
+    bucket: satellite
+    failed_gate: C3_not_generic
+    reason: "Contribution is a GIS catchment overlay plus crop-change detection; the analytic content is a generic change layer with a siting wrapper."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_2_optical+chaman_layers"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S11
+    one_liner: "For Punjab's crop-residue programme, estimate sub-field partial-burn fraction from Sentinel-1/2 in the harvest-to-sowing window so CRM subsidy teams can see evasion that fire counts miss."
+    verdict: screen_fail
+    region: india
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Stubble burning is the most saturated topic in Indian remote sensing and run3 killed S04 and S16 in it. Sub-field partial-burn fraction is a measurement refinement, not a technical delta."
+    restates: run3:S04
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S12
+    one_liner: "For Punjab residue-based CBG and power buyers, use Sentinel-1/2 after harvest to classify fields as baled, incorporated, partially burnt or untouched before procurement claims are accepted."
+    verdict: screen_fail
+    region: india
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Undeclared restatement of run3:S04 (classify residue fate: burnt/incorporated/baled/left), which was conditional on C7. A procurement user does not supply the missing technical delta."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S13
+    one_liner: "For Indian Digital Crop Survey supervisors, use FTW global predictions and Sentinel-2 quality layers to label each plot as satellite-observable, boundary-ambiguous or manual-survey-required."
+    verdict: screen_pass
+    region: india
+    bucket: satellite
+    reason: "Routes plots to satellite-observable / boundary-ambiguous / manual-survey-required. Restates run3:S02 but addresses its C7 kill: this is survey-effort routing, not another boundary map."
+    restates: run3:S02
+    novelty_type: needs_novelty_check
+    data_source: "ftw_global_10m+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S14
+    one_liner: "For Indian smallholder boundary datasets, compare FTW 10 m, India-10k labels and 3 m field-boundary evidence to score which parcel sizes collapse into unusable polygons."
+    verdict: screen_fail
+    region: india
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Same underlying concern as R4-S13 (when 10 m boundaries become unusable) without the routing output. Duplicate move, no additional technical delta."
+    restates: run3:S02
+    novelty_type: needs_novelty_check
+    data_source: "ftw_global_10m+india_10k_fields+planet_3m_benchmark"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S15
+    one_liner: "For PMFBY event audits, use monthly Custom Satellite Embeddings over sample districts to date sowing failure, flood shock and recovery milestones that annual AlphaEarth layers cannot resolve."
+    verdict: screen_pass
+    region: india
+    bucket: satellite
+    reason: "Tests whether monthly Custom Satellite Embeddings can date sowing failure and recovery. Restates run3:S07 and directly addresses its C9 kill (annual AlphaEarth has no in-season signal) by naming the on-demand monthly product."
+    restates: run3:S07
+    novelty_type: needs_novelty_check
+    data_source: "foundation_model_embeddings:custom_alphaearth_monthly"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S16
+    one_liner: "For Indian agri-lenders, use Sentinel-1/2 and AgriStack parcel histories to flag loan portfolios where declared crop, observed crop intensity and harvest timing imply collateral-risk drift."
+    verdict: screen_fail
+    region: india
+    bucket: satellite
+    failed_gate: C3_not_generic
+    reason: "Collateral-drift flagging runs on crop classification plus a lending wrapper; the classification is the contribution."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+agristack_registry"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S17
+    one_liner: "For SatSure-style Indian agri procurement desks, use Sentinel-1/2 and AlphaEarth similarity search to flag villages whose crop lifecycle is breaking from historical procurement assumptions."
+    verdict: screen_fail
+    region: india
+    bucket: satellite
+    failed_gate: C3_not_generic
+    reason: "Generic embedding anomaly detection with a procurement framing; no stated technical delta over R4-S16's identical move."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+aef_embeddings"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S18
+    one_liner: "For Cropin-like compliance teams in India, use Sentinel-1/2 and NICFI history only at forest-edge farms to flag plot encroachment direction before a sustainability certificate is issued."
+    verdict: screen_pass
+    region: india
+    bucket: satellite
+    reason: "Directional plot-encroachment evidence at forest-edge farms. Restates run3:S01, which passed; the delta here is encroachment direction, a different output from that candidate's event typing, so it is not a regional restatement."
+    restates: run3:S01
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+nicfi_planet_basemaps"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S19
+    one_liner: "For Indian extension teams using hyperspectral scouts, fuse open Pixxel hyperspectral samples with Sentinel-2 to label stress as nutrient, water or biotic-scouting priority before field visits."
+    verdict: screen_fail
+    region: india
+    bucket: satellite
+    failed_gate: C3_not_generic
+    reason: "Labelling stress as nutrient / water / biotic is generic crop-stress detection; run3:S05 was already killed for hyperspectral work with no delta beyond the free sensor."
+    novelty_type: needs_novelty_check
+    data_source: "hyperspectral_open+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S20
+    one_liner: "For EU CAP paying agencies, use Sentinel-1/Sentinel-2/Landsat parcel time series to label AMS cases as monitorable, genuinely inconclusive, or geotag-photo-needed, instead of forcing every cloudy or ambiguous parcel through the same compliance marker."
+    verdict: screen_pass
+    region: eu
+    bucket: satellite
+    reason: "Predicts whether a parcel can be assessed at all (monitorable / inconclusive / photo-needed). The output is a meta-property of the evidence, not another compliance label."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+landsat"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S21
+    one_liner: "For EU CAP appeal officers, use Sentinel-1/Sentinel-2/Landsat evidence trails to generate parcel-level contradiction codes for catch-crop cases where the farmer declaration, model confidence, and cloud-free imagery disagree."
+    verdict: screen_fail
+    region: eu
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Same contradiction-coding move as R4-S20 and R4-S22 applied to catch crops. Duplicate move within this run, no additional technical delta."
+    restates: run3:S18
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+landsat"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S22
+    one_liner: "For EU paying agencies, compare LPIS parcel declarations with FTW boundaries and AlphaEarth annual embeddings to type geometry errors as merge, split, encroachment, or registration offset, rather than issuing one undifferentiated LPIS quality flag."
+    verdict: screen_pass
+    region: eu
+    bucket: satellite
+    reason: "Typed LPIS geometry-error taxonomy with per-type confidence. Restates run3:S09 and supplies exactly the typing that candidate's C7 reason demanded as the missing delta."
+    restates: run3:S09
+    novelty_type: needs_novelty_check
+    data_source: "foundation_model_embeddings+ftw+lpis_eurocrops"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S23
+    one_liner: "For EU crop-map maintainers, use AlphaEarth embeddings and CLMS confidence layers to flag crop-type pixels whose class is stable but semantically drifting across years, instead of publishing only annual crop labels plus confidence."
+    verdict: screen_pass
+    region: eu
+    bucket: satellite
+    reason: "Detects semantic drift inside crop labels that remain nominally stable across years. A genuinely different question from crop classification or confidence reporting."
+    novelty_type: needs_novelty_check
+    data_source: "foundation_model_embeddings+copernicus_clms_crop_types"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S24
+    one_liner: "For EU carbon-credit verifiers, use AlphaEarth embeddings plus CLMS crop histories to label each claimed cover-crop field as additional, business-as-usual, or leakage-risk, instead of accepting a single season's detected cover crop as proof."
+    verdict: screen_pass
+    region: eu
+    bucket: satellite
+    reason: "Additionality and leakage testing for carbon claims is a causal question, not a detection relabelling; multi-year analogue controls are the stated mechanism."
+    novelty_type: needs_novelty_check
+    data_source: "foundation_model_embeddings+copernicus_clms_croplands"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S25
+    one_liner: "For EU peatland carbon schemes, use Sentinel-1 wetness persistence and Sentinel-2 crop phenology to separate true rewetting, temporary flooding, and still-cultivated organic soils before CRCF credits are issued."
+    verdict: screen_pass
+    region: eu
+    bucket: satellite
+    reason: "Separating durable rewetting from seasonal flooding and continued cultivation is a physical discrimination requiring persistence modelling, not a relabelled output."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S26
+    one_liner: "For EU soil-monitoring authorities, use Sentinel-2 and CLMS cropland histories to flag agricultural parcels whose soil-removal or sealing signal is masked as temporary bare soil, instead of waiting for coarse land-take inventories."
+    verdict: screen_pass
+    region: eu
+    bucket: satellite
+    reason: "Distinguishes soil sealing and removal from the normal bare-soil window of a crop cycle. A confounder-separation problem with a specific failure mode."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_2_optical+copernicus_clms_croplands"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S27
+    one_liner: "For EU authorities auditing GAEC soil-cover rules, use CLMS bare-soil layers plus Sentinel-1/Sentinel-2 event evidence to label bare-soil duration as crop-cycle-normal, erosion-risk, or model-artifact, rather than a binary breach."
+    verdict: screen_fail
+    region: eu
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Bare-soil duration typed as normal / erosion-risk / artifact is mostly relabelling of an established bare-soil product; the one meta class does not carry the candidate."
+    novelty_type: needs_novelty_check
+    data_source: "copernicus_clms_croplands+sentinel_1_sar+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S28
+    one_liner: "For EU Nature Restoration planners, use CLMS Small Woody Features and Sentinel-2 change to score whether new hedgerows survive, gap out, or become tree rows, instead of counting only mapped landscape-feature area."
+    verdict: screen_pass
+    region: eu
+    bucket: satellite
+    reason: "Tracks whether restored hedgerows survive, gap out or become tree rows. Restates run3:D10 and addresses its C7 kill by making survival state over time the output rather than feature presence."
+    restates: run3:D10
+    novelty_type: needs_novelty_check
+    data_source: "copernicus_clms_small_woody_features+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S29
+    one_liner: "For EU biodiversity agencies, use Sentinel-2, CLMS Small Woody Features, and tree-cover density to find arable blocks where high-diversity feature gains are visually plausible but ecologically disconnected."
+    verdict: screen_fail
+    region: eu
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Landscape connectivity metrics are a mature ecology method; applying them to CLMS small woody features is data and regional transfer, not a technical delta."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_2_optical+copernicus_clms_small_woody_features+tree_cover_density"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S30
+    one_liner: "For EU wine authorities, combine BD ORTHO-style vineyard row baselines with Sentinel-2 and AlphaEarth annual change to date vine grubbing, abandonment, or active replanting between orthophoto years."
+    verdict: screen_pass
+    region: eu
+    bucket: satellite
+    reason: "Dates vine grubbing and replanting between sparse orthophoto acquisitions by combining scales. Restates run3:D09 and addresses its C7 kill with cross-scale temporal interpolation."
+    restates: run3:D09
+    novelty_type: needs_novelty_check
+    data_source: "open_orthophoto+sentinel_2_optical+foundation_model_embeddings"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S31
+    one_liner: "For Southern European vineyard-risk planners, use Sentinel-2 and CLMS tree-cover change to classify abandoned vine rows near settlements as fuel-break, unmanaged fuel, or active vineyard before wildfire-prevention funding is allocated."
+    verdict: screen_fail
+    region: eu
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Relabels vineyard abandonment detection into wildfire fuel classes. The detection is the established task; the fuel taxonomy is a new audience, not a new measurement."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_2_optical+copernicus_clms_tree_cover"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S32
+    one_liner: "For EU agricultural insurers, use Sentinel-1/Sentinel-2 damage traces and AlphaEarth nearest-neighbour fields to separate insured hail or frost damage from pre-existing decline before claims are paid."
+    verdict: screen_pass
+    region: eu
+    bucket: satellite
+    reason: "Uses embedding nearest-neighbour fields as matched controls to attribute damage. Control-field design is a methodological delta over anomaly detection."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+foundation_model_embeddings"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S33
+    one_liner: "For EU livestock and dairy cooperatives, use Sentinel-1/Sentinel-2 grassland recovery trajectories to label drought-hit parcels as recoverable, reseed-needed, or fodder-shortage-risk, instead of reporting only regional pasture anomaly maps."
+    verdict: screen_fail
+    region: eu
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Grassland recovery relabelled into recoverable / reseed-needed / fodder-risk. Typing template over an established pasture anomaly product."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+copernicus_clms_grasslands"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S34
+    one_liner: "For EU organic certifiers, use Sentinel-1/Sentinel-2 and CLMS crop-rotation histories to flag organic-conversion parcels whose observed rotation, bare-soil, and secondary-crop pattern looks conventionally managed."
+    verdict: screen_fail
+    region: eu
+    bucket: satellite
+    failed_gate: C3_not_generic
+    reason: "Checking rotation consistency runs on crop and practice classification; the classification is the contribution and the consistency check is a wrapper."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+copernicus_clms_croplands"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S35
+    one_liner: "For EU fertilizer advisors, use occasional EnMAP/PRISMA hyperspectral scenes to audit when Sentinel-2 nitrogen prescription zones are unreliable because soil brightness or senescence is driving the index."
+    verdict: screen_pass
+    region: eu
+    bucket: satellite
+    reason: "Audits when Sentinel-2 nitrogen prescriptions are driven by soil brightness or senescence rather than nitrogen. Restates run3:S05 and addresses its C7 kill: this audits another product's failure modes instead of mapping nitrogen."
+    restates: run3:S05
+    novelty_type: needs_novelty_check
+    data_source: "hyperspectral_open+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S36
+    one_liner: "For EU carbon-farming schemes, use Sentinel-1/Sentinel-2 and CLMS bare-soil products to flag likely no-till false positives where residue, weeds, or delayed harvest mimic reduced tillage."
+    verdict: screen_fail
+    region: eu
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Characterising confounders of tillage detection is error analysis over an established product; no new measurement is proposed."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+copernicus_clms_croplands"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S37
+    one_liner: "For EU importers under EUDR, use Sentinel-1/Sentinel-2 and AlphaEarth change around declared supplier plots to type post-2020 land change as plantation management, clearance, or boundary mismatch."
+    verdict: screen_fail
+    region: eu
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "This is run3:S01's framing (type post-2020 land change instead of a binary deforestation alert) moved from Indian smallholders to EU importers. C7 hard_rejection: same method, new region is an auto-fail even when the region is underserved."
+    restates: run3:S01
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+foundation_model_embeddings"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S38
+    one_liner: "For EU soy and cattle traders under EUDR, use AlphaEarth similarity search to find declared supplier polygons whose 2020 baseline looks unlike the claimed commodity landscape, before due-diligence statements are filed."
+    verdict: screen_pass
+    region: eu
+    bucket: satellite
+    reason: "Screens whether a declared supplier polygon's 2020 baseline even looks like the claimed commodity landscape, before any deforestation check. A pre-screening step with its own failure mode."
+    novelty_type: needs_novelty_check
+    data_source: "foundation_model_embeddings"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S39
+    one_liner: "For EU precision-ag platforms, use Sentinel-1/Sentinel-2 reliability tests to mark each VRA prescription zone as stable, cloud-gap-inferred, or sensor-conflicted before exporting it to machinery."
+    verdict: screen_fail
+    region: eu
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Reliability gating of variable-rate prescriptions is thin and the prescription pipelines it must gate are commercial and closed."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S40
+    one_liner: "For EU food companies buying regenerative claims, use Sentinel-1/Sentinel-2 practice traces to detect project leakage where neighbouring supplier fields intensify after enrolled fields adopt cover crops or reduced tillage."
+    verdict: screen_pass
+    region: eu
+    bucket: satellite
+    reason: "Detects intensification leakage on neighbouring fields after enrolment. A spillover question with a named causal structure."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S41
+    one_liner: "For EU Member States preparing soil units, use Sentinel-2, CLMS cropland phenology, and AlphaEarth embeddings to split agricultural soil units where land-use trajectories are heterogeneous despite the same soil class."
+    verdict: screen_fail
+    region: eu
+    bucket: satellite
+    failed_gate: C3_not_generic
+    reason: "Splitting soil units by management trajectory requires crop and practice classification as the engine; the soil-unit wrapper does not change that."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_2_optical+copernicus_clms_croplands+foundation_model_embeddings"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S42
+    one_liner: "For EU ELMS designers, use EuroCropsML, AI4Boundaries, and CLMS outputs to produce a per-country failure taxonomy for crop markers under sparse labels, instead of another crop-type leaderboard."
+    verdict: screen_pass
+    region: eu
+    bucket: satellite
+    reason: "Per-country failure taxonomy for crop markers under sparse labels across LPIS regimes. A benchmark contribution, explicitly not a crop-type leaderboard."
+    novelty_type: needs_novelty_check
+    data_source: "lpis_eurocrops_ftw+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S43
+    one_liner: "For EU irrigation-risk auditors, use Sentinel-1 wetness, Sentinel-2 crop duration, and CLMS water/wetness to flag fields whose claimed improved irrigation likely shifts water stress downstream."
+    verdict: screen_fail
+    region: eu
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Same leakage move as R4-S40 applied to water, and downstream hydrological attribution is not supported by the named sensors. Duplicate move without a technical delta."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+copernicus_clms_water_wetness"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S44
+    one_liner: "For Malaysian palm-oil smallholders facing EUDR, turn a GPS point or rough TSPKS holding into a NICFI + Sentinel-1/2 evidence pack: boundary ambiguity, post-2020 forest conversion risk, and which cases need field photographs."
+    verdict: screen_pass
+    region: malaysia
+    bucket: satellite
+    reason: "Turns a GPS point or rough holding into an EUDR evidence pack combining boundary ambiguity, forest-risk triage and a photo handoff. Restates run3:S15, whose kill was C8 scope floor, not a SCREEN gate; the multi-component framing addresses it."
+    restates: run3:S15
+    novelty_type: needs_novelty_check
+    data_source: "nicfi_planet_basemaps+sentinel_1_sar+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S45
+    one_liner: "For MPOB TSPKS 2.0 applicants in Malaysia, label each smallholder palm holding as old-stand retained, cleared, replanted, or stalled from Sentinel-1/2 and NICFI, replacing manual photo review with event-status evidence."
+    verdict: screen_fail
+    region: malaysia
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Four-state replanting labelling is the typing template over palm replanting detection, which is established from Sentinel time series."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+nicfi_planet_basemaps"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S46
+    one_liner: "For Malaysian MSPO smallholder clusters, use NICFI + Sentinel embeddings to flag certified palm parcels whose 2020-2026 edge history conflicts with a deforestation-free claim, outputting an auditor queue by risk reason."
+    verdict: screen_fail
+    region: malaysia
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Same cross-source contradiction move as R4-S58, which states it more directly. Duplicate within this run, no additional technical delta."
+    novelty_type: needs_novelty_check
+    data_source: "nicfi_planet_basemaps+foundation_model_embeddings"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S47
+    one_liner: "For Cameron Highlands district officers in Malaysia, type new Sentinel-1/2 land-clearing signals as terrace extension, farm-road cut, greenhouse block, or non-farm clearing, instead of a generic encroachment alert."
+    verdict: screen_pass
+    region: malaysia
+    bucket: satellite
+    reason: "Types new clearing signals as terrace extension, farm-road cut, greenhouse block or non-farm construction. These are physically distinct phenomena with different spatial signatures, not severity variants of one detection."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S48
+    one_liner: "For Malaysia DOA myGAP recertification in Cameron Highlands, use Sentinel-1 SAR time series to separate active vegetable production, fallow plots, and expanded shade structures when optical imagery fails."
+    verdict: screen_fail
+    region: malaysia
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "SAR-based activity and fallow discrimination is established; relabelling it as a certification-visit triage adds a user, not a measurement."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S49
+    one_liner: "For Malaysian paddy cooperatives using AgriAssist-style alerts, audit whether a satellite pest alert actually closes after drone spraying by measuring Sentinel-1/2 recovery, not by issuing another stress map."
+    verdict: screen_fail
+    region: malaysia
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Verifying that a pest alert closes after spraying depends on proprietary AgriAssist alerts and reduces to change detection around a treatment date."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S50
+    one_liner: "For Malaysian rubber and palm buyers, use Sentinel-1/2 plus AlphaEarth embeddings to flag mixed smallholder parcels where commodity identity is uncertain enough to break EUDR due-diligence routing."
+    verdict: screen_pass
+    region: malaysia
+    bucket: satellite
+    reason: "Outputs commodity-identity uncertainty for mixed smallholder parcels so due-diligence routing can act on it. Uncertainty is the deliverable, not a crop map."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical+foundation_model_embeddings"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S51
+    one_liner: "For Malaysian smallholder palm replanting officers, compare FTW 2024-2025 field boundaries against TSPKS holding areas and classify merge, split, under-canopy miss, or road-access mismatch."
+    verdict: screen_pass
+    region: malaysia
+    bucket: satellite
+    reason: "Benchmarks how FTW boundaries fail against real holdings (merge, split, under-canopy miss). A failure taxonomy that measures when subsidy verification breaks."
+    novelty_type: needs_novelty_check
+    data_source: "lpis_eurocrops_ftw+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S52
+    one_liner: "For Cameron Highlands vegetable inspectors, use Sentinel-1 coherence to detect plastic-house installation and removal dates around myGAP parcels, outputting renewal-risk changes between certificate cycles."
+    verdict: screen_pass
+    region: malaysia
+    bucket: satellite
+    reason: "Dates plastic-house installation and removal from SAR coherence and tests those dates against certificate validity windows. A new measurement plus a contradiction check."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar_coherence"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S53
+    one_liner: "For Malaysian palm smallholders under Ganoderma-free replanting pushes, use Sentinel-1/2 to flag replanted blocks whose early canopy establishment lags peer cohorts, separating planting failure from delayed clearance."
+    verdict: screen_fail
+    region: malaysia
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Comparing replanting cohorts for establishment lag is a statistical framing over establishment detection; no technical delta."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S54
+    one_liner: "For Malaysia's paddy agencies, learn anomaly labels around official paddy lots where Sentinel-1 transplanting rhythm disagrees with the expected season, outputting inspect-now lots instead of acreage estimates."
+    verdict: screen_fail
+    region: malaysia
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "run3:S06 already killed Sentinel-1 paddy phenology work on C7. Rhythm-anomaly framing does not supply the missing delta."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S55
+    one_liner: "For Malaysian palm mills buying from cooperatives, use NICFI + Sentinel-1/2 to detect new road-linked plantation expansion within their sourcing radius and tag whether it predates the EUDR 2020 cutoff."
+    verdict: screen_fail
+    region: malaysia
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Road-linked expansion detection plus a sourcing queue. Expansion detection is the established task and the queue is a business wrapper."
+    novelty_type: needs_novelty_check
+    data_source: "nicfi_planet_basemaps+sentinel_1_sar+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S56
+    one_liner: "For Malaysian highland farm regulators, fuse FTW boundaries with Sentinel-1 slope-clearing change to find vegetable plots that grow by terracing across parcel edges between 2024 and 2025."
+    verdict: screen_fail
+    region: malaysia
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Overlaps R4-S47's Cameron Highlands clearing work without its mechanism typing; boundary-crossing terracing alone is a thinner version of the same detection."
+    novelty_type: needs_novelty_check
+    data_source: "lpis_eurocrops_ftw+sentinel_1_sar"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S57
+    one_liner: "For Malaysian estates using satellite health alerts, generate a failure-mode layer that says cloud-gap, drainage/flood pulse, harvest disturbance, or true stress, so managers know when not to spray."
+    verdict: screen_fail
+    region: malaysia
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Same 'explain another product's failure modes' move as R4-S20 and R4-S04, over proprietary estate alerts. Duplicate move."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar+sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S58
+    one_liner: "For Malaysian palm exporters, compare NICFI forest-loss evidence with AlphaEarth embedding change to flag cases where each source disagrees, outputting an EUDR uncertainty brief instead of a binary pass/fail."
+    verdict: screen_pass
+    region: malaysia
+    bucket: satellite
+    reason: "Makes disagreement between NICFI forest-loss evidence and embedding change the auditable output. Cross-source contradiction is the contribution, not either layer."
+    novelty_type: needs_novelty_check
+    data_source: "nicfi_planet_basemaps+foundation_model_embeddings"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S59
+    one_liner: "For Singapore vegetable importers sourcing from Cameron Highlands and Melaka, type Sentinel-1/Sentinel-2 anomalies as flood damage, cloud-hidden stress, delayed harvest, or recovery, instead of the aggregate import-shock alert in run3:S21."
+    verdict: screen_fail
+    region: singapore_source_basket
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Relabels run3:S21's shock score into event classes. run3:S21 passed; adding a typing layer to the owner's own passing candidate is refinement, not a new candidate."
+    restates: run3:S21
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar + sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S60
+    one_liner: "For Singapore importers receiving Malaysian produce by truck, compare declared farm districts with Sentinel-1/Sentinel-2 harvest-window plausibility to flag consignments whose claimed origin does not match crop activity."
+    verdict: screen_pass
+    region: singapore_source_basket
+    bucket: satellite
+    reason: "Uses source-farm harvest-window plausibility as an import-origin check on declared consignments. A contradiction test between a document and imagery, with a clear decision attached."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar + sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S61
+    one_liner: "For Singapore rice stockpile planners watching Vietnam, Thailand, and Cambodia, use Sentinel-1 rice calendars to flag delayed transplanting versus flood-loss risk before treaty fallback imports are triggered."
+    verdict: screen_fail
+    region: singapore_source_basket
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Separating planting delay from flood loss in rice is the typing template, and run3:S06 already killed Sentinel-1 rice phenology on C7."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S62
+    one_liner: "For Singapore vegetable buyers, use AlphaEarth annual embeddings over Malaysia, Vietnam, China, and Australia to find source regions most similar to a disrupted Cameron Highlands crop belt."
+    verdict: screen_fail
+    region: singapore_source_basket
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Nearest-neighbour retrieval is the designed use of the embedding product; a substitute-source search tool adds a user interface, not a technical delta."
+    novelty_type: needs_novelty_check
+    data_source: "foundation_model_embeddings:AlphaEarth"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S63
+    one_liner: "For SFA food-safety surveillance of imported Malaysian vegetables, use Sentinel-1 flood recurrence and FTW parcels to rank source areas for targeted microbial and residue testing."
+    verdict: screen_fail
+    region: singapore_source_basket
+    bucket: satellite
+    failed_gate: C3_not_generic
+    reason: "A risk-ranking layer built on an assumed flood-to-contamination link; the analytic content is a generic ranking over an existing flood product."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar + lpis_eurocrops_ftw"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S64
+    one_liner: "For Singapore buyers of Australian vegetables and fruit, use Landsat/Sentinel irrigation persistence to flag supplier districts shifting from irrigated production to fallow before import prices move."
+    verdict: screen_pass
+    region: singapore_source_basket
+    bucket: satellite
+    reason: "Detects supplier-capacity contraction from irrigation persistence rather than vegetation-index crop health. A persistence measurement with a price-relevant decision."
+    novelty_type: needs_novelty_check
+    data_source: "landsat + sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S65
+    one_liner: "For Singapore rice importers, use WorldCereal rice-country crop masks plus Sentinel-1 flood timing to score whether Vietnam/Cambodia/Thailand shortfalls are simultaneous or substitutable."
+    verdict: screen_pass
+    region: singapore_source_basket
+    bucket: satellite
+    reason: "Scores whether rice shortfalls across source countries are simultaneous or substitutable. A cross-source correlation measure, not country-by-country monitoring."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar + WorldCereal"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S66
+    one_liner: "For Singapore importers buying Malaysian durian and tree-fruit supply, use AlphaEarth year embeddings to detect orchard-to-construction or orchard-to-forest-edge conversion before seasonal contracts are signed."
+    verdict: screen_fail
+    region: singapore_source_basket
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Orchard-to-construction conversion detection is mature land-use change mapping; the import-resilience framing is a new audience only."
+    novelty_type: needs_novelty_check
+    data_source: "foundation_model_embeddings:AlphaEarth"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S67
+    one_liner: "For Singapore food-resilience planners, combine Sentinel-1 flood timing over Malaysia and Vietnam with SINGSTAT import-price series to learn which field shocks actually precede Singapore price spikes."
+    verdict: screen_pass
+    region: singapore_source_basket
+    bucket: satellite
+    reason: "Tests which observed field shocks actually precede Singapore import price spikes. Validating imagery signals against market outcomes is a genuine research question and filters the noise the other lines assume away."
+    restates: run3:S21
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S68
+    one_liner: "For Singapore importers sourcing eggs from Malaysia and Thailand, use Sentinel-2/WorldCereal feed-crop stress around supplier regions to flag feed-cost risk before approved-source switching."
+    verdict: screen_fail
+    region: singapore_source_basket
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Feed-crop stress as an egg-supply signal is a speculative two-step chain with no stated technical delta."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_2_optical + WorldCereal"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S69
+    one_liner: "For Singapore importers diversifying from Malaysian leafy greens, use Sentinel-2 and AlphaEarth to compare harvest-cycle stability across candidate source belts in Vietnam, China, and Australia."
+    verdict: screen_fail
+    region: singapore_source_basket
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Same retrieval-and-compare move as R4-S62 applied to phenology stability. Duplicate within this run."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_2_optical + foundation_model_embeddings:AlphaEarth"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S70
+    one_liner: "For Singapore importers of Malaysian cocoa, coffee, palm, and rubber ingredients, use NICFI to output a commodity-specific 2020 forest-baseline evidence chip for each supplier point."
+    verdict: screen_fail
+    region: singapore_source_basket
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Commodity-tagged evidence chips are packaging of an existing baseline product; no technical delta. Restates run3:S15."
+    restates: run3:S15
+    novelty_type: needs_novelty_check
+    data_source: "nicfi_planet_basemaps"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S71
+    one_liner: "For SFA crisis planners, use Sentinel-1 over Malaysia's vegetable belts and Vietnam's rice belt to identify when two staple import lanes are disrupted in the same fortnight."
+    verdict: screen_fail
+    region: singapore_source_basket
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Duplicate of R4-S65's correlation measure, widened to two commodities without additional method."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S72
+    one_liner: "For Singapore produce importers, use FTW 2024/2025 polygons over source farms to detect sudden field fragmentation or consolidation that signals supplier churn before tender renewal."
+    verdict: screen_fail
+    region: singapore_source_basket
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Field fragmentation as a supplier-churn proxy is speculative and rests on boundary mapping that is itself the established task."
+    novelty_type: needs_novelty_check
+    data_source: "lpis_eurocrops_ftw"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S73
+    one_liner: "For Singapore retailers importing Malaysian vegetables, use Sentinel-1/Sentinel-2 to flag source zones where post-rain crop recovery is too slow for normal shelf-life assumptions."
+    verdict: screen_fail
+    region: singapore_source_basket
+    bucket: satellite
+    failed_gate: C7_novelty
+    reason: "Relabels post-rain recovery detection into a retail shelf-life risk. Recovery detection is the established task."
+    novelty_type: needs_novelty_check
+    data_source: "sentinel_1_sar + sentinel_2_optical"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S74
+    one_liner: "For Indian paddy UAV teams using IMPaCT-UAV, fuse raw overlapping RGB/multispectral frames into per-plant detections with location uncertainty, so Namo Drone Didi service flights can skip orthomosaic dependency."
+    verdict: screen_pass
+    region: india
+    bucket: drone_and_aerial
+    reason: "Fuses raw overlapping frames into per-plant detections carrying location uncertainty. Restates run3:D04 and addresses its C7 kill: the prior art argued raw frames beat orthomosaics, this adds probabilistic multi-view fusion with an uncertainty output."
+    restates: run3:D04
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:IMPaCT-UAV_raw_rgb_multispectral"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S75
+    one_liner: "For Indian paddy drone surveys on IMPaCT-UAV, score each mission for radiometric repeatability across dates before NDRE changes are treated as growth-stage change."
+    verdict: screen_pass
+    region: india
+    bucket: drone_and_aerial
+    reason: "Scores radiometric repeatability across dates before index change is read as growth-stage change. Restates run3:D01, which passed. Three hunters independently found this gap."
+    restates: run3:D01
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:IMPaCT-UAV_multispectral_metadata"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S76
+    one_liner: "For Indian paddy drone analysts, detect Pix4D orthomosaic seams and missed alignments in IMPaCT-UAV that would flip field-zone decisions, returning a reject-or-reprocess mask."
+    verdict: screen_pass
+    region: india
+    bucket: drone_and_aerial
+    reason: "Detects orthomosaic seams and missed alignments that would flip a field-zone decision, returning a reject-or-reprocess mask. Ties a pipeline defect to a decision change."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:IMPaCT-UAV_raw_frames_orthomosaics"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S77
+    one_liner: "For Indian Namo Drone Didi training audits, use IMPaCT-UAV metadata to grade whether a pilot's flight pattern is reusable for analytics or only safe for spraying coverage logs."
+    verdict: screen_fail
+    region: india
+    bucket: drone_and_aerial
+    failed_gate: C1_imagery_native
+    reason: "Primary signal is flight metadata, not imagery. India is not exempt from C1; imagery here is at most a supporting layer."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:IMPaCT-UAV_flight_metadata"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S78
+    one_liner: "For Indian paddy agronomists, use sparse raw IMPaCT-UAV frames to choose the smallest annotation set that preserves stage, disease-scouting and stress diversity for later model review."
+    verdict: screen_fail
+    region: india
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Coreset and active-learning annotation-set design is a mature ML method; applying it to a UAV dataset is data transfer."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:IMPaCT-UAV_raw_rgb_multispectral"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S79
+    one_liner: "For Indian paddy drone services, align IMPaCT-UAV RGB and multispectral frames to expose when red-edge maps are spatially shifted from visible canopy rows before prescriptions are generated."
+    verdict: screen_pass
+    region: india
+    bucket: drone_and_aerial
+    reason: "Exposes when red-edge maps are spatially shifted from visible canopy rows before prescriptions are generated. A cross-sensor registration failure with a named downstream consequence."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:IMPaCT-UAV_rgb_multispectral"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S80
+    one_liner: "For Indian paddy model users, build IMPaCT-UAV failure cards that show which altitude, growth stage or weather metadata breaks growth-stage transfer before deployment."
+    verdict: screen_fail
+    region: india
+    bucket: drone_and_aerial
+    failed_gate: C1_imagery_native
+    reason: "Primary signal is acquisition metadata (altitude, stage, weather), not imagery. Fails C1 for India."
+    restates: run3:D12
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:IMPaCT-UAV_metadata"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S81
+    one_liner: "For Namo Drone Didi nutrient-spray SOPs, use TiHAN paddy growth-stage UAV images to flag fields where the observed stage makes a planned nutrient or pesticide spray mistimed."
+    verdict: screen_fail
+    region: india
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Growth-stage classification is established and run3:D12 was killed on it; gating a spray on the predicted stage is a downstream wrapper."
+    novelty_type: needs_novelty_check
+    data_source: "request_access_uav_dataset:TiHAN_paddy_growth_stage_rgb"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S82
+    one_liner: "For Indian maize extension teams, use TiHAN multispectral aerial data to decide whether tassel-head detection or early water-stress bands should trigger the first field visit."
+    verdict: screen_fail
+    region: india
+    bucket: drone_and_aerial
+    failed_gate: C3_not_generic
+    reason: "A two-option comparison on one dataset. run3:D15 was killed for exactly this shape: a one-sentence experiment on a public dataset."
+    novelty_type: needs_novelty_check
+    data_source: "request_access_uav_dataset:TiHAN_multispectral_maize"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S83
+    one_liner: "For Indian millet breeders, use the TiHAN/ICRISAT UAV hyperspectral pearl-millet dataset to output the earliest flight date when water-stress separation is trustworthy by genotype group."
+    verdict: screen_pass
+    region: india
+    bucket: drone_and_aerial
+    reason: "Outputs the earliest flight date at which water-stress separation is trustworthy, by genotype group. The deliverable is a measured reliability threshold, not a stress classifier."
+    novelty_type: needs_novelty_check
+    data_source: "request_access_uav_dataset:HSI-PearlMillet-WaterStress"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S84
+    one_liner: "For Indian paddy insurance labs, transfer open Zenodo panicle annotations into IMPaCT-UAV only to measure when panicle-count models fail under Indian camera, stage and variety shifts."
+    verdict: screen_fail
+    region: india
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Domain-shift audits are a standard evaluation practice; this is that practice on a public dataset pair, the same move as R4-S89."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:Zenodo_panicle+IMPaCT-UAV"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S85
+    one_liner: "For Indian rice-disease scouts, use the BLB UAV dataset plus IMPaCT-UAV stage metadata to convert disease patches into visit-priority zones with stage-aware false-alarm labels."
+    verdict: screen_fail
+    region: india
+    bucket: drone_and_aerial
+    failed_gate: C3_not_generic
+    reason: "Built on a public disease-image dataset with priority zones as the wrapper. C3 lists generic pest/disease detection on a public dataset."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:BLB_UAV+IMPaCT-UAV"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S86
+    one_liner: "For Namo Drone Didi service monitoring, use official Drone Portal operation records with IMPaCT-like image QA features to flag flights that need farmer follow-up before subsidy reporting."
+    verdict: screen_fail
+    region: india
+    bucket: drone_and_aerial
+    failed_gate: C1_imagery_native
+    reason: "Primary signal is Drone Portal operation records; imagery QA features are one input among several. Fails C1 for India."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:IMPaCT-UAV_for_QA_proxy+drone_portal_logs"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S87
+    one_liner: "For Indian direct-seeded rice drone-spray trials, link UAV flight parameters and water-sensitive-paper outcomes to predict which planned missions need deposition sampling before rollout."
+    verdict: screen_fail
+    region: india
+    bucket: drone_and_aerial
+    failed_gate: C1_imagery_native
+    reason: "Primary signal is flight parameters and water-sensitive-paper cards, not aerial imagery. Also restates run3:D02, whose C9 kill (no accessible post-spray imagery, ground truth needs wind-tunnel work) the delta_claim does not address."
+    restates: run3:D02
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_experiment:Frontiers_direct_seeded_rice_spray_WSP"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S88
+    one_liner: "For BharatRohan-style hyperspectral drone advisories in India, use open TiHAN/ICRISAT HSI data to emit when hyperspectral adds actionable value over cheaper multispectral scouting."
+    verdict: screen_fail
+    region: india
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "A value-of-sensor comparison is an economic study over two existing sensor products; no technical delta."
+    novelty_type: needs_novelty_check
+    data_source: "request_access_uav_dataset:HSI-PearlMillet-WaterStress+TiHAN_multispectral"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S89
+    one_liner: "For Indian paddy UAV benchmarks, join IMPaCT-UAV with TiHAN paddy-growth images to produce a cross-campus acquisition-shift score before any model is sold as field-ready."
+    verdict: screen_fail
+    region: india
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Acquisition-shift scoring duplicates R4-S75's drift work and R4-S84's domain-shift audit without adding a method."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:IMPaCT-UAV+request_access_uav_dataset:TiHAN_paddy_growth_stage"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S90
+    one_liner: "For French CAP map auditors, use FLAIR-HUB 20 cm aerial imagery plus LPIS labels to flag parcels where visible land-cover structure contradicts the declared crop-use label, instead of training another crop classifier."
+    verdict: screen_pass
+    region: eu
+    bucket: drone_and_aerial
+    reason: "Flags parcels where visible land-cover structure contradicts the declared crop-use label. A contradiction audit between a register and imagery, explicitly not another crop classifier."
+    novelty_type: needs_novelty_check
+    data_source: "open_national_orthophoto:FLAIR-HUB_BD_ORTHO"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S91
+    one_liner: "For French wine authorities, use BD ORTHO 20 cm aerial imagery to label each aided vineyard parcel as grubbed, replanted, abandoned-standing, or active by row-topology change, rather than only checking declared hectares."
+    verdict: screen_fail
+    region: eu
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Restates run3:D09 (verify vine grubbing and detect abandoned rows from BD ORTHO), which was conditional on C7. 'Row topology' is a method word, not a delta addressing the published-baselines objection."
+    restates: run3:D09
+    novelty_type: needs_novelty_check
+    data_source: "open_national_orthophoto:BD_ORTHO"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S92
+    one_liner: "For Southern European wildfire planners, use PNOA and BD ORTHO aerial imagery to classify vineyard-edge strips as maintained fuel break, unmanaged vine abandonment, or active production before climate-resilience grants are paid."
+    verdict: screen_fail
+    region: eu
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Same relabelling as R4-S31: vineyard abandonment detection presented as wildfire fuel classes."
+    novelty_type: needs_novelty_check
+    data_source: "open_national_orthophoto:PNOA+BD_ORTHO"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S93
+    one_liner: "For EU paying agencies auditing GAEC 8, use French, Dutch, and Austrian orthophotos to benchmark hedgerow-loss detectors across 20 cm, 8 cm, and 29 cm imagery, with resolution-transfer error as the output."
+    verdict: screen_pass
+    region: eu
+    bucket: drone_and_aerial
+    reason: "Benchmarks hedgerow-loss detectors across 20 cm, 8 cm and 29 cm imagery with resolution-transfer error as the output. Restates run3:D10 and addresses its C7 kill by measuring transfer error instead of building another detector."
+    restates: run3:D10
+    novelty_type: needs_novelty_check
+    data_source: "open_national_orthophotos:BD_ORTHO+PDOK_Luchtfoto+basemap_at"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S94
+    one_liner: "For Dutch water-board and CAP inspectors, use PDOK 5-8 cm aerial imagery to label ditch-edge buffer strips as intact, cropped-through, mown-too-close, or visually ambiguous before field inspections."
+    verdict: screen_fail
+    region: eu
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Buffer-strip states are the typing template over an established strip-detection task."
+    novelty_type: needs_novelty_check
+    data_source: "open_national_orthophoto:PDOK_Luchtfoto"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S95
+    one_liner: "For Spanish CAP inspectors, use PNOA 25 cm orthophotos to detect olive and vineyard terrace-wall breaks that create erosion risk, instead of treating erosion-prone parcels as a coarse slope layer."
+    verdict: screen_pass
+    region: eu
+    bucket: drone_and_aerial
+    reason: "Detects terrace-wall breaks as the erosion-control evidence. A specific structural feature with its own detection problem, not a coarse slope proxy."
+    novelty_type: needs_novelty_check
+    data_source: "open_national_orthophoto:PNOA"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S96
+    one_liner: "For French landscape-feature monitors, use BD ORTHO infrared aerial imagery to classify hedgerow change as removal, hard pruning, gapping, or new planting, rather than a binary tree-line loss map."
+    verdict: screen_fail
+    region: eu
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Hedgerow change typing restates run3:D10 alongside R4-S93; the resolution benchmark is the stronger form of this gap and this one adds only the class list."
+    restates: run3:D10
+    novelty_type: needs_novelty_check
+    data_source: "open_national_orthophoto:BD_ORTHO_RGBI"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S97
+    one_liner: "For Austrian alpine CAP inspectors, use basemap.at orthophotos to distinguish woody encroachment, temporary scrub, and maintained pasture edges on small mountain parcels before eligibility is reduced."
+    verdict: screen_fail
+    region: eu
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Woody encroachment typing on alpine pasture edges is relabelling of an established encroachment detection."
+    novelty_type: needs_novelty_check
+    data_source: "open_national_orthophoto:basemap_at"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S98
+    one_liner: "For EU LPIS quality teams, use national orthophotos to type parcel-boundary mismatches as fence-line offset, cropped-through boundary, merged field, or digitising lag, instead of one geometry divergence score."
+    verdict: screen_fail
+    region: eu
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Duplicate of R4-S22's LPIS geometry-error taxonomy, differing only in sensor. No additional technical delta."
+    restates: run3:S09
+    novelty_type: needs_novelty_check
+    data_source: "open_national_orthophotos:BD_ORTHO+PDOK_Luchtfoto+PNOA"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S99
+    one_liner: "For maize weeding-equipment developers in Germany, use WeedsGalore multispectral UAV imagery to predict when crop-weed masks are unreliable by species mix, crop stage, and occlusion, before spraying decisions are trusted."
+    verdict: screen_fail
+    region: eu
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "One of three variants in this run of 'characterise when weed segmentation fails on public UAV datasets'. R4-S101 is the benchmark form; this adds no separate method."
+    restates: run3:D15
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:WeedsGalore"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S100
+    one_liner: "For sugar-beet robotic weeding teams, use PhenoBench UAV images to output plant-instance correction queues where crop, weed, and leaf hierarchy disagree, rather than optimizing another hidden-test leaderboard score."
+    verdict: screen_fail
+    region: eu
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Second variant of the same weed-segmentation failure work; a correction queue is an output format, not a technical delta."
+    restates: run3:D08
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:PhenoBench"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S101
+    one_liner: "For EU UAV weed datasets, build a cross-dataset failure map from WeedsGalore and PhenoBench that labels whether errors come from sensor bands, growth stage, species ambiguity, or instance crowding."
+    verdict: screen_pass
+    region: eu
+    bucket: drone_and_aerial
+    reason: "Cross-dataset failure map labelling whether weed-segmentation errors come from sensor bands, growth stage, species ambiguity or instance crowding. Restates run3:D03 and addresses its C3 kill: the deliverable is a failure taxonomy, not a segmentation model."
+    restates: run3:D03
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:WeedsGalore+PhenoBench"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S102
+    one_liner: "For Spanish vineyard managers, use the Canyelles UAV RGB/multispectral orthomosaics and point clouds to label vine-row gaps as missing plant, weak canopy, machinery damage, or trained-row artifact."
+    verdict: screen_fail
+    region: eu
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Vine-row gap typing restates run3:D11, which was killed as a crop variant of mature tree-crown inventory work."
+    restates: run3:D11
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:UAV_Canyelles_Vineyard"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S103
+    one_liner: "For vineyard robotics teams, use GrapeSLAM raw UAV side videos to output row-level geolocation uncertainty for vine observations, instead of trusting orthomosaic-derived plant positions as exact."
+    verdict: screen_pass
+    region: eu
+    bucket: drone_and_aerial
+    reason: "Propagates raw-video SLAM uncertainty to vine-row observations instead of treating orthomosaic positions as exact. Restates run3:D04 and addresses its C7 kill with uncertainty propagation."
+    restates: run3:D04
+    novelty_type: needs_novelty_check
+    data_source: "raw_frames_with_metadata:GrapeSLAM"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S104
+    one_liner: "For Italian salad growers using low-cost UAV scouting, use the public salad-weed UAV dataset to label frames as spray-ready, human-review, or unsafe-to-act from latency and annotation uncertainty."
+    verdict: screen_pass
+    region: eu
+    bucket: drone_and_aerial
+    reason: "Labels frames spray-ready, human-review or unsafe-to-act from latency and annotation uncertainty. The output is an action-safety decision built on uncertainty, not a detector."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:AgriAdapt_salad_weed"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S105
+    one_liner: "For French agroforestry monitors, use BD ORTHO and PureForest-style aerial RGBI patches to classify new farm tree rows by likely species group, not just whether woody features exist."
+    verdict: screen_fail
+    region: eu
+    bucket: drone_and_aerial
+    failed_gate: C3_not_generic
+    reason: "Classifying tree rows by species group is crop/species type classification as the whole contribution."
+    novelty_type: needs_novelty_check
+    data_source: "open_national_orthophoto:BD_ORTHO+open_aerial_dataset:PureForest"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S106
+    one_liner: "For European drone-analytics vendors, use DroneZaic-style raw aerial videos to benchmark when free-flight video mosaics preserve row geometry well enough for field decisions, instead of assuming planned-grid orthomosaics."
+    verdict: screen_fail
+    region: eu
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Overlaps R4-S103's raw-video geometry work; a mosaic fitness benchmark without the uncertainty contribution."
+    novelty_type: needs_novelty_check
+    data_source: "raw_frames_with_metadata:DroneZaic"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S107
+    one_liner: "For Malaysian MPOB/Agrobank TSPKS 2.0 officers, turn MOPAD UAV oil-palm imagery into replanting-audit evidence that separates vacant stand gaps from dead, smallish, yellowish, and mismanaged palms."
+    verdict: screen_fail
+    region: malaysia
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Per-palm condition labels are what the MOPAD dataset and its own paper already produce; repackaging them as subsidy-audit evidence adds a user, not a method."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:MOPAD"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S108
+    one_liner: "For Malaysian smallholder extension officers, use MOPAD UAV imagery to output a block-level confidence score for whether sparse palms mean vacant planting points, young replanting, or uncertain annotations."
+    verdict: screen_pass
+    region: malaysia
+    bucket: drone_and_aerial
+    reason: "Outputs a block-level confidence score for whether sparse palms mean vacant planting points, young replanting or uncertain annotation. Ambiguity is the deliverable, which is a different problem from detection."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:MOPAD"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S109
+    one_liner: "For Malaysian palm-oil exporters facing EUDR, use MOPAD UAV tree-status labels to produce replanting-versus-canopy-loss evidence before a supplier plot is escalated for forest-conversion review."
+    verdict: screen_fail
+    region: malaysia
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Replanting-versus-conversion evidence for EUDR is run3:S01's typing move carried onto palm UAV imagery, and duplicates R4-S45's satellite form."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:MOPAD"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S110
+    one_liner: "For Malaysian drone-service QA teams, compare MOPAD with Roboflow Oil Palm Using UAV images to reject client orthomosaics whose crown spacing, scale, or preprocessing sits outside training data."
+    verdict: screen_pass
+    region: malaysia
+    bucket: drone_and_aerial
+    reason: "Rejects client orthomosaics whose crown spacing, scale or preprocessing sits outside the training distribution. Out-of-distribution rejection before analysis is a genuine pipeline contribution."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:MOPAD + open_uav_dataset:Roboflow_Oil_Palm_Using_UAV"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S111
+    one_liner: "For Malaysian plantation auditors, use MOPAD UAV imagery to queue only rare yellowish, smallish, and mismanaged palms whose class-imbalance uncertainty could change a replanting decision."
+    verdict: screen_fail
+    region: malaysia
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Rare-class uncertainty queue duplicates R4-S108's confidence output on the same dataset."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:MOPAD"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S112
+    one_liner: "For Malaysian oil-palm mills buying from smallholders, aggregate MOPAD UAV dead-palm clusters into a procurement-risk flag that says which supplier blocks need a visit before delivery contracts renew."
+    verdict: screen_fail
+    region: malaysia
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Aggregating dead-palm clusters into a procurement flag is a business wrapper over existing detections."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:MOPAD"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S113
+    one_liner: "For Malaysian plantation QA teams, use revised MOPAD labels from the oil-palm-condition YOLOv8 study to detect which original MOPAD label errors would flip a replanting subsidy verdict."
+    verdict: screen_pass
+    region: malaysia
+    bucket: drone_and_aerial
+    reason: "Measures which original MOPAD label errors would flip a replanting verdict, using the revised label set. A label-quality benchmark with decision impact as the metric."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:revised_MOPAD_labels"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S114
+    one_liner: "For Malaysian drone-mapping firms, use Roboflow Oil Palm Using UAV tiles to benchmark whether resizing and augmentation choices create false palm centroids near roads, drains, and bare-soil patches."
+    verdict: screen_fail
+    region: malaysia
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Preprocessing-induced false centroids overlaps R4-S110's distribution-shift rejection on the same datasets without a separate method."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:Roboflow_Oil_Palm_Using_UAV"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S115
+    one_liner: "For Malaysian plantation GIS teams, use MOPAD UAV detections to output geolocation uncertainty ellipses for individual unhealthy palms before they are converted into replanting work orders."
+    verdict: screen_pass
+    region: malaysia
+    bucket: drone_and_aerial
+    reason: "Outputs per-palm geolocation uncertainty ellipses before detections become work orders. Spatial uncertainty propagation, distinct from the class-confidence work in R4-S108."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:MOPAD"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S116
+    one_liner: "For Malaysian Ganoderma screening teams, use iRadar's hyperspectral tree-crown dataset to rank palms for lab follow-up by spectral confidence, not by a binary infected/healthy map."
+    verdict: screen_fail
+    region: malaysia
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Ganoderma detection from hyperspectral crowns is a crowded Malaysian research area; confidence-ranked lab follow-up is a thin delta over it."
+    novelty_type: needs_novelty_check
+    data_source: "requestable_hyperspectral_dataset:iRadar_Hyperspectral_Tree-Crown_flight20260505_164605"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S117
+    one_liner: "For Malaysian Ganoderma field crews, use iRadar hyperspectral tree-crown imagery to output the minimum band subset that preserves early-infection triage under a low-cost UAV payload constraint."
+    verdict: screen_fail
+    region: malaysia
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Band selection under a payload constraint is a mature hyperspectral method."
+    novelty_type: needs_novelty_check
+    data_source: "requestable_hyperspectral_dataset:iRadar_Hyperspectral_Tree-Crown_flight20260505_164605"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S118
+    one_liner: "For Malaysian plantation managers, use iRadar hyperspectral tree-crown data and MOPAD visible-status labels to separate spectral Ganoderma suspicion from ordinary yellowing or mismanagement."
+    verdict: screen_pass
+    region: malaysia
+    bucket: drone_and_aerial
+    reason: "Separates spectral disease suspicion from ordinary yellowing and management stress by fusing hyperspectral crowns with visible status labels. A confounder-separation problem with two accessible data classes."
+    novelty_type: needs_novelty_check
+    data_source: "requestable_hyperspectral_dataset:iRadar_Hyperspectral_Tree-Crown + open_uav_dataset:MOPAD"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S119
+    one_liner: "For Malaysian drone sprayer operators, use MOPAD/Roboflow palm-crown detections to flag blocks where crown overlap makes point-to-point spray paths unsafe without manual correction."
+    verdict: screen_fail
+    region: malaysia
+    bucket: drone_and_aerial
+    failed_gate: C3_not_generic
+    reason: "Crown-overlap geometry for spray-path safety is a geometric heuristic with no learned component and no research question."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:MOPAD + open_uav_dataset:Roboflow_Oil_Palm_Using_UAV"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S120
+    one_liner: "For Malaysian smallholder replanting teams, use MOPAD UAV imagery to identify palms whose visible status changed from productivity concern into action-needed evidence after nearest-neighbour block context is considered."
+    verdict: screen_fail
+    region: malaysia
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Neighbourhood context over per-tree labels is standard spatial post-processing."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:MOPAD"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S121
+    one_liner: "For Singapore drone-service operators flying repeat missions over Lim Chu Kang and Kranji farm clusters, fuse NParks' no-fly-zone polygons with CAAS's OneMap UAS layer and named farm-plot boundaries to auto-generate a legal flight-corridor and permit-need map before each mission, replacing manual per-flight zone lookups."
+    verdict: screen_fail
+    region: singapore
+    bucket: drone_and_aerial
+    failed_gate: C3_not_generic
+    reason: "A polygon overlay of published no-fly and parcel layers producing a map. This is the dashboard/visualisation pattern, and the subject is airspace compliance rather than agriculture."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:geofence_dataset"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S122
+    one_liner: "For SFA's Lim Chu Kang farm-consolidation planners, combine the same NParks and CAAS drone-restriction layers with SLA's updated cadastral parcels to site shared drone launch, charging and data-relay pads across the newly co-located farms so flight-time coverage is maximised while every pad respects no-fly buffers."
+    verdict: screen_fail
+    region: singapore
+    bucket: drone_and_aerial
+    failed_gate: C3_not_generic
+    reason: "Siting pads by overlaying published restriction polygons is generic geometric tooling; run3:G01 already occupies the Lim Chu Kang spatial-optimisation space in a far richer form."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:geofence_dataset"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S123
+    one_liner: "For URA and SFA officials reviewing new Lim Chu Kang farm-parcel layouts, overlay NParks' protected-reserve boundary polygons with SLA's updated cadastral parcels to automatically flag any proposed plot that breaches ecological buffer-distance rules near Sungei Buloh or Kranji before construction begins."
+    verdict: screen_fail
+    region: singapore
+    bucket: drone_and_aerial
+    failed_gate: C3_not_generic
+    reason: "Pure geometric buffer-distance check between two published polygon layers. No learned component and no research question."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:geofence_dataset"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S124
+    one_liner: "For SFA and HDB managing multi-storey-carpark rooftop vegetable farms, fuse the BCA TR78-mandated periodic drone thermal facade and roof inspection imagery these buildings already undergo with per-site harvest logs, to flag which rooftops are losing crop output to heat or waterproofing defects the inspection already photographed but never linked to farming outcomes."
+    verdict: screen_pass
+    region: singapore
+    bucket: drone_and_aerial
+    reason: "Reuses the BCA TR78-mandated rooftop thermal inspection imagery these buildings already undergo, linking it to harvest logs. The data reuse is genuinely unexploited and the failure mode (heat and waterproofing defects photographed but never linked to farming outcomes) is non-obvious."
+    novelty_type: needs_novelty_check
+    data_source: "raw_frames_with_metadata:thermal_inspection_archive"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S125
+    one_liner: "For Singapore Food Agency import-resilience planners, use sub-metre drone imagery from Malaysian smallholder partner archives such as Aonic and ProLadang service flights over Cameron Highlands and Johor vegetable plots too small for Sentinel-2's 10 m pixels, to detect plot-level crop-stress anomalies and estimate a finer-grained supply-shock lead time than existing satellite-based early-warning work."
+    verdict: screen_fail
+    region: singapore
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Restates run3:S21 with a finer sensor. The hunter's own delta_claim concedes it is a sensor delta and not a method transfer; a resolution upgrade of an archived passing candidate is not novelty."
+    restates: run3:S21
+    novelty_type: needs_novelty_check
+    data_source: "sub_metre_commercial"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S126
+    one_liner: "For Singapore and Johor drone-service firms deciding whether to buy an off-the-shelf weed-detection model, quantify the domain gap between temperate open-field UAV datasets such as WeedsGalore and PhenoBench and drone frames from a partner archive of tropical leafy-vegetable farms, producing a calibrated deploy-without-retraining score."
+    verdict: screen_fail
+    region: singapore
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Same domain-shift audit move as R4-S84 and R4-S89, and the tropical target archive it would measure against is asserted rather than named."
+    novelty_type: needs_novelty_check
+    data_source: "open_uav_dataset:WeedsGalore+PhenoBench"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S127
+    one_liner: "For Singapore and Malaysia drone-service firms such as Aonic and Meraque, screen raw geotagged frames and flight metadata straight off the aircraft to flag orthomosaic-stitching failures such as blur, ghosting and misregistration before the multi-hour stitching job runs, cutting their current days-long fly-stitch-inspect cycle."
+    verdict: screen_pass
+    region: singapore
+    bucket: drone_and_aerial
+    reason: "Screens raw geotagged frames for stitching artefacts before the multi-hour stitching job runs. A pre-stitch gate attacks a named operational bottleneck, distinct from post-stitch QC."
+    novelty_type: needs_novelty_check
+    data_source: "raw_frames_with_metadata"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S128
+    one_liner: "For Singapore fresh-produce importers using the Aerodyne-DroneDash cross-border drone corridor between Johor and Singapore, convert each flight's in-transit telemetry on temperature, vibration and flight time into a real-time spoilage-risk score per perishable shipment, triggering reroute or reject decisions the delivery service itself does not make."
+    verdict: screen_fail
+    region: singapore
+    bucket: drone_and_aerial
+    failed_gate: C3_not_generic
+    reason: "Telemetry stream into a risk score is the IoT-sensors-plus-dashboard pattern, and the temperature and vibration telemetry it needs was not shown to be collected."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:flight_telemetry"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S129
+    one_liner: "For Singapore drone-service firms serving both BCA-regulated building inspections and farm clients, reuse the TR78-mandated face, licence-plate and window anonymisation pipeline already required near residential blocks to pre-process farm drone imagery flown over Lim Chu Kang and Kranji plots bordering HDB estates, avoiding a second PDPA-compliance build per client."
+    verdict: screen_fail
+    region: singapore
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Reusing a mandated anonymisation pipeline on different imagery is an engineering integration, not a technical contribution."
+    novelty_type: needs_novelty_check
+    data_source: "raw_frames_with_metadata"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S130
+    one_liner: "For SFA staff evaluating additional HDB multi-storey-carpark rooftops for future urban-farm tenders, rank untested rooftops by heat-load and structural-loading suitability using existing BCA TR78 drone thermal and structural inspection archives, instead of issuing tenders under today's uniform site criteria."
+    verdict: screen_fail
+    region: singapore
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "Duplicates R4-S124's reuse of the TR78 thermal archive in a weaker form: a site ranking rather than a linked outcome."
+    novelty_type: needs_novelty_check
+    data_source: "raw_frames_with_metadata:thermal_inspection_archive"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S131
+    one_liner: "For JTC-tenant indoor vertical-farm operators such as Singrow, mine the periodic BCA TR78 drone facade-inspection thermal imagery their industrial buildings already undergo to pre-empt HVAC or cooling-system failures before they cause temperature-sensitive crop loss, instead of waiting for in-house IoT alerts."
+    verdict: screen_pass
+    region: singapore
+    bucket: drone_and_aerial
+    reason: "Mines TR78 facade-inspection thermal imagery to pre-empt HVAC failure before temperature-sensitive crop loss. Indoor and vertical farming are permitted for Singapore under conditionally_excluded, and the data reuse is the contribution."
+    novelty_type: needs_novelty_check
+    data_source: "raw_frames_with_metadata:thermal_inspection_archive"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S132
+    one_liner: "For SFA verifying physical build-out on redeveloped Lim Chu Kang parcels, task a named drone-service firm under written data-access terms with periodic structure-footprint flights and difference successive raw frames against each farm's approved production-capability plan, flagging under-built or non-compliant construction months before the current manual site visit would."
+    verdict: screen_pass
+    region: singapore
+    bucket: drone_and_aerial
+    reason: "Differences successive structure-footprint frames against each farm's approved production-capability plan. Verification against a plan document is a specific contradiction test. NOTE: commissioning periodic flights is functionally self-collected acquisition, which C2 sensor_rules.singapore.extra_check puts out of scope; C2 is not a SCREEN gate, so this must be settled at stage 4."
+    novelty_type: needs_novelty_check
+    data_source: "raw_frames_with_metadata"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S133
+    one_liner: "For PUB and SFA monitoring the farm-reservoir interface at Kranji, tap PUB's existing BVLOS drone video feed at Kranji Reservoir, already operational for illegal-activity detection, via a data-sharing agreement to also flag farm runoff or encroachment events, instead of commissioning separate agricultural survey flights."
+    verdict: screen_pass
+    region: singapore
+    bucket: drone_and_aerial
+    reason: "Repurposes PUB's operational Kranji BVLOS video feed, already running for illegal-activity detection, to flag farm runoff and encroachment. Using an existing government feed for a task it was not built for is the contribution."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:reservoir_drone_video_feed"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S134
+    one_liner: "For Singapore agri-tech buyers procuring drone-as-a-service contracts from firms like Aonic, Aerodyne and Garuda Robotics, re-process the same raw farm flight through each vendor's proprietary pipeline under written data-sharing terms to quantify how much delivered NDVI or health-map variance is pipeline-choice artifact versus true agronomic signal, a benchmark no vendor currently publishes."
+    verdict: screen_pass
+    region: singapore
+    bucket: drone_and_aerial
+    reason: "Re-processes one raw flight through competing vendor pipelines to decompose delivered map variance into pipeline artefact versus agronomic signal. A benchmark nobody publishes, with a real procurement decision attached."
+    novelty_type: needs_novelty_check
+    data_source: "raw_frames_with_metadata"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S135
+    one_liner: "For the same repeat-flight drone-service operations over Lim Chu Kang and Kranji, correct sub-pixel geometric misregistration between successive missions using each raw frame's GNSS and RTK metadata, so a farm's week-over-week canopy-change signal isn't confounded by drone-positioning drift rather than real field change."
+    verdict: screen_fail
+    region: singapore
+    bucket: drone_and_aerial
+    failed_gate: C7_novelty
+    reason: "RTK-based co-registration between repeat flights is standard photogrammetric practice."
+    novelty_type: needs_novelty_check
+    data_source: "raw_frames_with_metadata"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S136
+    one_liner: "Globally, turn cheap ultrasonic microphones in greenhouses into a live plant-thirst meter that plays back tomato stress clicks and predicts the next irrigation miss before leaves wilt."
+    verdict: screen_pass
+    region: global
+    bucket: standout
+    reason: "Layperson sentence and demo moment are both nameable in one clause (plants click when thirsty; a live spectrogram that starts clicking). Greenhouse work is permitted for standout. Ultrasonic plant emission as the primary irrigation signal is not a listed generic pattern."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:ultrasonic_plant_audio"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S137
+    one_liner: "Globally, turn FAO eLocust reports, wind forecasts and crop maps into a swarm food-clock that shows which village's harvest is next and what one square kilometre will eat today."
+    verdict: screen_pass
+    region: global
+    bucket: standout
+    reason: "Layperson sentence and demo moment both land without preamble (which village's harvest the swarm eats next; an animated route burning down food counters)."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:locust_reports+weather+crop_maps"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S138
+    one_liner: "Globally, turn Open Foris Whisp EUDR outputs into a smallholder appeal builder that shows the exact dataset disagreement behind a red-risk plot."
+    verdict: screen_fail
+    region: global
+    bucket: standout
+    failed_gate: C11_standout
+    reason: "Fails the layperson check. 'The exact dataset disagreement behind a red-risk plot' cannot be explained without first explaining EUDR, Whisp and what a red-risk plot is. The one-liner needs a preamble to land."
+    novelty_type: needs_novelty_check
+    data_source: "satellite_risk_layers:openforis_whisp"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S139
+    one_liner: "Globally, use AlphaEarth annual embeddings to find crop-field doppelgangers: a farmer clicks one field and sees the most similar fields worldwide plus what happened there last year."
+    verdict: screen_fail
+    region: global
+    bucket: standout
+    failed_gate: C3_not_generic
+    reason: "A click-a-field-see-similar-fields gallery over a pretrained embedding product is the visualisation-platform-for-satellite-data pattern; similarity search is the embedding's designed use."
+    novelty_type: needs_novelty_check
+    data_source: "foundation_model_embeddings:AlphaEarth_annual"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S140
+    one_liner: "Globally, use Custom Satellite Embeddings to make a crop-disaster receipt: before/after embedding tiles prove exactly where frost, flood or hail changed a farm."
+    verdict: screen_fail
+    region: global
+    bucket: standout
+    failed_gate: C7_novelty
+    reason: "Before/after damage evidence for insurance is mature change detection; presenting it as a receipt is packaging. Restates run3:S07."
+    restates: run3:S07
+    novelty_type: needs_novelty_check
+    data_source: "foundation_model_embeddings:custom_alphaearth"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S141
+    one_liner: "Globally, turn OpenET field-scale evapotranspiration into a water-saving replay where a farmer draws a field and sees the litres not pumped by one skipped irrigation."
+    verdict: screen_pass
+    region: global
+    bucket: standout
+    reason: "Layperson sentence and demo moment are immediate (the litres you did not pump; a field polygon filling a counter). The counterfactual framing gives it a measurable headline."
+    novelty_type: needs_novelty_check
+    data_source: "satellite_et:OpenET_API"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S142
+    one_liner: "Globally, turn FAO FLAPP loss surveys plus phone photos into a loss-cause sorter that shows whether tomatoes died from harvest timing, transport damage or storage delay."
+    verdict: screen_pass
+    region: global
+    bucket: standout
+    reason: "Layperson sentence and demo moment both land in one clause (did the tomatoes die in the field, the truck or the warehouse; a crate photo becoming blame bars)."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:food_loss_surveys+phone_images"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S143
+    one_liner: "Globally, turn GS1 Digital Link scans on fresh-produce cases into a recall blast-radius simulator that shows which pallets, farms and stores one bad lot touches."
+    verdict: screen_fail
+    region: global
+    bucket: standout
+    failed_gate: C3_not_generic
+    reason: "A graph traversal over traceability events rendered as an expanding path diagram. The contribution is a simulator interface, not an analytic one."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:GS1_digital_link+produce_traceability_events"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S144
+    one_liner: "For Indian mango exports, fuse APEDA HortiNet traceability with phone/X-ray grade images to flag cartons whose visible quality contradicts the certificate before shipment."
+    verdict: screen_pass
+    region: global
+    bucket: standout
+    reason: "Layperson sentence and demo moment both land (scan a carton, see its image grade contradict its certificate). The contradiction between document and image is the analytic content."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:traceability_records+produce_images"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S145
+    one_liner: "Globally, use smartphone videos under changing screen colours to map saffron purity across a sample so buyers can see fake filaments as a heatmap."
+    verdict: screen_pass
+    region: global
+    bucket: standout
+    reason: "Layperson sentence and demo moment both land hard (is your saffron fake; a ten-second phone video becoming a purity heatmap). Using the phone screen as a tunable illuminant is a real technique transfer into food fraud."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:smartphone_video_spectral_proxy"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S146
+    one_liner: "Globally, make a Foldscope saffron verifier that asks the user to stain one strand, then highlights the missing papillae that reveal fake lookalikes."
+    verdict: screen_pass
+    region: global
+    bucket: standout
+    reason: "Layperson sentence and demo moment both land (stain one strand and see the missing feature that proves it is fake). Distinct instrument and output from R4-S145, so both are kept."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:foldscope_microscopy+phone_images"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S147
+    one_liner: "Globally, build a field-robot referee that replays See & Spray or LaserWeeder video and labels every missed weed, crop hit and unsafe actuation frame."
+    verdict: screen_pass
+    region: global
+    bucket: standout
+    reason: "Layperson sentence and demo moment both land (did the weeding robot actually kill the weeds; a replay pausing on misses and crop hits). Third-party actuation audit is a genuine gap. Data access to robot video is the open risk for stage 4."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:robot_camera_video+as_applied_maps"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S148
+    one_liner: "Globally, turn Blue River's crop-camera streams into a weed-resistance early warning by spotting patches that survive repeated targeted sprays across seasons."
+    verdict: screen_pass
+    region: global
+    bucket: standout
+    reason: "Layperson sentence and demo moment both land (the weeds that survive spraying are the ones that come back). Survivor-patch tracking across seasons is a distinct contribution from spray-savings reporting. Data access is the open risk."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:machine_vision_weed_maps+spray_history"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S149
+    one_liner: "Globally, use FAO FAMEWS reports and maize photos to make a fall-armyworm triage map that ranks which villages need scouts before infestation peaks."
+    verdict: screen_fail
+    region: global
+    bucket: standout
+    failed_gate: C7_novelty
+    reason: "Same pest-report-plus-weather-to-priority-ranking move as R4-S137, which carries the stronger demo. Duplicate within this run."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:pest_reports+phone_images"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S150
+    one_liner: "Globally, turn PlantVillage-style disease photos into an outbreak speedometer that shows when scattered farmer diagnoses become a moving epidemic front."
+    verdict: screen_pass
+    region: global
+    bucket: standout
+    reason: "Layperson sentence and demo moment both land (when scattered farmer photos become a moving epidemic front; dots turning into a speed gauge). Detecting spatial acceleration is a different output from diagnosing a leaf."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:geotagged_crop_disease_images"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S151
+    one_liner: "Globally, use NASA Harvest/GEOGLAM crop-condition maps to build a food-security lie detector that highlights where market prices ignore visible crop failure."
+    verdict: screen_pass
+    region: global
+    bucket: standout
+    reason: "Layperson sentence and demo moment both land (where the market price says the harvest is fine and the satellite says it failed). The contradiction is the product."
+    novelty_type: needs_novelty_check
+    data_source: "satellite_crop_monitor+market_prices"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S152
+    one_liner: "Globally, fuse OpenET with crop insurance polygons to make a drought-proof-of-care score: did the farmer irrigate enough before claiming drought damage?"
+    verdict: screen_pass
+    region: global
+    bucket: standout
+    reason: "Layperson sentence and demo moment both land (did the farmer actually water before claiming drought; a polygon turning green or red). A proof-of-care score is a specific evidentiary output."
+    novelty_type: needs_novelty_check
+    data_source: "satellite_et:OpenET_API+insurance_polygons"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S153
+    one_liner: "Globally, build an elephant crop-raid decoy planner that places solar voice boxes only where acoustic deterrence would protect the most crop edge."
+    verdict: screen_pass
+    region: global
+    bucket: standout
+    reason: "Layperson sentence and demo moment both land (where to put the speaker so elephants raid less; move it and watch protected area change). Placement optimisation from response curves is the analytic content."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:camera_trap_events+acoustic_deterrent_logs+field_edges"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S154
+    one_liner: "Globally, turn FarmVibes.AI workflows into a model-card generator that shows which satellite, weather or drone modality actually changed an agriculture decision."
+    verdict: screen_fail
+    region: global
+    bucket: standout
+    failed_gate: C11_standout
+    reason: "Fails the layperson check. 'Which modality actually changed an agriculture decision' and 'model card' cannot be delivered to a non-technical person in one sentence without preamble."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:workflow_metadata+multimodal_agri_inputs"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+  - id: R4-S155
+    one_liner: "Globally, build a Solix-style scouting replay that converts robot detections of stand gaps, weeds and pests into the one human intervention that pays back first."
+    verdict: screen_fail
+    region: global
+    bucket: standout
+    failed_gate: C7_novelty
+    reason: "Ranking interventions by payback is standard agronomic decision support, and it depends on a proprietary robot's scouting events."
+    novelty_type: needs_novelty_check
+    data_source: "non_imagery:field_robot_scouting_events"
+    scope_floor_met: unassessed
+    feasibility: unassessed
+screen_pass:
+  count: 63
+  ids: [R4-S01, R4-S02, R4-S13, R4-S15, R4-S18, R4-S20, R4-S22, R4-S23, R4-S24, R4-S25, R4-S26, R4-S28, R4-S30, R4-S32, R4-S35, R4-S38, R4-S40, R4-S42, R4-S44, R4-S47, R4-S50, R4-S51, R4-S52, R4-S58, R4-S60, R4-S64, R4-S65, R4-S67, R4-S74, R4-S75, R4-S76, R4-S79, R4-S83, R4-S90, R4-S93, R4-S95, R4-S101, R4-S103, R4-S104, R4-S108, R4-S110, R4-S113, R4-S115, R4-S118, R4-S124, R4-S127, R4-S131, R4-S132, R4-S133, R4-S134, R4-S136, R4-S137, R4-S141, R4-S142, R4-S144, R4-S145, R4-S146, R4-S147, R4-S148, R4-S150, R4-S151, R4-S152, R4-S153]
+region_mix_passed:   # observation only — not a target, never balanced
+  eu: 19
+  global: 13
+  malaysia: 11
+  india: 10
+  singapore: 6
+  singapore_source_basket: 4
+region_mix_assessed:
+  eu: 41
+  india: 35
+  malaysia: 29
+  global: 20
+  singapore_source_basket: 15
+  singapore: 15
+bucket_mix_passed:
+  satellite: 28
+  drone_and_aerial: 22
+  standout: 13
+kills_by_gate:
+  C7_novelty: 67
+  C3_not_generic: 19
+  C1_imagery_native: 4
+  C11_standout: 2
+kills_by_hunter:
+  satellite__india: {assessed: 19, killed: 14, passed: 5}
+  satellite__eu: {assessed: 24, killed: 11, passed: 13}
+  satellite__malaysia: {assessed: 15, killed: 9, passed: 6}
+  satellite__singapore_source_basket: {assessed: 15, killed: 11, passed: 4}
+  drone_and_aerial__india: {assessed: 16, killed: 11, passed: 5}
+  drone_and_aerial__eu: {assessed: 17, killed: 11, passed: 6}
+  drone_and_aerial__malaysia: {assessed: 14, killed: 9, passed: 5}
+  drone_and_aerial__singapore: {assessed: 15, killed: 9, passed: 6}
+  standout__global: {assessed: 20, killed: 7, passed: 13}
+
+# ============================================================================
+# STAGE 4 VERIFY — appended by the orchestrator after stage 4 (PARTIAL, see RUN_LOG)
+# Routing per ORCHESTRATOR.md: novelty closed -> FAIL C7; data blocked -> FAIL C9;
+# novelty unclear -> CONDITIONAL with a human-check reframe.
+# Candidates with route 'not_verified' were never dispatched: the run stopped on a
+# session-wide WebSearch cap (200/200) and then an API monthly spend limit (HTTP 429).
+# ============================================================================
+verify:
+  R4-S01:
+    route: proceed_conditional
+    novelty_verdict: type_a
+    data_verdict: conditional
+    reason: "Sentinel-1/2 fully open via GEE. EOS-04 (RISAT-1A) requires Bhoonidhi registration + EULA under India's mixed open/priced Space Data Policy 2023 (application_required). Insurance-unit-level CCE ground truth is named (PMFBY/AgriStack) but not confirmed downloadable: yestech portal unreachable, data.gov.in resource returned 403."
+  R4-S02:
+    route: fail
+    novelty_verdict: type_a
+    data_verdict: blocked
+    failed_gate: C9_feasibility
+    reason: "S1/S2 imagery is open on GEE, but the ground truth (geolocated CCE plot linked to its PMFBY insurance unit) lives only inside the government DGCES/PMFBY portal, gated behind enumerator mobile-OTP login. No public API, dataset, or researcher-access route was found; both PMFBY landing pages refused connection."
+  R4-S13:
+    route: proceed_conditional
+    novelty_verdict: type_a
+    data_verdict: conditional
+    reason: "FTW-global (CC-BY-4.0, direct HTTP/S3, India partition, no auth) and Sentinel-2 SR Harmonized (open, GEE) are both open and fetch-verified. The blocker: real DCS supervisor manual-survey outcomes (AgriStack Crop Sown Registry/UFSI) gave HTTP 403 on both pages tried, no public dataset/API -- only application-gated access. Ground truth must be a constructed manual proxy, not real"
+  R4-S15:
+    route: proceed_conditional
+    novelty_verdict: type_b
+    data_verdict: conditional
+    reason: "Monthly Custom Satellite Embeddings are real but gated behind a competitive academic application, deadline 2026-10-15, India coverage unconfirmed. PMFBY has no public event-dated dataset; only aggregate claims-paid figures found, portal unreachable, so ground truth must be constructed."
+  R4-S18:
+    route: fail
+    novelty_verdict: closed
+    data_verdict: conditional
+    failed_gate: C7_novelty
+    reason: "Closed by EUDR Compliance for Coffee Exporters in India | TraceX (https://tracextech.com/eudr-dds/coffee-exporters-india/)"
+  R4-S20:
+    route: not_verified
+    novelty_verdict: closed
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S22:
+    route: proceed
+    novelty_verdict: type_b
+    data_verdict: open
+    search_budget_exhausted: {novelty: false, data: true}
+    evidence_caveat: "Search budget ran out during this dispatch. A 'closed' finding stays valid (positive evidence); a 'type_a' or a negative data finding is weaker than normal and should be re-run."
+  R4-S23:
+    route: proceed
+    novelty_verdict: type_a
+    data_verdict: open
+  R4-S24:
+    route: fail
+    novelty_verdict: closed
+    data_verdict: open
+    failed_gate: C7_novelty
+    reason: "Closed by From credit to credibility: Quantifying carbon credits (https://agreena.com/news/quantifying-creating-carbon-credits/)"
+    search_budget_exhausted: {novelty: true, data: false}
+    evidence_caveat: "Search budget ran out during this dispatch. A 'closed' finding stays valid (positive evidence); a 'type_a' or a negative data finding is weaker than normal and should be re-run."
+  R4-S25:
+    route: conditional
+    novelty_verdict: unclear
+    data_verdict: conditional
+    failed_gate: C7_novelty
+    reason: "Run a human literature check: Confirm whether the ScienceDirect/RSASE 2025 paper 'Modelling water table depth at rewetted peatlands with Sentinel-1 and Sentinel-2' (pii S2666017225000446) already triages durable rewetting vs seasonal flood vs continued cultivation on organic soils; also complete the region-swap (non-EU/tropical peatland rewetting programs) and product-sweep (de"
+    search_budget_exhausted: {novelty: true, data: false}
+    evidence_caveat: "Search budget ran out during this dispatch. A 'closed' finding stays valid (positive evidence); a 'type_a' or a negative data finding is weaker than normal and should be re-run."
+  R4-S26:
+    route: proceed_conditional
+    novelty_verdict: type_b
+    data_verdict: conditional
+    reason: "Sentinel-2, CLMS HRL Imperviousness, CORINE and EuroCrops are open, free and fetchable; EU coverage confirmed (EuroCrops covers 17/27 states). No source records which parcels were sealed or had soil removed: Imperviousness Change is coarse raster (20-100m, validation pending); EEA land-take indicators are aggregate stats only. Ground truth must be constructed and manually check"
+    search_budget_exhausted: {novelty: true, data: false}
+    evidence_caveat: "Search budget ran out during this dispatch. A 'closed' finding stays valid (positive evidence); a 'type_a' or a negative data finding is weaker than normal and should be re-run."
+  R4-S28:
+    route: conditional
+    novelty_verdict: unclear
+    data_verdict: open
+    failed_gate: C7_novelty
+    reason: "Run a human literature check: Does France's Dispositif National de Suivi des Bocages (OFB/IGN, running since 2017) already produce a hedgerow STATE classification (declining / restored / fragmented -- analogous to survive / gap-out / becomes-tree-row) from satellite or VHR time series, and is it France-only or does it (or an EU-wide equivalent, e.g. in the Netherlands) already "
+    search_budget_exhausted: {novelty: true, data: true}
+    evidence_caveat: "Search budget ran out during this dispatch. A 'closed' finding stays valid (positive evidence); a 'type_a' or a negative data finding is weaker than normal and should be re-run."
+  R4-S30:
+    route: conditional
+    novelty_verdict: unclear
+    data_verdict: conditional
+    failed_gate: C7_novelty
+    reason: "Run a human literature check: Two things before this can pass: (1) Does CCDC (Zhu & Woodcock 2014) / LandTrendr / BFAST, or any published application of them, already date land-cover disturbance events (not just detect them) from dense Sentinel-2/Landsat time series validated against sparse high-resolution reference imagery -- this is the generic method-space version of the del"
+    search_budget_exhausted: {novelty: true, data: true}
+    evidence_caveat: "Search budget ran out during this dispatch. A 'closed' finding stays valid (positive evidence); a 'type_a' or a negative data finding is weaker than normal and should be re-run."
+  R4-S32:
+    route: fail
+    novelty_verdict: closed
+    data_verdict: conditional
+    failed_gate: C7_novelty
+    reason: "Closed by EO-INSURE (ESA Business Applications Kick-Start, Agricolus S.r.l.) (https://business.esa.int/projects/eo-insure)"
+    search_budget_exhausted: {novelty: true, data: false}
+    evidence_caveat: "Search budget ran out during this dispatch. A 'closed' finding stays valid (positive evidence); a 'type_a' or a negative data finding is weaker than normal and should be re-run."
+  R4-S35:
+    route: proceed_conditional
+    novelty_verdict: type_b
+    data_verdict: conditional
+    reason: "EnMAP (30km swath, tasked, registration+proposal via planning.enmap.org) and PRISMA (registration portal gave an unresolvable redirect loop, unverifiable) are opportunistic missions. Neither exposes an archive-coverage tool confirming existing EU arable-land scenes inside a growing season. Coverage is too sparse/unconfirmed to promise an auditable scene set in 8 months."
+    search_budget_exhausted: {novelty: true, data: true}
+    evidence_caveat: "Search budget ran out during this dispatch. A 'closed' finding stays valid (positive evidence); a 'type_a' or a negative data finding is weaker than normal and should be re-run."
+  R4-S38:
+    route: fail
+    novelty_verdict: closed
+    data_verdict: blocked
+    failed_gate: C7_novelty
+    reason: "Closed by Whisp – Open Foris (FAO / Google / WRI EUDR plot risk-screening tool) (https://www.openforis.org/whisp/)"
+    search_budget_exhausted: {novelty: false, data: true}
+    evidence_caveat: "Search budget ran out during this dispatch. A 'closed' finding stays valid (positive evidence); a 'type_a' or a negative data finding is weaker than normal and should be re-run."
+  R4-S40:
+    route: fail
+    novelty_verdict: type_b
+    data_verdict: blocked
+    failed_gate: C9_feasibility
+    reason: "No public parcel-level enrolment register found for cover-crop/tillage programmes. Agreena confirms enrolment data is login-gated (aggregate hectares/farmer counts only, no field geometries). Klim's register and CAP/national LPIS eco-scheme layers were unreachable this session (404/refused/JS-rendered), and CAP reporting is known to be aggregate-only. No treatment group is obta"
+    search_budget_exhausted: {novelty: true, data: true}
+    evidence_caveat: "Search budget ran out during this dispatch. A 'closed' finding stays valid (positive evidence); a 'type_a' or a negative data finding is weaker than normal and should be re-run."
+  R4-S42:
+    route: proceed_conditional
+    novelty_verdict: type_a
+    data_verdict: conditional
+    reason: "EuroCropsML (Zenodo, CC BY-SA 4.0) and AI4Boundaries (JRC, EU reuse licence) both fetched and open, but cover only 3 and 7 countries respectively, not EU-wide, undermining the per-country EU framing. CLMS Croplands page rendered no extractable licence/coverage/crop-type text (JS site); whether it is a genuine per-crop-type output vs binary cropland extent is unconfirmed."
+    search_budget_exhausted: {novelty: true, data: true}
+    evidence_caveat: "Search budget ran out during this dispatch. A 'closed' finding stays valid (positive evidence); a 'type_a' or a negative data finding is weaker than normal and should be re-run."
+  R4-S44:
+    route: fail
+    novelty_verdict: closed
+    data_verdict: conditional
+    failed_gate: C7_novelty
+    reason: "Closed by Whisp (\"What is in that plot?\") -- Forest Data Partnership / FAO (https://github.com/forestdatapartnership/whisp)"
+    search_budget_exhausted: {novelty: true, data: true}
+    evidence_caveat: "Search budget ran out during this dispatch. A 'closed' finding stays valid (positive evidence); a 'type_a' or a negative data finding is weaker than normal and should be re-run."
+  R4-S47:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: conditional
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S50:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S51:
+    route: fail
+    novelty_verdict: type_b
+    data_verdict: blocked
+    failed_gate: C9_feasibility
+    reason: "FTW ships no country-wide boundary product for Malaysia (only Kenya/Vietnam/Laos/Colombia underway per ecosystem.html); the 24-country benchmark also excludes Malaysia. No public TSPKS/MPOB holding-area geometry or access route was found on MPOB's site, so FTW-vs-TSPKS has no confirmed reference set. WebSearch quota was pre-exhausted, so TSPKS status is unresolved, not disprove"
+    search_budget_exhausted: {novelty: true, data: true}
+    evidence_caveat: "Search budget ran out during this dispatch. A 'closed' finding stays valid (positive evidence); a 'type_a' or a negative data finding is weaker than normal and should be re-run."
+  R4-S52:
+    route: fail
+    novelty_verdict: unclear
+    data_verdict: blocked
+    failed_gate: C9_feasibility
+    reason: "Coherence needs SLC pairs, absent from GEE/Planetary Computer (GRD-only, phase discarded). Free cloud InSAR via ASF HyP3 (8,000 free credits/month) satisfies C9. But no public DOA/myGAP source with certified parcel geolocations or validity windows was found, so the certificate-comparison half has no reference."
+    search_budget_exhausted: {novelty: true, data: true}
+    evidence_caveat: "Search budget ran out during this dispatch. A 'closed' finding stays valid (positive evidence); a 'type_a' or a negative data finding is weaker than normal and should be re-run."
+  R4-S58:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S60:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S64:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S65:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S67:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S74:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S75:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S76:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S79:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S83:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S90:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S93:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S95:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S101:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S103:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S104:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S108:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S110:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S113:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S115:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S118:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S124:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S127:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S131:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S132:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S133:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S134:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S136:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S137:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S141:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S142:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S144:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S145:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S146:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S147:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S148:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S150:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S151:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S152:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+  R4-S153:
+    route: not_verified
+    novelty_verdict: not_run
+    data_verdict: not_run
+    note: "Not dispatched. No novelty or data evidence exists for this candidate."
+verify_summary:
+  not_verified: 43
+  fail: 9
+  proceed_conditional: 6
+  conditional: 3
+  proceed: 2
+  urls_spot_checked: 14
+  urls_pool: 142
+  urls_unresolved: 2   # pmfby.gov.in PDF and a zenodo record; both hang on retry, flagged for reverify
+  novelty_files_written: 21
+  data_files_written: 21

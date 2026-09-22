@@ -1,0 +1,114 @@
+{
+  "id": "R4-S23",
+  "verdict": "type_a",
+  "reason": "No paper, dataset or product flags crop pixels whose label stays constant but whose embedding is drifting, aimed at map maintainers. Closest is an arXiv anomaly detector that scores crop-labeled points against same-class neighbours to clean training data at one point in time, not to monitor a published annual map across years. A personal blog post shows the drift signal itself exists in AlphaEarth embeddings but builds no tool, is not crop-specific, and is unreviewed. CLMS documentation confirms the confidence layer measures per-date input uncertainty, not cross-year semantic instability.",
+  "queries": [
+    {
+      "q": "AlphaEarth embeddings crop type semantic drift stable label detection",
+      "useful": true,
+      "note": "Surfaced the EBA anomaly-detection paper and the Medium drift-magnitude blog post; nothing else on point"
+    },
+    {
+      "q": "crop map maintainers flag pixels stable class semantic drift confidence layer",
+      "useful": false,
+      "note": "Returned generic crop-mapping/transfer-learning papers, no maintainer-facing drift QA work"
+    },
+    {
+      "q": "concept drift detection stable labels land cover time series remote sensing",
+      "useful": true,
+      "note": "Confirms concept/covariate drift detection is a mature generic ML field; no remote-sensing application to stable-labeled land-cover/crop series found"
+    },
+    {
+      "q": "semantic drift detection crop type classification embeddings unchanged label",
+      "useful": true,
+      "note": "Found task-sensitive drift detector (generic ML) and semantic-drift-in-embeddings literature; none applied to crop time series"
+    },
+    {
+      "q": "crop label drift monitoring software platform satellite embeddings",
+      "useful": false,
+      "note": "Only generic crop monitoring platforms (EOSDA, agribound); none do drift flagging"
+    },
+    {
+      "q": "flag stable crop label semantic drift AlphaEarth CLMS confidence 2026",
+      "useful": true,
+      "note": "Recency rerun; reconfirms Medium blog is the only AlphaEarth stable-vs-changing drift analysis, no CLMS tie-in exists"
+    },
+    {
+      "q": "\"land cover\" OR \"crop type\" drift detection embeddings \"same label\" different years anomaly 2025",
+      "useful": true,
+      "note": "Region-neutral method-space query; resurfaces EBA paper as the nearest method neighbour, confirms no cross-year drift framing"
+    },
+    {
+      "q": "USDA cropland data layer drift detection stable pixels embeddings quality assurance product",
+      "useful": false,
+      "note": "Region-swap to US; CDL refinement work uses decision trees on label noise, not embedding drift under stable labels"
+    },
+    {
+      "q": "\"drift\" crop map QA tool startup satellite embeddings maintainers 2026",
+      "useful": false,
+      "note": "Product search; only found Google's Custom Satellite Embeddings announcement and general crop platforms, no drift-QA product"
+    },
+    {
+      "q": "Copernicus Land Monitoring Service crop type confidence layer temporal instability flag pixel 2026",
+      "useful": true,
+      "note": "Exact-framing/region query on the seed product itself; CLMS confidence layer is per-date input uncertainty, no temporal instability flag exists"
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://arxiv.org/abs/2607.23908",
+      "date": "2026-08",
+      "title": "Embeddings based Anomaly Detection for Cleaning Global Crop Type Reference Datasets",
+      "tier": "A",
+      "closes": false,
+      "why": "Same embedding-distance method and crop domain, but flags mislabeled training points at one point in time for dataset cleaning, not cross-year drift under a stable published label for map maintenance.",
+      "relation": "same_method_other_domain"
+    },
+    {
+      "url": "https://medium.com/@aliceheimanxyz/how-do-alpha-earth-embeddings-for-stable-and-changing-lulc-vary-over-time-9aedfd727f0c",
+      "date": "2026-04-16",
+      "title": "How do Alpha Earth Embeddings for stable and changing LULC vary over time?",
+      "tier": "C",
+      "closes": false,
+      "why": "Empirically shows AlphaEarth angular drift differs for stable vs. changing labels (Brazil, Forest/Agriculture/Urban), i.e. the raw signal the candidate relies on, but is an unreviewed exploratory blog with no crop focus and no operational flagging tool.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://arxiv.org/pdf/2509.03497",
+      "date": "2025-09",
+      "title": "Invariant Features for Global Crop Type Classification",
+      "tier": "A",
+      "closes": false,
+      "why": "Uses AlphaEarth/GFM embeddings for crop classification and studies cross-region and cross-year transferability, but as a classifier-robustness question, not as a maintainer-facing drift flag on already-published stable labels.",
+      "relation": "same_method_other_domain"
+    },
+    {
+      "url": "https://land.copernicus.eu/en/products/high-resolution-layer-croplands",
+      "date": "2026",
+      "title": "High Resolution Layer Croplands - Copernicus Land Monitoring Service",
+      "tier": "A",
+      "closes": false,
+      "why": "The candidate's own seed product: its confidence layer expresses per-date input uncertainty, confirmed to have no cross-year semantic-drift or instability flag, so it does not pre-empt the delta claim.",
+      "relation": "same_output_space"
+    }
+  ],
+  "nearest_neighbours_do_not": "EBA cleans single-snapshot training labels, not cross-year map QA. The AlphaEarth drift blog measures the signal but ships no tool, isn't crop-specific, and isn't peer-reviewed. CLMS confidence layers score per-date input quality, never cross-year embedding instability under a constant label.",
+  "budget_exhausted": false,
+  "notes": "Generic concept/covariate drift detection is a decades-old ML subfield (e.g. arxiv 2110.06383, task-sensitive drift detectors) but I found no application of it to land-cover or crop-type time series with stable labels in any region, which is the honest type_a comparison point per the method-space step.",
+  "product_search": {
+    "queries_run": [
+      "crop label drift monitoring software platform satellite embeddings",
+      "\"drift\" crop map QA tool startup satellite embeddings maintainers 2026",
+      "flag stable crop label semantic drift AlphaEarth CLMS confidence 2026"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://eos.com/products/crop-monitoring/",
+        "date": "2026-03-24",
+        "tier": "B",
+        "title": "EOSDA Crop Monitoring",
+        "note": "General satellite crop-monitoring SaaS; alerts on vegetation indices/anomalies, not on cross-year semantic drift inside a stable class label."
+      }
+    ]
+  }
+}

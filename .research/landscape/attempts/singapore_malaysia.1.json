@@ -1,0 +1,1041 @@
+{
+  "market": "singapore_malaysia",
+  "companies": [
+    {
+      "name": "Aonic",
+      "country": "Malaysia",
+      "what_they_ship": "Agriculture drones, drone spraying services, Airamap Desktop for aerial analysis, MIST Flight App for mission automation, and Agriculture App for farmer services.",
+      "imagery_classes_used": [
+        "drone",
+        "aerial_mapping",
+        "plantation_mapping",
+        "geospatial_vectors"
+      ],
+      "hiring_for": [
+        "Software Engineer for desktop agricultural mapping software, AI backend integration, tree detection, Leaflet, GeoJSON and shapefiles",
+        "Software Intern",
+        "UAS Remote Pilot and UAS Maintenance Technician for agricultural drones"
+      ],
+      "hiring_evidence": [
+        {
+          "url": "https://my.linkedin.com/jobs/view/software-engineer-at-aonic-4424610474",
+          "date": "2026-07",
+          "title": "Software Engineer at Aonic",
+          "tier": "B",
+          "note": "LinkedIn listing says role develops desktop mapping software used in agricultural environments and integrates AI tree-detection APIs."
+        },
+        {
+          "url": "https://careers.aonic.com/",
+          "date": "2026-09",
+          "title": "Careers in drone industry - Aonic",
+          "tier": "A",
+          "note": "Careers page lists agricultural drone pilots, maintenance technicians, autonomous systems and software roles."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://aonic.com/my/agriculture/proprietary-software/",
+          "date": "2026",
+          "title": "Proprietary Software - Aonic Malaysia",
+          "tier": "A",
+          "note": "Official product page describes intelligent drone flight control, AI-driven plantation mapping, Airamap, Agriculture App and MIST Flight App."
+        },
+        {
+          "url": "https://aonic.com/my/our-story/",
+          "date": "2025-09",
+          "title": "Our Story - Aonic Malaysia",
+          "tier": "A",
+          "note": "Official milestone page says Aonic launched Mist Tec 50, a locally engineered 50-litre agricultural drone, in September 2025."
+        },
+        {
+          "url": "https://resource.aonic.com/event/maha-2026/",
+          "date": "2026-08-28",
+          "title": "MAHA 2026 - Aonic Resource Hub",
+          "tier": "A",
+          "note": "Aonic promoted latest agriculture drone technologies and smart farming solutions at MAHA 2026."
+        }
+      ],
+      "fresher_fyp_should_signal": "Build field-ready geospatial software: robust orthomosaic/vector workflows, tree or stress detection, low-connectivity sync, and clean handoff from map insight to drone mission.",
+      "do_not_compete_here": false
+    },
+    {
+      "name": "Meraque",
+      "country": "Malaysia",
+      "what_they_ship": "PASS precision-agriculture software, SPACE hybrid agricultural spraying drones, UAV and AGV fleet management, crop health monitoring, and plantation intelligence dashboards.",
+      "imagery_classes_used": [
+        "drone",
+        "multispectral_imaging",
+        "plantation_dashboard",
+        "uav_telemetry",
+        "agv_telemetry"
+      ],
+      "hiring_for": [
+        "Technical Product Lead / Solution Architect for drone and robotics systems",
+        "Head of Technology Robotics covering UAV, AGV, autonomy software, AI/ML, SaaS and edge-cloud systems",
+        "Robotics Deployment Engineer for AGV field deployment"
+      ],
+      "hiring_evidence": [
+        {
+          "url": "https://my.linkedin.com/jobs/view/technical-product-lead-drone-robotics-at-meraque-my-4462964407",
+          "date": "2026-09-13",
+          "title": "Technical Product Lead (Drone & Robotics) at Meraque MY",
+          "tier": "B",
+          "note": "Fresh listing seeks solution architecture, PoCs, cloud/edge/backend/frontend integration and robotics telemetry dashboards."
+        },
+        {
+          "url": "https://my.linkedin.com/jobs/view/head-of-technology-robotic-uav-agv-at-meraque-my-4383293891",
+          "date": "2026-04",
+          "title": "Head of Technology Robotic (UAV & AGV) at Meraque MY",
+          "tier": "B",
+          "note": "Listing covers UAV, AGV, robot autonomy software, AI/ML, SaaS and edge-cloud systems."
+        },
+        {
+          "url": "https://my.linkedin.com/jobs/view/robotics-deployment-engineer-ardupilot-expertise-at-meraque-my-4405923525",
+          "date": "2026-06",
+          "title": "Robotics Deployment Engineer - ArduPilot Expertise at Meraque MY",
+          "tier": "B",
+          "note": "Role focuses on commissioning AGV rovers in agricultural and industrial environments."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://meraque.ai/industry/agriculture-plantation/",
+          "date": "2026",
+          "title": "Agriculture and Plantation - Meraque Group",
+          "tier": "A",
+          "note": "Official page lists drone spraying, crop health monitoring with multispectral imaging and AI analytics, AGV operations, and virtual replanting blueprint design."
+        },
+        {
+          "url": "https://meraque.ai/precision-agriculture-software-solution/",
+          "date": "2026",
+          "title": "Precision Agriculture Software Solution (PASS)",
+          "tier": "A",
+          "note": "Official page describes PASS as a platform for drone spraying, fleet management, robot analytics and plantation intelligence."
+        },
+        {
+          "url": "https://www.linkedin.com/posts/meraque-my_meraque-hybriddrone-dronetechnology-activity-7475764318014287872-9Wnx",
+          "date": "2026-06-25",
+          "title": "Meraque hybrid drone MAEPS demonstration",
+          "tier": "B",
+          "note": "Meraque promoted live demonstrations of its hybrid agricultural drone at MAEPS on 25-26 June 2026."
+        }
+      ],
+      "fresher_fyp_should_signal": "Show robotics-software integration under plantation constraints: telemetry, mission planning, map-derived actions, validation against field images, and graceful offline operation.",
+      "do_not_compete_here": false
+    },
+    {
+      "name": "Aerodyne",
+      "country": "Malaysia",
+      "what_they_ship": "Agrimor SuperApp for precision agriculture services, letting farmers and agencies request drone pilots for seeding, spraying, plant analysis and mapping.",
+      "imagery_classes_used": [
+        "drone",
+        "aerial_mapping",
+        "plant_analysis",
+        "uav_service_marketplace"
+      ],
+      "hiring_for": [],
+      "hiring_evidence": [],
+      "evidence": [
+        {
+          "url": "https://aerodyne.group/agrimor.html",
+          "date": "2026",
+          "title": "Agrimor - Aerodyne",
+          "tier": "A",
+          "note": "Official page describes Agrimor as a precision agriculture SuperApp for drones, pilots, seeding, spraying, plant analysis and mapping."
+        },
+        {
+          "url": "https://aerodyne.group/people.html",
+          "date": "2026",
+          "title": "Our People - Aerodyne Group",
+          "tier": "A",
+          "note": "Careers page says Aerodyne is a UAS-based managed services company and accepts graduate/internship interest."
+        }
+      ],
+      "fresher_fyp_should_signal": "Signal service-scale reliability: converting aerial surveys into operational requests, QC for pilot-collected imagery, and measurable improvement in mapping or plant-analysis turnaround.",
+      "do_not_compete_here": false
+    },
+    {
+      "name": "Agrispec",
+      "country": "Malaysia",
+      "what_they_ship": "XAG agricultural drones and accessories for spraying, seeding, RTK-guided autonomous operation, obstacle avoidance, mapping and offline/online map stitching.",
+      "imagery_classes_used": [
+        "drone",
+        "rtk_mapping",
+        "aerial_orthomosaic",
+        "spray_prescription"
+      ],
+      "hiring_for": [],
+      "hiring_evidence": [],
+      "evidence": [
+        {
+          "url": "https://www.agrispec.com.my/v50",
+          "date": "2026",
+          "title": "XAG V50 Drone - XAG Agrispec",
+          "tier": "A",
+          "note": "Official Malaysia distributor page describes autonomous agricultural mapping, RTK navigation, spraying, seeding and HD map stitching."
+        }
+      ],
+      "fresher_fyp_should_signal": "Build around operator workflows: precise boundary extraction, prescription-map generation, spray/seeding route QA, and uncertainty flags for maps made by one-person drone teams.",
+      "do_not_compete_here": false
+    },
+    {
+      "name": "Polybee",
+      "country": "Singapore",
+      "what_they_ship": "Farm Intelligence Platform using autonomous drones and AI for yield forecasting, row-level harvest readiness, harvest optimization and autonomous pollination.",
+      "imagery_classes_used": [
+        "drone",
+        "micro_drone",
+        "high_resolution_rgb",
+        "computer_vision",
+        "protected_horticulture"
+      ],
+      "hiring_for": [
+        "Senior Computer Vision Engineer",
+        "Customer Success & Growth Manager for field deployments and grower onboarding"
+      ],
+      "hiring_evidence": [
+        {
+          "url": "https://sg.linkedin.com/jobs/view/senior-computer-vision-engineer-at-polybee-4325264260",
+          "date": "2026-03",
+          "title": "Senior Computer Vision Engineer at Polybee",
+          "tier": "B",
+          "note": "Listing asks for deep-learning models that detect, segment and extract insights from drone imagery."
+        },
+        {
+          "url": "https://sg.linkedin.com/company/polybee",
+          "date": "2026-06",
+          "title": "Polybee LinkedIn company updates",
+          "tier": "B",
+          "note": "Company update advertises Customer Success & Growth Manager for grower field deployments and onboarding."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.polybee.co/product",
+          "date": "2026",
+          "title": "Product - Polybee",
+          "tier": "A",
+          "note": "Official page says drone cameras scan crops at millimetre precision and AI counts plants, sizes units and predicts yield/readiness."
+        },
+        {
+          "url": "https://www.vegetables.bayer.com/au/en-au/resources/news/polybee-and-vegetables-by-bayer-partner-to-bring-ai-powered-farm.html",
+          "date": "2026-07-09",
+          "title": "Polybee and Vegetables by Bayer partner to bring AI-powered farm intelligence to Australian growers",
+          "tier": "A",
+          "note": "Bayer says Polybee's autonomous drone and farm intelligence platform turns full-field crop data into planning, labour and commercial decisions."
+        }
+      ],
+      "fresher_fyp_should_signal": "Demonstrate high-precision CV on grower decisions: plant counts, sizing, readiness, error calibration, and a workflow that turns raw drone images into harvest choices.",
+      "do_not_compete_here": false
+    },
+    {
+      "name": "SYNGA",
+      "country": "Singapore",
+      "what_they_ship": "Palm-oil intelligence stack combining satellite monitoring, drone multispectral ripeness classification, robotic data and a palm dataset ambition across Southeast Asia.",
+      "imagery_classes_used": [
+        "satellite",
+        "drone_multispectral",
+        "robotic_sensors",
+        "palm_oil_dataset"
+      ],
+      "hiring_for": [],
+      "hiring_evidence": [],
+      "evidence": [
+        {
+          "url": "https://www.synga.ai/investors",
+          "date": "2026-02",
+          "title": "SYNGA Investors",
+          "tier": "A",
+          "note": "Investor page states SYNGA was founded in Feb 2026 and describes PalmView MVP, PalmSim prototype, and Malaysia pilot milestones."
+        }
+      ],
+      "fresher_fyp_should_signal": "For palm, show a defensible space-to-ground loop: tree detection, ripeness/stress inference, georeferenced validation, and estate-scale deployment logic.",
+      "do_not_compete_here": false
+    },
+    {
+      "name": "Singrow",
+      "country": "Singapore",
+      "what_they_ship": "Vertical farming and climate-resilient crop operations using AI-assisted robotics, IoT, data analytics, proprietary seedlings and crop monitoring.",
+      "imagery_classes_used": [
+        "controlled_environment_agriculture",
+        "crop_monitoring",
+        "robotics",
+        "iot"
+      ],
+      "hiring_for": [
+        "Agritech Precision Engineer",
+        "Agriculture Junior Scientist",
+        "Agritech Farm Operator"
+      ],
+      "hiring_evidence": [
+        {
+          "url": "https://www.singrow.com/jobs",
+          "date": "2026-09",
+          "title": "Jobs (All) - Singrow",
+          "tier": "A",
+          "note": "Jobs page lists Agritech Precision Engineer, Agriculture Junior Scientist and other openings."
+        },
+        {
+          "url": "https://www.singrow.com/jobs/agritech-farm-operator",
+          "date": "2026-08",
+          "title": "Agritech Farm Operator - Singrow",
+          "tier": "A",
+          "note": "Job page describes AI-assisted robotics, IoT, data analytics and crop monitoring in vertical farming."
+        }
+      ],
+      "evidence": [
+        {
+          "url": "https://www.singrow.com/jobs/agritech-farm-operator",
+          "date": "2026-08",
+          "title": "Agritech Farm Operator - Singrow",
+          "tier": "A",
+          "note": "Company job page describes proprietary seedling, AI-assisted robotics, IoT, data analytics and crop monitoring."
+        },
+        {
+          "url": "https://www.singrow.com/careers",
+          "date": "2026",
+          "title": "Careers at Singrow",
+          "tier": "A",
+          "note": "Careers page frames Singrow as developing climate-resilient strawberries and cutting-edge agriculture technology."
+        }
+      ],
+      "fresher_fyp_should_signal": "Singapore exemption applies: signal CEA operations intelligence, sensor/vision quality control, yield/resource optimization, and deployment in high-throughput indoor farms.",
+      "do_not_compete_here": false
+    },
+    {
+      "name": "Archisen",
+      "country": "Singapore",
+      "what_they_ship": "Controlled-environment agriculture systems and operated farms; smart farm deployments use real-time monitoring and automation for microclimate, light, nutrients and yields.",
+      "imagery_classes_used": [
+        "controlled_environment_agriculture",
+        "robotics",
+        "automation",
+        "farm_sensor_data"
+      ],
+      "hiring_for": [],
+      "hiring_evidence": [],
+      "evidence": [
+        {
+          "url": "https://www.archisen.com/about",
+          "date": "2026",
+          "title": "About Us - Archisen",
+          "tier": "A",
+          "note": "Official page says Archisen designs, builds and operates CEA farms and collects real-time data for dynamic automation."
+        },
+        {
+          "url": "https://pertanian.johor.gov.my/web/2025/07/majlis-pelancaran-rasmi-projek-farmbyte-archisen-indoor-vertical-farm-ivf/",
+          "date": "2025-07-07",
+          "title": "FarmByte Archisen Indoor Vertical Farm launch",
+          "tier": "A",
+          "note": "Johor Department of Agriculture describes FarmByte-Archisen vertical farm in the Johor-Singapore SEZ."
+        }
+      ],
+      "fresher_fyp_should_signal": "For Singapore CEA, show operations-facing AI: crop growth monitoring, anomaly detection, climate-response loops, and measurable gains in yield or resource efficiency.",
+      "do_not_compete_here": false
+    }
+  ],
+  "forcing_functions": [
+    {
+      "name": "EUDR compliance for oil palm and rubber supply chains",
+      "kind": "deadline",
+      "date_that_matters": "2026-12-30",
+      "regions": [
+        "malaysia",
+        "eu"
+      ],
+      "why_it_creates_a_gap": "Malaysia palm/rubber exporters need geolocation, deforestation-free evidence and traceability; smallholder inclusion creates a strong need for low-cost remote sensing and verification workflows.",
+      "evidence": [
+        {
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ%3AC_202603896",
+          "date": "2026-08",
+          "title": "EUR-Lex EUDR guidance / applicable legislation",
+          "tier": "A",
+          "note": "Primary EU source states most EUDR obligations apply from 30 Dec 2026, with micro/small operators from 30 Jun 2027."
+        },
+        {
+          "url": "https://environment.ec.europa.eu/news/commission-updates-product-scope-and-tools-support-eudr-2026-07-13_en",
+          "date": "2026-07-13",
+          "title": "Commission updates product scope and tools to support EUDR",
+          "tier": "A",
+          "note": "European Commission confirms 30 Dec 2026 and 30 Jun 2027 application dates."
+        },
+        {
+          "url": "https://prestasisawit.mpob.gov.my/ms/palmnews/news/39031",
+          "date": "2026-02-11",
+          "title": "Plantations minister says delay in EU deforestation rules an opportunity to better prepare for compliance",
+          "tier": "B",
+          "note": "MPOB palm news clipping reports Malaysia ministry emphasis on preparing for EUDR compliance."
+        }
+      ]
+    },
+    {
+      "name": "TSPKS 2.0 smallholder oil palm replanting financing and monitoring",
+      "kind": "subsidy",
+      "date_that_matters": "2026-10",
+      "regions": [
+        "malaysia"
+      ],
+      "why_it_creates_a_gap": "MPOB/Agrobank site visits, plantation photographs and end-to-end application monitoring create demand for verifiable replanting status, old-palm detection and smallholder parcel evidence.",
+      "evidence": [
+        {
+          "url": "https://prestasisawit.mpob.gov.my/en/palmnews/news/39893",
+          "date": "2026-09-02",
+          "title": "Agrobank to fully disburse RM200mil under oil palm smallholder scheme by October",
+          "tier": "B",
+          "note": "MPOB palm news clipping says TSPKS 2.0 system lets MPOB officers upload site-visit information and plantation photographs."
+        },
+        {
+          "url": "https://mpob.gov.my/2026/02/smallholders-plantation-access-road-project-boosts-independent-oil-palm-smallholders-socioeconomy/",
+          "date": "2026-01-29",
+          "title": "Smallholders' Plantation Access Road Project boosts independent oil palm smallholders' socioeconomy",
+          "tier": "A",
+          "note": "MPOB says TSPKS 2.0 is a matching grant with repayment starting in the fifth year after approval."
+        },
+        {
+          "url": "https://mpob.gov.my/2025/09/unit-pemerkasaan-pekebun-kecil-seu/",
+          "date": "2025-09",
+          "title": "Unit Pemerkasaan Pekebun Kecil (SEU)",
+          "tier": "A",
+          "note": "MPOB explains TSPKS objectives: replant old or unproductive palms and raise smallholder yields and income."
+        }
+      ]
+    },
+    {
+      "name": "MSPO smallholder certification and SPOC expansion",
+      "kind": "policy_programme",
+      "date_that_matters": "2026-06-26",
+      "regions": [
+        "malaysia"
+      ],
+      "why_it_creates_a_gap": "Smallholder certification support needs parcel, ownership, practice and sustainability evidence; imagery can help spot risks and audit gaps before EUDR-linked market scrutiny.",
+      "evidence": [
+        {
+          "url": "https://mspo.mpob.gov.my/",
+          "date": "2026",
+          "title": "Pensijilan Minyak Sawit Mampan Malaysia (MSPO)",
+          "tier": "A",
+          "note": "MPOB MSPO page says independent smallholders under 40.46 ha qualify for free certification incentives."
+        },
+        {
+          "url": "https://prestasisawit.mpob.gov.my/en/palmnews/news/39543",
+          "date": "2026-06-15",
+          "title": "174 Johor smallholders get RM5.92m replanting aid amid MSPO push",
+          "tier": "B",
+          "note": "MPOB palm news clipping describes MSPO smallholder strengthening and 43 SPOCs in Johor."
+        },
+        {
+          "url": "https://mpob.gov.my/2026/01/sustainable-oil-palm-growers-cooperatives-empower-independent-oil-palm-smallholders-economies/",
+          "date": "2026-01-16",
+          "title": "Sustainable Oil Palm Growers Cooperatives empower independent oil palm smallholders' economies",
+          "tier": "A",
+          "note": "MPOB says TUNAS offices support KPSM and MSPO certification for independent smallholders."
+        }
+      ]
+    },
+    {
+      "name": "Singapore Lim Chu Kang land-use change and farm lease expiries",
+      "kind": "policy_programme",
+      "date_that_matters": "2026-12",
+      "regions": [
+        "singapore"
+      ],
+      "why_it_creates_a_gap": "Farm consolidation, expiring tenures and north-LCK agriculture relocation create demand for land-use optimization, production planning and transition support for high-tech farms.",
+      "evidence": [
+        {
+          "url": "https://www.mindef.gov.sg/news-and-events/latest-releases/25may26-nr/",
+          "date": "2026-05-25",
+          "title": "Government to Implement Land-Use Change in Lim Chu Kang",
+          "tier": "A",
+          "note": "Joint SFA/MINDEF/NParks/SLA release says some farm tenures expire in Dec 2026 and Mar 2027; northern land will be reallocated for agriculture."
+        },
+        {
+          "url": "https://www.sfa.gov.sg/news-publications/newsroom/sfa-strengthens-support-for-local-farms-with-new-land-tender---and-enhanced-lease-framework",
+          "date": "2026-05-29",
+          "title": "SFA strengthens support for local farms with new land tender and enhanced lease framework",
+          "tier": "A",
+          "note": "SFA launched SAS 2026 land parcels for vegetable farming; tender closed 28 Jul 2026."
+        }
+      ]
+    },
+    {
+      "name": "Singapore agriculture development lodgement via CORENET X for large projects",
+      "kind": "regulation",
+      "date_that_matters": "2025-10-01",
+      "regions": [
+        "singapore"
+      ],
+      "why_it_creates_a_gap": "Large agri developments face structured digital submission and technical clearances; this favors planning tools that integrate parcel geometry, buffers, height controls and farm design constraints.",
+      "evidence": [
+        {
+          "url": "https://www.ura.gov.sg/guidelines/development-control/planning-permission/plan-lodgment-application/agri-dev/",
+          "date": "2026-06-23",
+          "title": "Agriculture uses and development - URA",
+          "tier": "A",
+          "note": "URA page says from 1 Oct 2025 all new projects with GFA 30,000 m2 and above must use CORENET X."
+        }
+      ]
+    },
+    {
+      "name": "Singapore Food Story 2 replacing 30 by 30 framing",
+      "kind": "policy_programme",
+      "date_that_matters": "2025-11",
+      "regions": [
+        "singapore"
+      ],
+      "why_it_creates_a_gap": "The policy shift broadens projects from local production percentage alone to import resilience, stockpiling and partnerships, opening non-imagery Singapore agri-food AI under the exemption.",
+      "evidence": [
+        {
+          "url": "https://www.sg101.gov.sg/economy/case-studies/agritechinsg/",
+          "date": "2026",
+          "title": "Agritech in Singapore: Achieving Food and Economic Security",
+          "tier": "A",
+          "note": "SG101 says Singapore Food Story 2 replaced the 30 by 30 vision in November 2025."
+        },
+        {
+          "url": "https://www.mindef.gov.sg/news-and-events/latest-releases/25may26-nr/",
+          "date": "2026-05-25",
+          "title": "Government to Implement Land-Use Change in Lim Chu Kang",
+          "tier": "A",
+          "note": "Joint release frames Grow Local as one pillar of Singapore Food Story 2."
+        }
+      ]
+    },
+    {
+      "name": "data.gov.sg updated cadastral land parcel GeoJSON",
+      "kind": "dataset_release",
+      "date_that_matters": "2026-09-07",
+      "regions": [
+        "singapore"
+      ],
+      "why_it_creates_a_gap": "Up-to-date parcel polygons let students prototype farm-land suitability, agri-space allocation and buffer/adjacency checks without collecting drone imagery.",
+      "evidence": [
+        {
+          "url": "https://data.gov.sg/datasets?query=land&resultId=d_e7395d743076a2bcc487b0d12b9bf33b",
+          "date": "2026-09-07",
+          "title": "SLA Cadastral Land Parcel",
+          "tier": "A",
+          "note": "Dataset page says data from Nov 2025 and last updated 7 Sep 2026; license is free for personal or commercial use."
+        }
+      ]
+    },
+    {
+      "name": "Tropical Forest Observatory replaces/extends NICFI-style tropical mosaics",
+      "kind": "dataset_release",
+      "date_that_matters": "2025-01-23",
+      "regions": [
+        "malaysia",
+        "global"
+      ],
+      "why_it_creates_a_gap": "Malaysia projects can still use tropical high-resolution mosaics for forest-loss and deforestation-free commodity framing, but generic yield work fails the purpose-bound license logic.",
+      "evidence": [
+        {
+          "url": "https://openforis.org/fileadmin/planet.html",
+          "date": "2025-01-23",
+          "title": "NICFI Planet basemaps notice",
+          "tier": "A",
+          "note": "Open Foris notice says the NICFI-Planet agreement concluded on 23 Jan 2025 and no new monthly basemaps after Dec 2024."
+        },
+        {
+          "url": "https://www.planet.com/nicfi/?gad=1",
+          "date": "2026",
+          "title": "Tropical Forest Observatory",
+          "tier": "A",
+          "note": "Planet describes monthly PlanetScope mosaics for non-commercial tropical forest monitoring and historical archive access."
+        },
+        {
+          "url": "https://community.planet.com/tropical-mosaics-85/frequently-asked-questions-about-the-nicfi-data-program-99",
+          "date": "2022",
+          "title": "Frequently Asked Questions about the NICFI Data Program",
+          "tier": "A",
+          "note": "Planet FAQ says Level 1 data is under a custom non-commercial license."
+        }
+      ]
+    },
+    {
+      "name": "Prithvi-EO-2.0 and in-orbit geospatial foundation-model milestone",
+      "kind": "model_release",
+      "date_that_matters": "2026-05-07",
+      "regions": [
+        "global",
+        "malaysia",
+        "singapore"
+      ],
+      "why_it_creates_a_gap": "Open geospatial foundation models lower the cost of FYP prototypes using Sentinel/Landsat imagery, shifting novelty away from model architecture toward data, evaluation and deployment framing.",
+      "evidence": [
+        {
+          "url": "https://science.nasa.gov/science-research/ai-foundation-model-in-orbit/",
+          "date": "2026-05-07",
+          "title": "NASA's Prithvi Becomes First AI Geospatial Foundation Model In Orbit",
+          "tier": "A",
+          "note": "NASA says Prithvi was demonstrated aboard in-orbit platforms and trained on 13 years of EO data."
+        },
+        {
+          "url": "https://research.ibm.com/publications/prithvi-eo-an-open-access-geospatial-foundation-model-advancing-earth-science-through-global-collaboration",
+          "date": "2025-12-15",
+          "title": "Prithvi-EO: An Open-Access Geospatial Foundation Model",
+          "tier": "A",
+          "note": "IBM describes Prithvi-EO-2.0 as pre-trained on over 7 years of HLS imagery using about 4.2M training samples."
+        }
+      ]
+    }
+  ],
+  "crowded_list": [
+    {
+      "area": "Generic satellite/drone crop yield prediction",
+      "why_crowded": "both",
+      "evidence": [
+        {
+          "url": "https://www.mdpi.com/2077-0472/16/4/417",
+          "date": "2026-02-12",
+          "title": "Satellite Remote Sensing for Crop Yield Prediction: A Review",
+          "tier": "A",
+          "note": "Review covers 1174 satellite-based crop yield prediction articles through 2025."
+        },
+        {
+          "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2026.1840669/full",
+          "date": "2026-07",
+          "title": "UAV remote sensing for yield prediction in staple crops: a review",
+          "tier": "A",
+          "note": "Review retained 70 peer-reviewed UAV-yield studies from 2018-2025."
+        },
+        {
+          "url": "https://www.sciencedirect.com/science/article/pii/S2352938526002843",
+          "date": "2026",
+          "title": "Machine learning approaches for crop yield prediction: A systematic literature review",
+          "tier": "A",
+          "note": "Review summarizes 72 ML/DL crop-yield prediction studies."
+        },
+        {
+          "url": "https://www.polybee.co/product",
+          "date": "2026",
+          "title": "Product - Polybee",
+          "tier": "A",
+          "note": "Shipping product uses drone imagery and AI for yield forecasting and harvest readiness."
+        }
+      ],
+      "delta_that_would_still_be_novel": "Avoid generic yield prediction; require a named decision, uncertainty calibration, ground-truth scarcity handling or region-specific failure mode."
+    },
+    {
+      "area": "Agricultural drone spraying and spray mission planning",
+      "why_crowded": "products_ge2",
+      "evidence": [
+        {
+          "url": "https://aonic.com/my/agriculture/proprietary-software/",
+          "date": "2026",
+          "title": "Proprietary Software - Aonic Malaysia",
+          "tier": "A",
+          "note": "Aonic ships MIST Flight App, Airamap and agriculture drone software tied to spraying routes and field actions."
+        },
+        {
+          "url": "https://meraque.ai/precision-agriculture-software-solution/",
+          "date": "2026",
+          "title": "Precision Agriculture Software Solution (PASS)",
+          "tier": "A",
+          "note": "Meraque PASS includes drone spraying and fleet management."
+        },
+        {
+          "url": "https://aerodyne.group/agrimor.html",
+          "date": "2026",
+          "title": "Agrimor - Aerodyne",
+          "tier": "A",
+          "note": "Agrimor lets users request drones and pilots for agriculture seeding, spraying, plant analysis and mapping."
+        },
+        {
+          "url": "https://www.agrispec.com.my/v50",
+          "date": "2026",
+          "title": "XAG V50 Drone - XAG Agrispec",
+          "tier": "A",
+          "note": "Agrispec markets XAG V50 for precision spraying, seeding, RTK mapping and map stitching."
+        }
+      ],
+      "delta_that_would_still_be_novel": "Do not build another spray dashboard; target verification, dose-risk auditing, obstacle/coverage QA, or regulatory evidence automation."
+    },
+    {
+      "area": "Palm plantation tree counting, health monitoring and plantation dashboards",
+      "why_crowded": "products_ge2",
+      "evidence": [
+        {
+          "url": "https://aonic.com/my/agriculture/proprietary-software/",
+          "date": "2026",
+          "title": "Proprietary Software - Aonic Malaysia",
+          "tier": "A",
+          "note": "Aonic describes AI-driven plantation mapping and Airamap for health stress and spraying strategy."
+        },
+        {
+          "url": "https://meraque.ai/industry/agriculture-plantation/",
+          "date": "2026",
+          "title": "Agriculture and Plantation - Meraque Group",
+          "tier": "A",
+          "note": "Meraque lists multispectral crop health monitoring, plantation intelligence and virtual replanting blueprint design."
+        },
+        {
+          "url": "https://www.synga.ai/investors",
+          "date": "2026-02",
+          "title": "SYNGA Investors",
+          "tier": "A",
+          "note": "SYNGA describes PalmView with tree detection and satellite monitoring plus PalmSim multispectral drone ripeness classification."
+        }
+      ],
+      "delta_that_would_still_be_novel": "A viable delta must tie palm imagery to EUDR/MSPO/TSPKS evidence or a measurable field decision, not just tree counts."
+    },
+    {
+      "area": "Vertical-farm automation and crop monitoring in Singapore/Johor",
+      "why_crowded": "products_ge2",
+      "evidence": [
+        {
+          "url": "https://www.archisen.com/about",
+          "date": "2026",
+          "title": "About Us - Archisen",
+          "tier": "A",
+          "note": "Archisen operates CEA farms with real-time monitoring and dynamic automation."
+        },
+        {
+          "url": "https://www.singrow.com/jobs/agritech-farm-operator",
+          "date": "2026-08",
+          "title": "Agritech Farm Operator - Singrow",
+          "tier": "A",
+          "note": "Singrow describes AI-assisted robotics, IoT, data analytics and crop monitoring in vertical farming."
+        },
+        {
+          "url": "https://www.hyundai.com/sg/experience/overview",
+          "date": "2026",
+          "title": "Hyundai Motor Group Innovation Center Singapore Smart Farm",
+          "tier": "A",
+          "note": "HMGICS page describes a smart farm operated by robots across the crop growth cycle."
+        },
+        {
+          "url": "https://pertanian.johor.gov.my/web/2025/07/majlis-pelancaran-rasmi-projek-farmbyte-archisen-indoor-vertical-farm-ivf/",
+          "date": "2025-07-07",
+          "title": "FarmByte Archisen Indoor Vertical Farm launch",
+          "tier": "A",
+          "note": "Johor agriculture department reports a FarmByte-Archisen indoor vertical farm in the JS-SEZ."
+        }
+      ],
+      "delta_that_would_still_be_novel": "A Singapore CEA project must beat commercial products on a measurable operations problem such as anomaly response or crop-cycle prediction."
+    },
+    {
+      "area": "Remote-sensing dashboards for precision agriculture",
+      "why_crowded": "products_ge2",
+      "evidence": [
+        {
+          "url": "https://www.agrovech.com/en",
+          "date": "2026",
+          "title": "Agrovech: Smart Agriculture Decision Support with Satellite & AI",
+          "tier": "A",
+          "note": "Agrovech offers satellite imaging, NDVI analytics, drone mapping, VRA maps and early warning modules."
+        },
+        {
+          "url": "https://vicub.com/",
+          "date": "2026",
+          "title": "AgriSentinel AI",
+          "tier": "A",
+          "note": "AgriSentinel connects satellite imagery, drone scouting, soil sensors and weather models for farm risk monitoring."
+        },
+        {
+          "url": "https://www.agriios.com/product",
+          "date": "2026",
+          "title": "AgriIOS AI Product",
+          "tier": "A",
+          "note": "AgriIOS unifies satellite and drone imagery with soil, weather, recommendations, supplier matching and deployment."
+        },
+        {
+          "url": "https://meraque.ai/precision-agriculture-software-solution/",
+          "date": "2026",
+          "title": "PASS - Meraque",
+          "tier": "A",
+          "note": "PASS is another real-time plantation and autonomous-fleet intelligence dashboard."
+        }
+      ],
+      "delta_that_would_still_be_novel": "Dashboard-only candidates should fail C3; novelty needs a hard backend task such as audit-grade traceability or prescriptive map validation."
+    },
+    {
+      "area": "Drone-based crop counting, sizing and harvest readiness",
+      "why_crowded": "both",
+      "evidence": [
+        {
+          "url": "https://www.polybee.co/product",
+          "date": "2026",
+          "title": "Product - Polybee",
+          "tier": "A",
+          "note": "Polybee claims mm-level drone scans for plant counts, unit sizing, yield and harvest readiness."
+        },
+        {
+          "url": "https://www.vegetables.bayer.com/au/en-au/resources/news/polybee-and-vegetables-by-bayer-partner-to-bring-ai-powered-farm.html",
+          "date": "2026-07-09",
+          "title": "Bayer-Polybee partnership",
+          "tier": "A",
+          "note": "Bayer says Polybee will bring AI farm intelligence to Australian vegetable growers."
+        },
+        {
+          "url": "https://www.sciencedirect.com/science/article/pii/S2352938524002829",
+          "date": "2025-01",
+          "title": "Advancements in UAV remote sensing for agricultural yield estimation",
+          "tier": "A",
+          "note": "Systematic review covers 95 influential UAV-based crop yield estimation studies."
+        },
+        {
+          "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2026.1840669/full",
+          "date": "2026-07",
+          "title": "UAV remote sensing for yield prediction in staple crops: a review",
+          "tier": "A",
+          "note": "Review found 70 peer-reviewed UAV remote sensing yield-prediction studies."
+        }
+      ],
+      "delta_that_would_still_be_novel": "Still plausible if framed around calibration, failure detection, human-in-loop correction or a crop/specification Polybee does not serve."
+    },
+    {
+      "area": "Open geospatial foundation models for EO agriculture prototypes",
+      "why_crowded": "papers_ge5_in_24mo",
+      "evidence": [
+        {
+          "url": "https://science.nasa.gov/science-research/ai-foundation-model-in-orbit/",
+          "date": "2026-05-07",
+          "title": "NASA's Prithvi Becomes First AI Geospatial Foundation Model In Orbit",
+          "tier": "A",
+          "note": "NASA reports Prithvi geospatial foundation model deployment and broad EO task capability."
+        },
+        {
+          "url": "https://research.ibm.com/publications/prithvi-eo-an-open-access-geospatial-foundation-model-advancing-earth-science-through-global-collaboration",
+          "date": "2025-12-15",
+          "title": "Prithvi-EO open-access geospatial foundation model",
+          "tier": "A",
+          "note": "IBM describes Prithvi-EO-2.0, trained on global HLS imagery."
+        },
+        {
+          "url": "https://www.frontiersin.org/journals/agronomy/articles/10.3389/fagro.2025.1670380/full",
+          "date": "2025",
+          "title": "Integrating UAVs, satellite remote sensing, and machine learning in precision agriculture",
+          "tier": "A",
+          "note": "Review places UAV, satellite and ML integration in precision agriculture as a broad research area."
+        }
+      ],
+      "delta_that_would_still_be_novel": "Using Prithvi/Clay alone is not a contribution; novelty must be dataset, benchmark, deployment constraint or verification workflow."
+    }
+  ],
+  "open_datasets_noticed": [
+    {
+      "name": "SLA Cadastral Land Parcel",
+      "url": "https://data.gov.sg/datasets?query=land&resultId=d_e7395d743076a2bcc487b0d12b9bf33b",
+      "note": "GeoJSON parcel polygons; page says data from Nov 2025 and updated 7 Sep 2026."
+    },
+    {
+      "name": "Tropical Forest Observatory / historical NICFI archive",
+      "url": "https://www.planet.com/nicfi/?gad=1",
+      "note": "Monthly tropical PlanetScope mosaics for non-commercial forest-loss use cases; Malaysia covered by tropical scope."
+    },
+    {
+      "name": "NICFI Basemaps in Google Earth Engine documentation",
+      "url": "https://sitelet.easiiodev.ai/sitelet?url=https%3A%2F%2Fdocs.planet.com%2Fplatform%2Fintegrations%2Fgoogle-earth-engine%2Fnicfi-gee%2F",
+      "note": "Documentation describes GEE access pattern for NICFI basemap collections, though new monthly NICFI basemaps ended after Dec 2024."
+    },
+    {
+      "name": "MYSA MakGeoPadi",
+      "url": "https://www.mysa.gov.my/sistem-makgeopadi-2/",
+      "note": "Official Malaysian paddy geospatial system; noticed as institutional evidence, not an open downloadable dataset."
+    }
+  ],
+  "queries": [
+    {
+      "q": "site:aonic.com agriculture drone Malaysia plantation mapping Aonic date 2026",
+      "useful": true,
+      "note": "Found Aonic agriculture resource hub and proprietary software."
+    },
+    {
+      "q": "Aerodyne agriculture drone plantation Malaysia product 2026",
+      "useful": true,
+      "note": "Found Agrimor official product page."
+    },
+    {
+      "q": "Meraque drone agriculture spraying mapping Malaysia product 2026",
+      "useful": true,
+      "note": "Found Meraque PASS and SPACE product pages."
+    },
+    {
+      "q": "Singapore agriculture AI drone imagery agtech company product 2026",
+      "useful": true,
+      "note": "Found Polybee and adjacent Singapore agtech companies."
+    },
+    {
+      "q": "EUDR palm oil obligations 30 December 2026 official regulation postponement 2026",
+      "useful": true,
+      "note": "Found EUR-Lex and European Commission sources."
+    },
+    {
+      "q": "MSPO EUDR alignment Malaysia palm oil 30 December 2026 official",
+      "useful": true,
+      "note": "Found Malaysia/MPOB palm-news evidence."
+    },
+    {
+      "q": "MPOB smallholder replanting incentive verification remote sensing 2026 official",
+      "useful": true,
+      "note": "Found TSPKS 2.0 monitoring and site-visit evidence."
+    },
+    {
+      "q": "Singapore 30 by 30 Lim Chu Kang master plan agri-food policy date official 2026",
+      "useful": true,
+      "note": "Found SFA/MINDEF LCK land-use change and SAS 2026 tender."
+    },
+    {
+      "q": "site:sustenir.com Singapore vertical farm AI computer vision careers 2026 agriculture",
+      "useful": false,
+      "note": "Did not find strong dated imagery/AI evidence."
+    },
+    {
+      "q": "site:archisen.com Singapore agritech AI farm monitoring product 2026",
+      "useful": true,
+      "note": "Found Archisen CEA automation page."
+    },
+    {
+      "q": "site:growy.sg Singapore vertical farm AI careers 2026",
+      "useful": false,
+      "note": "No useful target-market evidence."
+    },
+    {
+      "q": "Singapore agri tech company drone imagery agriculture AI product careers 2026",
+      "useful": true,
+      "note": "Found Polybee and Singrow."
+    },
+    {
+      "q": "site:mpob.gov.my oil palm replanting incentive smallholders 2026 MPOB",
+      "useful": true,
+      "note": "Found MPOB smallholder road/replanting and SEU pages."
+    },
+    {
+      "q": "site:kpk.gov.my MSPO EUDR Malaysia palm oil 2026 geolocation smallholders",
+      "useful": false,
+      "note": "Less useful than MPOB and EU sources."
+    },
+    {
+      "q": "site:mpob.gov.my EUDR palm oil Malaysia 2026 MSPO",
+      "useful": true,
+      "note": "Found MPOB palm-news EUDR readiness clippings."
+    },
+    {
+      "q": "Malaysia palm oil replanting incentive smallholders 2026 official MPOB",
+      "useful": true,
+      "note": "Found TSPKS 2.0 and Agrobank monitoring coverage."
+    },
+    {
+      "q": "2026 satellite foundation model agriculture remote sensing release Prithvi EO 2.0 TerraMind Clay open model",
+      "useful": true,
+      "note": "Found NASA and IBM Prithvi-EO sources."
+    },
+    {
+      "q": "Malaysia open geospatial dataset oil palm plantations satellite 2026 official dataset",
+      "useful": true,
+      "note": "Found MYSA MakGeoPadi; not open download."
+    },
+    {
+      "q": "Singapore open geospatial agriculture farm parcels dataset 2026 data.gov.sg",
+      "useful": true,
+      "note": "Found SLA cadastral parcel GeoJSON."
+    },
+    {
+      "q": "NICFI Planet tropical forest basemaps Malaysia 2026 license",
+      "useful": true,
+      "note": "Found NICFI discontinuation, Planet FAQ and Tropical Forest Observatory."
+    },
+    {
+      "q": "2025 2026 oil palm remote sensing deep learning disease detection satellite drone review",
+      "useful": true,
+      "note": "Helped establish crop-yield/remote-sensing literature crowding."
+    },
+    {
+      "q": "2025 2026 remote sensing oil palm tree counting drone satellite deep learning papers",
+      "useful": true,
+      "note": "Company products were stronger than paper counts for palm dashboard crowding."
+    },
+    {
+      "q": "2025 2026 crop yield prediction satellite drone deep learning review agriculture papers",
+      "useful": true,
+      "note": "Found multiple recent review papers with large study counts."
+    },
+    {
+      "q": "2025 2026 vertical farming AI computer vision crop monitoring Singapore papers products",
+      "useful": true,
+      "note": "Found product/operator evidence for Singapore CEA crowding."
+    },
+    {
+      "q": "site:skysense.ag agricultural drone tech Singapore product crop dusting date 2026",
+      "useful": false,
+      "note": "No strong Singapore/Malaysia product evidence."
+    },
+    {
+      "q": "site:sga.ai agriculture AI Singapore drone imagery product 2026",
+      "useful": false,
+      "note": "SGA appears outside target market; used only as global crowding context, then omitted from company list."
+    },
+    {
+      "q": "site:polybee.co farm intelligence platform drone imagery Singapore 2026",
+      "useful": true,
+      "note": "Found Polybee product page."
+    },
+    {
+      "q": "site:singrow.com Singapore AI robotics crop monitoring careers 2026",
+      "useful": true,
+      "note": "Found Singrow jobs and careers pages."
+    },
+    {
+      "q": "Aonic careers software engineer agriculture drone Malaysia 2026",
+      "useful": true,
+      "note": "Found Aonic careers and LinkedIn software mapping role."
+    },
+    {
+      "q": "Meraque careers drone agriculture software engineer Malaysia 2026",
+      "useful": true,
+      "note": "Found Meraque technical product and robotics roles."
+    },
+    {
+      "q": "Aerodyne careers agriculture drone Malaysia jobs software engineer 2026",
+      "useful": true,
+      "note": "Found Aerodyne careers page but no dated active agriculture job within 6 months."
+    },
+    {
+      "q": "Agrispec Malaysia careers drone agriculture 2026",
+      "useful": false,
+      "note": "Product page useful; hiring not found."
+    },
+    {
+      "q": "Archisen FarmByte largest vertical farm Malaysia 2026 source",
+      "useful": true,
+      "note": "Found Johor and Bernama evidence for FarmByte Archisen."
+    },
+    {
+      "q": "Archisen Hyundai Motor Group Innovation Center Singapore smart farm 2026",
+      "useful": true,
+      "note": "Found Hyundai Smart Farm and Archisen context."
+    },
+    {
+      "q": "Singrow Singapore AI assisted robotics IoT data analytics crop monitoring 2026 job",
+      "useful": true,
+      "note": "Found Singrow jobs and farm operator page."
+    },
+    {
+      "q": "Polybee Bayer partnership Farm Intelligence Platform 2026 date",
+      "useful": true,
+      "note": "Found Bayer primary dated partnership page."
+    },
+    {
+      "q": "Meraque PASS precision agriculture software solution 2026 Meraque news",
+      "useful": true,
+      "note": "Found official Meraque PASS and MAEPS demo evidence."
+    },
+    {
+      "q": "Meraque SPACE Series agriculture plantation 2026 drone Malaysia",
+      "useful": true,
+      "note": "Found SPACE hybrid drone product page."
+    },
+    {
+      "q": "Meraque Technical Product Lead Drone Robotics September 2026 job",
+      "useful": true,
+      "note": "Found active Meraque technical product listing."
+    },
+    {
+      "q": "Meraque precision agriculture software solution PASS 2026",
+      "useful": true,
+      "note": "Confirmed PASS features."
+    }
+  ],
+  "budget_exhausted": true,
+  "notes": "Coverage is strongest for Malaysia drone/palm and Singapore drone/CEA companies. Several official product pages are live but undated beyond page year or event context; hiring claims were omitted where the only evidence was undated, older than six months, or speculative. Aerodyne and Agrispec hiring was not supported by fresh role-level evidence. The search exceeded the requested search-count budget while resolving Malaysia/Singapore balance, so budget_exhausted is true."
+}

@@ -1,0 +1,201 @@
+{
+  "id": "R4-S40",
+  "verdict": "blocked",
+  "verdict_reason": "No public parcel-level enrolment register found for cover-crop/tillage programmes. Agreena confirms enrolment data is login-gated (aggregate hectares/farmer counts only, no field geometries). Klim's register and CAP/national LPIS eco-scheme layers were unreachable this session (404/refused/JS-rendered), and CAP reporting is known to be aggregate-only. No treatment group is obtainable.",
+  "sources": [
+    {
+      "name": "Copernicus Sentinel-1 SAR (Copernicus Data Space Ecosystem)",
+      "role": "imagery",
+      "url": "https://dataspace.copernicus.eu/explore-data/data-collections/sentinel-data/sentinel-1",
+      "fetched_ok": true,
+      "licence_quote": "contains modified Copernicus Sentinel data (2019), processed by ESA, CC BY-SA 3.0 IGO",
+      "licence_class": "open",
+      "access_mode": "api",
+      "size_gb": null,
+      "coverage_quote": "SLC products for Europe span Oct 2014 - Present",
+      "covers_target_region": "true",
+      "date_range": "2014-10 to present",
+      "caveats_quoted": [
+        "Access restrictions may apply"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Copernicus Sentinel-2 optical (Google Earth Engine catalog)",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/sentinel-2",
+      "fetched_ok": true,
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "size_gb": null,
+      "coverage_quote": "wide-swath, high-resolution, multispectral imaging mission with a global 5-day revisit frequency",
+      "covers_target_region": "true",
+      "date_range": "2015-06 to present",
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "EuroCrops (harmonised EU LPIS crop-type parcels)",
+      "role": "auxiliary",
+      "url": "https://www.eurocrops.tum.de/",
+      "fetched_ok": true,
+      "licence_quote": "Creative Commons Attribution 4.0 International License",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "publicly available self-declared crop reporting datasets from countries of the European Union",
+      "covers_target_region": "true",
+      "caveats_quoted": [
+        "page content gives crop type only; no cover-crop/tillage/eco-scheme practice attribute found on landing page"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Agreena (corporate carbon-farming/regenerative programme registry)",
+      "role": "labels",
+      "url": "https://agreena.com",
+      "fetched_ok": true,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "size_gb": null,
+      "coverage_quote": "5 million+ hectares transitioning with Agreena; 2,500+ farmers restoring soil",
+      "covers_target_region": "true",
+      "caveats_quoted": [
+        "enrolment data behind AgreenaCarbon sign in; no public field-level registry or map found on landing page"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Klim (corporate regenerative-agriculture programme registry)",
+      "role": "labels",
+      "url": "https://klim.eco/",
+      "fetched_ok": false,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "size_gb": null,
+      "covers_target_region": "partial",
+      "caveats_quoted": [
+        "page content unrenderable via WebFetch (JS single-page app) across 3 attempts; enrolment disclosure could not be verified"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "EC CAP eco-scheme overview page",
+      "role": "labels",
+      "url": "https://agriculture.ec.europa.eu/common-agricultural-policy/cap-overview/eco-schemes_en",
+      "fetched_ok": false,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "size_gb": null,
+      "covers_target_region": "true",
+      "caveats_quoted": [
+        "HTTP 404 at this URL; could not locate a working EC page confirming parcel-level vs aggregate eco-scheme reporting"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Denmark LPIS field/catch-crop declarations (Landbrugsstyrelsen)",
+      "role": "labels",
+      "url": "https://kortdata.fvm.dk/download/Marker",
+      "fetched_ok": false,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "size_gb": null,
+      "covers_target_region": "partial",
+      "caveats_quoted": [
+        "connection refused (ECONNREFUSED); could not verify whether Danish LPIS exposes catch-crop practice flags at parcel level"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Austria INVEKOS open agricultural parcel data (data.gv.at)",
+      "role": "labels",
+      "url": "https://www.data.gv.at/katalog/dataset/44dcdb2d-8fd7-4c9f-9d90-e78548b18ca9",
+      "fetched_ok": false,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "size_gb": null,
+      "covers_target_region": "partial",
+      "caveats_quoted": [
+        "HTTP 404 at this guessed dataset URL; could not verify whether Austrian INVEKOS open data exposes OPUL greening/catch-crop flags"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "EU Open Data Portal dataset search (data.europa.eu)",
+      "role": "auxiliary",
+      "url": "https://data.europa.eu/data/datasets?query=LPIS+eco-scheme+cover+crop",
+      "fetched_ok": true,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "size_gb": null,
+      "covers_target_region": "true",
+      "caveats_quoted": [
+        "search results render client-side via JavaScript; fetch returned only page header, no dataset listing content"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    }
+  ],
+  "ground_truth": {
+    "status": "none",
+    "source_url": null,
+    "construction_protocol": "No public protocol exists. Enrolment is proprietary to platform operators (Agreena, Klim), gated behind farmer/partner login; CAP eco-scheme uptake is aggregate-only, not parcel geometries. Requires a private data-sharing agreement, not a public source.",
+    "label_count_estimate": null
+  },
+  "compute_path": {
+    "platform": "Google Earth Engine / Copernicus Data Space Ecosystem (free tier)",
+    "fits_C9": true,
+    "why": "S1/S2 time-series change-detection runs on GEE/Copernicus free cloud compute; no sustained local GPU training required.",
+    "gpu_hours_per_week_estimate": 2
+  },
+  "queries": [
+    {
+      "q": "EU carbon farming pilot enrolled parcels public register map",
+      "useful": false,
+      "note": "WebSearch tool reported session quota exhausted before executing; no results returned"
+    },
+    {
+      "q": "CAP eco-scheme cover crop reduced tillage parcel-level public data EU member state",
+      "useful": false,
+      "note": "WebSearch tool reported session quota exhausted before executing; no results returned"
+    },
+    {
+      "q": "Agreena Klim Soil Capital regenerative agriculture enrolled fields map public",
+      "useful": false,
+      "note": "WebSearch tool reported session quota exhausted before executing; no results returned"
+    }
+  ],
+  "fetched": [
+    "https://agreena.com",
+    "https://klim.eco",
+    "https://www.eurocrops.tum.de/",
+    "https://dataspace.copernicus.eu/explore-data/data-collections/sentinel-data/sentinel-1",
+    "https://www.eurocrops.tum.de/index.html#countries",
+    "https://klim.eco/en",
+    "https://www.data.gv.at/katalog/dataset/44dcdb2d-8fd7-4c9f-9d90-e78548b18ca9",
+    "https://developers.google.com/earth-engine/datasets/catalog/sentinel-2",
+    "https://data.europa.eu/data/datasets?query=LPIS+eco-scheme+cover+crop",
+    "https://kortdata.fvm.dk/download/Marker",
+    "https://klim.eco/",
+    "https://agriculture.ec.europa.eu/common-agricultural-policy/cap-overview/eco-schemes_en"
+  ],
+  "budget_exhausted": true,
+  "notes": "WebSearch was exhausted session-wide before any query executed; verification relied solely on direct WebFetch of known/guessed landing pages. Failed fetches (Denmark, Austria, EC eco-scheme page, Klim) are inconclusive, not proof of non-existence, and should be re-checked with working search access. The confirmed Agreena fetch plus CAP's well-documented aggregate-only transparency reporting are the strongest basis for the blocked verdict."
+}

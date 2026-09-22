@@ -1,0 +1,118 @@
+{
+  "id": "R4-S51",
+  "verdict": "type_b",
+  "reason": "FTW's 2026 global-mapping paper already names merge (fields fused at 10m) and split/over-fragmentation as documented smallholder failure modes, and shows confidence-layer failure on real smallholder fields (Ethiopia) -- narrowing half the taxonomy. But it is cross-country error commentary, not a benchmark, not tied to a subsidy decision, and tree crops are excluded from FTW training with Malaysia absent from coverage -- under-canopy miss and TSPKS road-access mismatch are untested. Not closed; crop-domain gap is a real technical delta, not geography alone.",
+  "queries": [
+    {
+      "q": "Fields of the World FTW field boundary failure modes smallholder benchmark",
+      "useful": false,
+      "note": "WebSearch tool returned 'session search budget exhausted' before any result was served."
+    },
+    {
+      "q": "field boundary delineation merge split under-canopy failure taxonomy smallholder",
+      "useful": false,
+      "note": "same WebSearch budget block."
+    },
+    {
+      "q": "AI4SmallFarms field boundary benchmark smallholder",
+      "useful": false,
+      "note": "same WebSearch budget block; substituted with WebFetch of search-engine HTML below."
+    },
+    {
+      "q": "Fields of the World paper confidence layer smallholder limitations",
+      "useful": false,
+      "note": "same WebSearch budget block."
+    },
+    {
+      "q": "duckduckgo html: \"Fields of the World\" FTW benchmark smallholder failure modes merge split",
+      "useful": false,
+      "note": "DuckDuckGo served a CAPTCHA page, no results extractable."
+    },
+    {
+      "q": "duckduckgo html: AI4SmallFarms field boundary delineation smallholder benchmark dataset",
+      "useful": false,
+      "note": "DuckDuckGo CAPTCHA again; AI4SmallFarms could not be located or verified this dispatch."
+    },
+    {
+      "q": "bing: AI4SmallFarms field boundary delineation smallholder dataset paper",
+      "useful": false,
+      "note": "Bing returned unrelated women's-clothing/vendor-list results."
+    },
+    {
+      "q": "bing: oil palm smallholder field boundary verification subsidy software Malaysia MPOB TSPKS",
+      "useful": true,
+      "note": "No matching product surfaced; results were generic crude-oil-price pages, supporting a negative product_search result."
+    },
+    {
+      "q": "arxiv.org/abs/2409.16252 (FTW AAAI-2025 benchmark paper, fetched directly)",
+      "useful": true,
+      "note": "No merge/split/under-canopy taxonomy in this paper; only an ethics-statement privacy note and generic 'future work' language."
+    },
+    {
+      "q": "arxiv.org/html/2605.11055 (FTW global mapping paper, fetched directly via aka.ms/ftw-global-paper redirect)",
+      "useful": true,
+      "note": "Key finding: explicitly documents merge and split/over-fragmentation as known smallholder failure modes; explicitly excludes tree/perennial crops from training; no Malaysia or oil palm content."
+    },
+    {
+      "q": "prestasisawit.mpob.gov.my/en/palmnews/news/39893 (TSPKS seed url, fetched directly)",
+      "useful": true,
+      "note": "Confirms current TSPKS 2.0 verification is a manual site-visit/photo-upload digital form (Agrobank x MPOB); no satellite boundary comparison exists in it."
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://arxiv.org/abs/2605.11055",
+      "date": "2026-05",
+      "title": "The first global agricultural field boundary map at 10m resolution",
+      "tier": "A",
+      "closes": false,
+      "why": "Names merge and split/over-fragmentation as known smallholder failure modes and shows confidence-layer breakdown on real smallholder fields (Ethiopia), but only as cross-country error commentary, not a benchmark; excludes tree crops and Malaysia -- narrows but does not close the candidate.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://arxiv.org/abs/2409.16252",
+      "date": "2024-12",
+      "title": "Fields of The World: A Machine Learning Benchmark Dataset for Global Agricultural Field Boundary Segmentation",
+      "tier": "A",
+      "closes": false,
+      "why": "The original FTW benchmark paper (AAAI-2025) reports only aggregate F1/recall by country; it contains no merge/split/under-canopy/road-access failure taxonomy and does not evaluate smallholder oil palm.",
+      "relation": "same_output_space"
+    },
+    {
+      "url": "https://fieldsofthe.world/",
+      "date": "2026-05",
+      "title": "Fields of the World project site",
+      "tier": "A",
+      "closes": false,
+      "why": "Project landing page links both FTW papers and a 500m confidence layer (AUC 0.82) but shows no Malaysia/oil palm/TSPKS content or failure-mode breakdown by category.",
+      "relation": "product"
+    },
+    {
+      "url": "https://prestasisawit.mpob.gov.my/en/palmnews/news/39893",
+      "date": "2025-07",
+      "title": "TSPKS 2.0 digital platform launch (Agrobank x MPOB)",
+      "tier": "A",
+      "closes": false,
+      "why": "Confirms the only existing TSPKS verification tool is manual (officer site visits, uploaded photos); no satellite-boundary or FTW-comparison capability exists, so this does not close the candidate -- it is negative evidence for product_search.",
+      "relation": "product"
+    }
+  ],
+  "nearest_neighbours_do_not": "FTW's own global-mapping paper does not benchmark against authoritative cadastral/holding ground truth (like TSPKS), does not evaluate any tree/perennial crop (explicitly excluded from training), does not test Malaysia, and has no road-access-mismatch category or any category tied to a subsidy-approval decision.",
+  "budget_exhausted": true,
+  "notes": "WebSearch unavailable all dispatch (quota exhausted pre-first-query); steps 3/4/6 ran only via WebFetch on direct/guessed URLs and search-engine HTML. Recall a paper 'AI4SmallFarms' (SE Asian smallholder boundary dataset, Cambodia/Vietnam paddy) but could not verify URL (DuckDuckGo CAPTCHA, Bing/Google no match, Semantic Scholar 429). Human should check AI4SmallFarms and citers of arXiv 2605.11055 -- could push to 'closed'.",
+  "type_b_fields": {
+    "named_prior_solution_url": "https://arxiv.org/abs/2605.11055",
+    "measurable_axis": "Per-category failure recall (merge/split/under-canopy-miss/road-access-mismatch) vs TSPKS ground truth on Malaysian oil palm, where FTW's baseline is near-zero since tree crops are excluded",
+    "attributable_to": "Adding a tree-crop canopy-occlusion failure class and a subsidy-linked road-access class, benchmarked against TSPKS cadastral ground truth, neither tested in FTW's own generic error analysis",
+    "prior_deployed_in_target_region": "false"
+  },
+  "product_search": {
+    "queries_run": [
+      "oil palm smallholder field boundary verification subsidy software Malaysia MPOB TSPKS (bing)",
+      "AI4SmallFarms field boundary delineation smallholder dataset paper (bing)",
+      "AI4SmallFarms dataset field boundary smallholder paper arxiv (google, no results returned)",
+      "MPOB TSPKS 2.0 digital platform direct page fetch"
+    ],
+    "shipping_products_found": []
+  }
+}

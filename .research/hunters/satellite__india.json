@@ -1,0 +1,637 @@
+[
+  {
+    "one_liner": "For Indian PMFBY teams running YES-TECH, use Sentinel-1/2 plus EOS-04 crop maps to flag insurance units where the technology yield estimate, crop calendar and observed phenology disagree before claims are settled.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+eos_04_sar",
+    "delta_claim": "audits estimate-disagreement cases instead of producing another yield model",
+    "forcing_function": "PMFBY / YES-TECH satellite-based yield estimation mandate in India",
+    "user_guess": "PMFBY insurers and state agriculture departments",
+    "seed_urls": [
+      {
+        "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-modification-addition-of-the-features-provisions-in-the-ongoing-central-sector-scheme-of-pradhan-mantri-fasal-bima-yojana-pmfby-and-restructured-weather-based-crop-insurance-scheme/",
+        "date": "2025-01-01",
+        "title": "PMFBY continuation and FIAT approval",
+        "tier": "A",
+        "note": "Cabinet note says YES-TECH uses remote sensing with at least 30% weightage to technology estimates."
+      },
+      {
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2241765&lang=1&reg=3",
+        "date": "2026-03-18",
+        "title": "Space-Based Initiatives for Agriculture",
+        "tier": "A",
+        "note": "PIB describes YES-TECH, smart CCE sampling, GeoCrEST and SASYA operational transfers."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "queries": [
+      {
+        "q": "India YES-TECH satellite based yield estimation PMFBY official 2026",
+        "useful": true
+      },
+      {
+        "q": "site:pmfby.gov.in YES-TECH technology based yield estimation PMFBY satellite",
+        "useful": true
+      },
+      {
+        "q": "MNCFC FASAL satellite crop acreage yield drought assessment official India 2025",
+        "useful": true
+      },
+      {
+        "q": "India CROPIC PMFBY mobile photo satellite crop insurance official 2025",
+        "useful": true
+      },
+      {
+        "q": "India crop residue management subsidy Punjab official 2025 satellite stubble burning partial burning CEEW",
+        "useful": true
+      },
+      {
+        "q": "site:icar.org.in crop residue management satellite remote sensing Punjab 2025",
+        "useful": true
+      },
+      {
+        "q": "site:agricoop.gov.in digital agriculture mission crop sown registry satellite 2025 India",
+        "useful": true
+      },
+      {
+        "q": "India Digital Crop Survey crop sown registry official satellite 2025",
+        "useful": true
+      },
+      {
+        "q": "India EUDR coffee rubber smallholders deforestation-free supply chain official 2026",
+        "useful": true
+      },
+      {
+        "q": "site:indiacoffee.org EUDR coffee India 2026 deforestation regulation",
+        "useful": false
+      },
+      {
+        "q": "site:rubberboard.gov.in EUDR rubber India geolocation 2026",
+        "useful": true
+      },
+      {
+        "q": "site:apeda.gov.in EUDR India agriculture exports deforestation 2026",
+        "useful": false
+      },
+      {
+        "q": "AlphaEarth Foundations satellite embeddings annual 10m 2025 Google Earth Engine",
+        "useful": true
+      },
+      {
+        "q": "Google Earth AI AlphaEarth Foundations Satellite Embedding dataset 2025 annual embeddings",
+        "useful": true
+      },
+      {
+        "q": "Field boundaries global 10m FTW India smallholder weakness 2024 2025",
+        "useful": true
+      },
+      {
+        "q": "NICFI Planet basemaps India Google Earth Engine non commercial forest loss agriculture 2025",
+        "useful": true
+      },
+      {
+        "q": "Fields of The World global field boundaries 10m 2025 India smallholder weakness",
+        "useful": true
+      },
+      {
+        "q": "FTW global 10 m field boundaries 2025 smallholder labels India",
+        "useful": true
+      },
+      {
+        "q": "AI4SmallFarms India field boundary dataset 2025",
+        "useful": true
+      },
+      {
+        "q": "Indian crop field boundary dataset satellite smallholder 2025",
+        "useful": true
+      },
+      {
+        "q": "site:cropin.com satellite crop monitoring product India 2026 Cropin acre imagery",
+        "useful": true
+      },
+      {
+        "q": "site:satsure.co satellite crop monitoring agriculture product India 2026 SatSure",
+        "useful": true
+      },
+      {
+        "q": "site:pixxel.space agriculture hyperspectral satellite crop monitoring 2026 Pixxel official",
+        "useful": true
+      },
+      {
+        "q": "site:esri.in agriculture satellite crop monitoring India 2026",
+        "useful": false
+      },
+      {
+        "q": "India horticulture CHAMAN satellite assessment mango banana official 2025 2026",
+        "useful": true
+      },
+      {
+        "q": "site:nhb.gov.in CHAMAN horticulture satellite 2025 crop assessment India",
+        "useful": true
+      },
+      {
+        "q": "site:pib.gov.in horticulture CHAMAN geoinformatics 2025 satellite India",
+        "useful": true
+      },
+      {
+        "q": "site:isro.gov.in horticulture CHAMAN crop pest disease satellite India 2026",
+        "useful": true
+      }
+    ],
+    "budget_exhausted": false,
+    "search_count": 28,
+    "fetch_count": 12
+  },
+  {
+    "one_liner": "For Indian PMFBY supervisors, use Sentinel-1/2 around CCE plots to flag crop-cutting experiments whose photographed plot is phenologically unrepresentative of its insurance unit.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical",
+    "delta_claim": "post-hoc representativeness audit of CCE evidence, not CCE placement",
+    "forcing_function": "PMFBY / YES-TECH satellite-based yield estimation mandate in India",
+    "user_guess": "PMFBY state cells and insurance auditors",
+    "seed_urls": [
+      {
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2241765&lang=1&reg=3",
+        "date": "2026-03-18",
+        "title": "Space-Based Initiatives for Agriculture",
+        "tier": "A",
+        "note": "PIB says smart sampling improves CCE locations and supports PMFBY yield estimation."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:S20",
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Indian AgriStack crop-sown registries, use Sentinel-1/2 and AlphaEarth annual embeddings to create a re-survey queue for parcels whose declared crop-season history conflicts with observed field behaviour.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+aef_embeddings",
+    "delta_claim": "registry-error triage with temporal contradiction types, not crop classification as the output",
+    "forcing_function": "Digital Crop Survey and AgriStack crop-sown registry rollout",
+    "user_guess": "state digital crop survey teams",
+    "seed_urls": [
+      {
+        "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=2114889&lang=2&reg=48",
+        "date": "2025-03-25",
+        "title": "Digital Crop Survey",
+        "tier": "A",
+        "note": "PIB says DCS collects crop-sown details for every agricultural plot."
+      },
+      {
+        "url": "https://agristack.gov.in/",
+        "date": "2026-09",
+        "title": "Agri Stack",
+        "tier": "A",
+        "note": "AgriStack describes a federated crop-sown registry and future image-based crop survey."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For MNCFC users of ISRO's SASYA C-band SAR crop maps, use Sentinel-1/2 and AlphaEarth neighbours to emit per-district model-drift alerts when crop-calendar shifts make the operational map unreliable.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "eos_04_sar+sentinel_1_sar+sentinel_2_optical+aef_embeddings",
+    "delta_claim": "monitors operational crop-map failure modes instead of remapping crops",
+    "forcing_function": "MNCFC operational use of SASYA for crop monitoring",
+    "user_guess": "MNCFC and state crop-forecasting cells",
+    "seed_urls": [
+      {
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2241765&lang=1&reg=3",
+        "date": "2026-03-18",
+        "title": "Space-Based Initiatives for Agriculture",
+        "tier": "A",
+        "note": "PIB says SASYA is an AI crop mapping tool for C-band SAR from EOS-04."
+      },
+      {
+        "url": "https://developers.google.com/earth-engine/guides/aef_on_gcs_readme",
+        "date": "2026-07",
+        "title": "AlphaEarth Foundations GCS data",
+        "tier": "A",
+        "note": "Google documents annual 2017-2025 satellite embedding layers."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Indian PMFBY claim officers, type satellite-visible loss cases as prevented sowing, failed germination, mid-season flood damage or post-harvest loss from Sentinel-1/2 instead of returning one damage mask.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical",
+    "delta_claim": "claim-stage cause typing tied to PMFBY payout clauses",
+    "forcing_function": "PMFBY claim calculation and settlement modernization",
+    "user_guess": "crop insurers and district agriculture officers",
+    "seed_urls": [
+      {
+        "url": "https://secure.mygov.in/campaigns/pmfby/",
+        "date": "2026-09",
+        "title": "PM Fasal Bima Yojana",
+        "tier": "A",
+        "note": "MyGov lists prevented sowing, localized calamities and post-harvest losses as PMFBY covers."
+      },
+      {
+        "url": "https://www.pmindia.gov.in/en/news_updates/cabinet-approves-modification-addition-of-the-features-provisions-in-the-ongoing-central-sector-scheme-of-pradhan-mantri-fasal-bima-yojana-pmfby-and-restructured-weather-based-crop-insurance-scheme/",
+        "date": "2025-01-01",
+        "title": "PMFBY continuation and FIAT approval",
+        "tier": "A",
+        "note": "Cabinet approved technology infusion for transparent claim calculation and settlement."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For YES-TECH states onboarding new crops, use Sentinel-1/2 and GeoCrEST/FASAL outputs to publish insurance-unit uncertainty bands that expose when a crop lacks enough local calibration.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+geocrest_outputs",
+    "delta_claim": "crop-specific uncertainty disclosure for operational yield estimates",
+    "forcing_function": "FASAL 2.0 and YES-TECH scale-up",
+    "user_guess": "MNCFC, insurers and state PMFBY administrators",
+    "seed_urls": [
+      {
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2241765&lang=1&reg=3",
+        "date": "2026-03-18",
+        "title": "Space-Based Initiatives for Agriculture",
+        "tier": "A",
+        "note": "Annexure lists FASAL 2.0 from 2024 to March 2029 and GeoCrEST yield estimation."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For eastern Indian rice-fallow programmes, use Sentinel-1/2 to separate post-kharif land as waterlogged, residue-blocked, late-harvested or genuinely cultivable before rabi intensification money is targeted.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical",
+    "delta_claim": "types the reason a fallow exists rather than mapping fallow area",
+    "forcing_function": "ISRO/MoAFW crop intensification rice-fallow programme",
+    "user_guess": "state agriculture departments in eastern India",
+    "seed_urls": [
+      {
+        "url": "https://www.nrsc.gov.in/nrscnew/Agr_Apps.php?lang_code=en",
+        "date": "2026-07",
+        "title": "NRSC Agriculture Applications",
+        "tier": "A",
+        "note": "NRSC says satellite monitoring identifies rice fallows for rabi crop intensification."
+      },
+      {
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2241765&lang=1&reg=3",
+        "date": "2026-03-18",
+        "title": "Space-Based Initiatives for Agriculture",
+        "tier": "A",
+        "note": "PIB annex lists crop intensification mapping rice fallow in six eastern states."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For India's Potato Crop Monitoring programme, use Sentinel-1/2 plus open hyperspectral samples to type district potato anomalies as acreage error, cold injury, water stress or disease-scouting priority.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+hyperspectral_open",
+    "delta_claim": "turns potato monitoring anomalies into field-action classes",
+    "forcing_function": "India Potato Crop Monitoring 2026-March 2028",
+    "user_guess": "MNCFC, horticulture departments and potato boards",
+    "seed_urls": [
+      {
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2241765&lang=1&reg=3",
+        "date": "2026-03-18",
+        "title": "Space-Based Initiatives for Agriculture",
+        "tier": "A",
+        "note": "PIB annex lists India Potato Crop Monitoring as ongoing from 2026 to March 2028."
+      },
+      {
+        "url": "https://www.pixxel.space/knowledge-hub/hyperspectral-intelligence-in-agriculture?a9275e65_page=2",
+        "date": "2026-06-16",
+        "title": "Hyperspectral Intelligence in Agriculture",
+        "tier": "A",
+        "note": "Pixxel says hyperspectral imagery can reveal biochemical stress signals."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For CHAMAN horticulture planners, use Landsat/Sentinel-2 trajectories to classify mango and citrus orchards as expanding, senescent, gap-filled or freshly rejuvenated, not merely present.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "landsat+sentinel_2_optical",
+    "delta_claim": "orchard lifecycle-state mapping for intervention timing",
+    "forcing_function": "CHAMAN horticulture assessment and management",
+    "user_guess": "state horticulture departments and NHB planners",
+    "seed_urls": [
+      {
+        "url": "https://mrsac.gov.in/MRSAC/flipbook/project/coordinated-horticulture-assessment-amp-management-using-geo-informatics-chaman",
+        "date": "2026-08-12",
+        "title": "CHAMAN project",
+        "tier": "A",
+        "note": "MRSAC says orchard mapping for citrus, grapes and pomegranate districts is completed."
+      },
+      {
+        "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1741940&lang=2&reg=48",
+        "date": "2021-08-03",
+        "title": "Use of Modern Technology for Crop Production Forecasting",
+        "tier": "A",
+        "note": "PIB says CHAMAN assesses seven horticulture crops using geoinformatics."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Indian horticulture infrastructure planners, use CHAMAN orchard layers and Sentinel-2 change to flag cold stores and mandis whose catchment crop base has shifted since the infrastructure was sited.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "sentinel_2_optical+chaman_layers",
+    "delta_claim": "audits infrastructure-catchment mismatch from crop change",
+    "forcing_function": "CHAMAN and horticulture infrastructure planning",
+    "user_guess": "NHB, state horticulture missions and APEDA-linked planners",
+    "seed_urls": [
+      {
+        "url": "https://bhuvan-app1.nrsc.gov.in/chaman/",
+        "date": "2026-09",
+        "title": "Bhuvan CHAMAN",
+        "tier": "A",
+        "note": "Bhuvan CHAMAN shows crop plantation layers and POI data including mandi and cold storage."
+      },
+      {
+        "url": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=2271770&lang=2&reg=48",
+        "date": "2026-06-11",
+        "title": "Second Advance Estimates of Horticultural Crop Area and Production",
+        "tier": "A",
+        "note": "PIB reports 2025-26 horticulture area and production estimates."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Punjab's crop-residue programme, estimate sub-field partial-burn fraction from Sentinel-1/2 in the harvest-to-sowing window so CRM subsidy teams can see evasion that fire counts miss.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical",
+    "delta_claim": "quantifies partial burning below incident-level fire monitoring",
+    "forcing_function": "Punjab crop residue management and CAQM enforcement",
+    "user_guess": "Punjab agriculture department and CAQM",
+    "seed_urls": [
+      {
+        "url": "https://www.ceew.in/press-releases/punjab-farmers-need-timely-nudges-not-just-awareness-stop-stubble-burning-ceew-study",
+        "date": "2026-06-16",
+        "title": "Punjab farmers need timely nudges",
+        "tier": "A",
+        "note": "CEEW identifies partial burners and satellite-detection limitations."
+      },
+      {
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2112397&lang=2&reg=48",
+        "date": "2025-03-18",
+        "title": "Stubble Burning",
+        "tier": "A",
+        "note": "PIB describes CRM subsidies for in-situ and ex-situ paddy-straw management."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:S04",
+    "hunter_confidence": "high"
+  },
+  {
+    "one_liner": "For Punjab residue-based CBG and power buyers, use Sentinel-1/2 after harvest to classify fields as baled, incorporated, partially burnt or untouched before procurement claims are accepted.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical",
+    "delta_claim": "verifies residue-removal supply evidence, not air-pollution fire detection",
+    "forcing_function": "Punjab CRM, CBG and thermal co-firing targets",
+    "user_guess": "CBG plants, thermal plants and Punjab nodal officers",
+    "seed_urls": [
+      {
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2187847&lang=2&reg=48",
+        "date": "2025-11-08",
+        "title": "CAQM reviews actions to eliminate stubble burning",
+        "tier": "A",
+        "note": "PIB says CAQM reviewed CBG plants, power-plant co-firing and CRM machinery availability."
+      },
+      {
+        "url": "https://www.ceew.in/publications/how-can-punjab-adopt-crop-residue-management-methods-and-tackle-paddy-stubble-burning",
+        "date": "2024-07-02",
+        "title": "How can Punjab increase adoption of CRM methods?",
+        "tier": "A",
+        "note": "CEEW reports ex-situ residue-market barriers and partial burning before CRM machines."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Indian Digital Crop Survey supervisors, use FTW global predictions and Sentinel-2 quality layers to label each plot as satellite-observable, boundary-ambiguous or manual-survey-required.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "ftw_global_10m+sentinel_2_optical",
+    "delta_claim": "observability routing for surveys instead of a new boundary map",
+    "forcing_function": "Digital Crop Survey and FTW global 10 m boundary product",
+    "user_guess": "state DCS quality-control teams",
+    "seed_urls": [
+      {
+        "url": "https://tgengine.org/generate-field-boundaries-in-your-browser/",
+        "date": "2026-01-27",
+        "title": "Introducing the FTW Web App",
+        "tier": "A",
+        "note": "FTW app lets users run AI field-boundary models on Sentinel-2 imagery."
+      },
+      {
+        "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=2114889&lang=2&reg=48",
+        "date": "2025-03-25",
+        "title": "Digital Crop Survey",
+        "tier": "A",
+        "note": "DCS targets crop-sown details for every agricultural plot."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:S02",
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Indian smallholder boundary datasets, compare FTW 10 m, India-10k labels and 3 m field-boundary evidence to score which parcel sizes collapse into unusable polygons.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "ftw_global_10m+india_10k_fields+planet_3m_benchmark",
+    "delta_claim": "a parcel-recovery benchmark that measures when 10 m boundaries are unusable",
+    "forcing_function": "FTW global 10 m boundary product with smallholder weakness",
+    "user_guess": "researchers building operational smallholder monitors",
+    "seed_urls": [
+      {
+        "url": "https://zenodo.org/records/7315090",
+        "date": "2022-11-12",
+        "title": "10,000 Crop Field Boundaries across India",
+        "tier": "A",
+        "note": "Zenodo hosts India crop-field boundary labels and model weights."
+      },
+      {
+        "url": "https://source.coop/ftw/global-data",
+        "date": "2026-02",
+        "title": "Global Fields of The World",
+        "tier": "A",
+        "note": "Source Cooperative hosts global 2024 and 2025 field-boundary predictions with confidence."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:S02",
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For PMFBY event audits, use monthly Custom Satellite Embeddings over sample districts to date sowing failure, flood shock and recovery milestones that annual AlphaEarth layers cannot resolve.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "foundation_model_embeddings:custom_alphaearth_monthly",
+    "delta_claim": "tests event-date auditability from on-demand embeddings",
+    "forcing_function": "AlphaEarth Custom Satellite Embeddings academic program",
+    "user_guess": "PMFBY analytics teams and FYP evaluator demo users",
+    "seed_urls": [
+      {
+        "url": "https://mapsplatform.google.com/resources/blog/introducing-custom-satellite-embeddings-powered-by-alphaearth-foundations/",
+        "date": "2026-07-29",
+        "title": "Introducing Custom Satellite Embeddings",
+        "tier": "A",
+        "note": "Google says custom embeddings support higher-frequency monitoring and change detection."
+      },
+      {
+        "url": "https://developers.google.com/earth-engine/guides/aef_on_gcs_readme",
+        "date": "2026-07",
+        "title": "AlphaEarth Foundations GCS data",
+        "tier": "A",
+        "note": "Annual embeddings cover 2017-2025, implying annual layers alone lack in-season timing."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": "run3:S07",
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Indian agri-lenders, use Sentinel-1/2 and AgriStack parcel histories to flag loan portfolios where declared crop, observed crop intensity and harvest timing imply collateral-risk drift.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+agristack_registry",
+    "delta_claim": "portfolio drift evidence from crop-cycle contradictions, not generic credit scoring",
+    "forcing_function": "AgriStack authorized access for banks and agri-techs",
+    "user_guess": "banks and NBFC agri-credit risk teams",
+    "seed_urls": [
+      {
+        "url": "https://agristack.gov.in/",
+        "date": "2026-09",
+        "title": "Agri Stack",
+        "tier": "A",
+        "note": "AgriStack names banks, agri-techs and value-chain companies as authorized users."
+      },
+      {
+        "url": "https://www.cropin.com/other-industries/",
+        "date": "2026-09",
+        "title": "Digital solutions for diverse agri-food industries",
+        "tier": "B",
+        "note": "Cropin describes satellite acreage and risk tools for agri-lenders."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For SatSure-style Indian agri procurement desks, use Sentinel-1/2 and AlphaEarth similarity search to flag villages whose crop lifecycle is breaking from historical procurement assumptions.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+aef_embeddings",
+    "delta_claim": "detects assumption breaks in procurement territories, not acreage estimation",
+    "forcing_function": null,
+    "user_guess": "agri procurement and input-distribution companies",
+    "seed_urls": [
+      {
+        "url": "https://www.satsure.co/satsure-bharat-innovates-2026/",
+        "date": "2026-06",
+        "title": "SatSure Bharat Innovates 2026",
+        "tier": "A",
+        "note": "SatSure says it enables in-season crop lifecycle monitoring and procurement planning."
+      },
+      {
+        "url": "https://developers.google.com/earth-engine/guides/aef_on_gcs_readme",
+        "date": "2026-07",
+        "title": "AlphaEarth Foundations GCS data",
+        "tier": "A",
+        "note": "Google documents 64-channel annual embeddings suitable for similarity workflows."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Cropin-like compliance teams in India, use Sentinel-1/2 and NICFI history only at forest-edge farms to flag plot encroachment direction before a sustainability certificate is issued.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+nicfi_planet_basemaps",
+    "delta_claim": "directional plot-encroachment evidence for certification workflows",
+    "forcing_function": "EUDR and sustainability compliance pressure",
+    "user_guess": "certifiers and agri-food enterprise compliance teams",
+    "seed_urls": [
+      {
+        "url": "https://environment.ec.europa.eu/news/commission-updates-product-scope-and-tools-support-eudr-2026-07-13_en",
+        "date": "2026-07-13",
+        "title": "Commission updates EUDR tools",
+        "tier": "A",
+        "note": "European Commission confirms EUDR implementation dates and due-diligence tools."
+      },
+      {
+        "url": "https://www.cropin.com/solutions/",
+        "date": "2026-09",
+        "title": "Cropin Cloud for Sustainability",
+        "tier": "B",
+        "note": "Cropin describes LULC models to track plot encroachment into forest land."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:S01",
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Indian extension teams using hyperspectral scouts, fuse open Pixxel hyperspectral samples with Sentinel-2 to label stress as nutrient, water or biotic-scouting priority before field visits.",
+    "region": "india",
+    "bucket": "satellite",
+    "data_class": "hyperspectral_open+sentinel_2_optical",
+    "delta_claim": "stress-cause triage with a public validation protocol, not disease detection",
+    "forcing_function": null,
+    "user_guess": "KVKs, agri-input firms and extension agronomists",
+    "seed_urls": [
+      {
+        "url": "https://www.pixxel.space/solution/agriculture",
+        "date": "2026-06-16",
+        "title": "Precision Agriculture with Pixxel Hyperspectral Imaging",
+        "tier": "A",
+        "note": "Pixxel agriculture page links hyperspectral data to crop stress and nutrient-deficiency signals."
+      },
+      {
+        "url": "https://www.pixxel.space/knowledge-hub/hyperspectral-intelligence-in-agriculture?a9275e65_page=2",
+        "date": "2026-06-16",
+        "title": "Hyperspectral Intelligence in Agriculture",
+        "tier": "A",
+        "note": "Pixxel article says narrowband indices can track chemical health indicators."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "low"
+  }
+]

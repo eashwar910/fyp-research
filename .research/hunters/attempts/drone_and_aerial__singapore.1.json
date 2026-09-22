@@ -1,0 +1,240 @@
+[
+  {
+    "one_liner": "For Singapore agri-developers, build a CORENET X lodgement preflight that joins SLA cadastral parcels with URA agriculture-use setback, buffer, height and GFA triggers before a farm design is submitted.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "non_imagery:geospatial_policy",
+    "delta_claim": "Submission-risk geometry checker, not another LCK parcel optimiser or dashboard.",
+    "seed_urls": [
+      {
+        "url": "https://data.gov.sg/datasets?query=land&resultId=d_e7395d743076a2bcc487b0d12b9bf33b",
+        "date": "2026-09-07",
+        "tier": "A",
+        "note": "SLA cadastral land parcel GeoJSON; data.gov.sg says data from Nov 2025 and last updated 7 Sep 2026."
+      },
+      {
+        "url": "https://www.ura.gov.sg/guidelines/development-control/planning-permission/plan-lodgment-application/agri-dev/",
+        "date": "2026-06-23",
+        "tier": "A",
+        "note": "URA agriculture development lodgement criteria, including CORENET X trigger for new projects with GFA >=30,000 m2 from 1 Oct 2025."
+      }
+    ],
+    "crowded_area_entered": false,
+    "forcing_function": "CORENET X became mandatory for large new agriculture projects from 2025-10-01.",
+    "user_guess": "Agri-permit preflight for Singapore farm parcels",
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null,
+    "notes": "Singapore licence-clear open drone/aerial analytical imagery looks thin; I omitted OneMap/Lim Chu Kang imagery lines and returned fewer candidates rather than padding.",
+    "queries": [
+      "Singapore open aerial imagery agriculture Lim Chu Kang license OneMap SLA orthophoto 2026",
+      "site:data.gov.sg aerial imagery orthophoto Singapore agriculture farm 2026",
+      "site:onemap.gov.sg terms of use map tiles imagery license analytical use 2026",
+      "Polybee Bayer partnership farm intelligence platform autonomous drones July 2026",
+      "Singapore Food Agency strengthens support local farms new land tender enhanced lease framework May 2026",
+      "data.gov.sg SLA Cadastral Land Parcel GeoJSON last updated September 2026",
+      "Singapore Agri-space Sales SAS 2026 land parcels vegetable farming tender official",
+      "site:sfa.gov.sg Singapore Food Story 2 import diversification stockpiling local production 2026",
+      "Singrow Singapore AI robotics IoT data analytics crop monitoring jobs 2026 official",
+      "Archisen Singapore vertical farm AI computer vision crop monitoring official 2026",
+      "Singapore Polybee drone yield forecasting autonomous pollination Temasek Foundation official 2026",
+      "open UAV dataset vegetable crops plant count broccoli spinach drone imagery row level 2025",
+      "Mendeley Data px5p6zdk6k baby broccoli RGB Depth dataset 2026"
+    ],
+    "budget_exhausted": false,
+    "counts": {
+      "queries": 13,
+      "opened_urls": 11,
+      "candidates": 8
+    }
+  },
+  {
+    "one_liner": "For agencies moving Lim Chu Kang farms, build a tenure-expiry transition graph that maps affected plots, replacement tender lots and handover dates to flag relocation clashes before leases end.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "non_imagery:land_transition",
+    "delta_claim": "Transition dependency risk, not a generic re-parcelling optimiser.",
+    "seed_urls": [
+      {
+        "url": "https://www.sla.gov.sg/news/press-release/government-to-implement-land-use-change-in-lim-chu-kang/",
+        "date": "2026-05-25",
+        "tier": "A",
+        "note": "Official release says five farm lessees are affected; three tenures expire in December 2026 and March 2027."
+      },
+      {
+        "url": "https://www.sfa.gov.sg/news-publications/newsroom/sfa-strengthens-support-for-local-farms-with-new-land-tender---and-enhanced-lease-framework",
+        "date": "2026-05-29",
+        "tier": "A",
+        "note": "SFA launched SAS 2026 parcels and points affected farms toward SAS or NParks tenders."
+      }
+    ],
+    "crowded_area_entered": false,
+    "forcing_function": "Affected Lim Chu Kang farm tenures expire in 2026-12 and 2027-03.",
+    "user_guess": "LCK farm relocation conflict graph",
+    "restates": "run3:G01",
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For SAS 2026 tenderers, build a parcel-readiness scorer that turns fixed lot geometry, 20-year lease terms, PCP/PPO deadlines and permitted crop classes into bid-specific buildout risk.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "non_imagery:tender_geospatial",
+    "delta_claim": "Bid buildout-risk model tied to SAS rules, not farm allocation.",
+    "seed_urls": [
+      {
+        "url": "https://www.sfa.gov.sg/farming/farm-land-sea-space/land-tenders-for-food-farming/2026-sas/land-available-for-tender",
+        "date": "2026-05-29",
+        "tier": "A",
+        "note": "SFA lists LCK 218 and ST 28I, lot numbers, areas, vegetable farm use and 20-year lease terms."
+      },
+      {
+        "url": "https://www.sfa.gov.sg/news-publications/newsroom/sfa-strengthens-support-for-local-farms-with-new-land-tender---and-enhanced-lease-framework",
+        "date": "2026-05-29",
+        "tier": "A",
+        "note": "SFA extended PCP to five years and PPO timeline to eight years from SAS 2026 onward."
+      }
+    ],
+    "crowded_area_entered": false,
+    "forcing_function": "SAS 2026 tender closed on 2026-07-28 and lease framework changes apply from SAS 2026.",
+    "user_guess": "SAS parcel readiness scorer",
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For Lim Chu Kang cluster planners, infer where shared cold-chain, waste, water or access infrastructure should be stress-tested by combining cadastral parcels with the official farm consolidation map.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "non_imagery:cluster_geospatial",
+    "delta_claim": "Shared-infrastructure stress test, not choosing a best farm layout.",
+    "seed_urls": [
+      {
+        "url": "https://www.sla.gov.sg/news/press-release/government-to-implement-land-use-change-in-lim-chu-kang/",
+        "date": "2026-05-25",
+        "tier": "A",
+        "note": "Official release says northern Lim Chu Kang agriculture land could benefit from shared facilities and integrated infrastructure."
+      },
+      {
+        "url": "https://data.gov.sg/datasets?query=land&resultId=d_e7395d743076a2bcc487b0d12b9bf33b",
+        "date": "2026-09-07",
+        "tier": "A",
+        "note": "SLA cadastral polygons give approximate coordinated boundaries for Singapore land parcels."
+      }
+    ],
+    "crowded_area_entered": false,
+    "forcing_function": "Government announced Lim Chu Kang land-use changes on 2026-05-25.",
+    "user_guess": "Shared agri-infrastructure siting checks",
+    "restates": "run3:G01",
+    "hunter_confidence": "low",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For Singapore farm lessors, build a PPO compliance early-warning model that links each leased parcel to permitted food types, diversification approvals and revised production-output deadlines.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "non_imagery:lease_compliance",
+    "delta_claim": "Lease-output risk triage, not yield prediction from imagery.",
+    "seed_urls": [
+      {
+        "url": "https://www.sfa.gov.sg/news-publications/newsroom/sfa-strengthens-support-for-local-farms-with-new-land-tender---and-enhanced-lease-framework",
+        "date": "2026-05-29",
+        "tier": "A",
+        "note": "SFA revised PCP/PPO timelines and allows key-food diversification from 1 Sep 2026 subject to approval."
+      },
+      {
+        "url": "https://www.sfa.gov.sg/farming/farm-land-sea-space/land-tenders-for-food-farming",
+        "date": "2026-08-28",
+        "tier": "A",
+        "note": "SFA land tender page states Singapore dedicates less than 1% of land to agricultural food production."
+      }
+    ],
+    "crowded_area_entered": false,
+    "forcing_function": "Diversification flexibility for farms begins 2026-09-01 under the enhanced lease framework.",
+    "user_guess": "Farm PPO lease-risk warning",
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For Singapore drone-ag firms exporting crop intelligence, build an error-calibration benchmark using open broccoli RGB-D and UAV-count data to predict when plant counts or head-size forecasts need human QA.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_rgbd_benchmark",
+    "delta_claim": "Decision QA and calibration layer, not another crop counter.",
+    "seed_urls": [
+      {
+        "url": "https://www.vegetables.bayer.com/au/en-au/resources/news/polybee-and-vegetables-by-bayer-partner-to-bring-ai-powered-farm.html",
+        "date": "2026-07-09",
+        "tier": "A",
+        "note": "Bayer says Polybee uses autonomous drones and AI for harvest forecasts, cutting schedules and planting plans in spinach and broccoli."
+      },
+      {
+        "url": "https://data.mendeley.com/datasets/px5p6zdk6k/3",
+        "date": "2026-02-17",
+        "tier": "A",
+        "note": "Mendeley Data version 3 provides CC BY 4.0 broccoli RGB-D images and validation-only diameter measurements."
+      }
+    ],
+    "crowded_area_entered": true,
+    "forcing_function": null,
+    "user_guess": "Polybee forecast QA benchmark",
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For Polybee-style harvest planners, model the cost of wrong scan timing by converting drone-derived broccoli size distributions into contract miss, waste and labour-capacity risk scenarios.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_decision_benchmark",
+    "delta_claim": "Economic sensitivity of forecast errors, not size estimation itself.",
+    "seed_urls": [
+      {
+        "url": "https://www.polybee.co/product",
+        "date": "2026-09",
+        "tier": "A",
+        "note": "Polybee product page describes row-level establishment, yield and harvest readiness, with head-size distribution and harvest optimizer modules."
+      },
+      {
+        "url": "https://www.publications.qld.gov.au/dataset/agtech-vegetables/resource/2e46d20c-597f-4f82-92bf-758121af2031",
+        "date": "2025-07-30",
+        "tier": "A",
+        "note": "Queensland Government resource metadata for automated broccoli plant counts in UAV imagery is CC BY 4.0."
+      }
+    ],
+    "crowded_area_entered": true,
+    "forcing_function": null,
+    "user_guess": "Drone forecast error cost model",
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For Singapore indoor-fruit farms, build a pollination coverage verifier that turns mini-drone pass counts, microclimate windows and flower-stage logs into missed-row and repeat-pass alerts.",
+    "region": "singapore",
+    "bucket": "drone_and_aerial",
+    "data_class": "non_imagery:uav_operations_logs",
+    "delta_claim": "Coverage verification for drone pollination, not autonomous pollination hardware.",
+    "seed_urls": [
+      {
+        "url": "https://temasekfoundation.org.sg/programmes-s/pollination-using-mini-drones",
+        "date": "2022-11",
+        "tier": "A",
+        "note": "Temasek Foundation programme page names Polybee and mini-drone pollination for indoor vertical farms."
+      },
+      {
+        "url": "https://www.polybee.co/product",
+        "date": "2026-09",
+        "tier": "A",
+        "note": "Polybee says pollination drones log timestamp and pass count per plant and operate in optimal microclimate conditions."
+      }
+    ],
+    "crowded_area_entered": true,
+    "forcing_function": null,
+    "user_guess": "Drone pollination coverage verifier",
+    "restates": null,
+    "hunter_confidence": "low",
+    "standout_fields": null
+  }
+]

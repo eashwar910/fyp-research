@@ -1,0 +1,132 @@
+{
+  "id": "R4-S44",
+  "verdict": "closed",
+  "reason": "Whisp (FAO/Forest Data Partnership, DOI 10.4060/cd0957en) already ships this: ingests point OR polygon per plot, runs convergence-of-evidence across JRC/GFC/RADD vs the Dec-2020 EUDR cutoff, emits Low/High/'More info needed' tiers -- the latter IS the field-verification triage this candidate claims as its delta. Commodity-agnostic, already used for palm oil. Satelligence ships farm-by-farm geocoordinate verification against the same cutoff. Same problem, same output space. Malaysia/TSPKS is a regional wrapper over an already-deployed global pipeline, not a technical delta.",
+  "queries": [
+    {
+      "q": "EUDR smallholder GPS point polygon boundary evidence pack palm oil",
+      "useful": false,
+      "note": "WebSearch blocked: session search quota exhausted (200/200) before any query ran"
+    },
+    {
+      "q": "EUDR forest risk evidence pack NICFI Sentinel-1 Sentinel-2 field photo verification",
+      "useful": false,
+      "note": "blocked by same search quota"
+    },
+    {
+      "q": "point to polygon boundary uncertainty satellite plot delineation smallholder",
+      "useful": false,
+      "note": "blocked by same search quota"
+    },
+    {
+      "q": "EUDR point-to-polygon evidence pack deforestation risk field photo trigger",
+      "useful": false,
+      "note": "blocked by same search quota"
+    },
+    {
+      "q": "EUDR compliance software smallholder point to boundary suggestion product",
+      "useful": false,
+      "note": "blocked by same search quota"
+    },
+    {
+      "q": "direct fetch whisp.openforis.org",
+      "useful": false,
+      "note": "SPA shell, only 'Loading...' placeholder, no usable content"
+    },
+    {
+      "q": "direct fetch openforis.org/solutions/whisp/",
+      "useful": true,
+      "note": "confirms polygon input and post-2020 disturbance risk categories, incl. High Risk and More info needed"
+    },
+    {
+      "q": "direct fetch github.com/forestdatapartnership/whisp",
+      "useful": true,
+      "note": "confirms point AND polygon input via API/Python, FAO DOI 10.4060/cd0957en, convergence-of-evidence methodology"
+    },
+    {
+      "q": "direct fetch github.com/forestdatapartnership/whisp/releases",
+      "useful": true,
+      "note": "verified real release dates for the shipping tool, most recent found 2024-07-29"
+    },
+    {
+      "q": "direct fetch satelligence.com/solutions/eudr",
+      "useful": true,
+      "note": "confirms farm-by-farm geocoordinate verification against Dec 2020 cutoff, page dated 2025-08-21"
+    },
+    {
+      "q": "direct fetch pro.globalforestwatch.org",
+      "useful": false,
+      "note": "SPA shell, no content retrieved, could not verify features"
+    },
+    {
+      "q": "direct fetch tracextech.com/eudr-compliance",
+      "useful": false,
+      "note": "HTTP 403 Forbidden, could not verify"
+    },
+    {
+      "q": "direct fetch trase.earth",
+      "useful": false,
+      "note": "no plot-level GPS/polygon EUDR evidence-pack feature found on page"
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://github.com/forestdatapartnership/whisp",
+      "date": "2024-07-29",
+      "title": "Whisp (\"What is in that plot?\") -- Forest Data Partnership / FAO",
+      "tier": "A",
+      "closes": true,
+      "why": "Open, institutionally-backed tool takes point or polygon geometry per plot and outputs EUDR-aligned risk tiers (Low/High/More info needed) from post-2020 disturbance convergence-of-evidence; same problem and same output space as this candidate, already deployed across commodities including palm oil.",
+      "relation": "same_output_space"
+    },
+    {
+      "url": "https://www.satelligence.com/solutions/eudr",
+      "date": "2025-08-21",
+      "title": "Satelligence EUDR compliance solution",
+      "tier": "A",
+      "closes": false,
+      "why": "Commercial product page states Satelligence verifies geocoordinates farm-by-farm against the Dec 2020 EUDR cutoff; corroborates that plot-level EUDR risk verification is already a shipping commercial category, not a gap.",
+      "relation": "product"
+    }
+  ],
+  "closing_item": {
+    "url": "https://github.com/forestdatapartnership/whisp",
+    "date": "2024-07-29",
+    "title": "Whisp (\"What is in that plot?\") -- Forest Data Partnership / FAO",
+    "tier": "A",
+    "closes": true,
+    "why": "Open, institutionally-backed tool takes point or polygon geometry per plot and outputs EUDR-aligned risk tiers (Low/High/More info needed) from post-2020 disturbance convergence-of-evidence; same problem and same output space as this candidate, already deployed across commodities including palm oil.",
+    "relation": "same_output_space"
+  },
+  "nearest_neighbours_do_not": "Whisp's public docs do not surface a numeric boundary-ambiguity/confidence score for a GPS-point-only submission (no buffer-radius uncertainty output), do not describe an explicit field-photo request workflow, and have no Malaysia-specific TSPKS/MSPO registry integration -- these are the only unclosed slivers found.",
+  "budget_exhausted": true,
+  "notes": "WebSearch quota (200/200) was exhausted before steps 1-5 could run any query, so evidence came from direct WebFetch of tools implicated by crowded_list/seed context. GFW Pro was an unrenderable SPA shell and TraceX returned 403; both are plausible additional closers per the archived run3:S15 finding but unverified here. For dat's awareness only: an Open Foris/Collect Earth notice states the NICFI-Planet imagery agreement ended 2025-01-23, so NICFI sourcing may be stale.",
+  "product_search": {
+    "queries_run": [
+      "EUDR compliance software smallholder point to boundary suggestion product",
+      "direct fetch whisp.openforis.org",
+      "direct fetch openforis.org/solutions/whisp/",
+      "direct fetch github.com/forestdatapartnership/whisp",
+      "direct fetch satelligence.com/solutions/eudr",
+      "direct fetch pro.globalforestwatch.org",
+      "direct fetch tracextech.com/eudr-compliance",
+      "direct fetch trase.earth"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://github.com/forestdatapartnership/whisp",
+        "date": "2024-07-29",
+        "title": "Whisp -- Forest Data Partnership EUDR risk tool",
+        "tier": "A",
+        "note": "Live, actively-released open tool converting point/polygon plots into EUDR risk-tiered evidence with a further-investigation flag."
+      },
+      {
+        "url": "https://www.satelligence.com/solutions/eudr",
+        "date": "2025-08-21",
+        "title": "Satelligence EUDR compliance solution",
+        "tier": "A",
+        "note": "Commercial farm-by-farm geocoordinate verification against the Dec 2020 EUDR cutoff."
+      }
+    ]
+  }
+}

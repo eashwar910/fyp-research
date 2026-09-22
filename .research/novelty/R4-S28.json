@@ -1,0 +1,65 @@
+{
+  "id": "R4-S28",
+  "verdict": "unclear",
+  "reason": "Not closed, but fragile. WebSearch hit a session quota after 3 useful queries, before region-swap/recency ran. Two threats: (1) France's DNSB (OFB/IGN, since 2017) is described in secondary sources as tracking bocage 'dynamics: decline, restoration, fragmentation' -- near-identical to delta_claim -- but 3 fetches pinning a dated primary source came back inconclusive/dateless. (2) Satellite survival-state MRV already ships for afforestation (Reforestaction, WRI) -- same technique, different domain (tree blocks, not linear hedgerows).",
+  "queries": [
+    {
+      "q": "hedgerow restoration survival monitoring satellite Sentinel-2 time series",
+      "useful": true,
+      "note": "Found general restoration-monitoring literature (grassland/riparian Sentinel-2 phenology, e.g. Taddeo 2022) but no hedgerow-specific survival-state paper; could not confirm Taddeo's exact date (Wiley page returned 403)."
+    },
+    {
+      "q": "reforestation tree planting survival monitoring satellite MRV platform",
+      "useful": true,
+      "note": "Found shipping MRV products (Reforestaction, WRI, TracexTech) that already track restoration SURVIVAL over time via satellite -- same technique, different domain (afforestation/carbon, not hedgerows)."
+    },
+    {
+      "q": "bocage haie suivi état dégradation télédétection France Observatoire de la haie",
+      "useful": true,
+      "note": "Surfaced France's DNSB (OFB/IGN, since 2017), described as monitoring hedgerow 'dynamics: decline, restoration, fragmentation' -- matches delta_claim almost verbatim -- but fetches of related pages could not confirm methodology or give a dated primary source."
+    },
+    {
+      "q": "landscape feature condition monitoring gap detection hedgerow remote sensing Netherlands",
+      "useful": false,
+      "note": "Query never ran: session WebSearch quota (200/200) was exhausted immediately before this call, blocking the planned region-swap step."
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://www.reforestaction.com/en/magazine/launch-of-our-mrv-platform",
+      "date": "2024-11-20",
+      "title": "Measuring the impact of NbS projects: launch of our MRV platform",
+      "tier": "B",
+      "closes": false,
+      "why": "France-based shipping MRV platform tracking forest-restoration cover/stand health via satellite over time -- same general technique (satellite time-series restoration monitoring) but for tree-planting/carbon projects, not linear hedgerow features; does not close.",
+      "relation": "same_method_other_domain"
+    },
+    {
+      "url": "https://www.ici.fr/infos/environnement/un-observatoire-pour-evaluer-la-destruction-des-haies-bocageres-en-mayenne-1648657099",
+      "date": "2022-03-31",
+      "title": "Un observatoire pour évaluer la destruction des haies bocagères en Mayenne",
+      "tier": "C",
+      "closes": false,
+      "why": "Local French activist observatory inventories hedge destruction via aerial photos; presence/loss counting only, no evidence of satellite time-series state classification (survive/gap-out/tree-row). Weak signal, does not close.",
+      "relation": "same_problem"
+    }
+  ],
+  "nearest_neighbours_do_not": "Reforestaction/WRI-style satellite MRV survival monitoring targets planted-tree blocks for carbon accounting; it does not classify narrow (<10m) linear hedgerow features or use a survive/gap-out/tree-row taxonomy tied to CLMS Small Woody Features or the EU Nature Restoration Law. The Mayenne observatory only counts destroyed hedge length, not state transitions.",
+  "budget_exhausted": true,
+  "notes": "WebSearch tool hit a session-wide global cap (200/200 used across the run) after only 3 useful queries, blocking the region-swap and 2025/2026 recency reruns required by the playbook. 3 of 8 WebFetch calls on DNSB-related pages (ofb.gouv.fr, CGAAER report, Hauts-de-France observatory page) returned inconclusive content or only a bare year (2023), so no DNSB item could be added to prior_art without violating the no-fabricated-date rule.",
+  "product_search": {
+    "queries_run": [
+      "reforestation tree planting survival monitoring satellite MRV platform"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://www.reforestaction.com/en/magazine/launch-of-our-mrv-platform",
+        "date": "2024-11-20",
+        "title": "Reforestaction MRV platform",
+        "tier": "B",
+        "note": "Satellite-based MRV tracking forest-restoration cover/health over time; general afforestation product, not hedgerow-specific. A dedicated 'hedgerow monitoring software' query could not be run before the WebSearch quota was exhausted."
+      }
+    ]
+  },
+  "human_should_check": "Does France's Dispositif National de Suivi des Bocages (OFB/IGN, running since 2017) already produce a hedgerow STATE classification (declining / restored / fragmented -- analogous to survive / gap-out / becomes-tree-row) from satellite or VHR time series, and is it France-only or does it (or an EU-wide equivalent, e.g. in the Netherlands) already do inter-epoch survival-state tracking rather than one-off presence mapping? Also check whether any afforestation-MRV vendor (Reforestaction, WRI's toolset, Sylvera, Renoster) has already extended block-canopy survival monitoring to narrow linear woody features."
+}

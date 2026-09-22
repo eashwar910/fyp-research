@@ -1,0 +1,636 @@
+[
+  {
+    "one_liner": "For Singapore vegetable importers sourcing from Cameron Highlands and Melaka, type Sentinel-1/Sentinel-2 anomalies as flood damage, cloud-hidden stress, delayed harvest, or recovery, instead of the aggregate import-shock alert in run3:S21.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar + sentinel_2_optical",
+    "delta_claim": "Turns source-zone anomalies into auditable event classes rather than one generic shock score.",
+    "forcing_function": "Singapore Food Story 2 import-resilience strategy; Malaysia 2022 heavy-rain vegetable shock",
+    "user_guess": "Singapore vegetable importers and SFA sourcing planners",
+    "seed_urls": [
+      {
+        "url": "https://www.sfa.gov.sg/about-us/our-singapore-food-story-2",
+        "date": "2026-09-12",
+        "title": "Our Singapore Food Story 2",
+        "tier": "A",
+        "note": "SFA says heavy rainfall in Melaka and Cameron Highlands reduced vegetable supply to Singapore."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:S21",
+    "hunter_confidence": "high",
+    "queries": [
+      {
+        "q": "site:sfa.gov.sg Singapore food statistics 2025 vegetable imports Malaysia China Australia Vietnam PDF",
+        "useful": true,
+        "note": "Found SFA Food Statistics 2024/2025 and import-resilience pages."
+      },
+      {
+        "q": "site:sfa.gov.sg Singapore Food Statistics 2024 food import sources Malaysia Australia China Vietnam",
+        "useful": true,
+        "note": "Found SFA 2024 publication page."
+      },
+      {
+        "q": "site:environment.ec.europa.eu EUDR 30 December 2026 product scope tools support 2026 July 13",
+        "useful": true,
+        "note": "Found primary EUDR 2026 deadline page."
+      },
+      {
+        "q": "site:openforis.org NICFI Planet basemaps agreement concluded 23 Jan 2025",
+        "useful": true,
+        "note": "Found OpenForis NICFI notice."
+      },
+      {
+        "q": "site:data.gov.sg Singapore food statistics 2025 vegetables imports source countries",
+        "useful": true,
+        "note": "Found SFA and SINGSTAT data pages."
+      },
+      {
+        "q": "site:sfa.gov.sg Singapore Food Statistics 2025 vegetables Malaysia China Australia",
+        "useful": true,
+        "note": "Found SFA Food Statistics 2025 page."
+      },
+      {
+        "q": "site:earthengine.google.com AlphaEarth Foundations embeddings dataset 2025 annual",
+        "useful": true,
+        "note": "Found Google AlphaEarth Foundations dataset documentation."
+      },
+      {
+        "q": "field boundaries global FTW 2024 2025 source smallholder weakness",
+        "useful": true,
+        "note": "Found FTW global data and confidence layers."
+      },
+      {
+        "q": "site:sfa.gov.sg/publications/sgfs Singapore Food Statistics 2025 PDF vegetables Malaysia China Australia Vietnam",
+        "useful": true,
+        "note": "Found SFA publications page."
+      },
+      {
+        "q": "Singapore Food Statistics 2025 PDF imports vegetables Malaysia China SFA",
+        "useful": true,
+        "note": "Found SFA Food Statistics 2025."
+      },
+      {
+        "q": "site:sfa.gov.sg Singapore rice trade agreement Vietnam 2026 Cambodia Thailand SFA",
+        "useful": true,
+        "note": "Found SFA Food Story 2 rice agreements."
+      },
+      {
+        "q": "site:sfa.gov.sg Malaysia heavy rainfall Cameron Highlands vegetable supply Singapore 2022",
+        "useful": true,
+        "note": "Found SFA heavy-rain vegetable disruption example."
+      },
+      {
+        "q": "site:customs.gov.sg Singapore import fruits vegetables regulated SFA 2026",
+        "useful": true,
+        "note": "Found Singapore Customs SFA import controls page."
+      },
+      {
+        "q": "site:data.gov.sg Singapore merchandise imports vegetables fruit monthly 2026",
+        "useful": true,
+        "note": "Found monthly merchandise import dataset."
+      },
+      {
+        "q": "Google Earth Engine AlphaEarth Foundations dataset annual embeddings 2025",
+        "useful": true,
+        "note": "Found AlphaEarth annual embeddings documentation."
+      },
+      {
+        "q": "ESA WorldCereal 10 m crop map 2021 season official dataset",
+        "useful": true,
+        "note": "Found WorldCereal official product page."
+      },
+      {
+        "q": "NASA Landsat crop stress Australia drought official agriculture 2026",
+        "useful": false,
+        "note": "Did not retain a candidate-specific primary source."
+      },
+      {
+        "q": "Vietnam Mekong Delta rice salinity drought agriculture ministry 2024 official",
+        "useful": false,
+        "note": "Did not retain a candidate-specific primary source."
+      }
+    ],
+    "search_query_count": 18,
+    "url_fetch_count": 4,
+    "budget_exhausted": false
+  },
+  {
+    "one_liner": "For SFA and Singapore supermarkets buying Malaysian leafy greens, use Sentinel-1 SAR over Cameron Highlands to separate rain-lodging, harvest pause, and post-rain recovery zones for source-switch decisions.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar",
+    "delta_claim": "Separates all-weather harvest interruption modes in cloud-locked highlands instead of emitting crop-health alerts.",
+    "forcing_function": "Singapore Food Story 2 import resilience",
+    "user_guess": "SFA sourcing planners and supermarket fresh-produce buyers",
+    "seed_urls": [
+      {
+        "url": "https://www.sfa.gov.sg/about-us/our-singapore-food-story-2",
+        "date": "2026-09-12",
+        "title": "Our Singapore Food Story 2",
+        "tier": "A",
+        "note": "SFA names Cameron Highlands and Melaka rainfall as a vegetable supply disruption."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Singapore importers receiving Malaysian produce by truck, compare declared farm districts with Sentinel-1/Sentinel-2 harvest-window plausibility to flag consignments whose claimed origin does not match crop activity.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar + sentinel_2_optical",
+    "delta_claim": "Uses source-farm phenology as an import-origin plausibility check, not crop classification.",
+    "forcing_function": "SFA fruit-and-vegetable import controls",
+    "user_guess": "SFA import inspectors and licensed produce importers",
+    "seed_urls": [
+      {
+        "url": "https://www.sfa.gov.sg/news-publications/newsroom/2025/about-1-4-tonnes-of-illegally-imported-fresh-fruits-and-vegetables-seized",
+        "date": "2025-04-08",
+        "title": "About 1.4 tonnes of illegally imported fresh fruits and vegetables seized",
+        "tier": "A",
+        "note": "SFA says undeclared and under-declared fresh fruits and vegetables from Malaysia were seized."
+      },
+      {
+        "url": "https://www.customs.gov.sg/doing-business/quick-links-for-traders/tradenet/competent-authorities-requirements-for-controlled-items/singapore-food-agency/",
+        "date": "2026-02-23",
+        "title": "Singapore Food Agency requirements for controlled items",
+        "tier": "A",
+        "note": "Singapore Customs says fruit and vegetable imports are regulated by SFA and require licences and permits."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Singapore rice stockpile planners watching Vietnam, Thailand, and Cambodia, use Sentinel-1 rice calendars to flag delayed transplanting versus flood-loss risk before treaty fallback imports are triggered.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar",
+    "delta_claim": "Distinguishes planting delay from production loss in named reserve-source countries.",
+    "forcing_function": "Singapore Food Story 2 rice trade agreements",
+    "user_guess": "SFA food-resilience planners and rice importers",
+    "seed_urls": [
+      {
+        "url": "https://www.sfa.gov.sg/about-us/our-singapore-food-story-2",
+        "date": "2026-09-12",
+        "title": "Our Singapore Food Story 2",
+        "tier": "A",
+        "note": "SFA lists rice trade agreements with Cambodia, Thailand and Vietnam."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Singapore vegetable buyers, use AlphaEarth annual embeddings over Malaysia, Vietnam, China, and Australia to find source regions most similar to a disrupted Cameron Highlands crop belt.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "foundation_model_embeddings:AlphaEarth",
+    "delta_claim": "Turns embeddings into a cross-country substitute-source search tool for import resilience.",
+    "forcing_function": "AlphaEarth annual embeddings release; Singapore Food Story 2 diversify-imports pillar",
+    "user_guess": "SFA sourcing teams and fresh-produce distributors",
+    "seed_urls": [
+      {
+        "url": "https://developers.google.com/earth-engine/guides/aef_on_gcs_readme",
+        "date": "2026-07",
+        "title": "AlphaEarth Foundations GCS data",
+        "tier": "A",
+        "note": "Google documents annual Satellite Embedding data for 2017 through 2025."
+      },
+      {
+        "url": "https://www.sfa.gov.sg/news-publications/newsroom/singapore-food-statistics-2025",
+        "date": "2026-05-08",
+        "title": "Singapore Food Statistics 2025",
+        "tier": "A",
+        "note": "SFA says Singapore sourced food from over 180 countries and regions in 2025."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Singapore food manufacturers buying Malaysian palm oil derivatives, classify post-2020 supplier-area change from NICFI and Sentinel-1 as replanting, estate infill, or forest conversion.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "nicfi_planet_basemaps + sentinel_1_sar",
+    "delta_claim": "Separates legal replanting from deforestation-risk expansion for EUDR evidence bundles.",
+    "forcing_function": "EUDR large-operator deadline 30 Dec 2026",
+    "user_guess": "Singapore palm-oil ingredient importers",
+    "seed_urls": [
+      {
+        "url": "https://environment.ec.europa.eu/news/commission-updates-product-scope-and-tools-support-eudr-2026-07-13_en",
+        "date": "2026-07-13",
+        "title": "Commission updates product scope and tools to support EUDR",
+        "tier": "A",
+        "note": "European Commission confirms EUDR applies from 30 Dec 2026 for large and medium operators."
+      },
+      {
+        "url": "https://openforis.org/fileadmin/planet.html",
+        "date": "2025-01-23",
+        "title": "NICFI Planet basemaps notice",
+        "tier": "A",
+        "note": "OpenForis says historical NICFI imagery remains accessible up to December 2024."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "high"
+  },
+  {
+    "one_liner": "For Singapore rubber-product importers with Malaysian suppliers, use NICFI and AlphaEarth to flag rubber expansion after 2020 that looks like forest-edge conversion rather than rotation from existing tree crops.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "nicfi_planet_basemaps + foundation_model_embeddings:AlphaEarth",
+    "delta_claim": "Adds prior-land-cover typing to EUDR rubber geolocation checks.",
+    "forcing_function": "EUDR rubber obligations from 30 Dec 2026",
+    "user_guess": "Singapore rubber importers and due-diligence teams",
+    "seed_urls": [
+      {
+        "url": "https://environment.ec.europa.eu/topics/forests/deforestation/regulation-deforestation-free-products_en",
+        "date": "2026-09",
+        "title": "Regulation on deforestation-free products",
+        "tier": "A",
+        "note": "European Commission lists rubber among covered commodities and 30 Dec 2026 application for large/medium operators."
+      },
+      {
+        "url": "https://developers.google.com/earth-engine/guides/aef_on_gcs_readme",
+        "date": "2026-07",
+        "title": "AlphaEarth Foundations GCS data",
+        "tier": "A",
+        "note": "Google documents annual multi-sensor embeddings for 2017-2025."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Singapore importers using Malaysian smallholder oil-palm suppliers, fuse FTW 2024/2025 field polygons with NICFI change chips to output parcels needing human EUDR boundary review.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "lpis_eurocrops_ftw + nicfi_planet_basemaps",
+    "delta_claim": "Uses FTW confidence failures to triage boundary review, not to claim boundaries are correct.",
+    "forcing_function": "FTW 2024/2025 global boundary release; EUDR geolocation requirement",
+    "user_guess": "Singapore commodity importers and Malaysian aggregators",
+    "seed_urls": [
+      {
+        "url": "https://source.coop/ftw/global-data",
+        "date": "2026-04-23",
+        "title": "Global Fields of The World",
+        "tier": "A",
+        "note": "Source Cooperative lists 2024/2025 field-boundary predictions with confidence scores."
+      },
+      {
+        "url": "https://environment.ec.europa.eu/news/commission-updates-product-scope-and-tools-support-eudr-2026-07-13_en",
+        "date": "2026-07-13",
+        "title": "Commission updates product scope and tools to support EUDR",
+        "tier": "A",
+        "note": "European Commission confirms due-diligence timeline and covered commodities."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:S15",
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For SFA food-safety surveillance of imported Malaysian vegetables, use Sentinel-1 flood recurrence and FTW parcels to rank source areas for targeted microbial and residue testing.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar + lpis_eurocrops_ftw",
+    "delta_claim": "Links remote flood exposure to import food-safety sampling priority rather than farm-yield monitoring.",
+    "forcing_function": "SFA data-driven market monitoring and import controls",
+    "user_guess": "SFA market-monitoring and import inspection teams",
+    "seed_urls": [
+      {
+        "url": "https://www.sfa.gov.sg/food-for-thought/article/detail/hunting-unsafe-food-in-our-supermarkets-and-retail-stores",
+        "date": "2025-10-15",
+        "title": "Hunting Unsafe Food in our Supermarkets and Retail Stores",
+        "tier": "A",
+        "note": "SFA describes targeted food-safety checks under the Market Monitoring Programme."
+      },
+      {
+        "url": "https://source.coop/ftw/global-data",
+        "date": "2026-04-23",
+        "title": "Global Fields of The World",
+        "tier": "A",
+        "note": "FTW provides global 2024/2025 predicted field polygons and confidence layers."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Singapore buyers of Australian vegetables and fruit, use Landsat/Sentinel irrigation persistence to flag supplier districts shifting from irrigated production to fallow before import prices move.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "landsat + sentinel_2_optical",
+    "delta_claim": "Detects supplier-capacity contraction from irrigation persistence, not vegetation-index crop health.",
+    "forcing_function": "Singapore over-90% food-import exposure",
+    "user_guess": "Singapore fresh-produce importers and SFA analysts",
+    "seed_urls": [
+      {
+        "url": "https://data.gov.sg/datasets/d_e7db30312e09879c09e0fd9dbe093878/view",
+        "date": "2026-09-09",
+        "title": "Import Price Index, By Commodity Division",
+        "tier": "A",
+        "note": "data.gov.sg publishes Singapore vegetable and fruit import price index series."
+      },
+      {
+        "url": "https://www.sfa.gov.sg/news-publications/newsroom/singapore-food-statistics-2025",
+        "date": "2026-05-08",
+        "title": "Singapore Food Statistics 2025",
+        "tier": "A",
+        "note": "SFA frames Singapore's food supply as import-dependent and disruption-sensitive."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Singapore rice importers, use WorldCereal rice-country crop masks plus Sentinel-1 flood timing to score whether Vietnam/Cambodia/Thailand shortfalls are simultaneous or substitutable.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar + WorldCereal",
+    "delta_claim": "Measures cross-source correlation of rice disruptions instead of country-by-country crop monitoring.",
+    "forcing_function": "Singapore rice trade agreements with Cambodia, Thailand and Vietnam",
+    "user_guess": "Rice traders and SFA stockpile planners",
+    "seed_urls": [
+      {
+        "url": "https://www.sfa.gov.sg/about-us/our-singapore-food-story-2",
+        "date": "2026-09-12",
+        "title": "Our Singapore Food Story 2",
+        "tier": "A",
+        "note": "SFA lists rice trade agreements with Cambodia, Thailand and Vietnam."
+      },
+      {
+        "url": "https://esa-worldcereal.org/en/products/global-maps",
+        "date": "2026-02",
+        "title": "WorldCereal Global Maps",
+        "tier": "A",
+        "note": "WorldCereal says more global crop-map products will be added by the end of 2026."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Singapore vegetable importers, use FTW confidence rasters over Malaysian highland farms to identify where 10 m boundary products fail before contracting source-area acreage.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "lpis_eurocrops_ftw",
+    "delta_claim": "Makes boundary uncertainty itself the procurement-risk signal for smallholder source zones.",
+    "forcing_function": "FTW 2024/2025 global boundary release",
+    "user_guess": "Importers estimating Malaysian source capacity",
+    "seed_urls": [
+      {
+        "url": "https://source.coop/ftw/global-data/predictions/confidence/README.md",
+        "date": "2026-07-30",
+        "title": "FTW Global Prediction Confidence and Quality Layers",
+        "tier": "A",
+        "note": "FTW documents 500 m confidence and quality rasters and known smallholder out-of-distribution issues."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Singapore importers buying Malaysian durian and tree-fruit supply, use AlphaEarth year embeddings to detect orchard-to-construction or orchard-to-forest-edge conversion before seasonal contracts are signed.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "foundation_model_embeddings:AlphaEarth",
+    "delta_claim": "Detects source-capacity land-use transitions in perennial fruit belts, not fruit-tree inventory.",
+    "forcing_function": "Singapore diversify-imports pillar",
+    "user_guess": "Fresh-fruit distributors and supermarket buyers",
+    "seed_urls": [
+      {
+        "url": "https://developers.google.com/earth-engine/guides/aef_on_gcs_readme",
+        "date": "2026-07",
+        "title": "AlphaEarth Foundations GCS data",
+        "tier": "A",
+        "note": "Google provides annual 64-channel satellite embeddings from 2017-2025."
+      },
+      {
+        "url": "https://www.sfa.gov.sg/news-publications/newsroom/singapore-food-statistics-2025",
+        "date": "2026-05-08",
+        "title": "Singapore Food Statistics 2025",
+        "tier": "A",
+        "note": "SFA says diversification helps industry switch sources during supply disruptions."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Singapore food-resilience planners, combine Sentinel-1 flood timing over Malaysia and Vietnam with SINGSTAT import-price series to learn which field shocks actually precede Singapore price spikes.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar",
+    "delta_claim": "Tests source-zone shock lead time against Singapore import prices, filtering satellite noise by market impact.",
+    "forcing_function": "Singapore Food Story 2 supply-disruption planning",
+    "user_guess": "SFA analysts and import-price risk teams",
+    "seed_urls": [
+      {
+        "url": "https://data.gov.sg/datasets/d_e7db30312e09879c09e0fd9dbe093878/view",
+        "date": "2026-09-09",
+        "title": "Import Price Index, By Commodity Division",
+        "tier": "A",
+        "note": "data.gov.sg exposes Singapore import price indices including vegetables and fruit."
+      },
+      {
+        "url": "https://www.sfa.gov.sg/about-us/our-singapore-food-story-2",
+        "date": "2026-09-12",
+        "title": "Our Singapore Food Story 2",
+        "tier": "A",
+        "note": "SFA describes climate and supply-chain disruptions as food-resilience risks."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": "run3:S21",
+    "hunter_confidence": "high"
+  },
+  {
+    "one_liner": "For Singapore importers sourcing eggs from Malaysia and Thailand, use Sentinel-2/WorldCereal feed-crop stress around supplier regions to flag feed-cost risk before approved-source switching.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "sentinel_2_optical + WorldCereal",
+    "delta_claim": "Tracks feed-crop stress as an upstream egg-supply risk, not poultry disease or egg production forecasting.",
+    "forcing_function": "SFA approved-source diversification for eggs",
+    "user_guess": "Egg importers and SFA source-accreditation planners",
+    "seed_urls": [
+      {
+        "url": "https://www.sfa.gov.sg/bringing-food-for-private-consumption-from-overseas/list-of-food---food-products-allowed",
+        "date": "2026-08-24",
+        "title": "List of Food and Food Products Allowed",
+        "tier": "A",
+        "note": "SFA lists approved countries for shell eggs, including Malaysia (West) and Thailand."
+      },
+      {
+        "url": "https://esa-worldcereal.org/en/products/global-maps",
+        "date": "2026-02",
+        "title": "WorldCereal Global Maps",
+        "tier": "A",
+        "note": "WorldCereal provides 10 m seasonal crop maps and active irrigation products."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Singapore importers diversifying from Malaysian leafy greens, use Sentinel-2 and AlphaEarth to compare harvest-cycle stability across candidate source belts in Vietnam, China, and Australia.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "sentinel_2_optical + foundation_model_embeddings:AlphaEarth",
+    "delta_claim": "Ranks replacement sources by phenology stability under disruption, not by static country diversity.",
+    "forcing_function": "Singapore Food Story 2 diversify-imports pillar",
+    "user_guess": "Produce importers choosing backup contracts",
+    "seed_urls": [
+      {
+        "url": "https://www.sfa.gov.sg/news-publications/newsroom/singapore-food-statistics-2025",
+        "date": "2026-05-08",
+        "title": "Singapore Food Statistics 2025",
+        "tier": "A",
+        "note": "SFA says import-source diversification reduces concentration risk and enables switching."
+      },
+      {
+        "url": "https://developers.google.com/earth-engine/guides/aef_on_gcs_readme",
+        "date": "2026-07",
+        "title": "AlphaEarth Foundations GCS data",
+        "tier": "A",
+        "note": "Google documents annual satellite embeddings suitable for cross-region similarity search."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Singapore importers of Malaysian cocoa, coffee, palm, and rubber ingredients, use NICFI to output a commodity-specific 2020 forest-baseline evidence chip for each supplier point.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "nicfi_planet_basemaps",
+    "delta_claim": "Packages plot-level before/after evidence chips by commodity and supplier point for EUDR review.",
+    "forcing_function": "EUDR large-operator deadline 30 Dec 2026",
+    "user_guess": "Singapore agri-commodity procurement and compliance teams",
+    "seed_urls": [
+      {
+        "url": "https://environment.ec.europa.eu/topics/forests/deforestation/regulation-deforestation-free-products_en",
+        "date": "2026-09",
+        "title": "Regulation on deforestation-free products",
+        "tier": "A",
+        "note": "European Commission lists covered commodities including cocoa, coffee, palm oil and rubber."
+      },
+      {
+        "url": "https://openforis.org/fileadmin/planet.html",
+        "date": "2025-01-23",
+        "title": "NICFI Planet basemaps notice",
+        "tier": "A",
+        "note": "OpenForis says historical high-resolution imagery remains accessible up to December 2024."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:S15",
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For SFA crisis planners, use Sentinel-1 over Malaysia's vegetable belts and Vietnam's rice belt to identify when two staple import lanes are disrupted in the same fortnight.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar",
+    "delta_claim": "Detects synchronized multi-commodity source-basket stress rather than single-crop early warning.",
+    "forcing_function": "Singapore Food Story 2 stockpile and diversify-imports pillars",
+    "user_guess": "SFA food-resilience operations planners",
+    "seed_urls": [
+      {
+        "url": "https://www.sfa.gov.sg/about-us/our-singapore-food-story-2",
+        "date": "2026-09-12",
+        "title": "Our Singapore Food Story 2",
+        "tier": "A",
+        "note": "SFA describes diversifying imports, stockpiling and rice agreements as food-resilience pillars."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Singapore produce importers, use FTW 2024/2025 polygons over source farms to detect sudden field fragmentation or consolidation that signals supplier churn before tender renewal.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "lpis_eurocrops_ftw",
+    "delta_claim": "Treats boundary-change patterns as supplier-capacity risk rather than field-boundary mapping.",
+    "forcing_function": "FTW 2024/2025 global boundary release",
+    "user_guess": "Produce procurement teams renewing source contracts",
+    "seed_urls": [
+      {
+        "url": "https://source.coop/ftw/global-data",
+        "date": "2026-04-23",
+        "title": "Global Fields of The World",
+        "tier": "A",
+        "note": "FTW publishes independent 2024 and 2025 field-boundary predictions."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Singapore retailers importing Malaysian vegetables, use Sentinel-1/Sentinel-2 to flag source zones where post-rain crop recovery is too slow for normal shelf-life assumptions.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar + sentinel_2_optical",
+    "delta_claim": "Outputs recovery-lag risk for retail quality planning, not a crop-health dashboard.",
+    "forcing_function": "SFA heavy-rain vegetable supply example",
+    "user_guess": "Supermarket fresh-produce buyers and quality teams",
+    "seed_urls": [
+      {
+        "url": "https://www.sfa.gov.sg/about-us/our-singapore-food-story-2",
+        "date": "2026-09-12",
+        "title": "Our Singapore Food Story 2",
+        "tier": "A",
+        "note": "SFA says prolonged rain in Malaysia reduced vegetable supply and quality for Singapore."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Singapore agri-food traders, use AlphaEarth embeddings to detect source-belt land-use drift from food crops into non-food uses across Malaysia, Vietnam, China, and Australia.",
+    "region": "singapore_source_basket",
+    "bucket": "satellite",
+    "data_class": "foundation_model_embeddings:AlphaEarth",
+    "delta_claim": "Finds slow source-capacity erosion across the import basket, not annual crop-type labels.",
+    "forcing_function": "Singapore Food Statistics 2025 import dependence",
+    "user_guess": "SFA analysts and large agri-food importers",
+    "seed_urls": [
+      {
+        "url": "https://developers.google.com/earth-engine/guides/aef_on_gcs_readme",
+        "date": "2026-07",
+        "title": "AlphaEarth Foundations GCS data",
+        "tier": "A",
+        "note": "Google provides annual embeddings from 2017-2025."
+      },
+      {
+        "url": "https://www.sfa.gov.sg/news-publications/newsroom/singapore-food-statistics-2025",
+        "date": "2026-05-08",
+        "title": "Singapore Food Statistics 2025",
+        "tier": "A",
+        "note": "SFA says Singapore imports over 90% of its food and sourced from over 180 countries/regions."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  }
+]

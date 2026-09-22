@@ -1,0 +1,131 @@
+{
+  "id": "R4-S42",
+  "verdict": "type_a",
+  "reason": "No tier-A item does a per-country crop-marker failure taxonomy under sparse labels across LPIS regimes. EuroCropsML's paper and its 2026 ISPRS follow-up stay leaderboard-style (MAML vs SSL vs transfer-learning %). AI4Boundaries' own paper only flags GSAA quality variation, no failure catalogue. Fields-of-the-World does 24-country zero-shot benchmarking but reports aggregate accuracy, not a failure taxonomy, and is global not LPIS-specific. A targeted LPIS/AMS cross-country query surfaced only single-country studies (Germany, Belgium).",
+  "queries": [
+    {
+      "q": "OpenAlex works search: EuroCropsML",
+      "useful": true,
+      "note": "Found source paper + 2026 ISPRS follow-up + a boundary-delineation review preprint."
+    },
+    {
+      "q": "OpenAlex works search: AI4Boundaries field boundaries Sentinel",
+      "useful": true,
+      "note": "Found AI4Boundaries ESSD paper, preprint, Fields-of-the-World, AI4SmallFarms, AgriSen-COG."
+    },
+    {
+      "q": "OpenAlex works search: crop classification failure mode taxonomy country",
+      "useful": false,
+      "note": "No relevant hits; returned unrelated microbiology/agronomy papers."
+    },
+    {
+      "q": "OpenAlex works search: LPIS area monitoring system accuracy country comparison CAP",
+      "useful": true,
+      "note": "Negative but informative: only single-country studies (Germany, Belgium) surfaced, no cross-country comparative accuracy/failure study."
+    },
+    {
+      "q": "WebSearch: \"s41597-025-04952-7\" nature scientific data",
+      "useful": false,
+      "note": "WebSearch tool returned session budget exhausted (200/200), no results executed."
+    },
+    {
+      "q": "WebSearch: EuroCropsML per-country failure analysis sparse labels benchmark",
+      "useful": false,
+      "note": "Same WebSearch budget exhaustion."
+    },
+    {
+      "q": "Bing/DuckDuckGo/Google direct fetch: EuroCropsML / AI4Boundaries failure analysis",
+      "useful": false,
+      "note": "All blocked bot access (captcha, irrelevant tiles, or 403); could not substitute for WebSearch."
+    },
+    {
+      "q": "Direct fetch: nature.com s41597-025-04952-7 (EuroCropsML paper)",
+      "useful": true,
+      "note": "Confirmed benchmark/leaderboard framing, explicitly 'not a comprehensive evaluation study'."
+    },
+    {
+      "q": "Direct fetch: essd.copernicus.org/articles/15/317/2023 (AI4Boundaries paper)",
+      "useful": true,
+      "note": "Confirmed data-description paper, no per-country error taxonomy, only notes GSAA quality variation as a limitation."
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://www.nature.com/articles/s41597-025-04952-7",
+      "date": "2025-04-19",
+      "title": "The EuroCropsML time series benchmark dataset for few-shot crop type classification in Europe",
+      "tier": "A",
+      "closes": false,
+      "why": "Source dataset paper itself. Provides few-shot splits and a baseline transformer demo the authors explicitly call non-comprehensive; no per-country failure taxonomy or systematic error breakdown across LPIS regimes.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://doi.org/10.1016/j.ophoto.2026.100117",
+      "date": "2026-01-01",
+      "title": "Benchmarking for practice: Few-shot time-series crop-type classification on the EuroCropsML dataset",
+      "tier": "A",
+      "closes": false,
+      "why": "Direct EuroCropsML follow-up (Estonia/Latvia/Portugal). Reports MAML beats transfer learning by ~31% on 20-shot tasks and notes cross-region transfer is hard, but stays leaderboard-style; no failure-mode catalogue or LPIS-regime breakdown.",
+      "relation": "same_output_space"
+    },
+    {
+      "url": "https://essd.copernicus.org/articles/15/317/2023/",
+      "date": "2023-01-18",
+      "title": "AI4Boundaries: an open AI-ready dataset to map field boundaries with Sentinel-2 and aerial photography",
+      "tier": "A",
+      "closes": false,
+      "why": "Source dataset paper for field boundaries across 7 EU countries. Explicitly a data-description paper; limitations section flags GSAA label-quality variation across regions but builds no failure taxonomy.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://doi.org/10.1609/aaai.v39i27.35034",
+      "date": "2025-04-11",
+      "title": "Fields of The World: A Machine Learning Benchmark Dataset for Global Agricultural Field Boundary Segmentation",
+      "tier": "A",
+      "closes": false,
+      "why": "24-country global field-boundary benchmark with zero-shot held-out-country evaluation, closest thing to cross-country generalization testing found. Reports aggregate accuracy metrics only, not a failure/error taxonomy, and is global scope, not EU/LPIS-specific.",
+      "relation": "same_thing_other_region"
+    },
+    {
+      "url": "https://www.xfarm.ag/en/release-notes",
+      "date": "2026-06-16",
+      "title": "xFarm release notes: Spanish CAP cadastral fields and export updates",
+      "tier": "A",
+      "closes": false,
+      "why": "Shipping CAP-compliance parcel-monitoring product. Operational dashboard/export tooling, not a published per-country failure-taxonomy analysis, so it does not close the research-framing claim.",
+      "relation": "product"
+    }
+  ],
+  "nearest_neighbours_do_not": "EuroCropsML/AI4Boundaries own papers do not evaluate failures at all, only describe datasets. The 2026 ISPRS follow-up and Fields-of-the-World both stress-test cross-region/cross-country generalization but report it as aggregate accuracy deltas, not a labelled failure taxonomy tied to national LPIS label regimes.",
+  "budget_exhausted": true,
+  "notes": "WebSearch tool hit a hard session-wide cap (200/200) before I could run it at all; Google/Bing/DuckDuckGo direct fetches were also blocked (captcha/403/irrelevant results), so steps 3 (method-space, domain-removed) and full step-6 recency reruns were done only via OpenAlex works-search as a substitute, not true web search. Confidence is good but not exhaustive.",
+  "product_search": {
+    "queries_run": [
+      "CAP compliance parcel monitoring failure taxonomy software (blocked, no results)",
+      "reused vetted crowded_list evidence for 'CAP compliance and authority-ready parcel monitoring' cluster"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://www.xfarm.ag/en/release-notes",
+        "date": "2026-06-16",
+        "title": "xFarm Spanish CAP cadastral/export updates",
+        "tier": "A",
+        "note": "CAP compliance dashboard product; no published failure taxonomy."
+      },
+      {
+        "url": "https://kermap.com/theme/agriculture/",
+        "date": "2025-06-26",
+        "title": "Kermap France 2030 spatial projects",
+        "tier": "A",
+        "note": "Public-sector satellite monitoring provider; no published cross-country failure analysis."
+      },
+      {
+        "url": "https://business.esa.int/projects/all-weather-cover",
+        "date": "2026-07-06",
+        "title": "All-Weather COVER pilot",
+        "tier": "A",
+        "note": "ESA pilot for catch-crop/paying-agency monitoring; pilot evidence only, not a failure-taxonomy publication."
+      }
+    ]
+  }
+}

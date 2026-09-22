@@ -1,0 +1,874 @@
+[
+  {
+    "one_liner": "For EU CAP paying agencies, use Sentinel-1/Sentinel-2/Landsat parcel time series to label AMS cases as monitorable, genuinely inconclusive, or geotag-photo-needed, instead of forcing every cloudy or ambiguous parcel through the same compliance marker.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+landsat",
+    "delta_claim": "predicts monitorability and evidence needs, not the compliance label itself",
+    "forcing_function": "CAP Area Monitoring System monitorability rules from 2025",
+    "user_guess": "CAP paying agencies",
+    "seed_urls": [
+      {
+        "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?qid=1658541362068&uri=CELEX%3A32024R2202",
+        "date": "2024-09-04",
+        "title": "Commission Implementing Regulation (EU) 2024/2202",
+        "tier": "A",
+        "note": "EU regulation updates AMS scope and monitorable eligibility conditions from 2025."
+      },
+      {
+        "url": "https://publications.jrc.ec.europa.eu/repository/handle/JRC147007",
+        "date": "2026-06-16",
+        "title": "Second FIRE Workshop report",
+        "tier": "A",
+        "note": "JRC/DG AGRI report flags uneven AMS adoption, data gaps, AI, drones, Sentinel data and ELMS preparation."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "high",
+    "standout_fields": null,
+    "queries": [
+      {
+        "q": "site:eur-lex.europa.eu EU 2024/2202 area monitoring system CAP 2025 monitorable eligibility conditions",
+        "useful": true,
+        "note": "Found primary AMS regulation."
+      },
+      {
+        "q": "site:publications.jrc.ec.europa.eu JRC147007 FIRE Workshop 2026 area monitoring system AI drones Sentinel data ELMS",
+        "useful": true,
+        "note": "Found JRC FIRE 2026 report."
+      },
+      {
+        "q": "site:joint-research-centre.ec.europa.eu MARS bulletin August 2026 exceptionally dry hot weather threatens summer crops",
+        "useful": true,
+        "note": "Found JRC MARS drought bulletin."
+      },
+      {
+        "q": "site:copernicus.eu Crop Types 2017 Present raster 10m Europe yearly Nov 2024",
+        "useful": true,
+        "note": "Found Copernicus crop-type product."
+      },
+      {
+        "q": "site:environment.ec.europa.eu Commission updates product scope tools support EUDR 2026 July 13 application dates",
+        "useful": true,
+        "note": "Found EUDR 2026 dates."
+      },
+      {
+        "q": "site:business.esa.int/projects agriculture Sentinel-1 Sentinel-2 CAP Area Monitoring System 2026 all-weather cover covercrop",
+        "useful": true,
+        "note": "Found ESA CAP and cover-crop pilots."
+      },
+      {
+        "q": "site:developers.google.com/earth-engine/datasets AlphaEarth Embeddings dataset annual satellite embeddings 2025",
+        "useful": true,
+        "note": "Found AlphaEarth Earth Engine dataset."
+      },
+      {
+        "q": "site:alphaearth.google AlphaEarth Custom Satellite Embeddings academic program deadline October 15 2026",
+        "useful": false,
+        "note": "Did not find a primary program page in results."
+      },
+      {
+        "q": "site:agriculture.ec.europa.eu CAP 2023 2027 conditionality GAEC 5 soil erosion GAEC 6 minimum soil cover GAEC 8 landscape features",
+        "useful": true,
+        "note": "Found CAP environment and eco-scheme pages."
+      },
+      {
+        "q": "site:agriculture.ec.europa.eu eco-schemes CAP 2023 2027 carbon farming agroecology soil cover official",
+        "useful": true,
+        "note": "Found eco-schemes page."
+      },
+      {
+        "q": "site:eur-lex.europa.eu Nature Restoration Regulation 2024 pollinators agricultural ecosystems EU regulation",
+        "useful": true,
+        "note": "Found Nature Restoration Regulation."
+      },
+      {
+        "q": "site:land.copernicus.eu high resolution layer croplands bare soil after before cropping seasons secondary crop duration 2017 present Europe yearly",
+        "useful": true,
+        "note": "Found CLMS croplands layers."
+      },
+      {
+        "q": "EuroCrops dataset LPIS Europe crop type boundaries Zenodo 2025 2026",
+        "useful": true,
+        "note": "Found EuroCropsML benchmark."
+      },
+      {
+        "q": "Fields of The World global field boundaries 10m smallholder weakness 2024 2025 paper",
+        "useful": true,
+        "note": "Found FTW/FTP field-boundary weakness context."
+      },
+      {
+        "q": "AI4Boundaries dataset European agricultural field boundaries Sentinel-2 LPIS 2024",
+        "useful": true,
+        "note": "Found AI4Boundaries data card."
+      },
+      {
+        "q": "LUCAS Copernicus high resolution layer grassland mowing dates 2017 present Europe 10 m",
+        "useful": true,
+        "note": "Found CLMS grassland mowing layers."
+      },
+      {
+        "q": "site:eur-lex.europa.eu Soil Monitoring Law Directive political agreement 2025 agricultural soils EU",
+        "useful": true,
+        "note": "Found Soil Monitoring Law."
+      },
+      {
+        "q": "site:agriculture.ec.europa.eu GAEC 2 wetlands peatlands CAP 2023 2027 official",
+        "useful": false,
+        "note": "No specific GAEC 2 primary page retained."
+      },
+      {
+        "q": "site:climate.ec.europa.eu EU carbon removals certification framework regulation 2024 farming carbon monitoring official",
+        "useful": true,
+        "note": "Found CRCF certification methodology page."
+      },
+      {
+        "q": "site:ec.europa.eu agriculture organic action plan EU organic farming target 25% land 2030 remote sensing monitoring",
+        "useful": true,
+        "note": "Found organic action plan."
+      },
+      {
+        "q": "EU wine sector grubbing up vine pull out support 2024 2025 official satellite monitoring vineyards",
+        "useful": true,
+        "note": "Found EU wine policy support context."
+      },
+      {
+        "q": "site:franceagrimer.fr arrachage vignes prime 2024 2025 France official",
+        "useful": true,
+        "note": "Found FranceAgriMer vine restructuring aid."
+      },
+      {
+        "q": "site:land.copernicus.eu Tree Cover Density 2018 present raster 10m Europe yearly high resolution layer",
+        "useful": true,
+        "note": "Found CLMS tree-cover density."
+      },
+      {
+        "q": "site:land.copernicus.eu Water and Wetness 2018 present raster 10 m Europe high resolution layer",
+        "useful": true,
+        "note": "Found CLMS water/wetness layer."
+      },
+      {
+        "q": "site:business.esa.int/projects EO-INSURE Sentinel-1 Sentinel-2 orchard insurance 2026 abiotic damages",
+        "useful": true,
+        "note": "Found EO-INSURE."
+      },
+      {
+        "q": "site:business.esa.int/projects RegenAg MRV Sentinel regenerative agriculture 2026 cover crops residue rotation irrigation",
+        "useful": true,
+        "note": "Found RegenAg MRV."
+      },
+      {
+        "q": "site:land.copernicus.eu small woody features high resolution layer Europe 2018 present hedgerows 10m",
+        "useful": true,
+        "note": "Found Small Landscape Features."
+      },
+      {
+        "q": "site:eur-lex.europa.eu Regulation EU 2024/1991 high-diversity landscape features agricultural ecosystems farmland birds pollinators",
+        "useful": true,
+        "note": "Found Nature Restoration agricultural ecosystem indicators."
+      }
+    ],
+    "budget_exhausted": false,
+    "counts": {
+      "queries": 28,
+      "opened_urls": 0
+    }
+  },
+  {
+    "one_liner": "For EU CAP appeal officers, use Sentinel-1/Sentinel-2/Landsat evidence trails to generate parcel-level contradiction codes for catch-crop cases where the farmer declaration, model confidence, and cloud-free imagery disagree.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+landsat",
+    "delta_claim": "types disagreement causes for appeals instead of only estimating cover presence",
+    "forcing_function": "CAP Area Monitoring System monitorability rules from 2025",
+    "user_guess": "CAP appeal teams",
+    "seed_urls": [
+      {
+        "url": "https://business.esa.int/projects/all-weather-cover",
+        "date": "2026-07-06",
+        "title": "All-Weather COVER",
+        "tier": "A",
+        "note": "ESA pilot targets catch-crop monitoring for paying agencies with confidence, timestamps, model version and evidence exports."
+      },
+      {
+        "url": "https://publications.jrc.ec.europa.eu/repository/handle/JRC147007",
+        "date": "2026-06-16",
+        "title": "Second FIRE Workshop report",
+        "tier": "A",
+        "note": "JRC/DG AGRI report calls for clearer guidance, pilots, multi-source monitoring and better data access."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:S18",
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU paying agencies, compare LPIS parcel declarations with FTW boundaries and AlphaEarth annual embeddings to type geometry errors as merge, split, encroachment, or registration offset, rather than issuing one undifferentiated LPIS quality flag.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "foundation_model_embeddings+ftw+lpis_eurocrops",
+    "delta_claim": "open divergence taxonomy with typed geometry errors and per-type confidence",
+    "forcing_function": "JRC/DG AGRI FIRE 2026 workshop data-gap and ELMS preparation",
+    "user_guess": "CAP paying agencies",
+    "seed_urls": [
+      {
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+        "date": "2025-11-17",
+        "title": "Google Satellite Embedding V1",
+        "tier": "A",
+        "note": "Earth Engine dataset provides annual 10 m 64-dimensional embeddings for classification, change detection and similarity search."
+      },
+      {
+        "url": "https://github.com/fiboa/data-survey/blob/main/data/AI4Boundaries.md",
+        "date": "2023-01",
+        "title": "AI4Boundaries data card",
+        "tier": "B",
+        "note": "Data card points to JRC AI4Boundaries labels from GSAA/LPIS across seven European regions."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:S09",
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU crop-map maintainers, use AlphaEarth embeddings and CLMS confidence layers to flag crop-type pixels whose class is stable but semantically drifting across years, instead of publishing only annual crop labels plus confidence.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "foundation_model_embeddings+copernicus_clms_crop_types",
+    "delta_claim": "detects cross-year semantic drift inside apparently stable crop labels",
+    "forcing_function": "Copernicus High Resolution Layer Crop Types 2017-present",
+    "user_guess": "Copernicus/EEA crop-map teams",
+    "seed_urls": [
+      {
+        "url": "https://www.copernicus.eu/en/access-data/copernicus-services-catalogue/crop-types-2017-present-raster-10m-europe-yearly-nov-2024",
+        "date": "2024-11",
+        "title": "Crop Types 2017-present, Europe",
+        "tier": "A",
+        "note": "Copernicus catalogue provides annual 10 m crop-type rasters and confidence layers across EEA38."
+      },
+      {
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+        "date": "2025-11-17",
+        "title": "Google Satellite Embedding V1",
+        "tier": "A",
+        "note": "Annual embeddings support clustering, classification, regression and change detection without local model training."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU carbon-credit verifiers, use AlphaEarth embeddings plus CLMS crop histories to label each claimed cover-crop field as additional, business-as-usual, or leakage-risk, instead of accepting a single season's detected cover crop as proof.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "foundation_model_embeddings+copernicus_clms_croplands",
+    "delta_claim": "tests additionality and leakage from multi-year field analogues",
+    "forcing_function": "CRCF carbon farming methodologies adopted in July 2026",
+    "user_guess": "Carbon-credit verifiers",
+    "seed_urls": [
+      {
+        "url": "https://climate.ec.europa.eu/areas-action/carbon-removals-and-carbon-farming/certification-methodologies_en",
+        "date": "2026-07",
+        "title": "CRCF certification methodologies",
+        "tier": "A",
+        "note": "Commission says July 2026 methodologies cover carbon farming on mineral soils, peatlands and afforestation."
+      },
+      {
+        "url": "https://business.esa.int/projects/regenag-mrv",
+        "date": "2026-04-15",
+        "title": "RegenAg – MRV",
+        "tier": "A",
+        "note": "ESA project monitors cover crops, rotation, irrigation and residue practices for farm carbon projects."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "high",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU peatland carbon schemes, use Sentinel-1 wetness persistence and Sentinel-2 crop phenology to separate true rewetting, temporary flooding, and still-cultivated organic soils before CRCF credits are issued.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical",
+    "delta_claim": "distinguishes durable rewetting from seasonal flood and continued cultivation",
+    "forcing_function": "CRCF peatland and organic-soil carbon farming methodology",
+    "user_guess": "Carbon schemes and verifiers",
+    "seed_urls": [
+      {
+        "url": "https://climate.ec.europa.eu/areas-action/carbon-removals-and-carbon-farming/certification-methodologies_en",
+        "date": "2026-07",
+        "title": "CRCF certification methodologies",
+        "tier": "A",
+        "note": "Commission includes rewetting and restoration of peatlands and other organic soils in July 2026 methodologies."
+      },
+      {
+        "url": "https://land.copernicus.eu/en/products/high-resolution-layer-water-and-wetness?tab=datasets",
+        "date": "2026-08",
+        "title": "CLMS Water and Wetness",
+        "tier": "A",
+        "note": "CLMS describes Sentinel-1/Sentinel-2 water and wet-surface products for Europe."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU soil-monitoring authorities, use Sentinel-2 and CLMS cropland histories to flag agricultural parcels whose soil-removal or sealing signal is masked as temporary bare soil, instead of waiting for coarse land-take inventories.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "sentinel_2_optical+copernicus_clms_croplands",
+    "delta_claim": "separates soil sealing/removal from normal bare-soil crop windows",
+    "forcing_function": "EU Soil Monitoring Law",
+    "user_guess": "Member-state soil authorities",
+    "seed_urls": [
+      {
+        "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ%3AL_202502360",
+        "date": "2025-11-26",
+        "title": "Directive (EU) 2025/2360 on soil monitoring and resilience",
+        "tier": "A",
+        "note": "Directive creates EU soil monitoring and references Copernicus support for soil sealing/removal indicators."
+      },
+      {
+        "url": "https://land.copernicus.eu/en/products/high-resolution-layer-croplands/main-crop-duration-2017-present-raster-10-m-europe-yearly",
+        "date": "2026-09",
+        "title": "CLMS Main Crop Duration 2017-present",
+        "tier": "A",
+        "note": "CLMS cropland product exposes crop duration and confidence layers through Copernicus Data Space."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU authorities auditing GAEC soil-cover rules, use CLMS bare-soil layers plus Sentinel-1/Sentinel-2 event evidence to label bare-soil duration as crop-cycle-normal, erosion-risk, or model-artifact, rather than a binary breach.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "copernicus_clms_croplands+sentinel_1_sar+sentinel_2_optical",
+    "delta_claim": "types bare-soil anomalies into risk, normal cycle, and model artifact",
+    "forcing_function": "CAP 2023-27 GAEC conditionality and eco-schemes",
+    "user_guess": "CAP compliance teams",
+    "seed_urls": [
+      {
+        "url": "https://library.land.copernicus.eu/products/High_Resolution_Layer_Croplands_2017-present_PUM_v2.html",
+        "date": "2025-11",
+        "title": "HRL Croplands Product User Manual",
+        "tier": "A",
+        "note": "Manual describes bare-soil before/after layers, uncertainty in days, and policy relevance for leaching and erosion."
+      },
+      {
+        "url": "https://agriculture.ec.europa.eu/cap-my-country/sustainability/environmental-sustainability/cap-and-environment_en",
+        "date": "2026-09",
+        "title": "CAP and the environment",
+        "tier": "A",
+        "note": "Commission page describes CAP 2023-27 strengthened environmental standards and conditionality."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU Nature Restoration planners, use CLMS Small Woody Features and Sentinel-2 change to score whether new hedgerows survive, gap out, or become tree rows, instead of counting only mapped landscape-feature area.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "copernicus_clms_small_woody_features+sentinel_2_optical",
+    "delta_claim": "tracks restoration survival state, not just feature presence",
+    "forcing_function": "Nature Restoration Regulation agricultural ecosystem indicators",
+    "user_guess": "Restoration planners",
+    "seed_urls": [
+      {
+        "url": "https://eur-lex.europa.eu/eli/reg/2024/1991/oj/eng",
+        "date": "2024-08",
+        "title": "Regulation (EU) 2024/1991 on nature restoration",
+        "tier": "A",
+        "note": "Regulation requires agricultural ecosystem indicators including high-diversity landscape features."
+      },
+      {
+        "url": "https://land.copernicus.eu/en/products/high-resolution-layer-small-landscape-features?tab=applications__use_cases",
+        "date": "2026-09",
+        "title": "CLMS Small Landscape Features",
+        "tier": "A",
+        "note": "CLMS says Small Woody Features can identify hedgerows, tree rows, patches and CAP landscape-feature indicators."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:D10",
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU biodiversity agencies, use Sentinel-2, CLMS Small Woody Features, and tree-cover density to find arable blocks where high-diversity feature gains are visually plausible but ecologically disconnected.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "sentinel_2_optical+copernicus_clms_small_woody_features+tree_cover_density",
+    "delta_claim": "scores landscape-feature connectivity instead of mapped feature area alone",
+    "forcing_function": "Nature Restoration Regulation agricultural ecosystem indicators",
+    "user_guess": "Biodiversity agencies",
+    "seed_urls": [
+      {
+        "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A32024R1991",
+        "date": "2024-08",
+        "title": "Regulation (EU) 2024/1991 on nature restoration",
+        "tier": "A",
+        "note": "Regulation links agricultural restoration to high-diversity landscape features, pollinators and farmland birds."
+      },
+      {
+        "url": "https://land.copernicus.eu/en/products/high-resolution-layer-forests-and-tree-cover?tab=tree_cover_density",
+        "date": "2026-09",
+        "title": "CLMS Tree Cover Density 2018-present",
+        "tier": "A",
+        "note": "CLMS provides annual pan-European tree-cover density at 10 m from 2018 onward."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU wine authorities, combine BD ORTHO-style vineyard row baselines with Sentinel-2 and AlphaEarth annual change to date vine grubbing, abandonment, or active replanting between orthophoto years.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "open_orthophoto+sentinel_2_optical+foundation_model_embeddings",
+    "delta_claim": "cross-scale event dating between sparse orthophoto acquisitions",
+    "forcing_function": "EU wine-sector grubbing-up and restructuring measures",
+    "user_guess": "Wine-sector authorities",
+    "seed_urls": [
+      {
+        "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/02/23/council-approves-set-of-measures-to-support-the-eu-wine-sector/",
+        "date": "2026-02-23",
+        "title": "Council approves measures to support the EU wine sector",
+        "tier": "A",
+        "note": "Council says member states may support grubbing-up of excess vines and stronger climate investments."
+      },
+      {
+        "url": "https://www.franceagrimer.fr/aides/aide-la-restructuration-et-reconversion-du-vignoble-campagne-20232024",
+        "date": "2025-05-26",
+        "title": "Aide à la restructuration et reconversion du vignoble",
+        "tier": "A",
+        "note": "FranceAgriMer describes vine restructuring aid, grubbing declarations, parcel controls and payment requests."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:D09",
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For Southern European vineyard-risk planners, use Sentinel-2 and CLMS tree-cover change to classify abandoned vine rows near settlements as fuel-break, unmanaged fuel, or active vineyard before wildfire-prevention funding is allocated.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "sentinel_2_optical+copernicus_clms_tree_cover",
+    "delta_claim": "turns vineyard abandonment into a wildfire fuel-management class",
+    "forcing_function": "EU wine-sector climate resilience measures",
+    "user_guess": "Regional wine and fire agencies",
+    "seed_urls": [
+      {
+        "url": "https://agriculture.ec.europa.eu/farming/crops/wine_en",
+        "date": "2026-09-01",
+        "title": "Wine",
+        "tier": "A",
+        "note": "Commission wine page includes a 1 September 2026 news item on vineyards as wildfire prevention."
+      },
+      {
+        "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/02/23/council-approves-set-of-measures-to-support-the-eu-wine-sector/",
+        "date": "2026-02-23",
+        "title": "Council approves measures to support the EU wine sector",
+        "tier": "A",
+        "note": "Council measures include stronger climate resilience support for wine-sector investments."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU agricultural insurers, use Sentinel-1/Sentinel-2 damage traces and AlphaEarth nearest-neighbour fields to separate insured hail or frost damage from pre-existing decline before claims are paid.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+foundation_model_embeddings",
+    "delta_claim": "uses embedding-twin controls for damage attribution, not anomaly detection alone",
+    "forcing_function": "Rising climate-risk insurance demand in EU agriculture",
+    "user_guess": "Agricultural insurers",
+    "seed_urls": [
+      {
+        "url": "https://business.esa.int/projects/eo-insure",
+        "date": "2026-04-23",
+        "title": "EO-INSURE",
+        "tier": "A",
+        "note": "ESA project targets insurers with Sentinel-1/Sentinel-2 damage probability maps and pre-existing condition distinction."
+      },
+      {
+        "url": "https://joint-research-centre.ec.europa.eu/jrc-news-and-updates/exceptionally-dry-and-hot-weather-threatens-summer-crops-2026-08-24_en",
+        "date": "2026-08-24",
+        "title": "Exceptionally dry and hot weather threatens summer crops",
+        "tier": "A",
+        "note": "JRC MARS bulletin reports widespread heat and water-deficit impacts on European crops."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "high",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU livestock and dairy cooperatives, use Sentinel-1/Sentinel-2 grassland recovery trajectories to label drought-hit parcels as recoverable, reseed-needed, or fodder-shortage-risk, instead of reporting only regional pasture anomaly maps.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+copernicus_clms_grasslands",
+    "delta_claim": "converts grassland anomalies into recovery and fodder-risk classes",
+    "forcing_function": "JRC MARS 2026 drought and heat alerts",
+    "user_guess": "Dairy cooperatives",
+    "seed_urls": [
+      {
+        "url": "https://joint-research-centre.ec.europa.eu/jrc-news-and-updates/exceptionally-dry-and-hot-weather-threatens-summer-crops-2026-08-24_en",
+        "date": "2026-08-24",
+        "title": "Exceptionally dry and hot weather threatens summer crops",
+        "tier": "A",
+        "note": "JRC says grassland productivity and pasture availability declined markedly, raising fodder concerns."
+      },
+      {
+        "url": "https://land.copernicus.eu/en/products/high-resolution-layer-grasslands",
+        "date": "2026-08",
+        "title": "CLMS High Resolution Layer Grasslands",
+        "tier": "A",
+        "note": "CLMS grassland products map grasslands and mowing events across EEA38."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU organic certifiers, use Sentinel-1/Sentinel-2 and CLMS crop-rotation histories to flag organic-conversion parcels whose observed rotation, bare-soil, and secondary-crop pattern looks conventionally managed.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+copernicus_clms_croplands",
+    "delta_claim": "checks organic conversion consistency from practice sequences, not crop labels",
+    "forcing_function": "EU organic action plan and CAP organic support",
+    "user_guess": "Organic certifiers",
+    "seed_urls": [
+      {
+        "url": "https://agriculture.ec.europa.eu/farming/organic-farming/organic-action-plan_en",
+        "date": "2021-04-19",
+        "title": "Organic action plan",
+        "tier": "A",
+        "note": "Commission organic action plan targets growth of organic farming and consumer trust under new legislation."
+      },
+      {
+        "url": "https://documentation.dataspace.copernicus.eu/Data/CopernicusServices/CLMS.html",
+        "date": "2026-09",
+        "title": "CLMS documentation",
+        "tier": "A",
+        "note": "Copernicus Data Space lists crop type, crop harvest, crop emergence, secondary crop, fallow and confidence layers."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "low",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU fertilizer advisors, use occasional EnMAP/PRISMA hyperspectral scenes to audit when Sentinel-2 nitrogen prescription zones are unreliable because soil brightness or senescence is driving the index.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "hyperspectral_open+sentinel_2_optical",
+    "delta_claim": "audits failure modes of nitrogen prescriptions instead of mapping nitrogen status",
+    "forcing_function": "Crowded satellite VRA and nitrogen advisory products",
+    "user_guess": "Fertilizer advisors",
+    "seed_urls": [
+      {
+        "url": "https://www.yara.fr/fertilisation/blog/atfarm--une-solution-simple-pour-lagriculture-de-precision/",
+        "date": "2026-03-27",
+        "title": "Atfarm precision agriculture",
+        "tier": "A",
+        "note": "Yara describes satellite crop monitoring and nitrogen modulation maps in Atfarm."
+      },
+      {
+        "url": "https://help.onesoil.ai/en/articles/11173083-latest-releases",
+        "date": "2026-06-17",
+        "title": "OneSoil VRA maps for DJI Agras drones",
+        "tier": "A",
+        "note": "OneSoil release describes variable-rate application maps from satellite imagery, productivity maps or soil analysis."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:S05",
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU carbon-farming schemes, use Sentinel-1/Sentinel-2 and CLMS bare-soil products to flag likely no-till false positives where residue, weeds, or delayed harvest mimic reduced tillage.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+copernicus_clms_croplands",
+    "delta_claim": "detects no-till false positives caused by residue and phenology confounders",
+    "forcing_function": "CRCF carbon farming methodologies adopted in July 2026",
+    "user_guess": "Carbon-farming schemes",
+    "seed_urls": [
+      {
+        "url": "https://business.esa.int/projects/regenag-mrv",
+        "date": "2026-04-15",
+        "title": "RegenAg – MRV",
+        "tier": "A",
+        "note": "ESA project monitors regenerative practices including no-till, residue management, cover cropping and rotations."
+      },
+      {
+        "url": "https://library.land.copernicus.eu/products/High_Resolution_Layer_Croplands_2017-present_PUM_v2.html",
+        "date": "2025-11",
+        "title": "HRL Croplands Product User Manual",
+        "tier": "A",
+        "note": "Manual notes bare-soil layers may include weed growth, crop remnants, fertilisation or ploughing periods."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "high",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU importers under EUDR, use Sentinel-1/Sentinel-2 and AlphaEarth change around declared supplier plots to type post-2020 land change as plantation management, clearance, or boundary mismatch.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+foundation_model_embeddings",
+    "delta_claim": "types EUDR land-change causes instead of returning a binary deforestation alert",
+    "forcing_function": "EUDR large-operator deadline 30 Dec 2026",
+    "user_guess": "EU commodity importers",
+    "seed_urls": [
+      {
+        "url": "https://environment.ec.europa.eu/news/commission-updates-product-scope-and-tools-support-eudr-2026-07-13_en",
+        "date": "2026-07-13",
+        "title": "Commission updates product scope and tools to support EUDR",
+        "tier": "A",
+        "note": "Commission confirms EUDR application from 30 Dec 2026 for large and medium operators."
+      },
+      {
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+        "date": "2025-11-17",
+        "title": "Google Satellite Embedding V1",
+        "tier": "A",
+        "note": "Annual global embeddings can support change detection and similarity search."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": "run3:S01",
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU soy and cattle traders under EUDR, use AlphaEarth similarity search to find declared supplier polygons whose 2020 baseline looks unlike the claimed commodity landscape, before due-diligence statements are filed.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "foundation_model_embeddings",
+    "delta_claim": "uses baseline-landscape mismatch screening before deforestation checks",
+    "forcing_function": "EUDR large-operator deadline 30 Dec 2026",
+    "user_guess": "EU due-diligence teams",
+    "seed_urls": [
+      {
+        "url": "https://environment.ec.europa.eu/news/commission-updates-product-scope-and-tools-support-eudr-2026-07-13_en",
+        "date": "2026-07-13",
+        "title": "Commission updates product scope and tools to support EUDR",
+        "tier": "A",
+        "note": "Commission says operators must demonstrate covered commodities are deforestation-free and legally produced."
+      },
+      {
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+        "date": "2025-11-17",
+        "title": "Google Satellite Embedding V1",
+        "tier": "A",
+        "note": "Earth Engine page describes vector similarity and annual global embeddings from 2017 to 2024."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU precision-ag platforms, use Sentinel-1/Sentinel-2 reliability tests to mark each VRA prescription zone as stable, cloud-gap-inferred, or sensor-conflicted before exporting it to machinery.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical",
+    "delta_claim": "adds prescription reliability classes before map-to-machine export",
+    "forcing_function": "Crowded EU VRA and satellite crop-health products",
+    "user_guess": "Precision-ag platforms",
+    "seed_urls": [
+      {
+        "url": "https://www.basf.com/us/en/media/news-releases/2026/08/P-US-26-31",
+        "date": "2026-08-13",
+        "title": "BASF launches xarvio CONNECT 2.0",
+        "tier": "A",
+        "note": "BASF says xarvio CONNECT transfers application maps between FIELD MANAGER and machinery."
+      },
+      {
+        "url": "https://help.onesoil.ai/en/articles/11173083-latest-releases",
+        "date": "2026-06-17",
+        "title": "OneSoil VRA maps for DJI Agras drones",
+        "tier": "A",
+        "note": "OneSoil adds VRA maps from satellite imagery, productivity maps or soil analysis."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU food companies buying regenerative claims, use Sentinel-1/Sentinel-2 practice traces to detect project leakage where neighbouring supplier fields intensify after enrolled fields adopt cover crops or reduced tillage.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical",
+    "delta_claim": "detects neighbourhood leakage around enrolled regenerative fields",
+    "forcing_function": "CRCF carbon farming methodologies adopted in July 2026",
+    "user_guess": "Food-company sustainability teams",
+    "seed_urls": [
+      {
+        "url": "https://business.esa.int/projects/regenag-mrv",
+        "date": "2026-04-15",
+        "title": "RegenAg – MRV",
+        "tier": "A",
+        "note": "ESA service concept includes baseline, additionality and leakage checks for farm carbon credits."
+      },
+      {
+        "url": "https://climate.ec.europa.eu/areas-action/carbon-removals-and-carbon-farming/certification-methodologies_en",
+        "date": "2026-07",
+        "title": "CRCF certification methodologies",
+        "tier": "A",
+        "note": "Commission methodologies enable certification schemes and result-based payments for carbon farming."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "high",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU Member States preparing soil units, use Sentinel-2, CLMS cropland phenology, and AlphaEarth embeddings to split agricultural soil units where land-use trajectories are heterogeneous despite the same soil class.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "sentinel_2_optical+copernicus_clms_croplands+foundation_model_embeddings",
+    "delta_claim": "refines soil units by observed management trajectory heterogeneity",
+    "forcing_function": "EU Soil Monitoring Law transposition by 17 Dec 2028",
+    "user_guess": "Member-state soil agencies",
+    "seed_urls": [
+      {
+        "url": "https://eur-lex.europa.eu/eli/dir/2025/2360/oj/eng",
+        "date": "2025-11-26",
+        "title": "Directive (EU) 2025/2360 on soil monitoring and resilience",
+        "tier": "A",
+        "note": "Directive requires Member States to establish soil districts and soil units and permits remote-sensing support."
+      },
+      {
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+        "date": "2025-11-17",
+        "title": "Google Satellite Embedding V1",
+        "tier": "A",
+        "note": "Annual embeddings summarize multi-source surface conditions at 10 m for each pixel."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU ELMS designers, use EuroCropsML, AI4Boundaries, and CLMS outputs to produce a per-country failure taxonomy for crop markers under sparse labels, instead of another crop-type leaderboard.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "lpis_eurocrops_ftw+sentinel_2_optical",
+    "delta_claim": "benchmarks marker failure modes across LPIS regimes, not crop classification accuracy",
+    "forcing_function": "JRC/DG AGRI FIRE 2026 ELMS preparation",
+    "user_guess": "ELMS design teams",
+    "seed_urls": [
+      {
+        "url": "https://publications.jrc.ec.europa.eu/repository/handle/JRC147007",
+        "date": "2026-06-16",
+        "title": "Second FIRE Workshop report",
+        "tier": "A",
+        "note": "JRC report discusses ELMS preparation for 2028-2034 and data gaps in AMS implementation."
+      },
+      {
+        "url": "https://www.nature.com/articles/s41597-025-04952-7",
+        "date": "2025-04-19",
+        "title": "EuroCropsML benchmark dataset",
+        "tier": "A",
+        "note": "Scientific Data descriptor introduces EuroCropsML for few-shot crop type classification in Europe."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU field-boundary mappers, use FTW/AI4Boundaries and AlphaEarth embeddings to predict when a 10 m boundary is unrecoverable and should be escalated to orthophoto review.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "foundation_model_embeddings+ftw+ai4boundaries",
+    "delta_claim": "predicts boundary unrecoverability before attempting delineation",
+    "forcing_function": "FTW global 10 m boundary product and EU LPIS quality needs",
+    "user_guess": "Boundary product maintainers",
+    "seed_urls": [
+      {
+        "url": "https://github.com/fiboa/data-survey/blob/main/data/AI4Boundaries.md",
+        "date": "2023-01",
+        "title": "AI4Boundaries data card",
+        "tier": "B",
+        "note": "AI4Boundaries includes Sentinel-2 monthly composites and 1 m orthophoto labels for European field boundaries."
+      },
+      {
+        "url": "https://www.researchgate.net/publication/408520386_Fields_of_the_Planet_Field_Boundary_Mapping_Beyond_10m",
+        "date": "2026-07",
+        "title": "Fields of the Planet: Field Boundary Mapping Beyond 10m",
+        "tier": "C",
+        "note": "Paper argues many small parcels are too small for reliable 10 m delineation and evaluates higher-resolution alternatives."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU irrigation-risk auditors, use Sentinel-1 wetness, Sentinel-2 crop duration, and CLMS water/wetness to flag fields whose claimed improved irrigation likely shifts water stress downstream.",
+    "region": "eu",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+copernicus_clms_water_wetness",
+    "delta_claim": "detects downstream water-stress leakage from claimed irrigation improvements",
+    "forcing_function": "CRCF and regenerative-agriculture MRV demand",
+    "user_guess": "Sustainability auditors",
+    "seed_urls": [
+      {
+        "url": "https://business.esa.int/projects/regenag-mrv",
+        "date": "2026-04-15",
+        "title": "RegenAg – MRV",
+        "tier": "A",
+        "note": "ESA service monitors improved irrigation and leakage for regenerative agriculture MRV."
+      },
+      {
+        "url": "https://land.copernicus.eu/en/products/high-resolution-layer-water-and-wetness?tab=datasets",
+        "date": "2026-08",
+        "title": "CLMS Water and Wetness",
+        "tier": "A",
+        "note": "CLMS water and wetness products use Sentinel-1/Sentinel-2 to map water and wet surfaces across Europe."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "low",
+    "standout_fields": null
+  }
+]

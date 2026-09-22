@@ -1,0 +1,508 @@
+{
+  "schema_note": "Prior-run candidate index built at stage 0. Handed to gap hunters as do-not-restate, and to the constraint gate for the archive check.",
+  "built_at": "2026-09-13",
+  "built_for_run": "run4",
+  "source_files": [
+    "research-archive/run3/gate_verdicts.yml"
+  ],
+  "runs_indexed": [
+    "run3"
+  ],
+  "counts": {
+    "total_candidates": 41,
+    "by_stage_reached": {
+      "full": 14,
+      "screen": 27
+    },
+    "by_verdict": {
+      "pass": 4,
+      "conditional": 8,
+      "screen_fail": 27,
+      "fail": 2
+    },
+    "by_failed_gate": {
+      "C7_novelty": 25,
+      "C9_feasibility": 3,
+      "C3_not_generic": 8,
+      "C8_scope_floor": 1
+    },
+    "by_region": {
+      "india": 21,
+      "eu": 15,
+      "singapore": 5
+    }
+  },
+  "candidates": [
+    {
+      "id": "run3:S01",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "For Indian shade-coffee / rubber / cocoa smallholders facing EUDR, type every post-2020 canopy-loss event as {shade-tree pruning, crop renovation, genuine forest conversion} from Sentinel-1 + Sentinel-2 + NICFI, instead of the binary 'deforestation alert' current maps emit.",
+      "stage_reached": "full",
+      "verdict": "pass",
+      "failed_gate": null,
+      "reason": "Not a generic artifact; imagery is the only signal; delta is event-typing (a new output space), not geography.",
+      "screen_verdict": "screen_pass",
+      "novelty_type": "type_b"
+    },
+    {
+      "id": "run3:S02",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Refine and confidence-calibrate the FTW global 10 m field-boundary product in Indian smallholder landscapes using AlphaEarth embeddings + cross-year boundary stability, benchmarked on the FTW-India 10k labels.",
+      "stage_reached": "full",
+      "verdict": "conditional",
+      "failed_gate": "C7_novelty",
+      "reason": "As written, 'apply FTW to India' is regional transfer: FTW-India already exists and the global map already covers India. Fails C7 unless the contribution is redefined.\n",
+      "screen_verdict": "screen_pass",
+      "novelty_type": "needs_novelty_check",
+      "reframe": "Contribution becomes a METHOD + BENCHMARK, not a map: (1) a calibrated confidence model for FTW-global that uses AlphaEarth embedding neighbourhood consistency and 2024↔2025 polygon stability as features, trained/evaluated on the FTW-India 10k labels and AI4SmallFarms; (2) a 'boundary reliability' benchmark with a fixed protocol so anyone can report smallholder performance honestly; (3) an error taxonomy (over-merge / over-split / bund-vs-field) with per-class confidence. If the adversarial search finds FTW's own PRUE / confidence follow-ups already do this, drop the candidate.\n"
+    },
+    {
+      "id": "run3:S03",
+      "run": "run3",
+      "region": "eu",
+      "one_liner": "Grassland mowing-event detection from Sentinel-1 coherence + Sentinel-2 for CAP compliance.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "Done repeatedly (Estonia, Hungary, JRC). No technical delta stated.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:S04",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Classify the FATE of paddy residue per field in Punjab — burnt / incorporated in-situ / baled ex-situ / left standing — from Sentinel-1 + Sentinel-2 in the 10–20 day harvest-to-sowing window, so CRM subsidy payouts can be verified without field visits.",
+      "stage_reached": "full",
+      "verdict": "conditional",
+      "failed_gate": "C7_novelty",
+      "reason": "Burn detection is saturated (PRSC, CEEW, S1+S2 papers). Zero-till detection from S2 SWIR and S1/S2/Planet tillage-practice mapping already exist for Indian smallholders. A 4-class residue-fate classifier sits close to 'same method, new labels'.\n",
+      "screen_verdict": "screen_pass",
+      "novelty_type": "needs_novelty_check",
+      "reframe": "Two options. (a) Make partial-burn quantification the core (CEEW explicitly flags partial vs complete burn as unresolved) with a sub-field burn-fraction output and an evasion-behaviour analysis (night burns, edge burns) — a measurement problem, not a classification one. (b) Make the SUBSIDY-VERIFICATION SYSTEM the contribution: link the classifier to Punjab's CRM machinery-subsidy and bio-decomposer plot lists and measure verification precision at the payout decision. Option (a) is more publishable; (b) more hireable at SatSure-type firms. Either must survive an adversarial search on 'residue management practice mapping Sentinel Punjab'.\n"
+    },
+    {
+      "id": "run3:S05",
+      "run": "run3",
+      "region": "eu",
+      "one_liner": "Crop nitrogen status mapping from free EnMAP / PRISMA hyperspectral imagery.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "Hyperspectral N-mapping is a mature sub-field; one-liner has no delta beyond 'use the free sensor'.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:S06",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Paddy transplanting-date estimation from Sentinel-1 for PMFBY prevented-sowing claims.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "S1 rice phenology is standard (MNCFC/FASAL use it). Only the use-case is new — regional/application transfer.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:S07",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Village-level in-season crop-failure early warning from drift in AlphaEarth embedding space, evaluated against PMFBY crop-cutting-experiment yields.",
+      "stage_reached": "full",
+      "verdict": "conditional",
+      "failed_gate": "C9_feasibility",
+      "reason": "AlphaEarth public embeddings are ANNUAL — no in-season signal exists in the free product. As written, the data does not exist.\n",
+      "screen_verdict": "screen_pass",
+      "novelty_type": "type_a (if embeddings obtained) / needs_novelty_check",
+      "reframe": "Apply to Google's Custom Satellite Embeddings academic program (deadline 15 Oct 2026) for monthly/on-demand embeddings; if declined, replace with your own lightweight S1+S2 monthly embedding (a small autoencoder on GEE exports) and evaluate whether drift in that space precedes reported PMFBY losses at village level. Ground truth: district/tehsil-level CCE yields and notified-calamity lists.\n"
+    },
+    {
+      "id": "run3:S08",
+      "run": "run3",
+      "region": "eu",
+      "one_liner": "Detect eco-scheme fallow-land non-compliance from Sentinel-2.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "Hungary nationwide (2022) and JRC CbM already do this.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:S09",
+      "run": "run3",
+      "region": "eu",
+      "one_liner": "Flag LPIS parcels whose declared geometry diverges from observed field geometry using the FTW global 2024/2025 boundary product as an independent reference, and type the divergence (merge / split / encroachment / mis-registration).",
+      "stage_reached": "full",
+      "verdict": "conditional",
+      "failed_gate": "C7_novelty",
+      "reason": "JRC and national agencies already run LPIS quality assessment; 'compare LPIS to a boundary map' is a known workflow. Delta must be the typing and the use of FTW-global.\n",
+      "screen_verdict": "screen_pass",
+      "novelty_type": "needs_novelty_check",
+      "reframe": "Contribution = an open divergence taxonomy + detector (merge / split / encroachment / registration offset) with per-type accuracy on EuroCrops/AI4Boundaries ground truth, and a study of WHERE FTW-global disagrees with LPIS systematically (which is also a useful error analysis of FTW itself). Keep only if this analysis does not exist.\n"
+    },
+    {
+      "id": "run3:S10",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Post-flood cropland damage extent and recovery from Sentinel-1 for insurers.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "SAR flood mapping over cropland is textbook; nothing here but the region.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:S11",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Map groundwater-irrigated vs rainfed fields in Punjab from Sentinel time series.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "Irrigation mapping from S1/S2 exists for India already.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:S12",
+      "run": "run3",
+      "region": "eu",
+      "one_liner": "Multi-year stable management-zone delineation from Sentinel-2.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C3_not_generic",
+      "reason": "This is the FieldView / EOSDA product. Auto-fail pattern: NDVI time series + off-the-shelf method.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:S13",
+      "run": "run3",
+      "region": "eu",
+      "one_liner": "Few-shot crop-type mapping without LPIS labels using AlphaEarth embeddings.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C3_not_generic",
+      "reason": "Auto-fail pattern: crop type classification as the whole contribution.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:S14",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Kharif sowing-failure / re-sowing detection from S1+S2 for seed companies.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "Sowing-date detection is established; new user, same method.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:S15",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Turn a single EUDR GPS point (<4 ha smallholder plot) into an audit-ready plot polygon + 2020-baseline verdict from NICFI imagery, for tree crops where boundaries are hidden under canopy.",
+      "stage_reached": "full",
+      "verdict": "conditional",
+      "failed_gate": "C8_scope_floor",
+      "reason": "Some compliance vendors already offer point→boundary suggestion; as a standalone it is one component and one sentence. Scope floor 2/5.\n",
+      "screen_verdict": "screen_pass",
+      "novelty_type": "needs_novelty_check",
+      "reframe": "Fold into S01 as the plot-definition component. Not a standalone FYP."
+    },
+    {
+      "id": "run3:S16",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Stubble-burning detection in Punjab from Sentinel-2 burn indices.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "PRSC, CEEW and S1+S2 papers already cover this. Crowded, no delta.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:S17",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Map shifting-cultivation (jhum) expansion into forest edge in NE India from NICFI.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "Jhum mapping from Planet/Sentinel exists; the one-liner adds only the sensor.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:S18",
+      "run": "run3",
+      "region": "eu",
+      "one_liner": "Winter cover-crop (GAEC 6) compliance from Sentinel-1 + Sentinel-2.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "Cover-crop detection is a JRC CbM marker already.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:S19",
+      "run": "run3",
+      "region": "eu",
+      "one_liner": "Field-level yield-gap estimation from Sentinel-2 time series.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C3_not_generic",
+      "reason": "Auto-fail pattern: yield prediction with no further specificity.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:S20",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Optimise PMFBY crop-cutting-experiment placement via satellite stratification.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "MNCFC already stratifies CCEs with satellite data; sampling-design delta not stated.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:S21",
+      "run": "run3",
+      "region": "singapore",
+      "one_liner": "Field-level early warning of vegetable-import shocks to Singapore by monitoring its actual source basket (Cameron Highlands, Johor, etc.) with Sentinel-1/2 crop anomalies, and measuring lead time against Singapore wholesale/retail price series.",
+      "stage_reached": "full",
+      "verdict": "pass",
+      "failed_gate": null,
+      "reason": "SG is C1-exempt anyway; not generic; not regional transfer (JRC ASAP is coarse and global, SFA's new dashboard is logistics-based). Sensor rules don't apply — imagery is over Malaysia, not SG farmland.",
+      "screen_verdict": "screen_pass",
+      "novelty_type": "type_b"
+    },
+    {
+      "id": "run3:S22",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Solar-farm encroachment on cropland from Sentinel-2.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "Solar-park mapping from S2 is established; and it is land-use, not agri decision support.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:D01",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Learn a panel-free, cross-date radiometric harmonisation for consumer multispectral drone flights using overlap consistency between raw frames, and release a benchmark on IMPaCT-UAV (Vijayawada paddy, all growth stages) measuring whether growth-stage change is preserved after harmonisation.",
+      "stage_reached": "full",
+      "verdict": "pass",
+      "failed_gate": null,
+      "reason": "Radiometric block adjustment exists but needs panels / DLS; a learned self-supervised version with a public benchmark is a technical delta. Data is open and Indian.",
+      "screen_verdict": "screen_pass",
+      "novelty_type": "type_b"
+    },
+    {
+      "id": "run3:D02",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Verify pesticide spray coverage from post-spray drone RGB imagery for Namo Drone Didi operators.",
+      "stage_reached": "full",
+      "verdict": "fail",
+      "failed_gate": "C9_feasibility",
+      "reason": "No accessible dataset of post-spray imagery exists; self-collected flights are out of scope per C2 extra_check. Ground truth (deposition) would need water-sensitive paper trials. Kept on the page: two degrees from D01/D04 if a partner (Aonic, a KVK) supplies flights.",
+      "screen_verdict": "screen_pass"
+    },
+    {
+      "id": "run3:D03",
+      "run": "run3",
+      "region": "eu",
+      "one_liner": "Few-shot crop/weed segmentation with SAM / DINOv2 on WeedsGalore.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C3_not_generic",
+      "reason": "Auto-fail pattern: generic detection on a public dataset; 'fine-tune X on Y' describes it fully.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:D04",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Stitch-free plant-level detection: run detectors on raw overlapping drone frames and fuse per-plant predictions by multi-view geometric consensus with uncertainty, never building an orthomosaic; benchmark against the Pix4D/ODM orthomosaic pipeline on IMPaCT-UAV.",
+      "stage_reached": "full",
+      "verdict": "conditional",
+      "failed_gate": "C7_novelty",
+      "reason": "Two 2025 papers (EasyIDP raw→DOM mapping for organ-level detection; raw-frame palm detection) already argue raw frames beat orthomosaics. Their georeferencing still passes through a DOM or SfM solution, but the headline claim is taken.\n",
+      "screen_verdict": "screen_pass",
+      "novelty_type": "needs_novelty_check",
+      "reframe": "Make the contribution the FUSION, not the raw-frame observation: per-plant detections from N overlapping frames are associated via direct georeferencing (GPS + IMU + flat- field assumption) and fused with a probabilistic consensus that yields a per-plant confidence and a geolocation uncertainty ellipse — no SfM, no DOM, runs on a laptop in the field. Benchmark vs ODM-orthomosaic pipeline on IMPaCT for count accuracy, geolocation error, and wall-clock. Pair with D01 as one 'raw-frame agronomy' system if you want a bigger FYP.\n"
+    },
+    {
+      "id": "run3:D05",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Missing-hill / transplant-gap detection in paddy from IMPaCT drone imagery.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "Rice seedling counting / gap detection exists (China); only the dataset is new.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:D06",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Use IMPaCT drone orthomosaics as dense labels to train Sentinel-2 paddy-stage models.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "Drone-as-reference for satellite is a well-reviewed pattern; and 5 acres is ~20 Sentinel pixels.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:D07",
+      "run": "run3",
+      "region": "eu",
+      "one_liner": "Drone SfM canopy height as a biomass proxy vs NDVI.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "Crowded, no delta.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:D08",
+      "run": "run3",
+      "region": "eu",
+      "one_liner": "Temporal crop/weed instance tracking on PhenoBench.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C3_not_generic",
+      "reason": "Public-dataset benchmark chasing; one sentence describes it.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:D09",
+      "run": "run3",
+      "region": "eu",
+      "one_liner": "Verify vine grubbing-up and detect abandoned / dead-vine rows across years from France's open 20 cm BD ORTHO aerial imagery, to audit the 2024–25 EU vine pull-out subsidy and flag abandonment risk.",
+      "stage_reached": "full",
+      "verdict": "conditional",
+      "failed_gate": "C7_novelty",
+      "reason": "Missing-vine / dead-vine detection from UAV imagery has published baselines; national orthophoto multi-year change for grubbing-up verification is less explored but must be confirmed. Aerial cadence (BD ORTHO ~3-yearly) may be too slow for a 2024–25 scheme.\n",
+      "screen_verdict": "screen_pass",
+      "novelty_type": "needs_novelty_check",
+      "reframe": "Combine scales: use BD ORTHO 20 cm for the baseline row geometry and Sentinel-2 / AlphaEarth for the in-between years to detect the grubbing event date, then use the next orthophoto to confirm. Output: per-parcel {grubbed, abandoned-standing, active} with date. This cross-scale event dating is the technical delta.\n"
+    },
+    {
+      "id": "run3:D10",
+      "run": "run3",
+      "region": "eu",
+      "one_liner": "Hedgerow and tree-line loss/gain detection for CAP GAEC 8 from multi-year open national orthophotos (FR 20 cm, NL 8 cm) against LPIS landscape-feature layers.",
+      "stage_reached": "full",
+      "verdict": "conditional",
+      "failed_gate": "C7_novelty",
+      "reason": "France (IGN, Observatoire de la haie) and the Netherlands already produce hedgerow layers from orthophotos; change detection between epochs is the natural next step and may already be published. High crowding risk.\n",
+      "screen_verdict": "screen_pass",
+      "novelty_type": "needs_novelty_check",
+      "reframe": "Only survives if the contribution is a CROSS-COUNTRY benchmark (FR 20 cm + NL 8 cm + DK) with a shared label protocol and a model that transfers across resolutions and GSDs — i.e. the resolution-transfer problem, not hedgerow detection itself. Drop if the adversarial search finds an existing multi-country hedgerow benchmark.\n"
+    },
+    {
+      "id": "run3:D11",
+      "run": "run3",
+      "region": "eu",
+      "one_liner": "Orchard tree count / age / gap inventory from open orthophotos.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "Restates D09 with a different crop; tree-crown inventory from aerial is mature.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:D12",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Paddy growth-stage classification from IMPaCT drone images.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C3_not_generic",
+      "reason": "Off-the-shelf classifier on one dataset; one sentence.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:D13",
+      "run": "run3",
+      "region": "singapore",
+      "one_liner": "Map Lim Chu Kang farm plots, structures and land-use intensity from Singapore aerial basemap imagery to support master-plan re-parcelling.",
+      "stage_reached": "full",
+      "verdict": "fail",
+      "failed_gate": "C9_feasibility",
+      "reason": "No named, licence-clear sub-metre imagery source for analytical use over Lim Chu Kang (OneMap/SLA basemap tiles are display-licensed). Fails C2 extra_check. Would flip to CONDITIONAL if SLA research access or an open sub-metre tile is confirmed; the non-imagery version of this problem is G01.",
+      "screen_verdict": "screen_pass"
+    },
+    {
+      "id": "run3:D14",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "Exploit opportunistic RGB frames captured by Namo Drone Didi spray drones as a free crop-monitoring by-product.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "No such open data exists and spray flights have no overlap/geometry; would collapse to generic RGB stress detection.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:D15",
+      "run": "run3",
+      "region": "eu",
+      "one_liner": "Ablation: does NIR/red-edge beat RGB for maize weed segmentation on WeedsGalore?",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C3_not_generic",
+      "reason": "One-sentence experiment on a public dataset.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:D16",
+      "run": "run3",
+      "region": "india",
+      "one_liner": "View-angle (BRDF) invariant vegetation indices from multi-view UAV multispectral frames.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "A June-2026 arXiv paper already extracts multi-angular reflectance from raw UAV sub-images.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:G01",
+      "run": "run3",
+      "region": "singapore",
+      "one_liner": "Multi-objective re-parcelling optimiser for the Lim Chu Kang agri-food cluster: assign farm types to parcels to maximise output under shared-facility co-location, waste→input circularity flows, and ecological buffer distance to Sungei Buloh / Kranji.",
+      "stage_reached": "full",
+      "verdict": "pass",
+      "failed_gate": null,
+      "reason": "C1 exempt; not generic; explicitly listed in constraints.yml opens_up; no obvious prior work — needs check.",
+      "screen_verdict": "screen_pass",
+      "novelty_type": "needs_novelty_check"
+    },
+    {
+      "id": "run3:G02",
+      "run": "run3",
+      "region": "singapore",
+      "one_liner": "Energy-price-aware crop scheduling for vertical farms.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C7_novelty",
+      "reason": "Well-funded incumbents (constraints.yml warning); no delta vs commercial products.",
+      "screen_verdict": "screen_fail"
+    },
+    {
+      "id": "run3:G03",
+      "run": "run3",
+      "region": "singapore",
+      "one_liner": "Camera-based disease detection for indoor leafy greens.",
+      "stage_reached": "screen",
+      "verdict": "screen_fail",
+      "failed_gate": "C3_not_generic",
+      "reason": "Auto-fail pattern: generic disease detection.",
+      "screen_verdict": "screen_fail"
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "id": "R4-S22",
+  "verdict": "type_b",
+  "reason": "JRC itself already published a typed LPIS anomaly taxonomy (4 categories/17 types, Grandgirard & Zielinski 2008) and vendors (GDV ETS-Reporter) already ship automated LPIS geometry/attribute QA with plausibility flags for paying agencies. So 'no one publishes a typed LPIS geometry-error taxonomy' is false. No item matches the exact FTW+AlphaEarth merge/split/encroachment/registration-offset schema with per-type ML confidence, so it is not fully closed, but it must beat named priors on a stated axis, not claim an empty field.",
+  "queries": [
+    {
+      "q": "LPIS geometry error taxonomy merge split encroachment registration offset typed classification",
+      "useful": false,
+      "note": "No direct hit; returned unrelated connectomics/segmentation papers, nothing LPIS-specific."
+    },
+    {
+      "q": "parcel boundary discrepancy typology merge split shift confidence per error type satellite",
+      "useful": true,
+      "note": "Surfaced field-boundary delineation literature (Delineate Anything, Fields of the Planet) but no typed LPIS-specific taxonomy with confidence."
+    },
+    {
+      "q": "LPIS quality assurance AI4Boundaries field boundary comparison error type classification",
+      "useful": true,
+      "note": "Surfaced AI4Boundaries dataset and the boundary displacement error (BDE) metric; no typed taxonomy found."
+    },
+    {
+      "q": "registration offset OR positional shift field boundary error type cadastral classification confidence",
+      "useful": false,
+      "note": "Only generic cadastral positional-error discussion; no typed taxonomy match."
+    },
+    {
+      "q": "building footprint error typology omission commission shift merge split classification confidence per class",
+      "useful": true,
+      "note": "Method-space check: omission/commission/shift with per-class confidence is standard accuracy-assessment vocabulary in another domain (building/land-cover mapping)."
+    },
+    {
+      "q": "LPIS quality control software product paying agency parcel geometry error detection platform",
+      "useful": true,
+      "note": "Found GDV GeoSoftware ETS-Reporter (shipping LPIS geometry/attribute QA product, automated plausibility checks) and the JRC LPIS Quality Reporting Tool."
+    },
+    {
+      "q": "segmentation evaluation oversegmentation undersegmentation shift error typology confidence per class object-based",
+      "useful": true,
+      "note": "Confirms oversegmentation/undersegmentation (merge/split equivalents) with per-class confidence is decades-old OBIA methodology in another domain."
+    },
+    {
+      "q": "cadastral parcel error typology satellite comparison merge split shift not EU global 2025",
+      "useful": false,
+      "note": "Region-swap: only generic cadastral digitisation-inconsistency papers surfaced, nothing with this typed taxonomy outside the EU."
+    },
+    {
+      "q": "field boundary QA startup LPIS discrepancy detection AlphaEarth embeddings 2026",
+      "useful": false,
+      "note": "No startup or product found combining AlphaEarth embeddings with LPIS discrepancy typing."
+    },
+    {
+      "q": "LPIS anomalies typology Grandgirard Zielinski JRC categories types boundary merge split shift 2026",
+      "useful": true,
+      "note": "Recency rerun surfaced the JRC 2008 report defining a 4-category/17-type LPIS anomaly typology, same problem framing as the delta claim, via ecological/manual field sampling rather than automated EO comparison."
+    },
+    {
+      "q": "machine learning LPIS geometry error classification merge split encroachment confidence 2025 2026 paper",
+      "useful": false,
+      "note": "Recency rerun; no LPIS-specific ML paper found, only unrelated segmentation/connectomics ML work."
+    },
+    {
+      "q": "automated LPIS quality control AI product geometry mismatch classification CAP paying agency 2026",
+      "useful": false,
+      "note": "Returned unrelated manufacturing AI-QC results; no additional agri product beyond ETS-Reporter."
+    },
+    {
+      "q": "LPIS boundary comparison error classes confidence deep learning field boundary detection Sentinel divergence",
+      "useful": false,
+      "note": "Surfaced general field-boundary deep-learning papers, none doing typed LPIS divergence classification."
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://publications.jrc.ec.europa.eu/repository/handle/JRC46971",
+      "date": "2008",
+      "title": "Land Parcel Identification System (LPIS) Anomalies' Sampling and Spatial Pattern: Towards convergence of ecological methodologies and GIS technologies (EUR 23484 EN, Grandgirard & Zielinski)",
+      "tier": "A",
+      "closes": false,
+      "why": "JRC's own typed LPIS anomaly taxonomy (4 categories, 17 types), covering ineligible-feature and bad-delineation anomalies. Same problem framing, but built on manual ecological/field sampling, not automated EO comparison with per-type ML confidence, so it narrows rather than closes.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://www.gdv.com/en/gdv/solutions/agriculture-viticulture/geosoftware-for-lpis-quality-assurance.html",
+      "date": "2026",
+      "title": "GDV GeoSoftware (ETS-Reporter) for LPIS quality assurance",
+      "tier": "B",
+      "closes": false,
+      "why": "Shipping tool doing automated LPIS geometry/attribute plausibility checks with traffic-light flags for EU paying agencies. Page doesn't confirm a typed taxonomy or per-type confidence, so it doesn't close, but proves automated LPIS geometry QA is already a product.",
+      "relation": "product"
+    },
+    {
+      "url": "https://www.isprs.org/proceedings/XXXVII/congress/4_pdf/208.pdf",
+      "date": "2008",
+      "title": "An Accuracy Assessment Measure for Object Based Image Segmentation",
+      "tier": "B",
+      "closes": false,
+      "why": "Establishes oversegmentation/undersegmentation (merge/split equivalents) with per-class accuracy as standard OBIA typing. Same typing method, different domain: general EO segmentation, not LPIS, no encroachment/offset classes.",
+      "relation": "same_method_other_domain"
+    }
+  ],
+  "type_b_fields": {
+    "named_prior_solution_url": "https://publications.jrc.ec.europa.eu/repository/handle/JRC46971",
+    "measurable_axis": "Automation and reproducibility of error typing, and presence of a calibrated per-type confidence score, versus JRC's manual/ecological-sampling-based anomaly typing which has neither",
+    "attributable_to": "Automated LPIS-vs-FTW comparison fused with AlphaEarth embeddings for per-type ML confidence, replacing manual field/ecological classification",
+    "prior_deployed_in_target_region": "true"
+  },
+  "nearest_neighbours_do_not": "JRC's 2008 typology and GDV's ETS-Reporter do not fuse an independent AI-derived boundary layer with AlphaEarth embeddings, do not output calibrated per-type ML confidence, and do not use this exact merge/split/encroachment/registration-offset category set.",
+  "budget_exhausted": false,
+  "notes": "Could not render the JRC46971 PDF body (no poppler-utils) to confirm whether its 17 subtypes literally include merge/split/encroachment/offset-style geometric classes; treated conservatively as narrowing, not closing, the claim.",
+  "product_search": {
+    "queries_run": [
+      "LPIS quality control software product paying agency parcel geometry error detection platform",
+      "automated LPIS quality control AI product geometry mismatch classification CAP paying agency 2026",
+      "field boundary QA startup LPIS discrepancy detection AlphaEarth embeddings 2026"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://www.gdv.com/en/gdv/solutions/agriculture-viticulture/geosoftware-for-lpis-quality-assurance.html",
+        "date": "2026-09",
+        "title": "GDV GeoSoftware ETS-Reporter for LPIS quality assurance",
+        "tier": "B",
+        "note": "Automated LPIS geometry/attribute plausibility checks and traffic-light QA for paying agencies; no confirmed typed merge/split/encroachment/offset taxonomy or per-type confidence."
+      }
+    ]
+  }
+}

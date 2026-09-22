@@ -1,0 +1,145 @@
+{
+  "id": "R4-S52",
+  "verdict": "blocked",
+  "verdict_reason": "Coherence needs SLC pairs, absent from GEE/Planetary Computer (GRD-only, phase discarded). Free cloud InSAR via ASF HyP3 (8,000 free credits/month) satisfies C9. But no public DOA/myGAP source with certified parcel geolocations or validity windows was found, so the certificate-comparison half has no reference.",
+  "sources": [
+    {
+      "name": "Sentinel-1 GRD (Google Earth Engine, COPERNICUS/S1_GRD)",
+      "role": "comparator",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD",
+      "fetched_ok": true,
+      "licence_quote": "The use of Sentinel data is governed by the Copernicus Sentinel Data Terms and Conditions.",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "COPERNICUS/S1_GRD",
+      "size_gb": null,
+      "coverage_quote": "S1 Ground Range Detected (GRD) scenes, processed using the Sentinel-1 Toolbox to generate a calibrated, ortho-corrected product.",
+      "covers_target_region": "true",
+      "date_range": "2014-10-03 to present, 6-day revisit",
+      "caveats_quoted": [
+        "GEE Sentinel-1 catalog lists GRD only; no SLC or coherence collection is offered."
+      ]
+    },
+    {
+      "name": "Sentinel-1 GRD (Microsoft Planetary Computer)",
+      "role": "comparator",
+      "url": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-grd",
+      "fetched_ok": true,
+      "licence_quote": "Proprietary, governed by Copernicus Sentinel data terms",
+      "licence_class": "open",
+      "access_mode": "planetary_computer",
+      "platform_id": "sentinel-1-grd",
+      "size_gb": null,
+      "coverage_quote": "Global coverage spanning -180 to 180 longitude and -90 to 90 latitude",
+      "covers_target_region": "true",
+      "date_range": "2014-10-10 to present, ongoing acquisition",
+      "caveats_quoted": [
+        "Pixel values represent detected amplitude with phase information lost, resulting in approximately square resolution pixels with reduced speckle."
+      ]
+    },
+    {
+      "name": "Sentinel-1 SLC (Copernicus Data Space Ecosystem)",
+      "role": "imagery",
+      "url": "https://dataspace.copernicus.eu/explore-data/data-collections/sentinel-data/sentinel-1",
+      "fetched_ok": true,
+      "licence_class": "open",
+      "access_mode": "api",
+      "platform_id": "CDSE OData / openEO / Data Workspace",
+      "size_gb": null,
+      "coverage_quote": "Rest of World SLC coverage: February 2021 to Present (Europe: October 2014 to Present)",
+      "covers_target_region": "partial",
+      "date_range": "2021-02 to present for Malaysia (non-Europe)",
+      "caveats_quoted": [
+        "SLC only from Feb 2021 outside Europe, so pre-2021 coherence time series over Cameron Highlands is not possible.",
+        "Page does not itself name a ready-made coherence product; SLC pairs still need interferometric processing."
+      ]
+    },
+    {
+      "name": "ASF HyP3 on-demand InSAR (coherence) processing",
+      "role": "imagery",
+      "url": "https://hyp3-docs.asf.alaska.edu/guides/insar_product_guide/",
+      "fetched_ok": true,
+      "licence_quote": "The coherence file pixel values range from 0.0 to 1.0, with 0.0 being completely non-coherent and 1.0 being perfectly coherent.",
+      "licence_class": "registration",
+      "access_mode": "api",
+      "platform_id": "ASF HyP3 (Earthdata Login account required)",
+      "size_gb": null,
+      "coverage_quote": "Processing occurs on the HyP3 platform, cloud-based processing of Sentinel-1 without local computational resources.",
+      "covers_target_region": "true",
+      "date_range": "on-demand, any Sentinel-1 SLC acquisition date",
+      "caveats_quoted": [
+        "HyP3 Basic On Demand users get a free allotment of 8,000 credits per month; InSAR jobs cost 10 credits (80 m) or 15 credits (40 m) each.",
+        "Default InSAR output pixel spacing (40-80 m) is coarse relative to individual plastic-house footprints."
+      ]
+    },
+    {
+      "name": "myGAP certified parcel registry (Department of Agriculture Malaysia)",
+      "role": "labels",
+      "url": "https://www.doa.gov.my/",
+      "fetched_ok": true,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "size_gb": null,
+      "covers_target_region": "true",
+      "caveats_quoted": [
+        "DOA homepage lists MyPhyto, GeoTanaman, GeoTanih and pesticide-licensing systems; no myGAP certified-parcel list, coordinates, or validity-window portal was found.",
+        "Two guessed myGAP sub-page URLs both returned 404 / PHP framework errors, not content."
+      ]
+    }
+  ],
+  "ground_truth": {
+    "status": "none",
+    "source_url": null,
+    "construction_protocol": "No public DOA/myGAP portal with parcel coordinates or certification validity dates was located. Would require a direct data-sharing request to DOA/MPOB; no public API or download confirmed to exist.",
+    "label_count_estimate": null
+  },
+  "compute_path": {
+    "platform": "ASF HyP3 cloud on-demand InSAR (or CDSE openEO) for coherence generation; GEE for any GRD-based auxiliary work",
+    "fits_C9": true,
+    "why": "Coherence generation runs on ASF's free hosted cloud (8,000 credits/month, ~10-15 per pair), not local GPU/SNAP; satisfies C9 despite not being one of its named platforms.",
+    "gpu_hours_per_week_estimate": 0
+  },
+  "queries": [
+    {
+      "q": "Google Earth Engine Sentinel-1 SLC coherence catalog",
+      "useful": false,
+      "note": "WebSearch tool reported session budget of 200/200 used; query never executed."
+    },
+    {
+      "q": "Microsoft Planetary Computer Sentinel-1 coherence collection",
+      "useful": false,
+      "note": "WebSearch quota exhausted before dispatch started; not executed."
+    },
+    {
+      "q": "ASF HyP3 Sentinel-1 InSAR coherence on demand processing",
+      "useful": false,
+      "note": "WebSearch quota exhausted; not executed. Answered instead via direct WebFetch of ASF docs."
+    },
+    {
+      "q": "myGAP certified farm list Malaysia Department of Agriculture",
+      "useful": false,
+      "note": "WebSearch quota exhausted; not executed."
+    },
+    {
+      "q": "myGAP certified farm list site:doa.gov.my",
+      "useful": false,
+      "note": "Attempted as a WebFetch on the Google results URL since WebSearch was unavailable; the search results page did not render any content."
+    }
+  ],
+  "fetched": [
+    "https://developers.google.com/earth-engine/datasets/catalog/sentinel-1",
+    "https://planetarycomputer.microsoft.com/dataset/sentinel-1-grd",
+    "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-grd",
+    "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD",
+    "https://hyp3-docs.asf.alaska.edu/guides/insar_product_guide/",
+    "https://dataspace.copernicus.eu/explore-data/data-collections/sentinel-data/sentinel-1",
+    "https://hyp3-docs.asf.alaska.edu/using/credits/",
+    "https://www.doa.gov.my/myGAP",
+    "https://www.doa.gov.my/",
+    "https://www.google.com/search?q=myGAP+certified+farm+list+site%3Adoa.gov.my",
+    "https://www.doa.gov.my/index.php/pages/view/geotanaman",
+    "https://www.doa.gov.my/index.php/pages/view/mygap"
+  ],
+  "budget_exhausted": true,
+  "notes": "Session WebSearch quota (200/200) was already exhausted before this dispatch ran any query, so all evidence came from direct WebFetch on known/guessed URLs, not search. Could not locate the actual myGAP page on doa.gov.my (both guessed paths 404'd/PHP-errored) or confirm whether GeoTanaman/GeoTanih cover myGAP parcels. SLC pair file size and whether CDSE offers a turnkey coherence product (vs. raw SLC needing processing) remain unconfirmed."
+}

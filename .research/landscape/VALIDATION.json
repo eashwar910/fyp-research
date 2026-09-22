@@ -1,0 +1,399 @@
+{
+  "stage": 1,
+  "status": "incomplete",
+  "date": "2026-09-13",
+  "model": "gpt-5.5",
+  "initial_dispatches": 3,
+  "redispatches": 3,
+  "checks": {
+    "india": [
+      {
+        "attempt": 1,
+        "schema_valid": true,
+        "errors": [],
+        "query_count": 52,
+        "sha256": "1d3b1a3ccf59ac3c2bcc73c8d98678723ee4ff9034c8703905893c56460dda71"
+      },
+      {
+        "attempt": 2,
+        "schema_valid": false,
+        "errors": [
+          {
+            "path": [
+              "companies",
+              3,
+              "evidence",
+              1,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          }
+        ],
+        "query_count": 8,
+        "sha256": "8ede6f254467de494fc3449a41f5a234033d2535a00a3b463481e18d6b4d9a89"
+      }
+    ],
+    "singapore_malaysia": [
+      {
+        "attempt": 1,
+        "schema_valid": false,
+        "errors": [
+          {
+            "path": [
+              "companies",
+              0,
+              "evidence",
+              0,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "companies",
+              1,
+              "evidence",
+              0,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "companies",
+              1,
+              "evidence",
+              1,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "companies",
+              2,
+              "evidence",
+              0,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "companies",
+              2,
+              "evidence",
+              1,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "companies",
+              3,
+              "evidence",
+              0,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "companies",
+              4,
+              "evidence",
+              0,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "companies",
+              6,
+              "evidence",
+              1,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "companies",
+              7,
+              "evidence",
+              0,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "forcing_functions",
+              2,
+              "evidence",
+              0,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "forcing_functions",
+              5,
+              "evidence",
+              0,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "forcing_functions",
+              7,
+              "evidence",
+              1,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "forcing_functions",
+              7,
+              "evidence",
+              2,
+              "date"
+            ],
+            "message": "'2022' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              0,
+              "evidence",
+              2,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              0,
+              "evidence",
+              3,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              1,
+              "evidence",
+              0,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              1,
+              "evidence",
+              1,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              1,
+              "evidence",
+              2,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              1,
+              "evidence",
+              3,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              2,
+              "evidence",
+              0,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              2,
+              "evidence",
+              1,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              3,
+              "evidence",
+              0,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              3,
+              "evidence",
+              2,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              4,
+              "evidence",
+              0,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              4,
+              "evidence",
+              1,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              4,
+              "evidence",
+              2,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              4,
+              "evidence",
+              3,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              5,
+              "evidence",
+              0,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          },
+          {
+            "path": [
+              "crowded_list",
+              6,
+              "evidence",
+              2,
+              "date"
+            ],
+            "message": "'2025' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          }
+        ],
+        "query_count": 40,
+        "sha256": "773303fe25e0a584fc02a7284eea207745bfbf89d9aec72bed22f4d92163a31c"
+      },
+      {
+        "attempt": 2,
+        "schema_valid": true,
+        "errors": [],
+        "query_count": 12,
+        "sha256": "c3ea0f77a06b364d249f4b309f891a5fe44c52df0d44c76ed249970a826dddbb"
+      }
+    ],
+    "eu": [
+      {
+        "attempt": 1,
+        "schema_valid": false,
+        "errors": [
+          {
+            "path": [
+              "companies",
+              4,
+              "evidence",
+              1,
+              "date"
+            ],
+            "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+          }
+        ],
+        "query_count": 48,
+        "sha256": "b7b530f3876a41b5a366140c652a28fee3b4788d146d8db3e9dd1c005ca2645d"
+      },
+      {
+        "attempt": 2,
+        "schema_valid": true,
+        "errors": [],
+        "query_count": 8,
+        "sha256": "898a86be40d48dbb3bc43c0a63413117b3eaf10bcfed77d002de4c5c84f061d8"
+      }
+    ]
+  },
+  "evidence_contract_issues": {
+    "eu": [
+      "Kermap company evidence is 2025-09-04 and 2025-06-26, both older than the 2025-09-13 company cutoff.",
+      "xarvio product page, Skeye pages and ClearSky product page inherit dates from other sources; those are not verified publication/update dates.",
+      "Skeye role date comes from a roundup rather than a verified date on the job post; shipping agricultural products is not established by a research page/job alone.",
+      "CAP crowding uses a general Kermap environment project as a second product; the required two shipping CAP products are not established."
+    ],
+    "singapore_malaysia": [
+      "Company careers and product pages retain dates without established publication/update provenance (including Aonic, ProLadang and Singrow).",
+      "Drone counting/sizing crowding cites one Polybee product twice and a review; this does not establish two shipping products.",
+      "Malaysian satellite-health crowding depends on undated tier-C SemaiSens as the second product; evidence contract is not met.",
+      "Plantation crowding relies on role descriptions for distinct shipping product proof; it is not verified.",
+      "TSPKS October disbursement timing is supported by a secondary clipping; primary MPOB evidence supports the programme but not that exact timing.",
+      "Current Tropical Forest Observatory availability/licence needs verification; the retained Planet date is not substantiated. Historical NICFI notice does not establish current access."
+    ]
+  },
+  "search_queries": 168,
+  "initial_queries": 140,
+  "retry_queries": 28,
+  "initial_query_budget": 75,
+  "retry_query_budget": 30,
+  "fetch_count_note": "Exact total fetch targets not reliably captured in query logs. Session traces record at least 10 scout open actions; retry self-reports claim EU 0, India 3, Singapore/Malaysia 5. Do not present this as an exact total.",
+  "orchestrator_spot_checks": {
+    "urls": 3,
+    "resolved": 3,
+    "not_found": 0
+  },
+  "stop_reason": "India failed second validation and is dropped. Remaining reports are schema-valid but evidence contract issues persist; no report is fully cleared. One-retry limit exhausted. Crowded minimum and three-cleared-report exit conditions unmet; no depth-deep third dispatch or Stage 2."
+}

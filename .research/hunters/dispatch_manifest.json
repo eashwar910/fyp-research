@@ -1,0 +1,136 @@
+{
+  "stage": 2,
+  "date": "2026-09-13",
+  "model": "gpt-5.5",
+  "jobs": [
+    {
+      "job": "satellite__india",
+      "bucket": "satellite",
+      "region": "india",
+      "input_sha256": "b93ee7de65070e32e44a6f07bce0b7ba73ebab1dfff67203cf7f96f13ee7a46e",
+      "envelope_sha256": "6200884e5d890d1d2bc49b6e5936b8c11c991b6969f466e7cb58689b5d0a889a",
+      "status": "validated",
+      "lines": 19
+    },
+    {
+      "job": "satellite__eu",
+      "bucket": "satellite",
+      "region": "eu",
+      "input_sha256": "1510e6300f10e488a8b24be28136eb0c0cd67c891f42f86fc67af54cf8dbeaf6",
+      "envelope_sha256": "fbbf41417cb2e0dd9e730ac073a9e7514b37a0cbd269de5ea4f4a14ac37abc5c",
+      "status": "validated",
+      "lines": 25
+    },
+    {
+      "job": "satellite__malaysia",
+      "bucket": "satellite",
+      "region": "malaysia",
+      "input_sha256": "c1ad071416b7a05177583f0698733106c4e961fda4784db7b48ef312303f3b57",
+      "envelope_sha256": "224a69ca47c6c3474ac06f5bf5284ff0e3579e235692aae6d8ac6609211a98ea",
+      "status": "validated",
+      "lines": 16
+    },
+    {
+      "job": "satellite__singapore_source_basket",
+      "bucket": "satellite",
+      "region": "singapore_source_basket",
+      "input_sha256": "95fa61b44deacc1a72cbf38fb5f494ce10af51f3c4f554b99c19121f9ade6c44",
+      "envelope_sha256": "ab60833138b84fd1e7fbd22f02ddcbab97240d4b9e3577dbdc2d0c49152ae2bc",
+      "status": "validated",
+      "lines": 21
+    },
+    {
+      "job": "drone_and_aerial__india",
+      "bucket": "drone_and_aerial",
+      "region": "india",
+      "input_sha256": "84ebb4159f6cfb5956c7d0fee4feae1592656e6f356144a5c41fdf4af4cc473f",
+      "envelope_sha256": "508a9315fb75c6348c0acb911c1de34a0ed88d7351d1dbfcde7883f842ffb6a9",
+      "status": "validated",
+      "execution_error": "Account usage limit; initial aerial dispatch produced no JSON",
+      "lines": 16
+    },
+    {
+      "job": "drone_and_aerial__eu",
+      "bucket": "drone_and_aerial",
+      "region": "eu",
+      "input_sha256": "a17f4342bc42115f5ba14eedaf31528500b72357fed77f40d8791bb7d077f0da",
+      "envelope_sha256": "26c05873cee06a2b719758df9549bb4774ca39f82e5a686df9e2ce949f92eb41",
+      "status": "validated",
+      "lines": 18
+    },
+    {
+      "job": "drone_and_aerial__malaysia",
+      "bucket": "drone_and_aerial",
+      "region": "malaysia",
+      "input_sha256": "55b5ed8a8d55aaf7f8602062ac0a2a501d6d3d6f3ca8f86e9cdad43732b50d92",
+      "envelope_sha256": "cbea49daead2e000df3cfe7a9397bc2b6e4d98cfcb259492988cd3218aa176f6",
+      "status": "validated",
+      "lines": 17,
+      "resolution": "attempt 2 valid (17 lines, 11 queries attested); landed after the Codex merge ran, so it was absent from the 107-row merge and is folded in here."
+    },
+    {
+      "job": "drone_and_aerial__singapore",
+      "bucket": "drone_and_aerial",
+      "region": "singapore",
+      "input_sha256": "da49ef0244590404eefbf0bf54cc3e358df872c500ecd03d3e56eb8e4aaa3664",
+      "envelope_sha256": "c1c71d761357fb9bbc845a4f9887bc573486227d1664a097dd3ebc8f4d3d6f6f",
+      "status": "validated",
+      "lines": 16,
+      "resolution": "attempt 2 re-dispatched by Claude Code on Sonnet after the Codex retry was lost to the usage limit. 16 lines, 31 queries, schema and contract clean."
+    },
+    {
+      "job": "standout__global",
+      "bucket": "standout",
+      "region": "global",
+      "input_sha256": "54a4080cc56ca1d9bddd566ec0432796441fc4d49a17396a565a3e96a824a95b",
+      "envelope_sha256": "9f769e81f7911b9901be3885c2f0cff1484662099c8f080e1b1bf69fec2e4ff4",
+      "status": "validated_from_transcript",
+      "lines": 21,
+      "resolution": "Body recovered verbatim from the Codex session transcript (byte-identical to attempts/standout__global.1.json), NOT a live dispatch. Attempt 2 = attempt 1 with 5 orchestrator-resolved seed_url dates. queries[] unrecoverable."
+    }
+  ],
+  "source_sha256": {
+    "constraints.yml": "abeba9167470f791510b6d25a2db003c6571f539485b768b16d59816a7ae260b",
+    "buckets.yml": "8c40cdde1db2f29333f5c8cdd4e072673842294b7fc2e55133199b42269c83b5",
+    "agents/gap_hunter.json": "4ec4bc980d252d18398bc0d1f54f0ec8ee3b85f8565125f6535bede1aa2d2487",
+    "schemas/candidate_oneliner.schema.json": "6fc2ab30d8bdaf7be83ea21802f1c0680fce628697cea36fdb480958f081bf0f",
+    "schemas/_common.schema.json": "94a39269541616ccedb6c1a67f125daf6813635e2e5f04bdc4857f9a2ebb99fd",
+    ".research/landscape/merged.json": "1c34dd82f14a583ba3e5c84283b8fe458afac0f99558b76c874174dee13ff658",
+    ".research/archive_index.json": "e0fb08fbfd17f072a404d969efd9c52643ef72c57522e8d80dd27930105fdf24"
+  },
+  "proceed_authorization": "Owner explicitly requested Stage 2 after being informed Stage 1 was incomplete. Preserve provisional landscape verbatim; do not silently promote its claims.",
+  "concurrency_limit": 3,
+  "requested_concurrency": 9,
+  "runtime_thread_limit_encountered": true,
+  "execution_note": "Reused completed hunter threads when additional spawn hit thread limit; each new dispatch rereads its independent verbatim envelope.",
+  "execution_retry": {
+    "job": "drone_and_aerial__india",
+    "reason": "Account usage limit",
+    "result": "Recovered; 16 valid lines"
+  },
+  "schema_retries": [
+    {
+      "job": "drone_and_aerial__malaysia",
+      "reason": "12 year-only dates and 10 lines (<15)",
+      "depth": "deep",
+      "status": "completed_valid"
+    },
+    {
+      "job": "drone_and_aerial__singapore",
+      "reason": "query log strings instead of objects; 8 lines (<15)",
+      "depth": "deep",
+      "status": "completed_valid",
+      "executed_by": "claude_code",
+      "model": "sonnet"
+    }
+  ],
+  "resumed_by": {
+    "session": "claude_code",
+    "model": "opus-5",
+    "date": "2026-09-13",
+    "reason": "Codex session hit its account usage limit mid-merge (merge_audit.status was left \"running\").",
+    "source_sha256_reverified": true,
+    "note": "All 7 source files re-hashed at resume and matched dispatch_manifest.source_sha256 exactly."
+  },
+  "stage_2_status": "complete"
+}

@@ -1,0 +1,117 @@
+{
+  "id": "R4-S35",
+  "verdict": "conditional",
+  "verdict_reason": "EnMAP (30km swath, tasked, registration+proposal via planning.enmap.org) and PRISMA (registration portal gave an unresolvable redirect loop, unverifiable) are opportunistic missions. Neither exposes an archive-coverage tool confirming existing EU arable-land scenes inside a growing season. Coverage is too sparse/unconfirmed to promise an auditable scene set in 8 months.",
+  "sources": [
+    {
+      "name": "EnMAP data access (Instrument Planning Portal / EOWEB)",
+      "role": "imagery",
+      "url": "https://www.enmap.org/data_access/",
+      "fetched_ok": true,
+      "licence_quote": "a free of charge, non-transferable, and non-exclusive right to use EnMAP data...for commercial and non-commercial use",
+      "licence_class": "registration",
+      "access_mode": "application_required",
+      "size_gb": null,
+      "coverage_quote": "nadir revisit time of 27 days and off-nadir (30°) pointing feature for fast target revisit (4 days); 30 km swath width at 30x30m",
+      "covers_target_region": "partial",
+      "date_range": "2022-04 (launch) to present",
+      "caveats_quoted": [
+        "30 km swath width at a spatial resolution of 30 x 30 m",
+        "nadir revisit time of 27 days"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": "rolling (proposal submitted via planning.enmap.org; no fixed deadline stated on fetched page)"
+    },
+    {
+      "name": "PRISMA mission data access (ASI)",
+      "role": "imagery",
+      "url": "https://www.asi.it/en/earth-science/prisma/",
+      "fetched_ok": true,
+      "licence_quote": "",
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "size_gb": null,
+      "coverage_quote": "",
+      "covers_target_region": "partial",
+      "date_range": "~2019 (launch, not reverified this session) to present",
+      "caveats_quoted": [],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Sentinel-2 (Copernicus Data Space Ecosystem)",
+      "role": "comparator",
+      "url": "https://dataspace.copernicus.eu/explore-data/data-collections/sentinel-data/sentinel-2",
+      "fetched_ok": true,
+      "licence_quote": "Sentinel data products are made available systematically and free of charge to all data users including the general public, scientific and commercial users.",
+      "licence_class": "open",
+      "access_mode": "api",
+      "size_gb": null,
+      "coverage_quote": "Level 1C worldwide coverage from July 2015 to present; Level 2A covers Europe from July 2015 onward",
+      "covers_target_region": "true",
+      "date_range": "2015-07 to present",
+      "caveats_quoted": [
+        "high refresh rate of 5 days at the equator through its twin-satellite configuration"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "EuroCrops (Zenodo)",
+      "role": "auxiliary",
+      "url": "https://zenodo.org/records/8229128",
+      "fetched_ok": true,
+      "licence_quote": "Creative Commons Attribution Share Alike 4.0 International",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": 8.6,
+      "coverage_quote": "16 EU countries: Austria, Belgium, Germany, Denmark, Estonia, Spain, France, Croatia, Lithuania, Latvia, Netherlands, Portugal, Romania, Sweden, Slovenia, Slovakia",
+      "covers_target_region": "true",
+      "date_range": "2018-2021 (mostly 2021; France 2018, Denmark 2019)",
+      "caveats_quoted": [
+        "the full data volume reaches 9.4 TB for this version"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    }
+  ],
+  "ground_truth": {
+    "status": "must_construct",
+    "source_url": null,
+    "construction_protocol": "Self-referential: co-locate an EnMAP/PRISMA scene near-date with a Sentinel-2 scene over EuroCrops/LPIS arable parcels; derive soil-line/red-edge hyperspectral indices per pixel and compare to the S2-derived N-prescription zone to flag divergence.",
+    "label_count_estimate": "No discrete labels; pixel-level comparison limited to however many EnMAP/PRISMA scenes actually coincide with target parcels and a growing-season window (unconfirmed, likely small)."
+  },
+  "compute_path": {
+    "platform": "Local (MacBook, no GPU) using EnMAP/PRISMA L2A reflectance + Sentinel-2 L2A, index math and linear spectral unmixing in Python (rasterio/numpy)",
+    "fits_C9": true,
+    "why": "No model training required, only per-pixel index/unmixing arithmetic on downloaded scenes; CPU-only, fits C9's no-sustained-GPU rule.",
+    "gpu_hours_per_week_estimate": 0
+  },
+  "queries": [
+    {
+      "q": "EnMAP data access portal EOWEB licence registration 2026",
+      "useful": false,
+      "note": "WebSearch tool returned 'session search budget exhausted' error; no results obtained. Proceeded via direct WebFetch of known landing pages instead."
+    },
+    {
+      "q": "PRISMA hyperspectral data access ASI registration proposal licence",
+      "useful": false,
+      "note": "Same WebSearch budget-exhausted error; proceeded via direct WebFetch of known ASI/PRISMA URLs instead."
+    }
+  ],
+  "fetched": [
+    "https://www.enmap.org/data_access/",
+    "https://www.enmap.org/data/resources/EnMAP_Data_License.pdf",
+    "https://www.enmap.org/mission/",
+    "https://www.asi.it/en/earth-science/prisma/",
+    "https://dataspace.copernicus.eu/explore-data/data-collections/sentinel-data/sentinel-2",
+    "https://zenodo.org/records/8229128",
+    "https://eoweb.dlr.de/"
+  ],
+  "budget_exhausted": true,
+  "notes": "PRISMA's registration pages (prisma.asi.it/missionselect, prismauserregistration.asi.it) could not be fetched: a genuine http/https redirect loop and a TLS cert error. EnMAP's planning.enmap.org (tasking + archive browse) also failed on TLS cert error, so archive coverage over any specific EU arable AOI could not be confirmed for either mission. Both are narrow-swath (~30km), tasked/opportunistic sensors, unlike systematic Sentinel-2 — the core unresolved feasibility risk here."
+}

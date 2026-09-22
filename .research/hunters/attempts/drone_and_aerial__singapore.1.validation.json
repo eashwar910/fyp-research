@@ -1,0 +1,89 @@
+{
+  "attempt": 1,
+  "schema_valid": true,
+  "contract_valid": false,
+  "valid": false,
+  "count": 8,
+  "errors": [
+    {
+      "path": [
+        "queries"
+      ],
+      "message": "'Singapore open aerial imagery agriculture Lim Chu Kang license OneMap SLA orthophoto 2026' is not of type 'object'"
+    },
+    {
+      "path": [
+        "queries"
+      ],
+      "message": "'site:data.gov.sg aerial imagery orthophoto Singapore agriculture farm 2026' is not of type 'object'"
+    },
+    {
+      "path": [
+        "queries"
+      ],
+      "message": "'site:onemap.gov.sg terms of use map tiles imagery license analytical use 2026' is not of type 'object'"
+    },
+    {
+      "path": [
+        "queries"
+      ],
+      "message": "'Polybee Bayer partnership farm intelligence platform autonomous drones July 2026' is not of type 'object'"
+    },
+    {
+      "path": [
+        "queries"
+      ],
+      "message": "'Singapore Food Agency strengthens support local farms new land tender enhanced lease framework May 2026' is not of type 'object'"
+    },
+    {
+      "path": [
+        "queries"
+      ],
+      "message": "'data.gov.sg SLA Cadastral Land Parcel GeoJSON last updated September 2026' is not of type 'object'"
+    },
+    {
+      "path": [
+        "queries"
+      ],
+      "message": "'Singapore Agri-space Sales SAS 2026 land parcels vegetable farming tender official' is not of type 'object'"
+    },
+    {
+      "path": [
+        "queries"
+      ],
+      "message": "'site:sfa.gov.sg Singapore Food Story 2 import diversification stockpiling local production 2026' is not of type 'object'"
+    },
+    {
+      "path": [
+        "queries"
+      ],
+      "message": "'Singrow Singapore AI robotics IoT data analytics crop monitoring jobs 2026 official' is not of type 'object'"
+    },
+    {
+      "path": [
+        "queries"
+      ],
+      "message": "'Archisen Singapore vertical farm AI computer vision crop monitoring official 2026' is not of type 'object'"
+    },
+    {
+      "path": [
+        "queries"
+      ],
+      "message": "'Singapore Polybee drone yield forecasting autonomous pollination Temasek Foundation official 2026' is not of type 'object'"
+    },
+    {
+      "path": [
+        "queries"
+      ],
+      "message": "'open UAV dataset vegetable crops plant count broccoli spinach drone imagery row level 2025' is not of type 'object'"
+    },
+    {
+      "path": [
+        "queries"
+      ],
+      "message": "'Mendeley Data px5p6zdk6k baby broccoli RGB Depth dataset 2026' is not of type 'object'"
+    }
+  ],
+  "queries": null,
+  "under_15": true
+}

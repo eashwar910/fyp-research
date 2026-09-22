@@ -1,0 +1,120 @@
+{
+  "id": "R4-S13",
+  "verdict": "conditional",
+  "verdict_reason": "FTW-global (CC-BY-4.0, direct HTTP/S3, India partition, no auth) and Sentinel-2 SR Harmonized (open, GEE) are both open and fetch-verified. The blocker: real DCS supervisor manual-survey outcomes (AgriStack Crop Sown Registry/UFSI) gave HTTP 403 on both pages tried, no public dataset/API -- only application-gated access. Ground truth must be a constructed manual proxy, not real DCS data.",
+  "sources": [
+    {
+      "name": "Global Fields of The World (FTW) -- global field boundary predictions",
+      "role": "labels",
+      "url": "https://source.coop/ftw/global-data",
+      "fetched_ok": true,
+      "licence_quote": "CC-BY-4.0.",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "platform_id": "s3://us-west-2.opendata.source.coop/tge-labs/ftw-global-data/",
+      "size_gb": 210,
+      "coverage_quote": "one partition per country (195 countries, 574 files; large countries split by admin subdivision)",
+      "covers_target_region": "true",
+      "date_range": "1.63B field polygons for 2024 and 1.58B for 2025 (~3.2B across both years)",
+      "caveats_quoted": [
+        "95.1 TB of data served overall across all formats (COGs, Zarr, and PMTiles)",
+        "large countries split by admin subdivision; India is one of the nine largest"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Sentinel-2 MSI Level-2A Surface Reflectance Harmonized",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+      "fetched_ok": true,
+      "licence_quote": "use of Sentinel data is governed by the Copernicus Sentinel Data Terms and Conditions",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "size_gb": null,
+      "coverage_quote": "2017-2018 Level-2 data in the Earth Engine collection has incomplete global coverage",
+      "covers_target_region": "true",
+      "date_range": "2017-03-28T00:00:00Z–2026-09-12T00:00:00Z",
+      "caveats_quoted": [
+        "2017-2018 Level-2 data in the Earth Engine collection has incomplete global coverage"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Digital Crop Survey / AgriStack Crop Sown Registry (state DCS portal)",
+      "role": "comparator",
+      "url": "https://cgdcs.agristack.gov.in/",
+      "fetched_ok": false,
+      "licence_quote": "",
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "platform_id": "",
+      "size_gb": null,
+      "coverage_quote": "",
+      "covers_target_region": "partial",
+      "date_range": "",
+      "caveats_quoted": [
+        "landing page returned HTTP 403 Forbidden on fetch",
+        "UFSI described elsewhere as an open API gateway for authorised public- and private-sector apps only, not verified by direct fetch",
+        "this is a Chhattisgarh state DCS subdomain, not a national dataset"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    }
+  ],
+  "ground_truth": {
+    "status": "must_construct",
+    "source_url": null,
+    "construction_protocol": "Annotators manually label a stratified sample of plots as observable/ambiguous/manual-required against a high-res basemap plus S2 cloud-QA bands, as a proxy -- real DCS supervisor manual-survey decisions are not publicly accessible.",
+    "label_count_estimate": "~500-1000 manually reviewed plots (proxy labels; no public DCS ground truth exists)"
+  },
+  "compute_path": {
+    "platform": "Direct HTTP/S3 download of India partition from Source Cooperative (FTW) + Google Earth Engine for Sentinel-2 QA/cloud layers + local geopandas/pandas processing on MacBook",
+    "fits_C9": true,
+    "why": "No model training: FTW boundaries are precomputed; task is rule-based S2 QA/cloud-band classification. Only India's partition of the 210GB set is needed, processed locally. Zero sustained GPU use.",
+    "gpu_hours_per_week_estimate": 0
+  },
+  "queries": [
+    {
+      "q": "Fields of The World FTW dataset field boundary benchmark source.coop",
+      "useful": true
+    },
+    {
+      "q": "India Digital Crop Survey DCS AgriStack data access API",
+      "useful": true
+    },
+    {
+      "q": "\"Digital Crop Survey\" India dataset download researchers plot boundaries public access",
+      "useful": true,
+      "note": "confirmed no public dataset/download for DCS plot-level data"
+    },
+    {
+      "q": "fieldsoftheworld global predictions release India admin partition GeoParquet source.coop",
+      "useful": true
+    },
+    {
+      "q": "India smallholder plot boundary ambiguity ground truth dataset satellite manual survey classification",
+      "useful": true,
+      "note": "confirmed no existing dataset for this exact 3-class label"
+    },
+    {
+      "q": "Bhuvan NRSC cadastral parcel data public access India high resolution",
+      "useful": false
+    }
+  ],
+  "fetched": [
+    "https://source.coop/ftw/global-data",
+    "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+    "https://agriwelfare.gov.in/en/DigiAgriDiv",
+    "https://cgdcs.agristack.gov.in/",
+    "https://github.com/fieldsoftheworld",
+    "https://mybharat.gov.in/elp/listing/6494"
+  ],
+  "budget_exhausted": false,
+  "notes": "Core pipeline inputs (FTW-global predictions, Sentinel-2) are open, fetch-verified, and India-covered. The single blocker is that the candidate's stated end users (DCS supervisors) and their real manual-survey outcomes have no public dataset or API (both agriwelfare.gov.in and cgdcs.agristack.gov.in returned 403); validation must rely on a constructed proxy label, not real DCS ground truth."
+}

@@ -1,0 +1,162 @@
+{
+  "id": "R4-S01",
+  "verdict": "type_a",
+  "reason": "No tier-A item shares this problem framing: auditing YES-TECH's own yield-estimate vs crop-calendar vs phenology disagreement pre-settlement. PMFBY's DLMC route is a manual escalation for contested yields, not an automated audit. EarthDaily/EOSDA flag claim-vs-satellite or crop-declaration mismatches generally, not YES-TECH's internal triad. Maharashtra's 2026 satellite drive catches crop-presence fraud, a different axis. Academic phenology-insurance work redesigns index triggers, it does not audit already-computed technology estimates. No closing item found.",
+  "queries": [
+    {
+      "q": "PMFBY YES-TECH yield estimate crop calendar phenology disagreement audit",
+      "useful": true,
+      "note": "Found YES-TECH background and CSE report on farmer disputes; no automated disagreement-audit tool."
+    },
+    {
+      "q": "crop insurance claim satellite yield estimate anomaly flag before settlement",
+      "useful": true,
+      "note": "Surfaced EarthDaily and EOSDA general claims-anomaly products (output-space neighbours)."
+    },
+    {
+      "q": "crop yield model disagreement detection remote sensing phenology mismatch quality control",
+      "useful": true,
+      "note": "Academic background on phenological shift/QC in data assimilation; no product or paper matching the exact framing."
+    },
+    {
+      "q": "PMFBY YES-TECH CCE variance threshold technical committee dispute resolution guideline",
+      "useful": true,
+      "note": "Confirmed DLMC (District Level Monitoring Committee) is the existing dispute-resolution route; manual, not algorithmic."
+    },
+    {
+      "q": "EarthDaily portfolio management crop insurance anomaly detection before payout",
+      "useful": true,
+      "note": "EarthDaily 'declaration anomaly detection' flags declared-crop vs satellite-classification mismatch pre-claim; nearest product neighbour, different axis."
+    },
+    {
+      "q": "EOS crop monitoring insurance yield estimate flag discrepancy claims",
+      "useful": true,
+      "note": "EOSDA flags NDVI-based discrepancies vs claimed damage; general claims-validation tool, not YES-TECH-specific."
+    },
+    {
+      "q": "crop calendar phenology mismatch quality flag remote sensing yield model India insurance startup",
+      "useful": true,
+      "note": "Surfaced a Science Direct paper on RS yield proxies vs CCE for India (could not fetch full text, 403)."
+    },
+    {
+      "q": "\"crop insurance\" India startup satellite audit YES-TECH claims verification platform",
+      "useful": true,
+      "note": "Surfaced the Feb-2026 Maharashtra satellite fraud-detection case (crop-presence verification, different axis)."
+    },
+    {
+      "q": "insurance unit level yield estimate disagreement crop calendar phenology flag audit -india",
+      "useful": true,
+      "note": "Region-swap: found global index-insurance phenology literature (rs13050924); none targets auditing computed tech-yield estimates."
+    },
+    {
+      "q": "Maharashtra satellite crop insurance fraud detection PMFBY 217 crore fake claims mechanism",
+      "useful": true,
+      "note": "Confirmed mechanism is NDVI crop-presence check for fraud, not a yield-estimate/calendar/phenology disagreement audit."
+    },
+    {
+      "q": "crop insurance audit flag units where model estimate disagrees with observed phenology before payout global",
+      "useful": true,
+      "note": "Confirmed rs13050924 is about redesigning index-insurance triggers using phenology, not post-hoc estimate auditing."
+    },
+    {
+      "q": "crop insurance yield estimate audit software platform startup 2026",
+      "useful": true,
+      "note": "Product step: Cropin, EOSDA, Digital Agriculture Services, SAS Insurance Analytics found; none do this specific 3-way audit."
+    },
+    {
+      "q": "PMFBY YES-TECH audit disagreement flag 2026",
+      "useful": false,
+      "note": "Recency rerun; nothing new beyond YES-TECH manual and general PMFBY 2026 coverage."
+    },
+    {
+      "q": "EarthDaily India PMFBY agricultural insurance",
+      "useful": false,
+      "note": "No evidence EarthDaily operates in India/PMFBY specifically."
+    },
+    {
+      "q": "YES-TECH crop calendar phenology anomaly detection paper 2025 2026",
+      "useful": true,
+      "note": "Recency rerun; several 2025-2026 phenology-aware yield papers found, none naming YES-TECH or this audit framing."
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://earthdaily.com/products/portfolio-managment",
+      "date": "2026",
+      "title": "EarthDaily Portfolio Management for Agricultural Insurance",
+      "tier": "B",
+      "closes": false,
+      "why": "Flags declared-crop vs satellite-classification mismatches pre-claim; a fraud/declaration axis, not YES-TECH's own yield-estimate vs crop-calendar vs phenology consistency, and no confirmed India/PMFBY deployment.",
+      "relation": "same_output_space"
+    },
+    {
+      "url": "https://eos.com/products/crop-monitoring/insurance-companies/",
+      "date": "2026",
+      "title": "EOSDA Satellite Solutions for Agricultural Insurance",
+      "tier": "B",
+      "closes": false,
+      "why": "General NDVI-based claim/discrepancy flagging for insurers; not YES-TECH-specific and not a 3-way yield/calendar/phenology audit.",
+      "relation": "same_output_space"
+    },
+    {
+      "url": "https://www.indianweb2.com/2026/02/satellite-technology-helps-detect-217.html",
+      "date": "2026-02",
+      "title": "Satellite Technology Helps Detect ₹217 Crore Fake Crop Insurance Claims in Maharashtra",
+      "tier": "C",
+      "closes": false,
+      "why": "PMFBY-specific, India-specific satellite audit, but it flags crop-presence/type fraud (claimed vs actual crop), not YES-TECH's internal yield-estimate/crop-calendar/phenology disagreement.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://www.mdpi.com/2072-4292/13/5/924",
+      "date": "2021-03",
+      "title": "Improving the Performance of Index Insurance Using Crop Models and Phenological Monitoring",
+      "tier": "A",
+      "closes": false,
+      "why": "Uses phenology to redesign index-insurance triggers and reduce basis risk, not to audit already-computed technology yield estimates for a claims-settlement review.",
+      "relation": "same_method_other_domain"
+    },
+    {
+      "url": "https://pmfby.gov.in/pdf/Revised_Operational_Guidelines.pdf",
+      "date": "2023",
+      "title": "PMFBY Revised Operational Guidelines (DLMC dispute-resolution process)",
+      "tier": "A",
+      "closes": false,
+      "why": "The scheme already routes contested yield estimates to the District Level Monitoring Committee, but this is a manual administrative escalation, not an automated satellite-based disagreement-flagging audit.",
+      "relation": "same_problem"
+    }
+  ],
+  "nearest_neighbours_do_not": "EarthDaily/EOSDA flag claim-vs-satellite or crop-declaration mismatches generally, not disagreement among YES-TECH's own estimate, crop calendar, and phenology signals. Maharashtra's satellite drive catches crop-presence fraud, not model disagreement. PMFBY's DLMC route is manual dispute escalation, not an automated pre-settlement audit.",
+  "budget_exhausted": false,
+  "notes": "A Science Direct paper 'Can remote sensing-based yield proxies substitute CCEs in Indian insurance?' (S2214317326001137) looked relevant but returned HTTP 403; could not verify content, so excluded from prior_art per rule against fabricating findings.",
+  "product_search": {
+    "queries_run": [
+      "crop insurance yield estimate audit software platform startup 2026",
+      "\"crop insurance\" India startup satellite audit YES-TECH claims verification platform",
+      "EarthDaily India PMFBY agricultural insurance"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://earthdaily.com/products/portfolio-managment",
+        "date": "2026-09",
+        "title": "EarthDaily Portfolio Management",
+        "tier": "B",
+        "note": "Shipping product; declaration-anomaly and claims-validation flagging, not India/PMFBY-confirmed, different axis from YES-TECH internal disagreement."
+      },
+      {
+        "url": "https://eos.com/products/crop-monitoring/insurance-companies/",
+        "date": "2026-09",
+        "title": "EOSDA Satellite Solutions for Agricultural Insurance",
+        "tier": "B",
+        "note": "Shipping product; NDVI-based claim discrepancy flagging for insurers generally, not YES-TECH-specific."
+      },
+      {
+        "url": "https://www.cropin.com/blogs/role-of-tech-in-agri-insurance/",
+        "date": "2026-09",
+        "title": "Cropin Sage agri-insurance tech",
+        "tier": "C",
+        "note": "Vendor blog on AI-assisted yield estimation for insurance risk assessment; not a disagreement-audit product."
+      }
+    ]
+  }
+}

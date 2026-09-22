@@ -1,0 +1,99 @@
+{
+  "id": "R4-S32",
+  "verdict": "closed",
+  "reason": "ESA EO-INSURE (tier A, Agricolus S.r.l., Italy) already does this: fuses Sentinel-1/2 with met data so EU ag insurers can compare pre/post-event conditions and separate event-related damage from pre-existing conditions, for parametric-insurance claims in Italy/S. Europe. Same problem, same output space, same region as R4-S32. The only distinguishing feature is the attribution technique (AlphaEarth embedding twins vs. EO-INSURE's within-field anomaly comparison), a method detail not a new problem or output. Same problem + output space closes it under C7 regardless of method.",
+  "queries": [
+    {
+      "q": "satellite crop insurance hail damage claim verification distinguish pre-existing decline",
+      "useful": false,
+      "note": "WebSearch tool budget exhausted session-wide before any results returned"
+    },
+    {
+      "q": "AlphaEarth embedding nearest neighbour crop damage attribution insurance",
+      "useful": false,
+      "note": "WebSearch budget exhausted, no results"
+    },
+    {
+      "q": "matched control synthetic control remote sensing damage attribution counterfactual",
+      "useful": false,
+      "note": "WebSearch budget exhausted, no results (method-space, domain removed)"
+    },
+    {
+      "q": "crop insurance satellite claims verification software startup Europe",
+      "useful": false,
+      "note": "WebSearch budget exhausted, no results (product step)"
+    },
+    {
+      "q": "Sentinel-2 hail damage detection agricultural insurance index insurance",
+      "useful": false,
+      "note": "WebSearch budget exhausted, no results"
+    },
+    {
+      "q": "embedding nearest neighbor synthetic control wildfire flood damage assessment remote sensing counterfactual",
+      "useful": false,
+      "note": "WebSearch budget exhausted; region-removed/domain-removed method check not completed"
+    },
+    {
+      "q": "fetch seed_urls[0] business.esa.int/projects/eo-insure directly",
+      "useful": true,
+      "note": "Direct fetch found EO-INSURE: Sentinel-1/2 fusion to separate event-caused crop damage from pre-existing conditions for EU parametric ag-insurance claims (Italy/S. Europe). This closes the candidate."
+    },
+    {
+      "q": "Agricolus EO-INSURE satellite insurance damage claims Sentinel (via duckduckgo.com/html)",
+      "useful": false,
+      "note": "DuckDuckGo served a CAPTCHA page, no results retrievable via WebFetch"
+    },
+    {
+      "q": "fetch agricolus.com/en homepage",
+      "useful": true,
+      "note": "Public homepage shows general precision-farming/monitoring tools; no dedicated insurance-claims product page found, suggesting EO-INSURE is a completed 6-month ESA Kick-Start feasibility study rather than a broadly marketed live SaaS product"
+    },
+    {
+      "q": "embedding nearest neighbour matched control remote sensing damage attribution wildfire flood (via bing.com/search)",
+      "useful": false,
+      "note": "Bing returned generic/unrelated (partly non-English) embedding results, not remote-sensing causal-inference literature"
+    },
+    {
+      "q": "satellite crop insurance claims hail frost damage verification company Europe (via bing.com/search)",
+      "useful": false,
+      "note": "Bing returned generic satellite-tracking/mapping sites, no insurance-specific vendors surfaced"
+    },
+    {
+      "q": "fetch eos.com/industries/insurance and eos.com/products/crop-monitoring/insurance",
+      "useful": false,
+      "note": "Both URLs 404'd; could not verify EOSDA's insurance-claims product directly with fetch budget remaining"
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://business.esa.int/projects/eo-insure",
+      "date": "2026-04-23",
+      "title": "EO-INSURE (ESA Business Applications Kick-Start, Agricolus S.r.l.)",
+      "tier": "A",
+      "closes": true,
+      "why": "Uses Sentinel-1/2 plus met data and field boundaries to compare pre/post-event conditions and separate event-caused (hail/frost/weather) damage from pre-existing decline for EU ag-insurance claims verification, Italy/S. Europe. Same problem and output space as R4-S32.",
+      "relation": "same_problem"
+    }
+  ],
+  "closing_item": {
+    "url": "https://business.esa.int/projects/eo-insure",
+    "date": "2026-04-23",
+    "title": "EO-INSURE (ESA Business Applications Kick-Start, Agricolus S.r.l.)",
+    "tier": "A",
+    "closes": true,
+    "why": "Uses Sentinel-1/2 plus met data and field boundaries to compare pre/post-event conditions and separate event-caused (hail/frost/weather) damage from pre-existing decline for EU ag-insurance claims verification, Italy/S. Europe. Same problem and output space as R4-S32.",
+    "relation": "same_problem"
+  },
+  "nearest_neighbours_do_not": "EO-INSURE's public description attributes separation to multi-temporal within-field anomaly comparison against the pre-event baseline plus met data, not to embedding-space nearest-neighbour spatial twins (AlphaEarth-style) drawn from other fields as counterfactual controls.",
+  "budget_exhausted": true,
+  "notes": "WebSearch hit its session-wide quota before any query here returned results; findings came from direct WebFetch of the seed URL and follow-ups. DuckDuckGo CAPTCHA'd and Bing returned only generic/irrelevant results, so steps 3 and 5 are underpowered vs. the 15-search budget. The seed URL alone sufficed to close.",
+  "product_search": {
+    "queries_run": [
+      "crop insurance satellite claims verification software startup Europe",
+      "satellite crop insurance claims hail frost damage verification company Europe",
+      "eos.com/industries/insurance and eos.com/products/crop-monitoring/insurance (direct fetch, both 404)"
+    ],
+    "shipping_products_found": []
+  },
+  "human_should_check": "WebSearch quota was exhausted for this whole run before this dispatch's queries executed. Re-run steps 1,2,3,5,6 of the playbook once quota resets to confirm whether Agricolus/EO-INSURE (or a competitor like EOSDA, Hummingbird Technologies, Origin ClearSky) has since shipped a live commercial product using this exact pipeline, and whether any published method already uses embedding nearest-neighbour matched controls for damage attribution in another domain (wildfire/flood) for an honest type_b comparison."
+}

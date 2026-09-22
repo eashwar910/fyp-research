@@ -1,0 +1,149 @@
+{
+  "id": "R4-S23",
+  "verdict": "open",
+  "verdict_reason": "AlphaEarth embeddings (CC-BY 4.0, GEE catalog, 2017-2025 annual) and CLMS Crop Types + Confidence layer (open Copernicus licence, direct download, 2017-2023 annual) are both accessible with no application, giving 7 overlapping years for a drift study. Ground truth via EuroCrops is open (CC-BY 4.0) but a published harmonization study only validated it for 2017-2021 across 11 countries, and inter...",
+  "sources": [
+    {
+      "name": "AlphaEarth Foundations Satellite Embedding V1 (Google/Google DeepMind)",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+      "fetched_ok": true,
+      "licence_quote": "CC-BY 4.0; attribution required: \"produced by Google and Google DeepMind\"",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL",
+      "size_gb": null,
+      "coverage_quote": "10-meter pixel resolution globally across terrestrial land surfaces and shallow waters",
+      "covers_target_region": "true",
+      "date_range": "2017-01-01 through 2025-01-01, annual layers covering full calendar years",
+      "caveats_quoted": [
+        "DATASET_VERSION 1.1 includes a regenerated 2017 layer that incorporates additional Sentinel-1 acquisitions"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "CLMS High Resolution Layer Croplands - Crop Types (CTY), 2017-present",
+      "role": "labels",
+      "url": "https://sdi.eea.europa.eu/catalogue/srv/api/records/9db29b07-5968-4ce0-8351-1e356b3d7d47?language=eng",
+      "fetched_ok": true,
+      "licence_quote": "Copernicus land monitoring products and services are made available on a principle of full, open and free access",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "EEA38 countries plus French Overseas Territories (DOMs), delivered in 100 x 100 km tiles",
+      "covers_target_region": "true",
+      "date_range": "2017-01-01/ ongoing; first release covered 2017-2021, 2022-2023 update completed end of 2025, 2024 release scheduled April 2026",
+      "caveats_quoted": [
+        "post-classification processing steps include spatial (Minimum Mapping Unit: 0.25ha) and temporal filtering to assure a high consistency of the time series",
+        "The higher incidence of land use disagreements in the interannual classification occurs within the permanent crop domain",
+        "unclassified permanent crops and fruits represent the crop types with the highest percentage of pixels classified as inconsistencies"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "CLMS Crop Types Confidence Layer (CTYCL)",
+      "role": "auxiliary",
+      "url": "https://library.land.copernicus.eu/products/High_Resolution_Layer_Croplands_2017-present_PUM_v2.html",
+      "fetched_ok": true,
+      "licence_quote": "Copernicus land monitoring products and services are made available on a principle of full, open and free access",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "The Crop Types (CTY) layer exists for reference years 2017 through 2023 (Table 7-5)",
+      "covers_target_region": "true",
+      "date_range": "reference years 2017 through 2023 per Product User Manual Table 7-5",
+      "caveats_quoted": [
+        "CTYCL indicates the degree of confidence of the provided crop type label",
+        "The probability value from the winning class as determined by the model is taken as the confidence level",
+        "output undergoes spatial cleaning and harmonised over the years to enhance temporal and spatial consistency of the product",
+        "does not explicitly state that class definitions or methods remain consistent across years"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "EuroCrops (harmonized self-declared crop reporting reference labels)",
+      "role": "comparator",
+      "url": "https://www.eurocrops.tum.de/",
+      "fetched_ok": true,
+      "licence_quote": "Creative Commons Attribution 4.0 International License",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "self-declared crop reporting datasets from countries of the European Union",
+      "covers_target_region": "true",
+      "date_range": "not stated on landing page; validation studies use EuroCrops v2 for 2017-2021",
+      "caveats_quoted": [
+        "available for the period of 2017-2021 from only 11 countries"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Harmonizing Copernicus HRL grassland/croplands (interannual consistency study)",
+      "role": "comparator",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13369923/",
+      "fetched_ok": true,
+      "licence_quote": "",
+      "licence_class": "unknown",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "Europe wide agricultural land use systems by harmonizing the Copernicus High Resolution Layers on grassland and croplands",
+      "covers_target_region": "true",
+      "caveats_quoted": [
+        "Uncertainty in detecting ploughing may lead to a false interpretation of land use change, rather than indicating temporary grassland within the rotation"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    }
+  ],
+  "ground_truth": {
+    "status": "external_named",
+    "source_url": "https://www.eurocrops.tum.de/",
+    "construction_protocol": null,
+    "label_count_estimate": null
+  },
+  "compute_path": {
+    "platform": "Google Earth Engine (GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL) for embeddings; direct-download Copernicus HRL Crop Types + confidence GeoTIFFs (EEA DataHub/WEkEO) for labels, compared locally/Colab free tier",
+    "fits_C9": true,
+    "why": "Embeddings are precomputed on GEE (no training run); drift-flagging is a pixel-wise multi-year comparison over a handful of EU tiles, feasible on MacBook-no-CUDA or Colab free tier with no sustaine...",
+    "gpu_hours_per_week_estimate": 0
+  },
+  "queries": [
+    {
+      "q": "AlphaEarth Foundations embeddings Google Earth Engine catalog dataset",
+      "useful": true
+    },
+    {
+      "q": "Copernicus Land Monitoring Service crop type map confidence layer",
+      "useful": true
+    },
+    {
+      "q": "\"Crop Types\" HRL Croplands 2023 OR 2022 Copernicus land.copernicus.eu release years available",
+      "useful": true
+    },
+    {
+      "q": "Copernicus Land Monitoring Service HRL Croplands crop types Google Earth Engine OR Copernicus Data Space access download",
+      "useful": true
+    }
+  ],
+  "fetched": [
+    "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+    "https://land.copernicus.eu/en/products/high-resolution-layer-croplands?tab=cropping_patterns",
+    "https://land.copernicus.eu/en/products/high-resolution-layer-croplands/crop-types-2021-raster-10-m-europe-yearly",
+    "https://land.copernicus.eu/en/products/high-resolution-layer-croplands",
+    "https://sdi.eea.europa.eu/catalogue/srv/api/records/9db29b07-5968-4ce0-8351-1e356b3d7d47?language=eng",
+    "https://library.land.copernicus.eu/products/High_Resolution_Layer_Croplands_2017-present_PUM_v2.html",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC13369923/",
+    "https://www.eurocrops.tum.de/"
+  ],
+  "budget_exhausted": false,
+  "notes": "land.copernicus.eu product pages (cropping_patterns tab, base, and crop-types-2021 subpage) render via JS / returned 401 and could not be verified directly; landing-page facts were instead confirmed via the EEA SDI catalogue record and the Copernicus Product User Manual, both fetched successfully. CLMS Crop Types not found in GEE catalog -- accessed via direct download only."
+}

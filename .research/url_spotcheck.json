@@ -1,0 +1,77 @@
+{
+  "pool_size": 142,
+  "sampled": 14,
+  "results": [
+    {
+      "url": "https://land.copernicus.eu/en/products/high-resolution-layer-imperviousness",
+      "http": "200",
+      "resolves": true
+    },
+    {
+      "url": "https://pmfby.gov.in/pdf/Revised_Operational_Guidelines.pdf",
+      "http": "000",
+      "resolves": false
+    },
+    {
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+      "http": "200",
+      "resolves": true
+    },
+    {
+      "url": "https://www.data.gov.in/resource/crop-rice-area-hectares-production-tonnes-yield-kgshectare",
+      "http": "200",
+      "resolves": true
+    },
+    {
+      "url": "https://www.moorfutures.de",
+      "http": "200",
+      "resolves": true
+    },
+    {
+      "url": "https://doi.org/10.3920/978-90-8686-888-9_56",
+      "http": "200",
+      "resolves": true
+    },
+    {
+      "url": "https://dataspace.copernicus.eu/explore-data/data-collections/sentinel-data/sentinel-2",
+      "http": "200",
+      "resolves": true
+    },
+    {
+      "url": "https://carboncredits.com/agreena-lands-50m-to-expand-regen-ag-and-carbon-credits/",
+      "http": "200",
+      "resolves": true
+    },
+    {
+      "url": "https://arxiv.org/abs/2409.16252",
+      "http": "200",
+      "resolves": true
+    },
+    {
+      "url": "https://www.data.gov.in/resource/stateut-wise-claims-paid-under-pradhan-mantri-fasal-bima-yojana-pmfby-2019-20-2022-23",
+      "http": "200",
+      "resolves": true
+    },
+    {
+      "url": "https://zenodo.org/records/4473715",
+      "http": "000",
+      "resolves": false
+    },
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13369923/",
+      "http": "200",
+      "resolves": true
+    },
+    {
+      "url": "https://business.esa.int/projects/covercrop",
+      "http": "200",
+      "resolves": true
+    },
+    {
+      "url": "https://klim.eco/",
+      "http": "200",
+      "resolves": true
+    }
+  ],
+  "note": "403/405 counted as resolving: live host refusing automated request, not a broken link."
+}

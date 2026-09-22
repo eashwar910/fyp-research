@@ -1,0 +1,145 @@
+{
+  "id": "R4-S35",
+  "verdict": "type_b",
+  "reason": "Not closed: no single tier-A source performs an advisor-facing reliability audit of S2 N prescriptions using hyperspectral as a reference. But the problem is not unexplored: Crema et al. 2019 already studied soil variability's effect on S2 maize N assessment in Italy (EU), Fabbri et al. 2021 already questioned whether NDVI is a valid N-management indicator, and Yilmaz et al. 2026 already fuses EnMAP/PRISMA hyperspectral with S2 in agriculture. TYPE_B: the delta must be the audit-not-estimate framing and a measurable flagging accuracy, not the novelty of pairing hyperspectral with S2 at all.",
+  "queries": [
+    {
+      "q": "hyperspectral EnMAP PRISMA audit Sentinel-2 nitrogen prescription reliability soil background senescence (Semantic Scholar)",
+      "useful": false,
+      "note": "0 results; exact framing not published"
+    },
+    {
+      "q": "Sentinel-2 nitrogen index confounded soil brightness senescence hyperspectral reference (Semantic Scholar)",
+      "useful": false,
+      "note": "429 rate-limited before results returned"
+    },
+    {
+      "q": "hyperspectral audit nitrogen prescription reliability soil brightness senescence (CrossRef)",
+      "useful": true,
+      "note": "mostly noise (biology/tobacco senescence), no exact match"
+    },
+    {
+      "q": "validation multispectral nitrogen index using hyperspectral reference cropland (CrossRef)",
+      "useful": false,
+      "note": "returned imaging-textbook and LAI retrieval chapters, none on prescription reliability"
+    },
+    {
+      "q": "soil background effect vegetation index nitrogen status precision agriculture (CrossRef)",
+      "useful": true,
+      "note": "surfaced Crema et al. 2019 and Fabbri et al. 2021"
+    },
+    {
+      "q": "EnMAP PRISMA hyperspectral validate Sentinel-2 crop nitrogen agriculture (CrossRef)",
+      "useful": true,
+      "note": "surfaced Yilmaz et al. 2026 HS+S2 fusion paper"
+    },
+    {
+      "q": "distinguish senescence from nitrogen deficiency hyperspectral remote sensing wheat (CrossRef)",
+      "useful": false,
+      "note": "only direct-retrieval papers, none on prescription auditing"
+    },
+    {
+      "q": "fertilizer prescription map quality control verification software (CrossRef)",
+      "useful": false,
+      "note": "wrong domain (embedded/control software), confirms no academic indexing of this product category"
+    },
+    {
+      "q": "nitrogen prescription map reliability audit software soil brightness senescence precision agriculture (Bing via WebFetch)",
+      "useful": false,
+      "note": "returned only generic nitrogen-chemistry wiki pages"
+    },
+    {
+      "q": "prescription map nitrogen reliability audit hyperspectral soil brightness senescence (DuckDuckGo HTML via WebFetch)",
+      "useful": false,
+      "note": "CAPTCHA-blocked, no results retrieved"
+    },
+    {
+      "q": "startup platform hyperspectral nitrogen prescription reliability quality check (DuckDuckGo HTML via WebFetch)",
+      "useful": false,
+      "note": "CAPTCHA-blocked, no results retrieved"
+    },
+    {
+      "q": "DOI lookup 10.1080/01431161.2026.2612849 (Yilmaz et al. 2026 fusion paper) full abstract",
+      "useful": true,
+      "note": "confirmed fusion is for direct trait estimation via PLSR, not reliability auditing"
+    },
+    {
+      "q": "DOI lookup 10.3920/978-90-8686-888-9_56 and 10.3920/978-90-8686-916-9_71 metadata",
+      "useful": true,
+      "note": "confirmed existence/venue/date of Crema 2019 and Fabbri 2021; abstracts paywalled"
+    },
+    {
+      "q": "DOI lookup 10.3390/rs18183093 (2026 HS nitrogen retrieval review) abstract",
+      "useful": true,
+      "note": "2026 review lists uncertainty characterization and cross-sensor operational transfer as unresolved challenges"
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://doi.org/10.3920/978-90-8686-888-9_56",
+      "date": "2019-07-08",
+      "title": "Interaction between soil variability and maize nitrogen status assessment from Sentinel-2",
+      "tier": "A",
+      "closes": false,
+      "why": "Same problem framing (soil variability confounding S2-based N assessment) studied in Italy/EU, but statistically characterizes the interaction rather than building a per-scene hyperspectral audit/flagging tool for advisors; no senescence axis; abstract paywalled.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://doi.org/10.3920/978-90-8686-916-9_71",
+      "date": "2021-07-19",
+      "title": "Is normalized difference vegetation index a valid indicator for nitrogen fertilization management?",
+      "tier": "A",
+      "closes": false,
+      "why": "Same output-space concern (is the S2-style index trustworthy for N management decisions) but no hyperspectral reference sensor, no soil-brightness/senescence decomposition, and no operational audit mechanism proposed.",
+      "relation": "same_output_space"
+    },
+    {
+      "url": "https://doi.org/10.1080/01431161.2026.2612849",
+      "date": "2026-01-06",
+      "title": "Fusion of EnMAP/PRISMA hyperspectral and Sentinel-2 multispectral imagery for estimating crop traits",
+      "tier": "A",
+      "closes": false,
+      "why": "Same sensor combination (EnMAP/PRISMA + Sentinel-2) in the same crop domain, but purpose is fusing them to directly improve estimation of 18 wheat biophysical/biochemical traits via PLSR, not to audit or flag when an existing S2-derived prescription is unreliable."
+    },
+    {
+      "url": "https://doi.org/10.3390/rs18183093",
+      "date": "2026-09-09",
+      "title": "Retrieval of Vegetation Nitrogen from Hyperspectral Remote Sensing: A Critical Review of Recent Methodological Advances",
+      "tier": "A",
+      "closes": false,
+      "why": "2026 review of HS nitrogen retrieval (covers PRISMA/EnMAP) explicitly names uncertainty characterization and cross-sensor operational transferability as unresolved, i.e. no mature reliability-audit method is reported to exist yet."
+    }
+  ],
+  "type_b_fields": {
+    "named_prior_solution_url": "https://doi.org/10.3920/978-90-8686-888-9_56",
+    "measurable_axis": "% of field zones correctly flagged as N-index-unreliable (soil-brightness or senescence driven) vs Crema's aggregate soil-variance correlation",
+    "attributable_to": "per-scene EnMAP/PRISMA spectral unmixing used as an occasional audit reference, vs a statistical soil-variability correction applied without a hyperspectral check",
+    "prior_deployed_in_target_region": "false"
+  },
+  "nearest_neighbours_do_not": "None of the three neighbours produce an advisor-facing reliability flag: Crema (2019) only statistically correlates soil variance with S2 N-assessment error; Fabbri (2021) questions NDVI validity generically with no reference sensor; Yilmaz (2026) fuses EnMAP/PRISMA+S2 to improve direct trait estimates, not to detect when an existing S2 prescription should be distrusted.",
+  "budget_exhausted": true,
+  "notes": "Session WebSearch tool was already exhausted (200/200, other stage-4 dispatches) before any query ran. Fell back to CrossRef/Semantic Scholar APIs plus WebFetch; Bing/DuckDuckGo returned only generic noise or CAPTCHA walls. product_search (step 5) is weaker than normal: no agritech search engine was reachable. Recommend re-running product_search with a working search tool before final gating.",
+  "product_search": {
+    "queries_run": [
+      "fertilizer prescription map quality control verification software (CrossRef)",
+      "nitrogen prescription map reliability audit software soil brightness senescence precision agriculture (Bing via WebFetch)",
+      "startup platform hyperspectral nitrogen prescription reliability quality check (DuckDuckGo via WebFetch, CAPTCHA-blocked)"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://www.basf.com/us/en/media/news-releases/2026/08/P-US-26-31",
+        "date": "2026-08-13",
+        "title": "xarvio CONNECT 2.0 / FIELD MANAGER",
+        "tier": "A",
+        "note": "Ships S2-based VRA nitrogen prescription maps; no hyperspectral-referenced reliability-audit feature found in this release."
+      },
+      {
+        "url": "https://www.yara.fr/fertilisation/blog/atfarm--une-solution-simple-pour-lagriculture-de-precision/",
+        "date": "2026-03-27",
+        "title": "Atfarm precision agriculture blog",
+        "tier": "A",
+        "note": "Ships S2-based N modulation maps; no audit-for-unreliability feature described."
+      }
+    ]
+  }
+}

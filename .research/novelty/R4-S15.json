@@ -1,0 +1,160 @@
+{
+  "id": "R4-S15",
+  "verdict": "type_b",
+  "reason": "Same problem, same region already exists: a tier-A 2024/2025 paper detects and dates PMFBY prevented/failed sowing status from satellite time series in coastal India at 92.3% accuracy. It doesn't cover flood-shock or recovery milestones and uses raw SAR, not embeddings, so this isn't fully closed, but it kills the 'nobody has tried event-dating for PMFBY' framing. KrishiRakshak (NDVI+GBM) also targets PMFBY eligibility timing. The candidate must beat these, not just exist alongside AlphaEarth's annual layer.",
+  "queries": [
+    {
+      "q": "PMFBY crop insurance satellite embeddings event audit sowing failure flood India",
+      "useful": true,
+      "note": "Surfaced PMFBY YES-TECH context and a hint of SAR-based prevented/failed sowing work."
+    },
+    {
+      "q": "satellite embeddings dating sowing date flood shock recovery milestone time series detection",
+      "useful": true,
+      "note": "General method-space background; change-point detection on embeddings is generic, not agri-insurance specific."
+    },
+    {
+      "q": "AlphaEarth Foundations embeddings monthly time series change detection event dating",
+      "useful": true,
+      "note": "Confirms Custom Satellite Embeddings support custom-period change detection, but no agri-insurance case study."
+    },
+    {
+      "q": "crop insurance claim verification satellite AI event date audit yield estimation",
+      "useful": true,
+      "note": "Found Planet AMS traffic-light claim triage and general satellite-insurance verification products (non-India)."
+    },
+    {
+      "q": "PMFBY satellite monitoring platform crop insurance India yield estimation technology",
+      "useful": true,
+      "note": "Confirms YES-TECH (SAR/optical+weather yield models) is the incumbent PMFBY tech stack; not embeddings-based."
+    },
+    {
+      "q": "prevented failed sowing detection SAR PMFBY crop insurance 2025 abstract Sentinel-1",
+      "useful": true,
+      "note": "Found the closest prior art: Murugesan & Mathieu, Sentinel-1 SAR P/FS detection for PMFBY, Odisha, 92.3% accuracy."
+    },
+    {
+      "q": "PMFBY satellite embeddings event date audit 2026",
+      "useful": false,
+      "note": "No direct hit combining PMFBY with satellite embeddings for event auditing."
+    },
+    {
+      "q": "crop insurance India flood shock recovery satellite monitoring dating milestones 2025 2026",
+      "useful": true,
+      "note": "Found KrishiRakshak (Sentinel-2 NDVI + weather + gradient boosting + SHAP) for PMFBY damage eligibility."
+    },
+    {
+      "q": "\"satellite embeddings\" crop insurance claim verification event date audit product",
+      "useful": false,
+      "note": "No embeddings-specific insurance product surfaced; only generic NDVI/SAR-based products (CropSnap, EOSDA)."
+    },
+    {
+      "q": "foundation model embeddings crop insurance sowing flood damage dating global startup platform",
+      "useful": false,
+      "note": "Adjacent foundation-model flood-damage work (DELUGE) but not crop-insurance event dating."
+    },
+    {
+      "q": "AlphaEarth custom satellite embeddings agriculture insurance case study India government",
+      "useful": false,
+      "note": "No India government agri-insurance case study for AlphaEarth/Custom Satellite Embeddings found."
+    },
+    {
+      "q": "ISSN 2772-3755 journal name Smart Agricultural Technology",
+      "useful": true,
+      "note": "Confirmed the P/FS SAR paper is in Smart Agricultural Technology (Elsevier, peer-reviewed) - tier A."
+    },
+    {
+      "q": "crop insurance event date audit software product PMFBY startup platform India 2026",
+      "useful": false,
+      "note": "Only generic PMFBY enrollment/how-to content; no dedicated event-audit product found."
+    },
+    {
+      "q": "KrishiRakshak explainable AI crop damage insurance eligibility PMFBY Sentinel-2 gradient boosting",
+      "useful": true,
+      "note": "Confirmed KrishiRakshak is a rule+ML eligibility classifier, not a multi-event date-auditing system."
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://www.sciencedirect.com/science/article/pii/S2772375525001017",
+      "date": "2025",
+      "title": "Early season prevented and failed rice sowing detection using temporal Synthetic Aperture Radar data in coastal India for crop insurance applications",
+      "tier": "A",
+      "closes": false,
+      "why": "Same problem (dating PMFBY-relevant sowing failure) and same region (coastal India) at 92.3% accuracy, but uses raw Sentinel-1 SAR, not embeddings, and does not touch flood-shock or recovery milestones, so it narrows rather than fully closes the candidate.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5049292",
+      "date": "2024-12",
+      "title": "Early Season Prevented/Failed Sowing Detection Using Temporal SAR Data in Coastal India for Crop Insurance Application",
+      "tier": "B",
+      "closes": false,
+      "why": "SSRN preprint of the same study; corroborates the ScienceDirect version's priority date and method.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://link.springer.com/chapter/10.1007/978-3-032-25490-0_37",
+      "date": "2026",
+      "title": "KrishiRakshak: Explainable AI System for Crop Damage Detection and Insurance Eligibility",
+      "tier": "A",
+      "closes": false,
+      "why": "Same problem framing (PMFBY damage/eligibility assessment) and same region, but classifies eligibility at a point in time rather than dating a sequence of sowing/flood/recovery milestones, and does not use satellite embeddings.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://pmfby.gov.in/pdf/Revised_Operational_Guidelines.pdf",
+      "date": "2025",
+      "title": "PMFBY Revised Operational Guidelines (YES-TECH)",
+      "tier": "A",
+      "closes": false,
+      "why": "Establishes YES-TECH as the mandated government yield-estimation stack (SAR/optical + weather models); it is a yield estimator, not an event-date auditor, but is the deployed incumbent this candidate would have to interoperate with or displace.",
+      "relation": "same_output_space"
+    },
+    {
+      "url": "https://mapsplatform.google.com/resources/blog/introducing-custom-satellite-embeddings-powered-by-alphaearth-foundations/",
+      "date": "2026",
+      "title": "Introducing Custom Satellite Embeddings, powered by AlphaEarth Foundations",
+      "tier": "A",
+      "closes": false,
+      "why": "Confirms the on-demand monthly embedding capability the candidate relies on exists as a general-purpose product, but shows no agriculture-insurance or India case study, so it is enabling infrastructure, not competing prior art.",
+      "relation": "same_method_other_domain"
+    },
+    {
+      "url": "https://eos.com/products/crop-monitoring/insurance-companies/",
+      "date": "2026",
+      "title": "Satellite Solutions For Agricultural Insurance — EOSDA",
+      "tier": "C",
+      "closes": false,
+      "why": "Generic NDVI-based crop-insurance monitoring product, not India-PMFBY-specific and not embeddings-based; shows the crop-insurance-satellite category is crowded but does not close the event-dating delta.",
+      "relation": "product"
+    }
+  ],
+  "closing_item": null,
+  "type_b_fields": {
+    "named_prior_solution_url": "https://www.sciencedirect.com/science/article/pii/S2772375525001017",
+    "measurable_axis": "Accuracy of dating the insurance event (sowing failure / flood / recovery) vs PMFBY cutoffs, benchmarked against the SAR paper's 92.3% P/FS detection accuracy.",
+    "attributable_to": "Using on-demand monthly multi-sensor Custom Satellite Embeddings to date three event types per season, vs a bespoke single-sensor SAR threshold pipeline built only for pre-season sowing failure.",
+    "prior_deployed_in_target_region": "true"
+  },
+  "nearest_neighbours_do_not": "The SAR P/FS paper does not use foundation-model embeddings and does not date flood-shock or recovery milestones, only a single pre-season binary status. KrishiRakshak does not do temporal event-dating, only point-in-time eligibility classification, and is Sentinel-2 NDVI+GBM, not embeddings. Neither compares monthly on-demand embeddings against annual AlphaEarth layers.",
+  "budget_exhausted": false,
+  "notes": "No product or paper found that specifically applies AlphaEarth/Custom Satellite Embeddings to PMFBY auditing; that combination looks open. The risk is entirely that the *problem* (PMFBY event-date audit) already has a working tier-A solution in the exact region, just via a different (SAR) method.",
+  "product_search": {
+    "queries_run": [
+      "crop insurance event date audit software product PMFBY startup platform India 2026",
+      "\"satellite embeddings\" crop insurance claim verification event date audit product",
+      "foundation model embeddings crop insurance sowing flood damage dating global startup platform",
+      "AlphaEarth custom satellite embeddings agriculture insurance case study India government"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://eos.com/products/crop-monitoring/insurance-companies/",
+        "date": "2026-03-17",
+        "title": "EOSDA satellite crop-insurance monitoring",
+        "tier": "C",
+        "note": "General NDVI-based insurance monitoring product; not PMFBY-specific, not embeddings-based, no event-date auditing feature named."
+      }
+    ]
+  }
+}

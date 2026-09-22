@@ -1,0 +1,56 @@
+{
+  "attempt": 1,
+  "schema_valid": false,
+  "contract_valid": null,
+  "valid": false,
+  "count": 21,
+  "errors": [
+    {
+      "path": [
+        12,
+        "seed_urls",
+        0,
+        "date"
+      ],
+      "message": "'2025' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    },
+    {
+      "path": [
+        14,
+        "seed_urls",
+        0,
+        "date"
+      ],
+      "message": "'2019' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    },
+    {
+      "path": [
+        15,
+        "seed_urls",
+        1,
+        "date"
+      ],
+      "message": "'2025' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    },
+    {
+      "path": [
+        18,
+        "seed_urls",
+        1,
+        "date"
+      ],
+      "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    },
+    {
+      "path": [
+        19,
+        "seed_urls",
+        0,
+        "date"
+      ],
+      "message": "'2025' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    }
+  ],
+  "queries": null,
+  "under_15": false
+}

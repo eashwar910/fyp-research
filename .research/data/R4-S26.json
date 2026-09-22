@@ -1,0 +1,171 @@
+{
+  "id": "R4-S26",
+  "verdict": "conditional",
+  "verdict_reason": "Sentinel-2, CLMS HRL Imperviousness, CORINE and EuroCrops are open, free and fetchable; EU coverage confirmed (EuroCrops covers 17/27 states). No source records which parcels were sealed or had soil removed: Imperviousness Change is coarse raster (20-100m, validation pending); EEA land-take indicators are aggregate stats only. Ground truth must be constructed and manually checked.",
+  "sources": [
+    {
+      "name": "Sentinel-2 (Copernicus Data Space Ecosystem)",
+      "role": "imagery",
+      "url": "https://dataspace.copernicus.eu/data-collections/copernicus-sentinel-missions/sentinel-2",
+      "fetched_ok": true,
+      "licence_quote": "Sentinel data products are made available systematically and free of charge to all data users including the general public, scientific and commercial users.",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "Level 1C/L3 world coverage; Level 2A original ESA processing Europe only; 10/20/60m bands",
+      "covers_target_region": "true",
+      "date_range": "2015-07 to present",
+      "caveats_quoted": [],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "CLMS High Resolution Layer - Imperviousness (overview)",
+      "role": "auxiliary",
+      "url": "https://land.copernicus.eu/en/products/high-resolution-layer-imperviousness",
+      "fetched_ok": true,
+      "licence_quote": "principle of full, open and free access, as established by Commission Delegated Regulation (EU) No 1159/2013",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "Pan-European; EEA38 countries and the United Kingdom; 10m resolution density layers",
+      "covers_target_region": "true",
+      "date_range": "2006-2024 (reference years 2006/2009/2012/2015/2018/2021/2024)",
+      "caveats_quoted": [],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "CLMS Imperviousness Density Change 2018-2021",
+      "role": "auxiliary",
+      "url": "https://land.copernicus.eu/en/products/high-resolution-layer-imperviousness/imperviousness-density-change-2018-2021",
+      "fetched_ok": true,
+      "licence_quote": "principle of full, open and free access, as established by Commission Delegated Regulation (EU) No 1159/2013",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "Spatial coverage: Europe; spatial resolution 20 m and 100 m; temporal extent 2018-2021",
+      "covers_target_region": "true",
+      "date_range": "2018-2021",
+      "caveats_quoted": [
+        "Validation pending",
+        "raster product identifies pixel-level changes, not individual parcels"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "CORINE Land Cover (CLMS)",
+      "role": "auxiliary",
+      "url": "https://land.copernicus.eu/en/products/corine-land-cover",
+      "fetched_ok": true,
+      "licence_quote": "principle of full, open and free access, as established by Commission Delegated Regulation (EU) No 1159/2013",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "Pan-European land cover/use inventory, 44 thematic classes, updated every six years",
+      "covers_target_region": "true",
+      "date_range": "1990-2018 (6-yearly cycles: 1990,2000,2006,2012,2018)",
+      "caveats_quoted": [
+        "updated with new status and change layers every six years"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "EuroCrops (pan-EU parcel-level crop type labels)",
+      "role": "labels",
+      "url": "https://github.com/maja601/EuroCrops",
+      "fetched_ok": true,
+      "licence_quote": "Creative Commons Attribution-ShareAlike 4.0 International License",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "17 EU countries: Austria, Belgium, Czechia, Germany, Denmark, Estonia, Spain, France, Croatia, Lithuania, Latvia, Netherlands, Portugal, Romania, Sweden, Slovenia, Slovakia",
+      "covers_target_region": "partial",
+      "date_range": "2018-2021 (varies by country)",
+      "caveats_quoted": [
+        "combines publicly available self-declared crop reporting datasets"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "EEA Net Land Take in Cities indicator",
+      "role": "comparator",
+      "url": "https://www.eea.europa.eu/en/analysis/indicators/net-land-take-in-cities",
+      "fetched_ok": true,
+      "licence_class": "unknown",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "EEA-38 member and cooperating countries; Urban Atlas Land Cover/Use Change, periods 2012-2018 and 2018-2021",
+      "covers_target_region": "true",
+      "date_range": "2012-2018 and 2018-2021",
+      "caveats_quoted": [
+        "output reports only summary statistics, not individual parcel identification",
+        "changes smaller than [MMU] thresholds are excluded"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    }
+  ],
+  "ground_truth": {
+    "status": "must_construct",
+    "source_url": "https://land.copernicus.eu/en/products/high-resolution-layer-imperviousness/imperviousness-density-change-2018-2021",
+    "construction_protocol": "Overlay EuroCrops/LPIS parcel boundaries on HRL Imperviousness Change plus multi-year Sentinel-2 NDVI/bare-soil time series to flag candidates; manually confirm true sealing vs temporary fallow via free high-res historical imagery (Google/Bing/national orthophotos) for a validation sample.",
+    "label_count_estimate": null
+  },
+  "compute_path": {
+    "platform": "Google Earth Engine (Sentinel-2 SR) + Copernicus Data Space / WEkEO for CLMS rasters",
+    "fits_C9": true,
+    "why": "Sentinel-2 and CLMS rasters run natively on Google Earth Engine / Copernicus Data Space; no local GPU needed; parcel time-series analysis fits an 8-month part-time MacBook workflow.",
+    "gpu_hours_per_week_estimate": 0
+  },
+  "queries": [
+    {
+      "q": "Copernicus Data Space Ecosystem Sentinel-2 data license",
+      "useful": true
+    },
+    {
+      "q": "Copernicus Land Monitoring Service High Resolution Layer Imperviousness Change",
+      "useful": true
+    },
+    {
+      "q": "EuroCrops dataset crop type labels EU license",
+      "useful": true
+    },
+    {
+      "q": "EEA land take national land take registers soil sealing parcels",
+      "useful": true,
+      "note": "confirmed no accessible parcel-level ground truth is named by EEA"
+    },
+    {
+      "q": "EuroCrops zenodo dataset download license CC",
+      "useful": false,
+      "note": "blocked: session-wide WebSearch quota exhausted; resolved via direct WebFetch of GitHub repo instead"
+    },
+    {
+      "q": "Land Parcel Identification System LPIS EU open data download GSAA",
+      "useful": false,
+      "note": "blocked: session-wide WebSearch quota exhausted; LPIS/GSAA access not independently re-verified this run, relying on EuroCrops as parcel-boundary proxy"
+    }
+  ],
+  "fetched": [
+    "https://dataspace.copernicus.eu/data-collections/copernicus-sentinel-missions/sentinel-2",
+    "https://land.copernicus.eu/en/products/high-resolution-layer-imperviousness",
+    "https://land.copernicus.eu/en/products/high-resolution-layer-imperviousness/imperviousness-density-change-2018-2021",
+    "https://www.eea.europa.eu/en/analysis/indicators/net-land-take-in-cities",
+    "https://land.copernicus.eu/en/data-policy",
+    "https://github.com/maja601/EuroCrops",
+    "https://www.eea.europa.eu/en/topics/in-depth/land-use",
+    "https://land.copernicus.eu/en/products/corine-land-cover"
+  ],
+  "budget_exhausted": false,
+  "notes": "No EU-wide accessible parcel-level land-take register was found. EEA notes some countries (e.g. France, Czechia) use land-registry data for land-take monitoring, but no open, fetchable, parcel-level dataset was located within budget. WebSearch quota was exhausted mid-task (session-wide limit) after 6 queries; remaining verification (EuroCrops, CORINE, EEA policy) completed via direct WebFetch of known landing pages instead of further search."
+}

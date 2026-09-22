@@ -1,0 +1,119 @@
+{
+  "id": "R4-S02",
+  "verdict": "blocked",
+  "verdict_reason": "S1/S2 imagery is open on GEE, but the ground truth (geolocated CCE plot linked to its PMFBY insurance unit) lives only inside the government DGCES/PMFBY portal, gated behind enumerator mobile-OTP login. No public API, dataset, or researcher-access route was found; both PMFBY landing pages refused connection.",
+  "sources": [
+    {
+      "name": "Sentinel-1 SAR GRD (GEE catalog)",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD",
+      "fetched_ok": true,
+      "licence_quote": "The use of Sentinel data is governed by the Copernicus Sentinel Data Terms and Conditions.",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "COPERNICUS/S1_GRD",
+      "size_gb": null,
+      "coverage_quote": "Global coverage (-90 to 90 latitude, -180 to 180 longitude)",
+      "covers_target_region": "true",
+      "date_range": "2014-10-03T00:00:00Z-2026-09-12T23:52:29Z",
+      "caveats_quoted": [
+        "6 Days revisit interval; updated daily, new assets ingested within two days of availability"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Sentinel-2 MSI Surface Reflectance Harmonized (GEE catalog)",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+      "fetched_ok": true,
+      "licence_quote": "The use of Sentinel data is governed by the Copernicus Sentinel Data Terms and Conditions.",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "size_gb": null,
+      "coverage_quote": "2017-2018 L2 coverage in the EE collection is not yet global",
+      "covers_target_region": "true",
+      "date_range": "2017-03-28T00:00:00Z-2026-09-12T22:53:37.524000Z",
+      "caveats_quoted": [
+        "Data after 2022-01-25 with processing baseline 04.00+ adjusted to match older-scene range"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Digital General Crop Estimation Survey (DGCES) / PMFBY CCE plot data",
+      "role": "labels",
+      "url": "https://pmfby.gov.in/",
+      "fetched_ok": false,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "size_gb": null,
+      "covers_target_region": "true",
+      "caveats_quoted": [
+        "Primary workers log in with their registered mobile number and OTP, and once logged in, they have access only to the villages and crops assigned to them."
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    }
+  ],
+  "ground_truth": {
+    "status": "external_named",
+    "source_url": "https://pmfby.gov.in/",
+    "construction_protocol": null,
+    "label_count_estimate": "~1.3 million CCEs/year nationally (aggregate figure; plot-level geotagged records are enumerator-only, not researcher-accessible)"
+  },
+  "compute_path": {
+    "platform": "Google Earth Engine (COPERNICUS/S1_GRD + COPERNICUS/S2_SR_HARMONIZED), phenology anomaly step light enough for Colab free tier",
+    "fits_C9": true,
+    "why": "All S1/S2 pulling and time-series compositing runs server-side in GEE; no sustained local GPU needed, well under C9's compute ceiling.",
+    "gpu_hours_per_week_estimate": 0
+  },
+  "queries": [
+    {
+      "q": "PMFBY crop cutting experiment CCE data open dataset download",
+      "useful": true
+    },
+    {
+      "q": "data.gov.in crop cutting experiment PMFBY dataset",
+      "useful": true
+    },
+    {
+      "q": "\"CCE Agri App\" geotagged photo dataset open access researchers PMFBY",
+      "useful": false
+    },
+    {
+      "q": "General Crop Estimation Survey GCES microdata India open access crop cutting experiment plot geolocation",
+      "useful": true,
+      "note": "surfaced GCES portal geo-referencing description"
+    },
+    {
+      "q": "GCES portal gces.dacnet.nic.in OR gces.gov.in login",
+      "useful": false
+    },
+    {
+      "q": "\"gcesportal\" OR \"DGCES portal\" site login official use only agriculture ministry",
+      "useful": true,
+      "note": "confirmed enumerator OTP login, scoped access only"
+    },
+    {
+      "q": "data.gov.in \"crop cutting experiment\" OR \"CCE\" yield estimates dataset",
+      "useful": false
+    }
+  ],
+  "fetched": [
+    "https://pmfby.gov.in/adminStatistics/dashboard",
+    "https://www.kaggle.com/datasets/pyatakov/india-pmfby-statistics",
+    "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD",
+    "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+    "https://www.sciencedirect.com/science/article/pii/S2214317326001137",
+    "https://pmfby.gov.in",
+    "https://rajas.rajasthan.gov.in/PDF/521202450357PMGCESWebPortal.pdf",
+    "https://vajiramandravi.com/current-affairs/general-crop-estimation-survey-portal/"
+  ],
+  "budget_exhausted": false,
+  "notes": "Both direct pmfby.gov.in fetch attempts returned ECONNREFUSED, so DGCES/PMFBY portal is scored unverified/not-open per instructions even though it is clearly the intended ground-truth source. Kaggle 'India PMFBY statistics' page fetch returned no extractable content and is not counted as a verified source. ScienceDirect paper on RS-vs-CCE substitution was paywalled (403); its data-availability statement could not be confirmed."
+}

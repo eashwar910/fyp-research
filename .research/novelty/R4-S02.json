@@ -1,0 +1,112 @@
+{
+  "id": "R4-S02",
+  "verdict": "type_a",
+  "reason": "No tier-A hit audits a photographed CCE plot's Sentinel-1/2 phenology against its own insurance unit post-hoc. Cropin Intelligence uses satellite+AI to SELECT CCE plots pre-harvest (opposite pipeline stage: placement, not audit). CROPIC (official PMFBY app) runs AI on geotagged CCE photos but classifies crop health/anomalies inside the image itself, not plot-vs-IU phenological divergence. A 2026 paper proposes replacing CCE-derived yields with RS proxies wholesale, not auditing individual CCE evidence. The exact problem framing looks unaddressed; not closed.",
+  "queries": [
+    {
+      "q": "PMFBY crop cutting experiment representativeness satellite Sentinel audit",
+      "useful": true,
+      "note": "Surfaced YES-TECH, ScienceDirect RS-yield-proxy paper, PMFBY technical report; nothing matching exact framing."
+    },
+    {
+      "q": "CCE plot phenologically unrepresentative insurance unit satellite flag",
+      "useful": false,
+      "note": "No literature uses this exact combination of terms; only generic phenology validation papers."
+    },
+    {
+      "q": "YES-TECH PMFBY satellite CCE optimization crop cutting experiment",
+      "useful": true,
+      "note": "Confirms YES-TECH fuses RS models with targeted CCEs to cut CCE count 30-70%, but this is CCE reduction/weighting, not per-plot representativeness audit."
+    },
+    {
+      "q": "geotagged photo crop cutting experiment verification AI anomaly PMFBY app",
+      "useful": true,
+      "note": "Found CROPIC, the official PMFBY app for AI analysis of geotagged crop photos; closest output-space neighbour."
+    },
+    {
+      "q": "satellite phenology quality control ground reference plot representativeness sampling audit remote sensing",
+      "useful": true,
+      "note": "Method-space (domain removed): rich literature on validating SATELLITE phenology against ground plots, but direction is reversed from the candidate (ground validates satellite, not satellite audits ground)."
+    },
+    {
+      "q": "crop cutting experiment representativeness Pakistan Bangladesh satellite audit insurance",
+      "useful": true,
+      "note": "Region-swap: Pakistan uses PULA for CCEs, no representativeness-audit tooling found outside India; nothing suggesting the delta is merely geographic."
+    },
+    {
+      "q": "crop insurance ground truth outlier detection satellite phenology startup product India 2026",
+      "useful": true,
+      "note": "Product search: turned up Agrishield AI (academic paper, unclear if shipping), Tracxn startup list, EOSDA insurance product — none audit CCE representativeness specifically."
+    },
+    {
+      "q": "PMFBY satellite CCE representativeness audit 2026",
+      "useful": true,
+      "note": "Recency rerun of query 1; confirms 2026 PMFBY guidance pushes RS for 'CCE planning, yield estimation and loss assessment' generally, not per-plot representativeness scoring."
+    },
+    {
+      "q": "\"remote sensing-based yield proxies\" \"crop cutting experiments\" Indian agricultural insurance abstract",
+      "useful": true,
+      "note": "Located the 2026 ScienceDirect paper's scope: replacing/supplementing CCE yields with RS proxies region-wide, not flagging individual unrepresentative CCE plots."
+    },
+    {
+      "q": "\"insurance unit\" \"crop cutting experiment\" satellite outlier flag photographed plot audit",
+      "useful": false,
+      "note": "Only turned up unrelated fraud-detection and patent hits; no closing item."
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://www.cropin.com/blogs/how-is-ai-optimising-insurance-payout-for-one-of-the-worlds-largest-crop-insurance-programs/",
+      "date": "2022-05-18",
+      "title": "AI Optimizes Insurance Payouts for Crop Insurance Schemes (Cropin Intelligence)",
+      "tier": "B",
+      "closes": false,
+      "why": "Uses satellite+AI to select which plots should host a CCE before harvest; this is CCE placement optimization, the exact thing constraints_C7/delta_claim says the candidate is NOT doing.",
+      "relation": "same_method_other_domain"
+    },
+    {
+      "url": "https://pmfby.gov.in/cropic/",
+      "date": "2025-08-11",
+      "title": "CROPIC — official PMFBY AI geotagged crop-photo platform",
+      "tier": "A",
+      "closes": false,
+      "why": "AI flags anomalies from geotagged CCE/farmer photos, but audits the photo's own content (crop health/stress) rather than comparing the plot's satellite phenology signature to its insurance unit's phenology.",
+      "relation": "same_output_space"
+    },
+    {
+      "url": "https://www.sciencedirect.com/science/article/pii/S2214317326001137",
+      "date": "2026-08",
+      "title": "Can remote sensing-based yield proxies substitute crop cutting experiments in Indian agricultural insurance models?",
+      "tier": "A",
+      "closes": false,
+      "why": "Proposes replacing/supplementing CCE-derived yields wholesale with RS proxies across an insurance unit, not auditing whether an already-collected CCE plot's evidence is representative.",
+      "relation": "same_problem"
+    }
+  ],
+  "nearest_neighbours_do_not": "None of the three nearest neighbours flag an already-photographed CCE plot as unrepresentative of its insurance unit using plot-vs-IU phenology comparison; they optimize CCE placement, audit photo content, or replace CCE yields entirely.",
+  "budget_exhausted": false,
+  "notes": "PMFBY.gov.in itself (yestech/, compendium PDFs) was unreachable via fetch (ECONNREFUSED) and the ScienceDirect page returned 403; scope for both was reconstructed from search snippets only, so treat their listed dates/scope as approximate. Recall YES-TECH launched ~2023 and reduces CCE count via RS+model weighting, but could not verify an exact date/URL passage on individual-plot representativeness, so it is omitted from prior_art rather than guessed.",
+  "product_search": {
+    "queries_run": [
+      "geotagged photo crop cutting experiment verification AI anomaly PMFBY app",
+      "crop insurance ground truth outlier detection satellite phenology startup product India 2026",
+      "PMFBY satellite CCE representativeness audit 2026"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://pmfby.gov.in/cropic/",
+        "date": "2025-08-11",
+        "title": "CROPIC",
+        "tier": "A",
+        "note": "Live official PMFBY app; AI analyzes geotagged CCE/crop photos for anomalies, growth stage, pests/disease/stress. Does not do plot-vs-IU phenological representativeness scoring."
+      },
+      {
+        "url": "https://www.cropin.com/blogs/how-is-ai-optimising-insurance-payout-for-one-of-the-worlds-largest-crop-insurance-programs/",
+        "date": "2022-05-18",
+        "title": "Cropin Intelligence CCE plot selection",
+        "tier": "B",
+        "note": "Deployed satellite+AI product for selecting representative CCE plots pre-harvest; pre-hoc placement, not post-hoc audit of collected evidence."
+      }
+    ]
+  }
+}

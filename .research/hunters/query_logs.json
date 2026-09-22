@@ -1,0 +1,855 @@
+{
+  "satellite__india": [
+    {
+      "q": "India YES-TECH satellite based yield estimation PMFBY official 2026",
+      "useful": true
+    },
+    {
+      "q": "site:pmfby.gov.in YES-TECH technology based yield estimation PMFBY satellite",
+      "useful": true
+    },
+    {
+      "q": "MNCFC FASAL satellite crop acreage yield drought assessment official India 2025",
+      "useful": true
+    },
+    {
+      "q": "India CROPIC PMFBY mobile photo satellite crop insurance official 2025",
+      "useful": true
+    },
+    {
+      "q": "India crop residue management subsidy Punjab official 2025 satellite stubble burning partial burning CEEW",
+      "useful": true
+    },
+    {
+      "q": "site:icar.org.in crop residue management satellite remote sensing Punjab 2025",
+      "useful": true
+    },
+    {
+      "q": "site:agricoop.gov.in digital agriculture mission crop sown registry satellite 2025 India",
+      "useful": true
+    },
+    {
+      "q": "India Digital Crop Survey crop sown registry official satellite 2025",
+      "useful": true
+    },
+    {
+      "q": "India EUDR coffee rubber smallholders deforestation-free supply chain official 2026",
+      "useful": true
+    },
+    {
+      "q": "site:indiacoffee.org EUDR coffee India 2026 deforestation regulation",
+      "useful": false
+    },
+    {
+      "q": "site:rubberboard.gov.in EUDR rubber India geolocation 2026",
+      "useful": true
+    },
+    {
+      "q": "site:apeda.gov.in EUDR India agriculture exports deforestation 2026",
+      "useful": false
+    },
+    {
+      "q": "AlphaEarth Foundations satellite embeddings annual 10m 2025 Google Earth Engine",
+      "useful": true
+    },
+    {
+      "q": "Google Earth AI AlphaEarth Foundations Satellite Embedding dataset 2025 annual embeddings",
+      "useful": true
+    },
+    {
+      "q": "Field boundaries global 10m FTW India smallholder weakness 2024 2025",
+      "useful": true
+    },
+    {
+      "q": "NICFI Planet basemaps India Google Earth Engine non commercial forest loss agriculture 2025",
+      "useful": true
+    },
+    {
+      "q": "Fields of The World global field boundaries 10m 2025 India smallholder weakness",
+      "useful": true
+    },
+    {
+      "q": "FTW global 10 m field boundaries 2025 smallholder labels India",
+      "useful": true
+    },
+    {
+      "q": "AI4SmallFarms India field boundary dataset 2025",
+      "useful": true
+    },
+    {
+      "q": "Indian crop field boundary dataset satellite smallholder 2025",
+      "useful": true
+    },
+    {
+      "q": "site:cropin.com satellite crop monitoring product India 2026 Cropin acre imagery",
+      "useful": true
+    },
+    {
+      "q": "site:satsure.co satellite crop monitoring agriculture product India 2026 SatSure",
+      "useful": true
+    },
+    {
+      "q": "site:pixxel.space agriculture hyperspectral satellite crop monitoring 2026 Pixxel official",
+      "useful": true
+    },
+    {
+      "q": "site:esri.in agriculture satellite crop monitoring India 2026",
+      "useful": false
+    },
+    {
+      "q": "India horticulture CHAMAN satellite assessment mango banana official 2025 2026",
+      "useful": true
+    },
+    {
+      "q": "site:nhb.gov.in CHAMAN horticulture satellite 2025 crop assessment India",
+      "useful": true
+    },
+    {
+      "q": "site:pib.gov.in horticulture CHAMAN geoinformatics 2025 satellite India",
+      "useful": true
+    },
+    {
+      "q": "site:isro.gov.in horticulture CHAMAN crop pest disease satellite India 2026",
+      "useful": true
+    }
+  ],
+  "satellite__eu": [
+    {
+      "q": "site:eur-lex.europa.eu EU 2024/2202 area monitoring system CAP 2025 monitorable eligibility conditions",
+      "useful": true,
+      "note": "Found primary AMS regulation."
+    },
+    {
+      "q": "site:publications.jrc.ec.europa.eu JRC147007 FIRE Workshop 2026 area monitoring system AI drones Sentinel data ELMS",
+      "useful": true,
+      "note": "Found JRC FIRE 2026 report."
+    },
+    {
+      "q": "site:joint-research-centre.ec.europa.eu MARS bulletin August 2026 exceptionally dry hot weather threatens summer crops",
+      "useful": true,
+      "note": "Found JRC MARS drought bulletin."
+    },
+    {
+      "q": "site:copernicus.eu Crop Types 2017 Present raster 10m Europe yearly Nov 2024",
+      "useful": true,
+      "note": "Found Copernicus crop-type product."
+    },
+    {
+      "q": "site:environment.ec.europa.eu Commission updates product scope tools support EUDR 2026 July 13 application dates",
+      "useful": true,
+      "note": "Found EUDR 2026 dates."
+    },
+    {
+      "q": "site:business.esa.int/projects agriculture Sentinel-1 Sentinel-2 CAP Area Monitoring System 2026 all-weather cover covercrop",
+      "useful": true,
+      "note": "Found ESA CAP and cover-crop pilots."
+    },
+    {
+      "q": "site:developers.google.com/earth-engine/datasets AlphaEarth Embeddings dataset annual satellite embeddings 2025",
+      "useful": true,
+      "note": "Found AlphaEarth Earth Engine dataset."
+    },
+    {
+      "q": "site:alphaearth.google AlphaEarth Custom Satellite Embeddings academic program deadline October 15 2026",
+      "useful": false,
+      "note": "Did not find a primary program page in results."
+    },
+    {
+      "q": "site:agriculture.ec.europa.eu CAP 2023 2027 conditionality GAEC 5 soil erosion GAEC 6 minimum soil cover GAEC 8 landscape features",
+      "useful": true,
+      "note": "Found CAP environment and eco-scheme pages."
+    },
+    {
+      "q": "site:agriculture.ec.europa.eu eco-schemes CAP 2023 2027 carbon farming agroecology soil cover official",
+      "useful": true,
+      "note": "Found eco-schemes page."
+    },
+    {
+      "q": "site:eur-lex.europa.eu Nature Restoration Regulation 2024 pollinators agricultural ecosystems EU regulation",
+      "useful": true,
+      "note": "Found Nature Restoration Regulation."
+    },
+    {
+      "q": "site:land.copernicus.eu high resolution layer croplands bare soil after before cropping seasons secondary crop duration 2017 present Europe yearly",
+      "useful": true,
+      "note": "Found CLMS croplands layers."
+    },
+    {
+      "q": "EuroCrops dataset LPIS Europe crop type boundaries Zenodo 2025 2026",
+      "useful": true,
+      "note": "Found EuroCropsML benchmark."
+    },
+    {
+      "q": "Fields of The World global field boundaries 10m smallholder weakness 2024 2025 paper",
+      "useful": true,
+      "note": "Found FTW/FTP field-boundary weakness context."
+    },
+    {
+      "q": "AI4Boundaries dataset European agricultural field boundaries Sentinel-2 LPIS 2024",
+      "useful": true,
+      "note": "Found AI4Boundaries data card."
+    },
+    {
+      "q": "LUCAS Copernicus high resolution layer grassland mowing dates 2017 present Europe 10 m",
+      "useful": true,
+      "note": "Found CLMS grassland mowing layers."
+    },
+    {
+      "q": "site:eur-lex.europa.eu Soil Monitoring Law Directive political agreement 2025 agricultural soils EU",
+      "useful": true,
+      "note": "Found Soil Monitoring Law."
+    },
+    {
+      "q": "site:agriculture.ec.europa.eu GAEC 2 wetlands peatlands CAP 2023 2027 official",
+      "useful": false,
+      "note": "No specific GAEC 2 primary page retained."
+    },
+    {
+      "q": "site:climate.ec.europa.eu EU carbon removals certification framework regulation 2024 farming carbon monitoring official",
+      "useful": true,
+      "note": "Found CRCF certification methodology page."
+    },
+    {
+      "q": "site:ec.europa.eu agriculture organic action plan EU organic farming target 25% land 2030 remote sensing monitoring",
+      "useful": true,
+      "note": "Found organic action plan."
+    },
+    {
+      "q": "EU wine sector grubbing up vine pull out support 2024 2025 official satellite monitoring vineyards",
+      "useful": true,
+      "note": "Found EU wine policy support context."
+    },
+    {
+      "q": "site:franceagrimer.fr arrachage vignes prime 2024 2025 France official",
+      "useful": true,
+      "note": "Found FranceAgriMer vine restructuring aid."
+    },
+    {
+      "q": "site:land.copernicus.eu Tree Cover Density 2018 present raster 10m Europe yearly high resolution layer",
+      "useful": true,
+      "note": "Found CLMS tree-cover density."
+    },
+    {
+      "q": "site:land.copernicus.eu Water and Wetness 2018 present raster 10 m Europe high resolution layer",
+      "useful": true,
+      "note": "Found CLMS water/wetness layer."
+    },
+    {
+      "q": "site:business.esa.int/projects EO-INSURE Sentinel-1 Sentinel-2 orchard insurance 2026 abiotic damages",
+      "useful": true,
+      "note": "Found EO-INSURE."
+    },
+    {
+      "q": "site:business.esa.int/projects RegenAg MRV Sentinel regenerative agriculture 2026 cover crops residue rotation irrigation",
+      "useful": true,
+      "note": "Found RegenAg MRV."
+    },
+    {
+      "q": "site:land.copernicus.eu small woody features high resolution layer Europe 2018 present hedgerows 10m",
+      "useful": true,
+      "note": "Found Small Landscape Features."
+    },
+    {
+      "q": "site:eur-lex.europa.eu Regulation EU 2024/1991 high-diversity landscape features agricultural ecosystems farmland birds pollinators",
+      "useful": true,
+      "note": "Found Nature Restoration agricultural ecosystem indicators."
+    }
+  ],
+  "satellite__malaysia": [
+    {
+      "q": "site:mpob.gov.my TSPKS 2.0 smallholder replanting oil palm Malaysia 2026 MPOB",
+      "useful": true,
+      "note": "Found MPOB/TSPKS replanting and monitoring sources."
+    },
+    {
+      "q": "site:mpob.gov.my EUDR MSPO palm oil Malaysia 2026 MPOB",
+      "useful": true,
+      "note": "Found MSPO/TSPKS smallholder context."
+    },
+    {
+      "q": "site:environment.ec.europa.eu EUDR 30 December 2026 palm rubber geolocation due diligence",
+      "useful": true,
+      "note": "Found EC EUDR date and commodity source."
+    },
+    {
+      "q": "Open Foris NICFI Planet basemaps agreement concluded 23 January 2025",
+      "useful": true,
+      "note": "Found NICFI archive status."
+    },
+    {
+      "q": "For Every Farm FTW global field boundaries smallholder weakness 2024 2025 primary source",
+      "useful": true,
+      "note": "Found FTW global boundary product."
+    },
+    {
+      "q": "AlphaEarth Foundations satellite embeddings academic program deadline 15 October 2026 primary source",
+      "useful": true,
+      "note": "Found AlphaEarth and embeddings sources."
+    },
+    {
+      "q": "Malaysia rubber EUDR geolocation smallholders primary source 2026",
+      "useful": false,
+      "note": "No strong rubber-specific primary seed found quickly."
+    },
+    {
+      "q": "Malaysia Cameron Highlands agriculture Sentinel-1 SAR cloud vegetable farms official",
+      "useful": true,
+      "note": "Found Cameron official agriculture and remote-sensing monitoring pages."
+    },
+    {
+      "q": "site:myrubbercouncil.com EUDR rubber Malaysia geolocation 2026",
+      "useful": false,
+      "note": "No usable primary result."
+    },
+    {
+      "q": "site:lgm.gov.my EUDR rubber Malaysia 2026 smallholders",
+      "useful": false,
+      "note": "No usable primary result."
+    },
+    {
+      "q": "site:doa.gov.my myGAP Cameron Highlands updated 31 Jul 2026 crop list",
+      "useful": true,
+      "note": "Found myGAP Cameron Highlands certificate list."
+    },
+    {
+      "q": "site:mygap.doa.gov.my Cameron Highlands myGAP crop certification list 2026",
+      "useful": true,
+      "note": "Found more myGAP list pages."
+    },
+    {
+      "q": "site:proladang.com.my AgriAssist precision satellite monitoring agriculture Malaysia 2026",
+      "useful": true,
+      "note": "Found official AgriAssist product page."
+    },
+    {
+      "q": "site:wipo.int AgriAssist AI Powered Crop Health Monitoring Precision Spray System 2026",
+      "useful": true,
+      "note": "Found dated WIPO profile for AgriAssist."
+    },
+    {
+      "q": "site:aonic.com my Airamap Desktop AI tree counting agriculture software 2026",
+      "useful": true,
+      "note": "Found Aonic Airamap product page."
+    },
+    {
+      "q": "site:mysa.gov.my Malaysia satellite remote sensing agriculture paddy monitoring 2026",
+      "useful": true,
+      "note": "Found MYSA MakGeoPadi sources."
+    },
+    {
+      "q": "arXiv 2605.11055 Fields of The World global field boundary map 2026 date",
+      "useful": true,
+      "note": "Found FTW paper and product references."
+    },
+    {
+      "q": "Source Cooperative FTW global data field boundaries 2024 2025 source cooperative date",
+      "useful": true,
+      "note": "Found FTW data catalogue pointers."
+    },
+    {
+      "q": "Google Earth Engine AlphaEarth embeddings dataset annual 2025 source",
+      "useful": true,
+      "note": "Found Earth Engine dataset page."
+    },
+    {
+      "q": "AlphaEarth Foundations custom satellite embeddings academic program deadline October 15 2026",
+      "useful": true,
+      "note": "Found custom embeddings programme signal."
+    }
+  ],
+  "satellite__singapore_source_basket": [
+    {
+      "q": "site:sfa.gov.sg Singapore food statistics 2025 vegetable imports Malaysia China Australia Vietnam PDF",
+      "useful": true,
+      "note": "Found SFA Food Statistics 2024/2025 and import-resilience pages."
+    },
+    {
+      "q": "site:sfa.gov.sg Singapore Food Statistics 2024 food import sources Malaysia Australia China Vietnam",
+      "useful": true,
+      "note": "Found SFA 2024 publication page."
+    },
+    {
+      "q": "site:environment.ec.europa.eu EUDR 30 December 2026 product scope tools support 2026 July 13",
+      "useful": true,
+      "note": "Found primary EUDR 2026 deadline page."
+    },
+    {
+      "q": "site:openforis.org NICFI Planet basemaps agreement concluded 23 Jan 2025",
+      "useful": true,
+      "note": "Found OpenForis NICFI notice."
+    },
+    {
+      "q": "site:data.gov.sg Singapore food statistics 2025 vegetables imports source countries",
+      "useful": true,
+      "note": "Found SFA and SINGSTAT data pages."
+    },
+    {
+      "q": "site:sfa.gov.sg Singapore Food Statistics 2025 vegetables Malaysia China Australia",
+      "useful": true,
+      "note": "Found SFA Food Statistics 2025 page."
+    },
+    {
+      "q": "site:earthengine.google.com AlphaEarth Foundations embeddings dataset 2025 annual",
+      "useful": true,
+      "note": "Found Google AlphaEarth Foundations dataset documentation."
+    },
+    {
+      "q": "field boundaries global FTW 2024 2025 source smallholder weakness",
+      "useful": true,
+      "note": "Found FTW global data and confidence layers."
+    },
+    {
+      "q": "site:sfa.gov.sg/publications/sgfs Singapore Food Statistics 2025 PDF vegetables Malaysia China Australia Vietnam",
+      "useful": true,
+      "note": "Found SFA publications page."
+    },
+    {
+      "q": "Singapore Food Statistics 2025 PDF imports vegetables Malaysia China SFA",
+      "useful": true,
+      "note": "Found SFA Food Statistics 2025."
+    },
+    {
+      "q": "site:sfa.gov.sg Singapore rice trade agreement Vietnam 2026 Cambodia Thailand SFA",
+      "useful": true,
+      "note": "Found SFA Food Story 2 rice agreements."
+    },
+    {
+      "q": "site:sfa.gov.sg Malaysia heavy rainfall Cameron Highlands vegetable supply Singapore 2022",
+      "useful": true,
+      "note": "Found SFA heavy-rain vegetable disruption example."
+    },
+    {
+      "q": "site:customs.gov.sg Singapore import fruits vegetables regulated SFA 2026",
+      "useful": true,
+      "note": "Found Singapore Customs SFA import controls page."
+    },
+    {
+      "q": "site:data.gov.sg Singapore merchandise imports vegetables fruit monthly 2026",
+      "useful": true,
+      "note": "Found monthly merchandise import dataset."
+    },
+    {
+      "q": "Google Earth Engine AlphaEarth Foundations dataset annual embeddings 2025",
+      "useful": true,
+      "note": "Found AlphaEarth annual embeddings documentation."
+    },
+    {
+      "q": "ESA WorldCereal 10 m crop map 2021 season official dataset",
+      "useful": true,
+      "note": "Found WorldCereal official product page."
+    },
+    {
+      "q": "NASA Landsat crop stress Australia drought official agriculture 2026",
+      "useful": false,
+      "note": "Did not retain a candidate-specific primary source."
+    },
+    {
+      "q": "Vietnam Mekong Delta rice salinity drought agriculture ministry 2024 official",
+      "useful": false,
+      "note": "Did not retain a candidate-specific primary source."
+    }
+  ],
+  "drone_and_aerial__india": [
+    {
+      "q": "IMPaCT UAV dataset paddy Vijayawada drone multispectral 2023 open dataset",
+      "useful": true
+    },
+    {
+      "q": "IMPaCT-UAV paddy dataset growth stages Vijayawada GitHub",
+      "useful": true
+    },
+    {
+      "q": "Namo Drone Didi scheme 15000 women self help groups official 2024 2025 drone didi",
+      "useful": true
+    },
+    {
+      "q": "Kisan Drone subsidy agriculture drones India official 2024 2025",
+      "useful": true
+    },
+    {
+      "q": "IMPaCT UAV dataset paddy India arxiv 2601.01084 dataset download GitHub",
+      "useful": true
+    },
+    {
+      "q": "\"A UAV-Based Multispectral and RGB Dataset\" \"IMPaCT\" \"GitHub\"",
+      "useful": true
+    },
+    {
+      "q": "\"IMPaCT-UAV\" dataset paddy drone open",
+      "useful": true
+    },
+    {
+      "q": "\"Vijayawada\" \"42,430\" \"UAV\" paddy dataset",
+      "useful": true
+    },
+    {
+      "q": "BharatRohan hyperspectral drone agriculture official 2025 2026 India",
+      "useful": true
+    },
+    {
+      "q": "Garuda Aerospace agriculture drone official Namo Drone Didi 2025 2026",
+      "useful": true
+    },
+    {
+      "q": "Marut Drones AG365 agriculture drone official 2025 2026 crop health",
+      "useful": true
+    },
+    {
+      "q": "site:tihan.iith.ac.in agriculture datasets multispectral aerial paddy maize request access 2026",
+      "useful": true
+    },
+    {
+      "q": "site:kaggle.com India UAV agriculture drone paddy dataset multispectral",
+      "useful": true
+    },
+    {
+      "q": "site:github.com India agriculture UAV dataset paddy multispectral drone",
+      "useful": true
+    },
+    {
+      "q": "site:zenodo.org India UAV agriculture dataset paddy drone 2026",
+      "useful": true
+    },
+    {
+      "q": "site:figshare.com UAV agriculture India paddy dataset drone",
+      "useful": true
+    },
+    {
+      "q": "UAV spray deposition India dataset water sensitive paper rice 2024 2025",
+      "useful": true
+    },
+    {
+      "q": "\"UAV-based herbicide\" \"direct-seeded rice\" India \"droplet deposition\" 2024",
+      "useful": true
+    },
+    {
+      "q": "Namo Drone Didi drone portal operations live information official 2025",
+      "useful": true
+    },
+    {
+      "q": "Namo Drone Didi operational guidelines Drone Portal track operations 2024",
+      "useful": true
+    },
+    {
+      "q": "P2PNet-Paddy UAV RGB India panicle counting dataset 2026",
+      "useful": true
+    },
+    {
+      "q": "Improved Panicle Counting Density-Aware Sampling Enhanced Matching UAV RGB India 2025 dataset",
+      "useful": true
+    },
+    {
+      "q": "ICRISAT UAV hyperspectral groundnut pearl millet dataset TiHAN agriculture request access 2025",
+      "useful": true
+    },
+    {
+      "q": "Indian UAV agriculture dataset paddy maize multispectral TiHAN 2025",
+      "useful": true
+    },
+    {
+      "q": "\"UAV-Borne Hyperspectral Imaging Dataset of Pearl Millet Canopy Water Stress\" date",
+      "useful": true
+    },
+    {
+      "q": "\"HSI-PearlMillet-WaterStress\" \"2025\" \"published\"",
+      "useful": true
+    },
+    {
+      "q": "\"A UAV-Based Multispectral and RGB Dataset\" IEEE DataPort DOI",
+      "useful": true
+    },
+    {
+      "q": "\"2601.01084\" \"IEEE DataPort\"",
+      "useful": true
+    }
+  ],
+  "drone_and_aerial__eu": [
+    {
+      "q": "IGN BD ORTHO open data 20 cm date 2025 agriculture vineyards France",
+      "useful": true,
+      "note": "Found BD ORTHO open 20 cm aerial imagery and update dates."
+    },
+    {
+      "q": "PDOK luchtfoto open data 2025 8 cm orthophoto Netherlands agriculture",
+      "useful": true,
+      "note": "Found Dutch open aerial imagery services and 2025/2026 layers."
+    },
+    {
+      "q": "Denmark orthophoto GeoDanmark latest aerial imagery open data 2025 2026",
+      "useful": true,
+      "note": "Found Danish oblique/aerial photo services, less used."
+    },
+    {
+      "q": "Spain PNOA orthophoto open data 2025 25 cm agriculture vineyards",
+      "useful": true,
+      "note": "Found 2025 PNOA orthophotos with CC BY 4.0 and creation dates."
+    },
+    {
+      "q": "WeedsGalore dataset drone multispectral maize weed Denmark 2024 2025",
+      "useful": true,
+      "note": "Found WeedsGalore UAV multispectral dataset."
+    },
+    {
+      "q": "PhenoBench dataset agricultural robotics drone field phenotyping 2023 2024",
+      "useful": true,
+      "note": "Found PhenoBench dataset and benchmarks."
+    },
+    {
+      "q": "Agriculture-Vision dataset aerial farmland images semantic segmentation date",
+      "useful": true,
+      "note": "Found Agriculture-Vision, but non-EU so mostly crowding context."
+    },
+    {
+      "q": "UAVid agriculture drone dataset Europe vineyard orchard row detection open dataset 2025",
+      "useful": false,
+      "note": "No retained source."
+    },
+    {
+      "q": "site:sdfe.dk aerial orthophoto Denmark open data 2025 agriculture orthophoto",
+      "useful": false,
+      "note": "No strong primary orthophoto source retained."
+    },
+    {
+      "q": "site:dataforsyningen.dk orthophoto Denmark 2025 aerial imagery open data",
+      "useful": true,
+      "note": "Found Danish data services."
+    },
+    {
+      "q": "site:basemap.at orthofoto Austria open data 2025 agriculture",
+      "useful": true,
+      "note": "Found Austrian basemap orthophoto."
+    },
+    {
+      "q": "site:geoland.at orthofoto Austria open data 2025",
+      "useful": true,
+      "note": "Found Austrian orthophoto update context."
+    },
+    {
+      "q": "IGN FLAIR dataset land cover aerial imagery France 2023 2024 open data",
+      "useful": true,
+      "note": "Found FLAIR and FLAIR-HUB."
+    },
+    {
+      "q": "PureForest dataset IGN aerial imagery tree species France 2024",
+      "useful": true,
+      "note": "Found PureForest, useful for tree/hedgerow modality context."
+    },
+    {
+      "q": "open national orthophoto agriculture hedgerow dataset France Netherlands Denmark 2025 CAP GAEC 8",
+      "useful": true,
+      "note": "Found orthophoto/hedgerow evidence."
+    },
+    {
+      "q": "vineyard aerial imagery dataset Europe open orthophoto row detection France 2025",
+      "useful": true,
+      "note": "Found open UAV vineyard datasets."
+    },
+    {
+      "q": "EU CAP GAEC 8 landscape features hedgerows orthophoto paying agency official 2025",
+      "useful": true,
+      "note": "Found CAP paying agency and landscape-feature context."
+    },
+    {
+      "q": "EU vine grubbing up scheme 2024 2025 official FranceAgriMer arrachage vignes control parcels",
+      "useful": true,
+      "note": "Found French vine grubbing support evidence."
+    },
+    {
+      "q": "site:business.esa.int/projects agriculture drone aerial imagery 2026 orchards insurance vineyards Europe",
+      "useful": true,
+      "note": "Found ESA agriculture service crowding context."
+    },
+    {
+      "q": "National orthophoto refresh cycles Europe agriculture CAP aerial imagery 2026",
+      "useful": true,
+      "note": "Found national orthophoto examples."
+    },
+    {
+      "q": "drone orthomosaic radiometric calibration panel free agriculture UAV multispectral 2025 paper",
+      "useful": true,
+      "note": "Found UAV radiometric correction papers."
+    },
+    {
+      "q": "raw UAV frames metadata agriculture orthomosaic free detection benchmark 2025 crop weed",
+      "useful": true,
+      "note": "Found raw-video/mosaicking dataset context."
+    },
+    {
+      "q": "orthophoto hedgerow detection France Netherlands CAP GAEC 8 2025 paper",
+      "useful": true,
+      "note": "Found hedgerow/orthophoto literature context."
+    },
+    {
+      "q": "open aerial imagery vineyard missing vine detection orthophoto France Spain 2025 paper",
+      "useful": true,
+      "note": "Found missing-vine crowding and vineyard UAV sources."
+    },
+    {
+      "q": "FLAIR-HUB arXiv data paper 2025 aerial imagery crop mapping France date",
+      "useful": true,
+      "note": "Found FLAIR-HUB publication dates."
+    },
+    {
+      "q": "PhenoBench paper dataset agricultural field benchmark date 2024 arxiv",
+      "useful": true,
+      "note": "Found PhenoBench release/news dates and TPAMI citation."
+    }
+  ],
+  "drone_and_aerial__singapore": [
+    {
+      "q": "SLA OneMap aerial imagery licence analytical use Singapore",
+      "useful": true,
+      "note": "No stated analytical-use licence for SG orthophoto; confirms archive candidate run3:D13's failure reason still holds."
+    },
+    {
+      "q": "data.gov.sg aerial photograph orthophoto dataset",
+      "useful": false,
+      "note": "Only returned US data.gov results, nothing SG-specific."
+    },
+    {
+      "q": "CAAS drone no-fly zone dataset Singapore",
+      "useful": true,
+      "note": "Found CAAS's OneMap UAS layer for permitted flying areas / permit-required zones."
+    },
+    {
+      "q": "Virtual Singapore LiDAR point cloud access researchers",
+      "useful": false,
+      "note": "No confirmed public/research access path found; dropped any LiDAR-dependent idea."
+    },
+    {
+      "q": "NParks drone survey mangrove Sungei Buloh 2026",
+      "useful": true,
+      "note": "Surfaced the NParks 'Prohibited Drone flying areas' GeoJSON on data.gov.sg (Open Data Licence, updated 2026-05-13) - became a core named source."
+    },
+    {
+      "q": "fetch: data.gov.sg/datasets/d_15457a8f67905fb6ed890fca2ebac5f7/view",
+      "useful": true,
+      "note": "Confirmed format (GeoJSON), licence, and last-updated date 2026-05-13 for the NParks drone-zone dataset."
+    },
+    {
+      "q": "fetch: caas.gov.sg permitted-flying-areas-and-no-fly-zones",
+      "useful": true,
+      "note": "Confirmed OneMap UAS layer description and page dates (last updated 2026-09-03)."
+    },
+    {
+      "q": "data.gov.sg digital surface model OR point cloud Singapore dataset",
+      "useful": false,
+      "note": "No direct SG DSM/point-cloud dataset link found; avoided LiDAR-siting ideas."
+    },
+    {
+      "q": "Aonic drone data archive partnership research access",
+      "useful": false,
+      "note": "No formal data-archive/research-access programme documented; used Aonic only as evidence of an operating drone-service firm, framed partner access as 'written access' needed, not already granted."
+    },
+    {
+      "q": "BCA drone thermal building inspection Singapore rooftop",
+      "useful": true,
+      "note": "Surfaced BCA TR78 and the mandatory Periodic Facade Inspection regime - became the basis for several lines."
+    },
+    {
+      "q": "SLA digitised land information digital surface model dataset access",
+      "useful": false,
+      "note": "Confirmed SLA's Licensed Data catalogue (cadastral, street directory, building outline) does NOT include aerial photo/orthophoto - reinforced why direct SG farmland imagery ideas are unsafe."
+    },
+    {
+      "q": "data.gov.sg tree canopy OR green cover aerial dataset Singapore",
+      "useful": false,
+      "note": "Found only non-aerial tree datasets (Tree Conservation Area, Heritage Trees); no usable aerial canopy product."
+    },
+    {
+      "q": "Garuda Robotics Singapore agriculture drone data",
+      "useful": true,
+      "note": "Confirmed Garuda Robotics as an operating SG-HQ agri-drone firm with proprietary DTM/DSM/NDVI pipeline outputs; used as context, not as a dated seed_url."
+    },
+    {
+      "q": "SFA farm consolidation map Lim Chu Kang aerial imagery 2026",
+      "useful": true,
+      "note": "Confirmed the May 2026 LCK land-use-change press release and consolidation map; no raw imagery access implied."
+    },
+    {
+      "q": "WeedsGalore dataset UAV weeds paper 2025",
+      "useful": true,
+      "note": "Confirmed WACV 2025 open UAV multispectral weed-segmentation dataset with date (2025-02) for the domain-gap benchmark line."
+    },
+    {
+      "q": "PhenoBench dataset UAV agriculture benchmark release",
+      "useful": true,
+      "note": "Confirmed open UAV dataset with clean dates (v1.0.0 2023-06) for the same domain-gap line."
+    },
+    {
+      "q": "data.gov.sg \"Digital Surface Model\" OR \"DSM\" dataset download",
+      "useful": false,
+      "note": "Returned only foreign (US/UK/Poland) DSM datasets, nothing for Singapore."
+    },
+    {
+      "q": "Kranji Countryside Association farms open data map",
+      "useful": false,
+      "note": "No open dataset; also surfaced that an aquaculture member (Blue Aqua International) is in the cluster - noted to avoid, aquaculture is excluded."
+    },
+    {
+      "q": "Singapore rooftop urban farming JTC HDB registry dataset",
+      "useful": true,
+      "note": "Confirmed the HDB MSCP rooftop urban-farm tender programme (7-9 sites) with an official HDB press release date."
+    },
+    {
+      "q": "BCA Technical Reference TR78 drone facade inspection Singapore official",
+      "useful": true,
+      "note": "Confirmed TR78:2020 scope (flight planning, image capture, defect classification, PDPA anonymisation) - basis for four separate lines."
+    },
+    {
+      "q": "HDB rooftop farm carpark heat yield problem 2026",
+      "useful": false,
+      "note": "No article explicitly ties heat/waterproofing to yield loss; framed the gap as unexplored rather than citing a stated complaint."
+    },
+    {
+      "q": "Johor FarmByte Archisen vertical farm drone imagery access",
+      "useful": false,
+      "note": "Confirmed the JV and CEA facility exists but no drone-imagery access; dropped this as a named source."
+    },
+    {
+      "q": "Singapore egg farm avian influenza biosecurity buffer drone",
+      "useful": false,
+      "note": "No named accessible drone source found for SG egg-farm biosecurity; idea dropped entirely per the self-collected-flight hard rule."
+    },
+    {
+      "q": "Agriculture-Vision dataset CVPR challenge release date",
+      "useful": false,
+      "note": "Could not pin a clean single publication date from the sources returned; used WeedsGalore/PhenoBench instead."
+    },
+    {
+      "q": "Aerodyne data as a service Malaysia Singapore agriculture",
+      "useful": true,
+      "note": "Confirmed Aerodyne's DRONOS/Agrimor SaaS platform and multi-country drone operations, used as vendor-pipeline-variance context."
+    },
+    {
+      "q": "DroneDash Aerodyne cross-border drone delivery Malaysia Singapore launch date",
+      "useful": true,
+      "note": "Confirmed the Johor-Singapore drone delivery corridor (announced 2024-02) including perishable cargo, used for the spoilage-risk line."
+    },
+    {
+      "q": "PUB reservoir catchment drone survey Kranji farm runoff monitoring",
+      "useful": true,
+      "note": "Found PUB's operational BVLOS reservoir-monitoring drones covering Kranji Reservoir - basis for the farm-reservoir interface line."
+    },
+    {
+      "q": "Singapore Green Plan tree canopy drone LiDAR NParks open dataset 2026",
+      "useful": true,
+      "note": "Confirmed NParks tree LiDAR/digital-twin data is NOT publicly open as of April 2026 - used to rule out a tree-canopy LiDAR idea rather than invent access."
+    },
+    {
+      "q": "fetch: geoworks.sla.gov.sg/sla-products/licensed-data/",
+      "useful": true,
+      "note": "Confirmed exact contents and 12 Aug 2026 update date of SLA's Licensed Data catalogue (no aerial imagery product listed)."
+    },
+    {
+      "q": "fetch: bca.gov.sg TR78 press release",
+      "useful": true,
+      "note": "Got the exact 21 Oct 2021 publication date for the BCA TR78 regulation announcement, used as a tier-A seed_url on four lines."
+    },
+    {
+      "q": "fetch: smartwatermagazine.com PUB drone article",
+      "useful": true,
+      "note": "Got the exact 27 May 2021 date and confirmed Kranji Reservoir coverage and dashboard/video-feed access for the PUB drone programme."
+    }
+  ]
+}

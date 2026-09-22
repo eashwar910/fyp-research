@@ -1,0 +1,532 @@
+[
+  {
+    "one_liner": "For Indian paddy UAV teams using IMPaCT-UAV, fuse raw overlapping RGB/multispectral frames into per-plant detections with location uncertainty, so Namo Drone Didi service flights can skip orthomosaic dependency.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:IMPaCT-UAV_raw_rgb_multispectral",
+    "delta_claim": "probabilistic multi-view fusion with uncertainty, not raw-frame detection alone",
+    "forcing_function": "India: Namo Drone Didi plus Kisan Drone subsidies create repeat flights at scale",
+    "user_guess": "Namo Drone Didi operators and KVK drone trainers",
+    "seed_urls": [
+      {
+        "url": "https://arxiv.org/abs/2601.01084",
+        "date": "2026-06-24",
+        "title": "A UAV-Based Multispectral and RGB Dataset for Multi-Stage Paddy Crop Monitoring in Indian Agricultural Fields",
+        "tier": "A",
+        "note": "IMPaCT-UAV gives Indian paddy raw images, metadata, orthomosaics and all growth stages."
+      },
+      {
+        "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=2070029&lang=2&reg=48",
+        "date": "2024-11-01",
+        "title": "Operational Guidelines of NAMO DRONE DIDI",
+        "tier": "A",
+        "note": "Guidelines create subsidized SHG drone service providers for farm spraying."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:D04",
+    "hunter_confidence": "medium",
+    "queries": [
+      {
+        "q": "IMPaCT UAV dataset paddy Vijayawada drone multispectral 2023 open dataset",
+        "useful": true
+      },
+      {
+        "q": "IMPaCT-UAV paddy dataset growth stages Vijayawada GitHub",
+        "useful": true
+      },
+      {
+        "q": "Namo Drone Didi scheme 15000 women self help groups official 2024 2025 drone didi",
+        "useful": true
+      },
+      {
+        "q": "Kisan Drone subsidy agriculture drones India official 2024 2025",
+        "useful": true
+      },
+      {
+        "q": "IMPaCT UAV dataset paddy India arxiv 2601.01084 dataset download GitHub",
+        "useful": true
+      },
+      {
+        "q": "\"A UAV-Based Multispectral and RGB Dataset\" \"IMPaCT\" \"GitHub\"",
+        "useful": true
+      },
+      {
+        "q": "\"IMPaCT-UAV\" dataset paddy drone open",
+        "useful": true
+      },
+      {
+        "q": "\"Vijayawada\" \"42,430\" \"UAV\" paddy dataset",
+        "useful": true
+      },
+      {
+        "q": "BharatRohan hyperspectral drone agriculture official 2025 2026 India",
+        "useful": true
+      },
+      {
+        "q": "Garuda Aerospace agriculture drone official Namo Drone Didi 2025 2026",
+        "useful": true
+      },
+      {
+        "q": "Marut Drones AG365 agriculture drone official 2025 2026 crop health",
+        "useful": true
+      },
+      {
+        "q": "site:tihan.iith.ac.in agriculture datasets multispectral aerial paddy maize request access 2026",
+        "useful": true
+      },
+      {
+        "q": "site:kaggle.com India UAV agriculture drone paddy dataset multispectral",
+        "useful": true
+      },
+      {
+        "q": "site:github.com India agriculture UAV dataset paddy multispectral drone",
+        "useful": true
+      },
+      {
+        "q": "site:zenodo.org India UAV agriculture dataset paddy drone 2026",
+        "useful": true
+      },
+      {
+        "q": "site:figshare.com UAV agriculture India paddy dataset drone",
+        "useful": true
+      },
+      {
+        "q": "UAV spray deposition India dataset water sensitive paper rice 2024 2025",
+        "useful": true
+      },
+      {
+        "q": "\"UAV-based herbicide\" \"direct-seeded rice\" India \"droplet deposition\" 2024",
+        "useful": true
+      },
+      {
+        "q": "Namo Drone Didi drone portal operations live information official 2025",
+        "useful": true
+      },
+      {
+        "q": "Namo Drone Didi operational guidelines Drone Portal track operations 2024",
+        "useful": true
+      },
+      {
+        "q": "P2PNet-Paddy UAV RGB India panicle counting dataset 2026",
+        "useful": true
+      },
+      {
+        "q": "Improved Panicle Counting Density-Aware Sampling Enhanced Matching UAV RGB India 2025 dataset",
+        "useful": true
+      },
+      {
+        "q": "ICRISAT UAV hyperspectral groundnut pearl millet dataset TiHAN agriculture request access 2025",
+        "useful": true
+      },
+      {
+        "q": "Indian UAV agriculture dataset paddy maize multispectral TiHAN 2025",
+        "useful": true
+      },
+      {
+        "q": "\"UAV-Borne Hyperspectral Imaging Dataset of Pearl Millet Canopy Water Stress\" date",
+        "useful": true
+      },
+      {
+        "q": "\"HSI-PearlMillet-WaterStress\" \"2025\" \"published\"",
+        "useful": true
+      },
+      {
+        "q": "\"A UAV-Based Multispectral and RGB Dataset\" IEEE DataPort DOI",
+        "useful": true
+      },
+      {
+        "q": "\"2601.01084\" \"IEEE DataPort\"",
+        "useful": true
+      }
+    ],
+    "search_count": 28,
+    "fetch_count": 12,
+    "budget_exhausted": false
+  },
+  {
+    "one_liner": "For Indian paddy drone surveys on IMPaCT-UAV, score each mission for radiometric repeatability across dates before NDRE changes are treated as growth-stage change.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:IMPaCT-UAV_multispectral_metadata",
+    "delta_claim": "mission-level radiometry QA that protects phenology labels from acquisition drift",
+    "forcing_function": "India: Namo Drone Didi plus Kisan Drone subsidies create repeat flights at scale",
+    "user_guess": "KVKs, IIT Tirupati DroneHub and drone service trainers",
+    "seed_urls": [
+      {
+        "url": "https://arxiv.org/abs/2601.01084",
+        "date": "2026-06-24",
+        "title": "IMPaCT-UAV Indian paddy dataset",
+        "tier": "A",
+        "note": "Dataset includes raw RGB/multispectral images, metadata, environmental conditions and all paddy stages."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": "run3:D01",
+    "hunter_confidence": "high"
+  },
+  {
+    "one_liner": "For Indian paddy drone analysts, detect Pix4D orthomosaic seams and missed alignments in IMPaCT-UAV that would flip field-zone decisions, returning a reject-or-reprocess mask.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:IMPaCT-UAV_raw_frames_orthomosaics",
+    "delta_claim": "quality-control masks for orthomosaic-derived agronomy outputs",
+    "forcing_function": "India: repeat UAV analytics at scale under public drone programmes",
+    "user_guess": "drone service firms and university agri-imaging labs",
+    "seed_urls": [
+      {
+        "url": "https://arxiv.org/abs/2601.01084",
+        "date": "2026-06-24",
+        "title": "IMPaCT-UAV Indian paddy dataset",
+        "tier": "A",
+        "note": "The paper states raw images were validated through Pix4D orthomosaics and vegetation-index maps."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Indian Namo Drone Didi training audits, use IMPaCT-UAV metadata to grade whether a pilot's flight pattern is reusable for analytics or only safe for spraying coverage logs.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:IMPaCT-UAV_flight_metadata",
+    "delta_claim": "separates analytics-grade missions from spray-only missions",
+    "forcing_function": "Namo Drone Didi Drone Portal tracks operations and pilot training",
+    "user_guess": "state nodal officers and Lead Fertilizer Companies",
+    "seed_urls": [
+      {
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2143151&lang=2&reg=3",
+        "date": "2025-07-08",
+        "title": "Digital platforms for NaMo Drone Didi",
+        "tier": "A",
+        "note": "PIB says the Drone Portal will map and track drone operations, pilot training and certification."
+      },
+      {
+        "url": "https://arxiv.org/abs/2601.01084",
+        "date": "2026-06-24",
+        "title": "IMPaCT-UAV Indian paddy dataset",
+        "tier": "A",
+        "note": "IMPaCT-UAV includes flight altitude, GPS and environmental metadata."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Indian paddy agronomists, use sparse raw IMPaCT-UAV frames to choose the smallest annotation set that preserves stage, disease-scouting and stress diversity for later model review.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:IMPaCT-UAV_raw_rgb_multispectral",
+    "delta_claim": "annotation-set design with diversity guarantees, not a paddy classifier",
+    "forcing_function": null,
+    "user_guess": "agri-imaging labs and KVK model reviewers",
+    "seed_urls": [
+      {
+        "url": "https://arxiv.org/abs/2601.01084",
+        "date": "2026-06-24",
+        "title": "IMPaCT-UAV Indian paddy dataset",
+        "tier": "A",
+        "note": "The dataset has 42,430 raw images across nursery to harvesting stages."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Indian paddy drone services, align IMPaCT-UAV RGB and multispectral frames to expose when red-edge maps are spatially shifted from visible canopy rows before prescriptions are generated.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:IMPaCT-UAV_rgb_multispectral",
+    "delta_claim": "cross-sensor registration failure detection for prescription safety",
+    "forcing_function": "Kisan Drone subsidy and drone-service scale-up",
+    "user_guess": "drone analytics vendors and KVK demonstrators",
+    "seed_urls": [
+      {
+        "url": "https://arxiv.org/abs/2601.01084",
+        "date": "2026-06-24",
+        "title": "IMPaCT-UAV Indian paddy dataset",
+        "tier": "A",
+        "note": "IMPaCT-UAV has paired RGB and four-band multispectral imagery."
+      },
+      {
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=1909215&lang=2&reg=48",
+        "date": "2023-03-21",
+        "title": "Funds for Kisan Drones",
+        "tier": "A",
+        "note": "PIB describes subsidies for Kisan Drone demonstrations and service providers."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Indian paddy model users, build IMPaCT-UAV failure cards that show which altitude, growth stage or weather metadata breaks growth-stage transfer before deployment.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:IMPaCT-UAV_metadata",
+    "delta_claim": "metadata-conditioned deployment failure cards, not growth-stage classification",
+    "forcing_function": null,
+    "user_guess": "FYP evaluators, KVKs and drone-service QA teams",
+    "seed_urls": [
+      {
+        "url": "https://arxiv.org/abs/2601.01084",
+        "date": "2026-06-24",
+        "title": "IMPaCT-UAV Indian paddy dataset",
+        "tier": "A",
+        "note": "Dataset includes GPS, altitude, environmental metadata and multiple paddy stages."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:D12",
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Namo Drone Didi nutrient-spray SOPs, use TiHAN paddy growth-stage UAV images to flag fields where the observed stage makes a planned nutrient or pesticide spray mistimed.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "request_access_uav_dataset:TiHAN_paddy_growth_stage_rgb",
+    "delta_claim": "spray-timing gate tied to SOP compliance, not crop-stage classification",
+    "forcing_function": "Namo Drone Didi crop-specific SOP rollout",
+    "user_guess": "state Namo Drone Didi trainers and SHG pilots",
+    "seed_urls": [
+      {
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2143151&lang=2&reg=3",
+        "date": "2025-07-08",
+        "title": "Crop-specific SOPs for drone nutrient application",
+        "tier": "A",
+        "note": "PIB says crop-specific SOPs were unveiled for drone nutrient application."
+      },
+      {
+        "url": "https://www.linkedin.com/posts/tihan-iit-hyderabad_precisionagriculture-multispectralimaging-activity-7432003612710445056-M35r",
+        "date": "2026-03",
+        "title": "TiHAN multispectral aerial agriculture dataset",
+        "tier": "B",
+        "note": "TiHAN describes paddy panicle, maize tassel and water-stress aerial datasets with request access."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Indian maize extension teams, use TiHAN multispectral aerial data to decide whether tassel-head detection or early water-stress bands should trigger the first field visit.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "request_access_uav_dataset:TiHAN_multispectral_maize",
+    "delta_claim": "compares two actionable scouting triggers from the same aerial dataset",
+    "forcing_function": null,
+    "user_guess": "KVKs and state maize extension officers",
+    "seed_urls": [
+      {
+        "url": "https://www.linkedin.com/posts/tihan-iit-hyderabad_precisionagriculture-multispectralimaging-activity-7432003612710445056-M35r",
+        "date": "2026-03",
+        "title": "TiHAN multispectral aerial agriculture dataset",
+        "tier": "B",
+        "note": "TiHAN lists maize tassel detection and early water-stress identification in maize."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Indian millet breeders, use the TiHAN/ICRISAT UAV hyperspectral pearl-millet dataset to output the earliest flight date when water-stress separation is trustworthy by genotype group.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "request_access_uav_dataset:HSI-PearlMillet-WaterStress",
+    "delta_claim": "earliest trustworthy stress-date selection for breeding trials",
+    "forcing_function": null,
+    "user_guess": "ICRISAT and dryland-crop breeding teams",
+    "seed_urls": [
+      {
+        "url": "https://oar.icrisat.org/13212/",
+        "date": "2025-07-08",
+        "title": "UAV-Borne Hyperspectral Imaging Dataset of Pearl Millet Canopy Water Stress",
+        "tier": "A",
+        "note": "ICRISAT repository describes UAV HSI pearl millet water-stress dataset and public-use intent."
+      },
+      {
+        "url": "https://github.com/sankaraug/HSI-PearlMillet-WaterStress",
+        "date": "2025-02",
+        "title": "HSI-PearlMillet-WaterStress",
+        "tier": "B",
+        "note": "Repository describes request-access dataset, benchmark code and 282-band UAV HSI patches."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Indian paddy insurance labs, transfer open Zenodo panicle annotations into IMPaCT-UAV only to measure when panicle-count models fail under Indian camera, stage and variety shifts.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:Zenodo_panicle+IMPaCT-UAV",
+    "delta_claim": "domain-shift audit for panicle-count deployment, not a new count model",
+    "forcing_function": "PMFBY / YES-TECH yield-estimation pressure",
+    "user_guess": "PMFBY analytics labs and paddy procurement assessors",
+    "seed_urls": [
+      {
+        "url": "https://zenodo.org/records/4444741",
+        "date": "2021-01-18",
+        "title": "UAV Imagery Dataset for Paddy Rice Panicle Detection",
+        "tier": "A",
+        "note": "Zenodo hosts open UAV paddy-panicle imagery and labels."
+      },
+      {
+        "url": "https://arxiv.org/abs/2601.01084",
+        "date": "2026-06-24",
+        "title": "IMPaCT-UAV Indian paddy dataset",
+        "tier": "A",
+        "note": "IMPaCT-UAV provides Indian paddy raw images and stage coverage."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Indian rice-disease scouts, use the BLB UAV dataset plus IMPaCT-UAV stage metadata to convert disease patches into visit-priority zones with stage-aware false-alarm labels.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:BLB_UAV+IMPaCT-UAV",
+    "delta_claim": "stage-aware scouting priority and false-alarm typing, not generic disease detection",
+    "forcing_function": null,
+    "user_guess": "KVK plant-protection officers",
+    "seed_urls": [
+      {
+        "url": "https://figshare.com/articles/dataset/BLB_UAV_Dataset/26955862/2",
+        "date": "2025-01-27",
+        "title": "BLB UAV Dataset",
+        "tier": "A",
+        "note": "Figshare hosts a CC BY 4.0 paddy bacterial leaf blight UAV dataset."
+      },
+      {
+        "url": "https://arxiv.org/abs/2601.01084",
+        "date": "2026-06-24",
+        "title": "IMPaCT-UAV Indian paddy dataset",
+        "tier": "A",
+        "note": "IMPaCT-UAV covers Indian paddy stages from nursery to harvesting."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Namo Drone Didi service monitoring, use official Drone Portal operation records with IMPaCT-like image QA features to flag flights that need farmer follow-up before subsidy reporting.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:IMPaCT-UAV_for_QA_proxy+drone_portal_logs",
+    "delta_claim": "operational QA queue for public drone services",
+    "forcing_function": "Namo Drone Didi Drone Portal operations tracking",
+    "user_guess": "state nodal officers and Lead Fertilizer Companies",
+    "seed_urls": [
+      {
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2143151&lang=2&reg=3",
+        "date": "2025-07-08",
+        "title": "Namo Drone Didi portal",
+        "tier": "A",
+        "note": "PIB says the portal maps and tracks drone operations, training and certification."
+      },
+      {
+        "url": "https://arxiv.org/abs/2601.01084",
+        "date": "2026-06-24",
+        "title": "IMPaCT-UAV Indian paddy dataset",
+        "tier": "A",
+        "note": "Indian UAV dataset can provide open image-quality proxy features."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Indian direct-seeded rice drone-spray trials, link UAV flight parameters and water-sensitive-paper outcomes to predict which planned missions need deposition sampling before rollout.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_experiment:Frontiers_direct_seeded_rice_spray_WSP",
+    "delta_claim": "sampling-priority predictor for deposition QA, not spray mission planning",
+    "forcing_function": "Namo Drone Didi crop-specific SOP rollout",
+    "user_guess": "agricultural engineering labs and drone SOP authors",
+    "seed_urls": [
+      {
+        "url": "https://www.frontiersin.org/journals/agronomy/articles/10.3389/fagro.2024.1491842/full",
+        "date": "2024-11-22",
+        "title": "Spray volume optimization with UAV-based herbicide application",
+        "tier": "A",
+        "note": "Indian direct-seeded rice study reports UAV spray parameters, deposition and weed-control results."
+      },
+      {
+        "url": "https://frontiersin.figshare.com/articles/dataset/Table_1_Spray_volume_optimization_with_UAV-based_herbicide_application_for_effective_droplet_deposition_and_weed_control_in_direct-seeded_rice_docx/27887664",
+        "date": "2024-11-22",
+        "title": "Spray volume optimization table",
+        "tier": "A",
+        "note": "Figshare hosts supporting table for the UAV herbicide deposition study."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:D02",
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For BharatRohan-style hyperspectral drone advisories in India, use open TiHAN/ICRISAT HSI data to emit when hyperspectral adds actionable value over cheaper multispectral scouting.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "request_access_uav_dataset:HSI-PearlMillet-WaterStress+TiHAN_multispectral",
+    "delta_claim": "value-of-sensor decision rule for advisory businesses",
+    "forcing_function": null,
+    "user_guess": "hyperspectral drone advisory firms and seed companies",
+    "seed_urls": [
+      {
+        "url": "https://frontiertech.niti.gov.in/story/drone-based-hyperspectral-imaging-transforming-indian-agriculture-for-sustainable-growth/",
+        "date": "2025-06-19",
+        "title": "BharatRohan hyperspectral drone agriculture",
+        "tier": "A",
+        "note": "NITI Frontier Tech describes BharatRohan's drone hyperspectral advisory work."
+      },
+      {
+        "url": "https://oar.icrisat.org/13212/",
+        "date": "2025-07-08",
+        "title": "UAV-Borne Hyperspectral Imaging Dataset of Pearl Millet Canopy Water Stress",
+        "tier": "A",
+        "note": "ICRISAT describes public-use UAV HSI crop-stress dataset."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Indian paddy UAV benchmarks, join IMPaCT-UAV with TiHAN paddy-growth images to produce a cross-campus acquisition-shift score before any model is sold as field-ready.",
+    "region": "india",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:IMPaCT-UAV+request_access_uav_dataset:TiHAN_paddy_growth_stage",
+    "delta_claim": "field-readiness score across Indian UAV acquisition regimes",
+    "forcing_function": "India: public drone-service scale-up needs reliable analytics",
+    "user_guess": "drone analytics firms and academic benchmark maintainers",
+    "seed_urls": [
+      {
+        "url": "https://arxiv.org/abs/2601.01084",
+        "date": "2026-06-24",
+        "title": "IMPaCT-UAV Indian paddy dataset",
+        "tier": "A",
+        "note": "IMPaCT-UAV covers Vijayawada paddy with raw images and metadata."
+      },
+      {
+        "url": "https://www.linkedin.com/posts/tihan-iit-hyderabad_precisionagriculture-multispectralimaging-activity-7432003612710445056-M35r",
+        "date": "2026-03",
+        "title": "TiHAN multispectral aerial agriculture dataset",
+        "tier": "B",
+        "note": "TiHAN describes paddy and maize multispectral aerial datasets for request access."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  }
+]

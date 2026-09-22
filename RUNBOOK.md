@@ -1,11 +1,21 @@
-# RUNBOOK — Run 4, Stage 4 completion across three agents
+# RUNBOOK — Run 4, Stage 4 completion
 
 **Written:** 2026-09-18 · **Branch:** `v3` · **Applies to:** finishing stage 4, then stages 5–7.
+**Constraints:** v3 (`sha256:4521dc01d7545044`) — C9 gained `max_local_storage_gb: 512`.
+**Revised 2026-09-22 (rev 2):** one Pro subscription, **four sessions**, full coverage retained.
+Parallel lanes are gone; the schedule replaced them, not the deliverable. See §4.
+All 41 data envelopes were regenerated against v3; any envelope pinning `abeba9167470f791` is stale.
 
-This runbook splits the remaining work across three accounts (Claude Code, Claude.ai web
-chat, Codex) so that **no session limit can cost you more than the single dispatch that was
-in flight.** Read §2 before running anything — the durability and concurrency rules are what
-make the split safe.
+This runbook finishes stage 4 on a **single Claude Pro subscription across four sessions** —
+three in Claude Code and one in claude.ai web chat, which carries its own independent session
+budget (§4.2). **The deliverable is the same one the three-account plan promised: all 63
+candidates resolved, every survivor carrying both verdicts, in one ranked roster.** Coverage is
+not traded away; only the calendar is. Read §2 and §4 before running anything — the durability
+rule and the data-first ordering are what make a scarce budget produce finished verdicts
+instead of half-finished ones.
+
+**Operator's step-by-step companion: `MANUAL.md`.** This file is the design; the manual is the
+keystrokes — which prompt to run, in which surface, in what order.
 
 ---
 
@@ -62,16 +72,15 @@ half-written (that is how the stage-2 merge was lost at `status: running`).
 Resume is therefore **stateless**: diff the expected id list against the files on disk.
 Nothing needs to remember anything. A limit hit costs you the in-flight dispatch only.
 
-### 2.2 Concurrency — conflicts are prevented by construction, not by merge skill
+### 2.2 Sequencing — one operator, strict order
 
-- Each lane owns a **disjoint set of candidate ids** and writes only its own new files.
-- **Workers never touch shared files.** `gate_screen.yml`, `RUN_LOG.md`, `candidates.jsonl`
-  and `ROSTER.md` have exactly one writer: Lane A, during the sequential fold-in.
-- Per-lane append-only ledgers (`.research/ledger/lane{a,b,c}.jsonl`) so no two agents ever
-  append to the same file.
-- All three lanes work on branch `v3` and `git add` **only their own paths**. Because the
-  file sets are disjoint there is nothing to conflict on. If you hit `.git/index.lock`,
-  wait two seconds and retry — that is lock contention, not a merge problem.
+Every dispatch runs one at a time, under one operator, in one of four sessions (§4.2). There is
+no concurrency to manage and no merge risk, because there is only ever one writer — **you**, and
+you write every file regardless of which surface produced the verdict. What replaces the old
+lane discipline is **ordering**: cheap kills before expensive confirmations (§4.3), so that a
+session cut short has still produced finished verdicts rather than half-finished ones.
+
+Commits still need `git add -f` for any `.research/` path (§9.7).
 
 ### 2.3 Prefix-value — rank first, so stopping anywhere is still a good outcome
 
@@ -157,38 +166,147 @@ Several candidates stand or fall together on one dataset. Verify each family **o
 The RUN_LOG already flags that 13 of 17 drone-Malaysia lines depend on MOPAD. **Verify MOPAD
 first.** If it is blocked you delete five candidates for the cost of one fetch.
 
----
+### 3.2 Pre-check results (Lane C, 2026-09-18, commit 63fccea)
 
-## 4. Lane assignment
+| family | verdict | consequence |
+|---|---|---|
+| national orthophotos | **open** | S90, S93, S95 clear to verify |
+| WeedsGalore + PhenoBench | **open** | S101 clears |
+| MOPAD | **conditional** | Exists with labels, but **no licence text on any landing page** (Google Drive / Baidu links). 5 candidates held conditional; per-candidate verifiers must find a licence in the downloaded package |
+| IMPaCT-UAV | **conditional** | Real (arXiv 2601.01084, spot-checked by orchestrator: 42,430 images / 415 GB / Vijayawada / 3 Jan 2026). IEEE DataPort access terms still unfetched |
+| OpenET API | **conditional** | S141, S152 |
+| BCA TR78 thermal archive | **blocked** | **S124 and S131 route to `fail` / C9.** No public archive exists — only inspection rules and forms. Saves 4 dispatches (2 dat + 2 nov) |
 
-| Lane | Account | Owns | Writes | Why there |
-|---|---|---|---|---|
-| **A** | Claude Code (pro #1) | Orchestration, gate stages, stage-5 elaboration, fold-in | `.research/elaborated/*`, shared files, `ledger/lanea.jsonl` | Gate stages are non-delegable (CLAUDE.md). Elaboration costs **zero searches** |
-| **B** | Claude.ai web chat (pro #2) | `novelty_adversary` — Tier A then Tier B, in rank order | `.research/novelty/*.json`, `ledger/laneb.jsonl` | Search-heavy (15/dispatch) on a **separate meter**; no budget-exhaustion degradation |
-| **C** | Codex Plus | Phase-0 scaffolding, then **all** `data_verifier` | `.research/data/*.json`, `.research/dispatch/*`, `ledger/lanec.jsonl` | Deterministic code work needs no search; verification is fetch-led. Precedent: Codex drove part of stage 2 |
-
-**Disjointness holds:** Lane B only ever creates `novelty/<id>.json`; Lane C only ever creates
-`data/<id>.json`; Lane A only ever touches shared files and `elaborated/`. No two lanes can
-write the same path.
-
-### 4.1 Why elaboration goes first in Lane A
-
-The 8 already-cleared candidates (§1.1) have passed SCREEN **and** both verifiers, so
-elaborating them is contract-legal under CLAUDE.md. The elaborator has **no search tools**, so
-this consumes nothing from any meter. **This is your guaranteed output for today** — finished,
-readable candidate write-ups that exist regardless of whether any verification completes.
-
-> Caveat carried from the RUN_LOG: `.claude/agents/elaborator.md` declares `tools: []` to
-> express "no search". Whether the harness reads `[]` as "none" or falls back to inherit-all is
-> unverified. Lane A must confirm the elaborator ran no searches (check its transcript) — if it
-> inherited tools, the stage-5 no-search rule is unenforced and the run is still valid but the
-> budget accounting changes.
+**IMPaCT-UAV size is no longer a blocker.** At 415 GB it sits under the new C9
+`max_local_storage_gb: 512` ceiling (constraints v3), so S74, S75, S76 and S79 must **not** be
+failed on size. Per-candidate verifiers still have to confirm IEEE DataPort access terms, and
+should note that S75 needs only multispectral *metadata* (light) while S76 needs raw frames
+plus orthomosaics (heaviest of the four).
 
 ---
 
-## 5. Phase 0 — setup (sequential, blocking, ~20 min)
+## 4. Operating model — one subscription, four sessions
 
-Everything downstream needs these. Do them in order; do not start Phase 1 until step 4 passes.
+**Changed 2026-09-22 (rev 2).** The second Claude account and the Codex subscription are gone.
+Phase 0 survives them — `check4.py`, `gen_envelopes.py`, all 83 envelopes and the six shared
+prechecks are committed and do not care who produced them. What was lost is *parallel capacity*.
+
+Parallel capacity buys **elapsed time**, not verdict quality. A novelty adversary running on
+account 2 on Tuesday and the same adversary running in session 3 on Thursday produce the same
+verdict from the same prompt against the same schema. So the correct response to losing two
+accounts is to **re-schedule the work, not to shrink it**.
+
+> **The deliverable is unchanged: all 63 candidates resolved, both verdicts on every survivor,
+> one ranked roster.** An earlier draft of this section cut the target to a "verified top-20
+> slice". That cut is withdrawn — §4.1 shows it was based on an estimate that double-counted
+> the search budget.
+
+### 4.1 The arithmetic, redone honestly
+
+The binding resource is **searches**, not dispatches, and only one of the four roles is
+search-hungry.
+
+| role | dispatches | searches each | search total |
+|---|---|---|---|
+| novelty adversary | ~34 (40 less data kills) | ~11.7 observed (cap 15) | ~400 |
+| deep re-dispatch (`unclear`) | 3 | 15 (cap) | ~45 |
+| data verifier | 39 | ~4–6, fetch-led (cap 10) | ~175 |
+| elaborator (stage 5) | 8 now, more as they clear | **0 — no search tools** | 0 |
+| fold-in, FULL gate, roster | — | **0 — all yours** | 0 |
+| | | **total** | **~620** |
+
+Against a **200-search cap per session** that is **~3.1 sessions of search**, which four
+sessions carry with ~180 searches of margin.
+
+The superseded estimate said "~800+ searches ≈ 4+ sessions, therefore full coverage is
+unreachable". It reached that by charging all 82 remaining dispatches at adversary rates. Three
+corrections:
+
+1. **The web chat session is an independent session.** claude.ai and Claude Code do not share a
+   per-session cap. Web chat is therefore not a desperate fallback — it is one of the four
+   planned sessions (§4.2), and it is the right home for novelty work because the novelty
+   prompts are already generated and paste-ready in `.research/dispatch/nov/`.
+2. **Data verification is fetch-led, and fetches did not stop when searches hit 200/200.** That
+   was observed last run. Data work therefore keeps producing finished verdicts inside a session
+   whose search budget is already spent — it is close to free on the binding resource.
+3. **Every data kill deletes its own adversary dispatch.** Data-first (§4.3) means a `blocked`
+   verdict removes ~11.7 searches of adversary work that is now never spent. The RUN_LOG
+   predicts Tier C dies on C9; that is up to 10 adversary dispatches the budget never pays for.
+
+**Margin, stated plainly.** At the caps rather than the observed rates (15/nov, 10/dat) the
+total is ~1,000 searches ≈ 5 sessions. If the run tracks the cap rather than the average, §4.4
+tells you what to do, and the answer is never "produce a thinner verdict".
+
+### 4.2 What counts as a session
+
+| # | surface | budget | carries |
+|---|---|---|---|
+| 1 | Claude Code | 200 searches | all 39 data verifications + free output |
+| 2 | Claude Code | 200 searches | novelty, Tier A order |
+| 3 | **claude.ai web chat** | independent session | novelty overflow, paste-driven (§6.3) |
+| 4 | Claude Code | 200 searches | remaining novelty, 3 deep, FULL gate, roster |
+
+Session boundaries are **budget boundaries, not calendar ones**. Two sessions can happen on one
+day; one session can span two days. If a session still has capacity, carry on into the next
+block; if it dies early, §8 resumes cleanly with no state to reconstruct.
+
+Session 3 is a real session doing real work, not a contingency. It exists because novelty is the
+only search-bound role and web chat is search budget that Claude Code's cap cannot touch.
+
+### 4.3 Data-first, globally — the ordering that pays for the coverage
+
+The old plan ran data-first only for Tier C. It now applies to **everything**, for one reason:
+**a `blocked` data verdict is a complete verdict.** It kills the candidate on C9 outright, with
+no novelty work needed. Data is also the cheaper role on the binding resource and the RUN_LOG
+names it "the main stage-4 killer".
+
+Running all 39 data verifications first (session 1) therefore does two things at once: it
+finishes every candidate that dies on access, and it tells sessions 2–4 exactly which novelty
+dispatches are still worth paying for. This is what converts a ~620-search budget into full
+coverage rather than a slice.
+
+### 4.4 The quality floor — non-negotiable, and what makes coverage safe to promise
+
+Full coverage is only an honest target if it is never met by thinning individual verdicts. These
+rules bind harder than the schedule:
+
+1. **Never let a budget-starved agent emit `type_a`** (§9.3). A `type_a` asserts the absence of
+   prior art and is only as strong as the search behind it. If a session's search budget runs
+   out mid-dispatch, the verdict is **not** salvaged — bank the session (§7) and re-dispatch
+   that candidate whole in the next one.
+2. **A short session costs quantity, never quality.** If the run is tracking the cap rather than
+   the observed rate, the correct response is a **fifth session**, not a shallower adversary.
+   Coverage may slip in time; it may not slip in standard.
+3. **Web-chat verdicts face the extra screen** (§9.4) before they are trusted: self-reported
+   query logs, so any `type_a` with fewer than the 5 required queries across steps 1, 2, 4, 5 —
+   or with queries that are trivial restatements of each other — is downgraded to `unclear`.
+4. **One fresh conversation per candidate in web chat. Never batch** (§6.3). Batching is what
+   produces a false `type_a`, the worst failure mode in this pipeline.
+5. **Nothing is elaborated that has not passed SCREEN and both verifiers**, per CLAUDE.md. The
+   schedule change does not touch the gate.
+
+### 4.5 The insurance rule
+
+**Every session ends by regenerating `.research/ROSTER.md` from whatever is verified at that
+moment**, marked `PARTIAL — n of 63`. If sessions 3 and 4 never happen, you still hold a ranked
+roster. The deliverable is never allowed to exist only in a future session.
+
+---
+
+## 5. Phase 0 — setup — ✅ **COMPLETE** (commit 63fccea, 2026-09-18)
+
+> Done and verified: `tools/check4.py`, `tools/gen_envelopes.py`, 42 novelty prompts, 41 data
+> envelopes, 6 shared prechecks. The §5.4 gate passed (validator confirmed to reject bad input,
+> not merely to print `ok`). Envelopes were regenerated on 2026-09-22 against constraints v3.
+> **Nothing here needs redoing.** The "Lane A / Lane C" labels below are a historical record of
+> who did what, kept for the audit trail.
+
+> **Housekeeping — envelope provenance.** `gen_envelopes.py` pins the SHA-256 of `RUNBOOK.md`
+> into every envelope, so editing this file makes that one hash stale. It is provenance only —
+> `check4.py` does not verify it and no dispatch is invalidated. To clear the drift, re-run
+> `python3 tools/gen_envelopes.py` (idempotent; rewrites all 42 novelty prompts and 41 data
+> envelopes from the same candidate data). Do it before session 1 or not at all — **not**
+> mid-run, or half the envelopes will pin one hash and half another.
 
 **5.1 — Lane A: create the skeleton.**
 ```bash
@@ -225,67 +343,121 @@ dispatching anything, or you will re-run 80 dispatches against a broken gate.
 **5.5 — Lane C: shared-dependency pre-check (§3.1).** MOPAD first. Commit each result.
 
 ```bash
-git add tools/ .research/dispatch .research/data/_shared && git commit -m "stage4: tooling + shared source precheck"
+git add -f tools/ .research/dispatch .research/data/_shared && git commit -m "stage4: tooling + shared source precheck"
 ```
 
 ---
 
-## 6. Phase 1 — parallel execution
+## 6. The four sessions
 
-All three lanes now run at the same time. They cannot collide (§2.2).
+Session boundaries are budget boundaries, not calendar ones. If a session still has capacity,
+carry on into the next block; if it dies early, §8 resumes cleanly. Step-by-step keystrokes for
+each of these live in `MANUAL.md`.
 
-### 6.1 Lane A — Claude Code (me)
+**The shape:** session 1 buys information cheaply (every data verdict, every free kill), so that
+sessions 2–4 spend the expensive adversary only on candidates that are still alive.
 
-In priority order:
+### Session 1 — Claude Code — free output, then every data verdict
 
 1. **Elaborate the 8 cleared candidates** (stage 5) → `.research/elaborated/<id>.md`.
-   Zero search. This is today's guaranteed deliverable.
-2. **Fold in results as they land.** Poll `.research/{novelty,data}/` every so often, validate
-   new files with `check4.py`, and update `gate_screen.yml`. Lane A is the *only* writer here.
-3. **Deep re-dispatch the 3 `unclear` adversaries** — R4-S25 (peatland rewetting), R4-S28
-   (hedgerow survival), R4-S30 (vineyard event dating) — with `input.depth: "deep"`, using my
-   own subagents. These are high-value and benefit from harness-observed query logs.
-4. **Spot-check** ~10% of new URLs, plus the two that failed last run
-   (`pmfby.gov.in/pdf/Revised_Operational_Guidelines.pdf`, `zenodo.org/records/4473715`).
-5. Keep `RUN_LOG.md` current after each fold.
+   **Zero searches.** R4-S22, R4-S23 (`proceed`) and R4-S01, R4-S13, R4-S15, R4-S26, R4-S35,
+   R4-S42 (`proceed_conditional`). This is the output that exists no matter what follows.
+2. **Apply the free kills** — no dispatch needed:
+   - R4-S20 → `fail` / C7 (novelty already `closed` with evidence, §1.2.3)
+   - R4-S124, R4-S131 → `fail` / C9 (BCA TR78 archive `blocked`, §3.2)
+3. **Data-verify all 39 remaining candidates**, in Tier A (§3) → Tier C → Tier B order, using
+   `.research/dispatch/dat/<id>.json`. Tier C is ordered early on purpose: it is where the kills
+   are expected, and each kill deletes an adversary dispatch from sessions 2–4.
+4. **Paste the family precheck into the envelope for any candidate in a pre-checked family**
+   (§6.5). This is the single largest search saving available and it costs nothing.
+5. **If the 200-search cap hits, keep going on data anyway.** Fetches are not capped (§4.1);
+   a data verifier working from an injected landing-page URL needs few searches or none.
+6. Fold in (§7), write the partial roster, commit.
 
-**Budget discipline:** Lane A should hold its 200 searches in reserve for items 3–4. Do not
-run per-candidate verification here — that is what Lanes B and C are for.
+**Exit condition:** all 39 data verdicts on disk. Every `blocked` is now a finished candidate,
+and the novelty list for sessions 2–4 is exactly the set that survived.
 
-### 6.2 Lane B — Claude.ai web chat (pro #2)
+### Session 2 — Claude Code — the expensive adversary, ranked order
 
-**Order:** Tier A #1 → #21, then Tier B. Stop whenever you like; the ranking makes any prefix
-a good result. **Skip Tier C entirely** until Lane C clears their data (§3).
+1. **Novelty adversary on every surviving candidate, in Tier A §3 order**, skipping any whose
+   data came back `blocked`. Expect ~17 dispatches to consume the 200-search budget.
+2. **Stop at the cap. Do not compress the last dispatch to fit** (§4.4.1). Bank and carry the
+   remainder into session 3.
+3. Fold in, refresh the roster, commit.
 
-**Three rules that make or break this lane:**
+### Session 3 — claude.ai web chat — novelty overflow, paste-driven
 
-1. **One fresh conversation per candidate. Never batch.** A verdict's quality is a direct
-   function of search depth (~11.7 queries was the healthy average). Batch five candidates and
-   the model shortcuts, and a shallow adversary produces a **false `type_a`** — an assertion
-   that no prior art exists. That is the single worst failure mode in this pipeline. Last run's
-   integrity held *precisely* because exhausted agents returned honest `unclear` instead.
-2. **Never run a novelty and a data prompt in the same thread.** The contract requires that
+This is a planned session, not a fallback (§4.2). The prompts are already generated.
+
+1. **Work the novelty backlog** left by session 2, continuing down the Tier A → B order.
+2. **One fresh conversation per candidate** — paste the whole of `.research/dispatch/nov/<id>.md`
+   and nothing else. **Never batch** (§6.3).
+3. **Save each reply straight to `.research/novelty/<id>.json`.** Do not paste results back into
+   Claude Code; that burns context for nothing. Validation happens in bulk in session 4.
+4. Commit the saved files (`git add -f`) when you stop.
+
+**Everything produced here is provisional until it passes the §9.4 plausibility screen in
+session 4.** That screen is what keeps a self-reported query log from buying a cheap `type_a`.
+
+### Session 4 — Claude Code — close out
+
+1. **Validate the whole web-chat batch**: `check4.py` over everything session 3 wrote, then the
+   §9.4 plausibility screen. Downgrade thin `type_a` verdicts to `unclear`; re-dispatch in-harness
+   if budget allows.
+2. **Novelty on whatever is still outstanding** — run `tools/whats_left.sh` (§8) rather than
+   trusting any list in this file.
+3. **Deep re-dispatch the 3 `unclear` adversaries** — R4-S25, R4-S28, R4-S30 — with
+   `input.depth: "deep"`.
+4. **Tier B `product_search` check.** The `product_search` block is load-bearing for C11 there
+   (§3); a Tier B candidate whose adversary skipped it cannot pass the gate and must be
+   re-dispatched, not waved through.
+5. **Run the constraint gate in FULL mode** (stage 6) on everything with both verdicts. Mine,
+   not delegated.
+6. **Final `ROSTER.md`**, `RUN_LOG.md` update, archive to `research-archive/run4/`.
+
+> **If session 4 ends with work outstanding, open session 5.** Per §4.4.2 the schedule flexes;
+> the standard does not.
+
+### 6.1 Per-dispatch loop (all sessions)
+
+```
+for each id, in the order above:
+  dispatch the role via subagent (model: sonnet, per CLAUDE.md)
+  → write .research/{novelty,data}/<id>.json
+  → python3 tools/check4.py {nov,dat}:<id>     # must print ok
+  → invalid? re-dispatch ONCE with the validator error appended; still invalid → log and drop
+  → append to .research/ledger/
+  every 5:  git add -f .research tools && git commit -m "session N: <ids>"
+```
+
+### 6.2 If the search cap hits mid-session
+
+Claude Code's 200-search cap is per session. What you do depends on the role in flight:
+
+1. **Data verifier in flight → keep going.** Fetches are not capped (§4.1). A data verifier
+   working from an injected landing-page URL (§6.5) may need no further searches at all. This is
+   why session 1 is the data session.
+2. **Novelty adversary in flight → stop and bank.** Fold in, write the partial roster, commit.
+   Resume in the next session via §8. **Do not let the adversary finish on a starved budget**
+   (§4.4.1) — a `type_a` produced that way is exactly the failure this pipeline cannot absorb.
+3. **Carry the remainder to the web chat session** (session 3). Different surface, independent
+   session budget, prompts already paste-ready in `.research/dispatch/nov/`. Note that this is
+   the same Pro subscription, so subscription-level limits still apply even though the
+   per-session search cap does not.
+
+### 6.3 Rules for the web chat session (session 3)
+
+1. **One fresh conversation per candidate. Never batch.** Verdict quality tracks search depth.
+   Batch five and the model shortcuts, producing a **false `type_a`** — an assertion that no
+   prior art exists. That is the worst failure mode in this pipeline.
+2. **Never put a novelty and a data prompt in the same thread** — the contract requires that
    neither verifier sees the other's output.
-3. **Save the reply as a file, do not paste it back into Claude Code.** Copy the JSON block to
-   `.research/novelty/<id>.json`. This keeps the result durable and costs no session context.
-   Validation happens in bulk later.
+3. **Save the reply straight to `.research/novelty/<id>.json`.** Do not paste it back into
+   Claude Code; that burns context for nothing. Validation happens in bulk with `check4.py`.
+4. Verdicts produced this way have self-reported query logs — see the provenance note in §6.4
+   and the plausibility screen in §9.4.
 
-**Per-candidate loop:**
-```
-open a NEW chat on claude.ai
-  → paste the contents of .research/dispatch/nov/<id>.md
-  → wait for the JSON
-  → save it verbatim to .research/novelty/<id>.json
-  → append one line to .research/ledger/laneb.jsonl:
-      {"id":"<id>","role":"nov","lane":"b","status":"written","ts":"<ISO8601>"}
-  → every 5 candidates:  git add .research/novelty .research/ledger && git commit -m "lane B: nov <ids>"
-```
-
-If the reply is truncated or wrapped in prose, reply in that same chat with:
-`Return only the JSON object, complete, no prose.` If it still fails, mark the ledger line
-`status:"invalid"` and move on — Lane A re-dispatches once at fold-in, per CLAUDE.md.
-
-#### 6.2.1 The Lane B prompt (what `gen_envelopes.py` emits per candidate)
+### 6.4 What each generated novelty prompt contains
 
 Everything between the rules is one paste. `{{...}}` are filled from `candidates.jsonl`.
 
@@ -393,54 +565,49 @@ Return only the JSON.
 > **Provenance note.** Because this runs outside the harness, `queries[]` is self-reported
 > rather than observed. This repo already carries that scar: `standout__global` was recovered
 > from a transcript, so its query log does not exist and the contract's "record every query"
-> clause is permanently unverifiable for it. Lane A mitigates at fold-in by rejecting
+> clause is permanently unverifiable for it. The fold-in step mitigates this by rejecting
 > implausible pairings — a `type_a` backed by three queries is not a `type_a`. See §9.4.
 
-### 6.3 Lane C — Codex Plus
+### 6.5 Injecting the family precheck — the cheapest search saving available
 
-Codex works directly in the repo on branch `v3`. Give it this brief:
+Six dataset families were already resolved once, in §3.2, and the results sit in
+`.research/data/_shared/<family>.json` with **fetched landing-page URLs**. The generated data
+envelopes do **not** carry those results, so a verifier dispatched bare will re-discover the
+MOPAD landing page from scratch — spending searches on a question answered on 2026-09-18.
 
-> **Brief for Codex.** You are Lane C of a three-agent run. Read `RUNBOOK.md` §2, §3, §5, §6.3
-> and `docs/02_subagent_contract.md` first.
->
-> **Phase 0 (blocking, do first):** build `tools/check4.py` and `tools/gen_envelopes.py` to the
-> contracts in §5.2 and §5.3. Then run the shared-dependency pre-check in §3.1, MOPAD first,
-> writing `.research/data/_shared/<family>.json`.
->
-> **Phase 1:** act as `data_verifier` for every id in §3 (Tiers A, B and C — all of them),
-> following `agents/data_verifier.json` exactly. Tier C first, because a `blocked` verdict
-> there kills a candidate outright and saves Lane B an expensive dispatch.
->
-> **Hard rules:**
-> - **A search snippet is not verification. FETCH the landing page.** If a landing page cannot
->   be fetched, that source is `unverified`, NOT `open`. The single worst failure of the last
->   run was a verifier claiming `fetched_ok: true` for a URL that never appeared in `fetched[]`.
-> - Quote licence, size, coverage and date range **verbatim, ≤25 words each**. Never paraphrase
->   a licence.
-> - Record every query in `queries[]` and every fetched URL in `fetched[]`.
-> - Dates are `YYYY-MM` or `YYYY-MM-DD`. **A bare year is invalid; never pad it to a month.**
-> - Judge compute against C9: 8 months part-time, MacBook with no CUDA, no sustained GPU, free
->   hosted compute only (GEE / Copernicus / Planetary Computer / Kaggle / Colab free tier),
->   budget MYR 200.
-> - **NICFI** (R4-S58 especially): quote the purpose clause and state inside / outside /
->   borderline. Generic yield or boundary work on NICFI is **outside** and a licence fail.
-> - **Singapore candidates**: the source must be drone / aerial / sub-metre AND its terms must
->   permit analytical use. OneMap and SLA basemap tiles are display-licensed unless you find
->   text saying otherwise — in that case `access_mode: unverified`.
-> - Do **not** assess novelty or impact. Data only.
-> - After each candidate: run `python3 tools/check4.py dat:<id>` and do not move on until it
->   prints `ok`. Append to `.research/ledger/lanec.jsonl`. Commit every 5 candidates,
->   `git add .research/data .research/ledger tools` only.
->
-> Write only to `.research/data/`, `.research/dispatch/`, `.research/ledger/lanec.jsonl` and
-> `tools/`. **Never** edit `gate_screen.yml`, `RUN_LOG.md`, `candidates.jsonl` or `ROSTER.md` —
-> Lane A owns those and concurrent edits will corrupt the run.
+**Before dispatching `dat:<id>` for any candidate in a pre-checked family, append the family's
+precheck JSON to the envelope's input**, with this instruction:
+
+```
+Shared pre-check already performed for this family — do NOT re-discover the landing page.
+Start from the fetched URLs below. Your remaining job is the candidate-specific part:
+the licence text inside the downloaded package, the size/subset question against C9,
+and the ground-truth path.
+<contents of .research/data/_shared/<family>.json>
+```
+
+| family | candidates | precheck file |
+|---|---|---|
+| MOPAD | S108, S110, S113, S115, S118 | `mopad.json` |
+| IMPaCT-UAV | S74, S75, S76, S79 | `impact_uav.json` |
+| national orthophotos | S90, S93, S95 | `national_orthophotos.json` |
+| OpenET API | S141, S152 | `openet_api.json` |
+| WeedsGalore + PhenoBench | S101 | `weedsgalore_phenobench.json` |
+| BCA TR78 thermal | S124, S131 | `bca_tr78_thermal_archive.json` — **blocked, do not dispatch** |
+
+That is **15 of the 39 data dispatches** starting from a fetched URL instead of a cold search.
+
+**This does not weaken the verdict.** The precheck was itself a fetched-page verification, and
+every unresolved question it left is named in its `required_followup` — which the per-candidate
+verifier still has to answer. §9.2 still applies in full: `fetched_ok: true` for a URL absent
+from `fetched[]` is a contract violation, injected precheck or not.
 
 ---
 
-## 7. Phase 2 — fold-in (sequential, Lane A only)
+## 7. Fold-in — run at the end of EVERY session
 
-Run this whenever lanes pause, and once at the end. It is idempotent.
+Idempotent. This is also what produces the insurance roster (§4.5), so never skip it because a
+session felt short.
 
 1. **Validate everything new**: `for f in .research/novelty/*.json; do python3 tools/check4.py nov:$(basename $f .json); done` (and the same for `dat:`). Invalid → re-dispatch once with
    the validator error appended; still invalid → log it and drop, per CLAUDE.md.
@@ -464,29 +631,24 @@ Run this whenever lanes pause, and once at the end. It is idempotent.
 
 ## 8. Resume procedure — after any limit, crash, or day boundary
 
-No session state is needed. Run this and it tells you exactly what is left:
+No session state is needed. `tools/whats_left.sh` derives the remaining work from the filesystem:
 
 ```bash
-#!/usr/bin/env bash
-# tools/whats_left.sh
-cd "$(git rev-parse --show-toplevel)"
-NV=$(awk '/^verify:/,/^verify_summary:/' .research/gate_screen.yml \
-     | grep -B1 'route: not_verified' | grep -o 'R4-S[0-9]*')
-echo "== novelty outstanding =="
-for id in $NV; do
-  [ "$id" = "R4-S20" ] && continue                      # free C7 kill, no dispatch
-  [ -f ".research/novelty/$id.json" ] || echo "  nov:$id"
-done
-echo "== data outstanding =="
-for id in $NV; do
-  [ "$id" = "R4-S20" ] && continue
-  [ -f ".research/data/$id.json" ] || echo "  dat:$id"
-done
-echo "== deep re-dispatch (unclear) =="
-for id in R4-S25 R4-S28 R4-S30; do
-  grep -q "\"depth\": *\"deep\"" ".research/novelty/$id.json" 2>/dev/null || echo "  nov:$id (deep)"
-done
+bash tools/whats_left.sh
 ```
+
+It prints four blocks — novelty outstanding, data outstanding, deep re-dispatches, and the free
+kills to confirm routed. **On a clean start it reconciles exactly to the §10 accounting:
+40 novelty + 3 deep + 39 data = 82.** If it does not, trust the script and fix the accounting,
+not the other way round.
+
+What it already knows, so you do not have to remember it:
+
+- **The three free kills are excluded** — R4-S20 (C7, novelty already `closed`) and R4-S124 /
+  R4-S131 (C9, BCA TR78 `blocked`). It excludes them explicitly rather than waiting for fold-in
+  to route them, so the list is correct before session 1 has run as well as after.
+- **R4-S47 is excluded from the data list** — it has no data envelope by design; its data
+  verdict is already `conditional`. It needs novelty only.
 
 Then pick up at the top of the Tier A order (§3) for whatever is missing. **Ledgers are an
 audit trail, not state** — if a ledger and the filesystem disagree, the filesystem wins.
@@ -510,8 +672,8 @@ the ABSENCE of prior art and is only as strong as the search behind it. Never le
 budget-starved run produce a `type_a`. Last run this held — no `type_a` came from an exhausted
 agent — and that property must survive this run too.
 
-**9.4 Self-reported query logs (new risk this run).** Lane B runs outside the harness, so its
-`queries[]` cannot be observed. At fold-in, reject as `unclear` any `type_a` whose log shows
+**9.4 Self-reported query logs.** The web chat session (§6.3, session 3) runs outside the
+harness, so its `queries[]` cannot be observed. At fold-in, reject as `unclear` any `type_a` whose log shows
 fewer than the 5 required queries across steps 1, 2, 4, 5, or whose queries are trivial
 restatements of each other. State the rejection in the ledger.
 
@@ -525,37 +687,89 @@ dropped. Every candidate carries
 `landscape_context: provisional_stage1_owner_authorized_stage2`. Crowded-area claims are
 PROVISIONAL and must not be treated as established prior art — that is the adversary's job.
 
+**9.7 `.research/` is gitignored — a plain `git add` silently does nothing.** `.gitignore`
+line 2 is `.research/*` (by design: "current-run working files are ephemeral; archives are
+committed"). Consequence: **every `git add` of a `.research/` path must use `-f`**, or the
+commit succeeds while committing nothing and you believe work is saved when it is not.
+
+As of 2026-09-18 the entire run-4 state — `gate_screen.yml`, `candidates.jsonl`,
+`RUN_LOG.md`, and all 42 existing verifier outputs — is **untracked, working-tree only**.
+Session limits do not threaten it (files persist on disk), but a stray `git clean -fdx`
+would erase the whole run. See §9.8 for the recommended fix.
+
+**9.8 Recommended `.gitignore` change (owner's call).** Narrow the ignore so durable outputs
+are tracked while genuinely ephemeral files stay out:
+
+```gitignore
+.research/*
+!.research/README.md
+!.research/novelty/
+!.research/data/
+!.research/dispatch/
+!.research/ledger/
+!.research/gate_screen.yml
+!.research/candidates.jsonl
+!.research/RUN_LOG.md
+```
+
+The directory itself must be un-ignored before git will descend into it — negating only the
+files does not work. With this in place, `-f` is no longer needed for those paths.
+
 ---
 
-## 10. Dispatch accounting
+## 10. Dispatch accounting (revised 2026-09-22, rev 2)
 
 | block | dispatches |
 |---|---|
-| 40 candidates × 2 roles | 80 |
-| R4-S47 (novelty only — data exists) | 1 |
-| R4-S50 (both) | 2 |
-| R4-S20 | **0** — free C7 kill |
-| deep re-dispatch of the 3 `unclear` | 3 |
-| **total** | **86** |
+| novelty, 42 generated | 42 |
+| less R4-S124, R4-S131 (BCA TR78 blocked) | −2 |
+| data, 41 generated | 41 |
+| less R4-S124, R4-S131 | −2 |
+| deep re-dispatch of the 3 `unclear` | +3 |
+| **remaining total** | **82** |
+| R4-S20 | 0 — free C7 kill |
 
-**Tier C data-first saves up to 10** of the search-heavy adversary dispatches if their data
-comes back `blocked`, which the RUN_LOG predicts for most of them.
+**All 82 are in scope.** The top-20 slice is withdrawn (§4).
 
-**Split:** Lane C ≈ 41 data dispatches · Lane B ≈ 32 novelty dispatches (21 Tier A + 11 Tier B,
-plus up to 10 more if Tier C survives) · Lane A = 3 deep + elaboration + fold-in.
+### 10.1 Expected search draw per session
 
-**Realistic target for one day:** Lane B is bounded by your copy-paste patience, not by any
-meter. 12–15 conversations is a good day and covers most of Tier A. Because the list is ranked,
-that is a genuinely good outcome, not a partial failure.
+| session | surface | work | searches |
+|---|---|---|---|
+| 1 | Claude Code | 8 elaborations (0) + 3 free kills (0) + **39 data** | ~175 |
+| 2 | Claude Code | novelty ×~17, Tier A order | ~200 (cap-bound) |
+| 3 | web chat | novelty ×~14, paste-driven | independent budget |
+| 4 | Claude Code | novelty remainder + 3 deep + re-dispatches + FULL gate | ~150 |
+| | | **total** | **~620 + web chat** |
+
+Novelty is charged at the observed 11.7 searches, not the 15 cap. At the cap the total is
+~1,000 and the run needs a fifth session — see §4.4.2. **Add the session; do not thin the
+verdict.**
+
+### 10.2 What full coverage means here
+
+63 candidates: 20 already carry both verdicts (§1.3) · 3 are free kills (R4-S20, R4-S124,
+R4-S131) · 9 already `fail` · the remaining 31 get both verdicts across sessions 1–4, plus the
+3 `unclear` deepened. Nothing is left `not_verified` by design — only by a session that ran out,
+and §4.5 makes that state visible in the roster rather than silent.
+
+**Free work, no searches:** 8 elaborations in session 1, plus one per candidate that clears at
+any later fold-in (§7.5) — up to the 15-dispatch stage-5 ceiling — plus 3 free kills and every
+fold-in, gate and roster pass.
 
 ---
 
-## 11. Quick start
+## 11. Quick start (session 1)
 
-1. Lane A: `mkdir` skeleton, commit (§5.1).
-2. Lane C (Codex): build `check4.py` + `gen_envelopes.py`, then MOPAD pre-check (§5.2–5.5).
-3. Lane A: validate the tooling against three known-good files (§5.4). **Gate — do not proceed
-   until this passes.**
-4. Fan out: Lane C starts Tier C data; Lane B starts Tier A novelty at #1; Lane A elaborates
-   the 8 cleared.
-5. Fold in whenever convenient (§7). Stop whenever you like — §8 resumes cleanly.
+> Keystroke-level instructions, including the exact prompts and which surface to run them in,
+> are in **`MANUAL.md`**. This is the summary.
+
+1. *(Optional, once)* `python3 tools/gen_envelopes.py` to clear the RUNBOOK hash drift (§5).
+2. Elaborate the 8 cleared candidates — zero searches, guaranteed output.
+3. Apply the 3 free kills (R4-S20, R4-S124, R4-S131).
+4. Data-verify all 39 from `.research/dispatch/dat/`, Tier A → Tier C → Tier B, injecting the
+   family precheck where §6.5 has one.
+5. Keep going on data after the search cap — fetches are not capped.
+6. Fold in (§7) → partial `ROSTER.md` → `git add -f` → commit.
+
+Phase 0 (§5) is **complete** — tooling, envelopes and prechecks are committed at 63fccea.
+Nothing there needs redoing.

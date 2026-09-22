@@ -1,0 +1,421 @@
+{
+  "satellite__malaysia": [
+    {
+      "attempt": 1,
+      "schema_valid": true,
+      "contract_valid": true,
+      "valid": true,
+      "count": 16,
+      "errors": [],
+      "queries": 20,
+      "under_15": false
+    }
+  ],
+  "satellite__eu": [
+    {
+      "attempt": 1,
+      "schema_valid": true,
+      "contract_valid": true,
+      "valid": true,
+      "count": 25,
+      "errors": [],
+      "queries": 28,
+      "under_15": false
+    }
+  ],
+  "drone_and_aerial__eu": [
+    {
+      "attempt": 1,
+      "schema_valid": true,
+      "contract_valid": true,
+      "valid": true,
+      "count": 18,
+      "errors": [],
+      "queries": 26,
+      "under_15": false
+    }
+  ],
+  "drone_and_aerial__singapore": [
+    {
+      "attempt": 1,
+      "schema_valid": true,
+      "contract_valid": false,
+      "valid": false,
+      "count": 8,
+      "errors": [
+        {
+          "path": [
+            "queries"
+          ],
+          "message": "'Singapore open aerial imagery agriculture Lim Chu Kang license OneMap SLA orthophoto 2026' is not of type 'object'"
+        },
+        {
+          "path": [
+            "queries"
+          ],
+          "message": "'site:data.gov.sg aerial imagery orthophoto Singapore agriculture farm 2026' is not of type 'object'"
+        },
+        {
+          "path": [
+            "queries"
+          ],
+          "message": "'site:onemap.gov.sg terms of use map tiles imagery license analytical use 2026' is not of type 'object'"
+        },
+        {
+          "path": [
+            "queries"
+          ],
+          "message": "'Polybee Bayer partnership farm intelligence platform autonomous drones July 2026' is not of type 'object'"
+        },
+        {
+          "path": [
+            "queries"
+          ],
+          "message": "'Singapore Food Agency strengthens support local farms new land tender enhanced lease framework May 2026' is not of type 'object'"
+        },
+        {
+          "path": [
+            "queries"
+          ],
+          "message": "'data.gov.sg SLA Cadastral Land Parcel GeoJSON last updated September 2026' is not of type 'object'"
+        },
+        {
+          "path": [
+            "queries"
+          ],
+          "message": "'Singapore Agri-space Sales SAS 2026 land parcels vegetable farming tender official' is not of type 'object'"
+        },
+        {
+          "path": [
+            "queries"
+          ],
+          "message": "'site:sfa.gov.sg Singapore Food Story 2 import diversification stockpiling local production 2026' is not of type 'object'"
+        },
+        {
+          "path": [
+            "queries"
+          ],
+          "message": "'Singrow Singapore AI robotics IoT data analytics crop monitoring jobs 2026 official' is not of type 'object'"
+        },
+        {
+          "path": [
+            "queries"
+          ],
+          "message": "'Archisen Singapore vertical farm AI computer vision crop monitoring official 2026' is not of type 'object'"
+        },
+        {
+          "path": [
+            "queries"
+          ],
+          "message": "'Singapore Polybee drone yield forecasting autonomous pollination Temasek Foundation official 2026' is not of type 'object'"
+        },
+        {
+          "path": [
+            "queries"
+          ],
+          "message": "'open UAV dataset vegetable crops plant count broccoli spinach drone imagery row level 2025' is not of type 'object'"
+        },
+        {
+          "path": [
+            "queries"
+          ],
+          "message": "'Mendeley Data px5p6zdk6k baby broccoli RGB Depth dataset 2026' is not of type 'object'"
+        }
+      ],
+      "queries": null,
+      "under_15": true
+    },
+    {
+      "attempt": 2,
+      "schema_valid": true,
+      "contract_valid": true,
+      "valid": true,
+      "count": 16,
+      "errors": [],
+      "queries": 31,
+      "under_15": false,
+      "depth": "deep",
+      "note": "Re-dispatch by Claude Code after the Codex session hit its usage limit with this job in state 'retry_running'. Attempt 1's two defects are both fixed: queries[] are now query_log objects, and the count is 16 (was 8, under the 15 floor). Attempt-1 errors and its 8 one-liners were passed back in as validator_error_from_attempt_1 and avoid.",
+      "budget_note": "31 search queries logged against max_searches 30 in agents/gap_hunter.json — 1 over. Soft failure per docs/02_subagent_contract.md section 5; output accepted."
+    }
+  ],
+  "satellite__india": [
+    {
+      "attempt": 1,
+      "schema_valid": true,
+      "contract_valid": true,
+      "valid": true,
+      "count": 19,
+      "errors": [],
+      "queries": 28,
+      "under_15": false
+    }
+  ],
+  "drone_and_aerial__india": [
+    {
+      "attempt": 1,
+      "schema_valid": true,
+      "contract_valid": true,
+      "valid": true,
+      "count": 16,
+      "errors": [],
+      "queries": 28,
+      "under_15": false
+    }
+  ],
+  "standout__global": [
+    {
+      "attempt": 1,
+      "schema_valid": false,
+      "contract_valid": null,
+      "valid": false,
+      "count": 21,
+      "errors": [
+        {
+          "path": [
+            12,
+            "seed_urls",
+            0,
+            "date"
+          ],
+          "message": "'2025' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        },
+        {
+          "path": [
+            14,
+            "seed_urls",
+            0,
+            "date"
+          ],
+          "message": "'2019' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        },
+        {
+          "path": [
+            15,
+            "seed_urls",
+            1,
+            "date"
+          ],
+          "message": "'2025' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        },
+        {
+          "path": [
+            18,
+            "seed_urls",
+            1,
+            "date"
+          ],
+          "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        },
+        {
+          "path": [
+            19,
+            "seed_urls",
+            0,
+            "date"
+          ],
+          "message": "'2025' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        }
+      ],
+      "queries": null,
+      "under_15": false
+    },
+    {
+      "attempt": 2,
+      "schema_valid": true,
+      "contract_valid": null,
+      "valid": true,
+      "count": 21,
+      "errors": [],
+      "queries": null,
+      "under_15": false,
+      "note": "Attempt 1 body recovered verbatim from the Codex session transcript, not a live re-dispatch. Attempt 2 = attempt 1 with only the 5 bare-year seed_urls[].date values replaced by dates fetched from the sources by the orchestrator; no other field changed (diff = 10 lines, 5 date pairs). Schema now clean against schemas/candidate_oneliner.schema.json (Draft 2020-12, local refs, format checks). contract_valid stays null: the hunter's queries[] log was not recoverable from the transcript, so the 'record every query' clause of docs/02_subagent_contract.md cannot be verified for this hunter.",
+      "date_resolutions": [
+        {
+          "index": 12,
+          "seed_url_index": 0,
+          "url": "https://www.bluerivertechnology.com/products/",
+          "was": "2025",
+          "now": "2026-02-23",
+          "basis": "page metadata: article:modified_time / JSON-LD dateModified 2026-02-23T23:55:35+00:00 (datePublished 2025-12-17)"
+        },
+        {
+          "index": 14,
+          "seed_url_index": 0,
+          "url": "https://www.cgiar.org/innovations/tumaini-an-ai-powered-mobile-app-for-pests-and-diseases",
+          "was": "2019",
+          "now": "2021-01-24",
+          "basis": "page states 'Publication Date January 24, 2021'; the 2019 in the hunter note is the underlying journal paper, not this page"
+        },
+        {
+          "index": 15,
+          "seed_url_index": 1,
+          "url": "https://www.cropmonitor.org/about-us",
+          "was": "2025",
+          "now": "2024-03-14",
+          "basis": "no visible page date (footer shows only '(c) 2026'); site's own sitemap.xml declares <lastmod>2024-03-14</lastmod> for this URL"
+        },
+        {
+          "index": 18,
+          "seed_url_index": 1,
+          "url": "https://www.gs1.org/standards/fresh-fruit-and-vegetable-traceability-guideline/current-standard",
+          "was": "2021",
+          "now": "2021-02",
+          "basis": "page states 'Release 2.0, Ratified, Feb 2021'; change log row '2.0 Feb 2021' agrees. Day not stated, so YYYY-MM"
+        },
+        {
+          "index": 19,
+          "seed_url_index": 0,
+          "url": "https://github.com/microsoft/farmvibes-ai",
+          "was": "2025",
+          "now": "2026-09-09",
+          "basis": "last commit to default branch main: d10670e18 2026-09-09T20:39:37Z (GitHub API)"
+        }
+      ],
+      "candidates_dropped": []
+    }
+  ],
+  "satellite__singapore_source_basket": [
+    {
+      "attempt": 1,
+      "schema_valid": true,
+      "contract_valid": true,
+      "valid": true,
+      "count": 21,
+      "errors": [],
+      "queries": 18,
+      "under_15": false
+    }
+  ],
+  "drone_and_aerial__malaysia": [
+    {
+      "attempt": 1,
+      "schema_valid": false,
+      "contract_valid": null,
+      "valid": false,
+      "count": 10,
+      "errors": [
+        {
+          "path": [
+            0,
+            "seed_urls",
+            0,
+            "date"
+          ],
+          "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        },
+        {
+          "path": [
+            1,
+            "seed_urls",
+            0,
+            "date"
+          ],
+          "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        },
+        {
+          "path": [
+            2,
+            "seed_urls",
+            0,
+            "date"
+          ],
+          "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        },
+        {
+          "path": [
+            3,
+            "seed_urls",
+            0,
+            "date"
+          ],
+          "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        },
+        {
+          "path": [
+            4,
+            "seed_urls",
+            0,
+            "date"
+          ],
+          "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        },
+        {
+          "path": [
+            5,
+            "seed_urls",
+            0,
+            "date"
+          ],
+          "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        },
+        {
+          "path": [
+            6,
+            "seed_urls",
+            0,
+            "date"
+          ],
+          "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        },
+        {
+          "path": [
+            7,
+            "seed_urls",
+            0,
+            "date"
+          ],
+          "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        },
+        {
+          "path": [
+            7,
+            "seed_urls",
+            1,
+            "date"
+          ],
+          "message": "'2022' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        },
+        {
+          "path": [
+            8,
+            "seed_urls",
+            0,
+            "date"
+          ],
+          "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        },
+        {
+          "path": [
+            9,
+            "seed_urls",
+            0,
+            "date"
+          ],
+          "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        },
+        {
+          "path": [
+            9,
+            "seed_urls",
+            1,
+            "date"
+          ],
+          "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+        }
+      ],
+      "queries": null,
+      "under_15": true
+    },
+    {
+      "attempt": 2,
+      "schema_valid": true,
+      "contract_valid": true,
+      "valid": true,
+      "count": 17,
+      "errors": [],
+      "queries": 11,
+      "under_15": false
+    }
+  ]
+}

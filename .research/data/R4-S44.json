@@ -1,0 +1,148 @@
+{
+  "id": "R4-S44",
+  "verdict": "conditional",
+  "verdict_reason": "Imagery stack (NICFI Asia, Sentinel-1 GRD, Sentinel-2 SR) is open via GEE and confirmed to cover Malaysia. No open MPOB TSPKS or smallholder plot-boundary dataset exists; a validated ground truth needs a partner (MPOB extension officer or MSPO cooperative) for hand-collected plots, with no confirmed access process.",
+  "sources": [
+    {
+      "name": "NICFI Planet Basemaps (Asia mosaic) via GEE",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/projects_planet-nicfi_assets_basemaps_asia",
+      "fetched_ok": true,
+      "licence_quote": "high-resolution satellite monitoring of the tropics for the primary purpose of reducing and reversing the loss of tropical forests",
+      "licence_class": "non_commercial",
+      "access_mode": "gee_catalog",
+      "platform_id": "projects/planet-nicfi/assets/basemaps/asia",
+      "coverage_quote": "-27.5 to 30.2 latitude, -180 to 180 longitude",
+      "covers_target_region": "true",
+      "date_range": "2015-12-01 to 2026-08-01",
+      "caveats_quoted": [
+        "This data has usage, reproduction, and distribution restrictions in support of the NICFI Satellite Data Program purpose."
+      ],
+      "nicfi_purpose_check": "inside",
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Copernicus Sentinel-1 GRD (SAR)",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD",
+      "fetched_ok": true,
+      "licence_quote": "The use of Sentinel data is governed by the Copernicus Sentinel Data Terms and Conditions.",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "COPERNICUS/S1_GRD",
+      "coverage_quote": "Global coverage (-90 to 90 latitude, -180 to 180 longitude)",
+      "covers_target_region": "true",
+      "date_range": "2014-10-03 to 2026-09-12",
+      "caveats_quoted": [],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Copernicus Sentinel-2 SR Harmonized",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+      "fetched_ok": true,
+      "licence_quote": "The use of Sentinel data is governed by the Copernicus Sentinel Data Terms and Conditions.",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "coverage_quote": "2017-2018 L2 coverage is not yet complete globally.",
+      "covers_target_region": "true",
+      "date_range": "2017-03-28 to 2026-09-12",
+      "caveats_quoted": [
+        "2017-2018 L2 coverage is not yet complete globally."
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Descals et al. global industrial and smallholder oil palm map (2019)",
+      "role": "auxiliary",
+      "url": "https://zenodo.org/records/4473715",
+      "fetched_ok": true,
+      "licence_quote": "This work is distributed under the Creative Commons Attribution 4.0 License",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "coverage_quote": "Southeast Asia ranks as the main producing region with an oil palm area estimate of 18.69 Mha",
+      "covers_target_region": "true",
+      "date_range": "2019",
+      "caveats_quoted": [
+        "The classified images (oil_palm_map folder, GeoTIFF) are the output of a CNN on Sentinel-1/2 half-yearly composites."
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "MPOB - TSPKS smallholder holding records",
+      "role": "labels",
+      "url": "https://www.mpob.gov.my/",
+      "fetched_ok": true,
+      "licence_class": "unknown",
+      "access_mode": "application_required",
+      "coverage_quote": "No public TSPKS plot-boundary dataset found; Dataset link routes to data.gov.my, which has no oil-palm smallholder layer.",
+      "covers_target_region": "false",
+      "caveats_quoted": [
+        "Smallholder Extension & Certification Division contact: general@mpob.gov.my, 603-87694400; no application form or deadline published."
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "MSPO Traceability Search Engine",
+      "role": "auxiliary",
+      "url": "https://mspo.org.my/",
+      "fetched_ok": true,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "coverage_quote": "MSPO covers nearly 450,000 independent smallholders",
+      "covers_target_region": "true",
+      "caveats_quoted": [
+        "The Traceability Search Engine enables palm oil to be tracked from plantation to mill and beyond."
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    }
+  ],
+  "ground_truth": {
+    "status": "must_construct",
+    "source_url": null,
+    "construction_protocol": "No public MPOB TSPKS or smallholder plot-boundary dataset exists. Protocol: recruit smallholders via MPOB extension officer/MSPO cooperative, record GPS pin, hand-digitize plot outline on NICFI/S2 imagery; target 30-50 plots for validation.",
+    "label_count_estimate": "~30-50 plots (pilot validation set)"
+  },
+  "compute_path": {
+    "platform": "Google Earth Engine (NICFI Asia + COPERNICUS/S1_GRD + COPERNICUS/S2_SR_HARMONIZED, server-side compositing and SAR analysis)",
+    "fits_C9": true,
+    "why": "All raster processing (mosaicking, speckle filtering, change detection) runs server-side on GEE; no local GPU or multi-day training needed.",
+    "gpu_hours_per_week_estimate": 0
+  },
+  "queries": [
+    {
+      "q": "NICFI Planet basemap purpose licence terms tropical forest monitoring",
+      "useful": false,
+      "note": "WebSearch tool returned session budget exhausted (200/200); verified via direct WebFetch of GEE NICFI catalog page instead."
+    },
+    {
+      "q": "MPOB TSPKS smallholder oil palm plot boundary data",
+      "useful": false,
+      "note": "WebSearch tool returned session budget exhausted; verified via direct WebFetch of mpob.gov.my, data.gov.my, mspo.org.my."
+    }
+  ],
+  "fetched": [
+    "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD",
+    "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+    "https://developers.google.com/earth-engine/datasets/catalog/projects_planet-nicfi_assets_basemaps_asia",
+    "https://www.mpob.gov.my/",
+    "https://data.gov.my/data-catalogue?q=oil+palm",
+    "https://zenodo.org/records/4473715",
+    "https://mspo.org.my/",
+    "https://essd.copernicus.org/articles/13/1211/2021/"
+  ],
+  "budget_exhausted": true,
+  "notes": "WebSearch quota was exhausted session-wide (0 of 200 remaining) before any search ran; all verification done via direct WebFetch on known tier-A landing pages (GEE catalog, Zenodo, MPOB, MSPO, data.gov.my). No portal or repository returned a Malaysia smallholder plot-boundary or TSPKS geodataset."
+}

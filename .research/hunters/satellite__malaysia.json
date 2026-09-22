@@ -1,0 +1,520 @@
+[
+  {
+    "one_liner": "For Malaysian palm-oil smallholders facing EUDR, turn a GPS point or rough TSPKS holding into a NICFI + Sentinel-1/2 evidence pack: boundary ambiguity, post-2020 forest conversion risk, and which cases need field photographs.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "nicfi_planet_basemaps+sentinel_1_sar+sentinel_2_optical",
+    "delta_claim": "combines plot-definition uncertainty with EUDR forest-risk triage and photo handoff",
+    "forcing_function": "EUDR large-operator deadline 30 Dec 2026; TSPKS 2.0 monitoring",
+    "user_guess": "MPOB TUNAS officers and palm exporters",
+    "seed_urls": [
+      {
+        "url": "https://environment.ec.europa.eu/news/commission-updates-product-scope-and-tools-support-eudr-2026-07-13_en",
+        "date": "2026-07-13",
+        "title": "Commission updates product scope and tools to support EUDR",
+        "tier": "A",
+        "note": "EC confirms EUDR timing and covered commodities including palm oil and rubber."
+      },
+      {
+        "url": "https://prestasisawit.mpob.gov.my/en/palmnews/news/39893",
+        "date": "2026-09-02",
+        "title": "Agrobank to fully disburse RM200mil under oil palm smallholder scheme by October",
+        "tier": "B",
+        "note": "TSPKS system uses MPOB site-visit information and plantation photographs."
+      },
+      {
+        "url": "https://openforis.org/fileadmin/planet.html",
+        "date": "2025-01-23",
+        "title": "NICFI Planet basemaps notice",
+        "tier": "A",
+        "note": "Historical NICFI imagery remains relevant for tropical forest monitoring through Dec 2024."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:S15",
+    "hunter_confidence": "high",
+    "queries": [
+      {
+        "q": "site:mpob.gov.my TSPKS 2.0 smallholder replanting oil palm Malaysia 2026 MPOB",
+        "useful": true,
+        "note": "Found MPOB/TSPKS replanting and monitoring sources."
+      },
+      {
+        "q": "site:mpob.gov.my EUDR MSPO palm oil Malaysia 2026 MPOB",
+        "useful": true,
+        "note": "Found MSPO/TSPKS smallholder context."
+      },
+      {
+        "q": "site:environment.ec.europa.eu EUDR 30 December 2026 palm rubber geolocation due diligence",
+        "useful": true,
+        "note": "Found EC EUDR date and commodity source."
+      },
+      {
+        "q": "Open Foris NICFI Planet basemaps agreement concluded 23 January 2025",
+        "useful": true,
+        "note": "Found NICFI archive status."
+      },
+      {
+        "q": "For Every Farm FTW global field boundaries smallholder weakness 2024 2025 primary source",
+        "useful": true,
+        "note": "Found FTW global boundary product."
+      },
+      {
+        "q": "AlphaEarth Foundations satellite embeddings academic program deadline 15 October 2026 primary source",
+        "useful": true,
+        "note": "Found AlphaEarth and embeddings sources."
+      },
+      {
+        "q": "Malaysia rubber EUDR geolocation smallholders primary source 2026",
+        "useful": false,
+        "note": "No strong rubber-specific primary seed found quickly."
+      },
+      {
+        "q": "Malaysia Cameron Highlands agriculture Sentinel-1 SAR cloud vegetable farms official",
+        "useful": true,
+        "note": "Found Cameron official agriculture and remote-sensing monitoring pages."
+      },
+      {
+        "q": "site:myrubbercouncil.com EUDR rubber Malaysia geolocation 2026",
+        "useful": false,
+        "note": "No usable primary result."
+      },
+      {
+        "q": "site:lgm.gov.my EUDR rubber Malaysia 2026 smallholders",
+        "useful": false,
+        "note": "No usable primary result."
+      },
+      {
+        "q": "site:doa.gov.my myGAP Cameron Highlands updated 31 Jul 2026 crop list",
+        "useful": true,
+        "note": "Found myGAP Cameron Highlands certificate list."
+      },
+      {
+        "q": "site:mygap.doa.gov.my Cameron Highlands myGAP crop certification list 2026",
+        "useful": true,
+        "note": "Found more myGAP list pages."
+      },
+      {
+        "q": "site:proladang.com.my AgriAssist precision satellite monitoring agriculture Malaysia 2026",
+        "useful": true,
+        "note": "Found official AgriAssist product page."
+      },
+      {
+        "q": "site:wipo.int AgriAssist AI Powered Crop Health Monitoring Precision Spray System 2026",
+        "useful": true,
+        "note": "Found dated WIPO profile for AgriAssist."
+      },
+      {
+        "q": "site:aonic.com my Airamap Desktop AI tree counting agriculture software 2026",
+        "useful": true,
+        "note": "Found Aonic Airamap product page."
+      },
+      {
+        "q": "site:mysa.gov.my Malaysia satellite remote sensing agriculture paddy monitoring 2026",
+        "useful": true,
+        "note": "Found MYSA MakGeoPadi sources."
+      },
+      {
+        "q": "arXiv 2605.11055 Fields of The World global field boundary map 2026 date",
+        "useful": true,
+        "note": "Found FTW paper and product references."
+      },
+      {
+        "q": "Source Cooperative FTW global data field boundaries 2024 2025 source cooperative date",
+        "useful": true,
+        "note": "Found FTW data catalogue pointers."
+      },
+      {
+        "q": "Google Earth Engine AlphaEarth embeddings dataset annual 2025 source",
+        "useful": true,
+        "note": "Found Earth Engine dataset page."
+      },
+      {
+        "q": "AlphaEarth Foundations custom satellite embeddings academic program deadline October 15 2026",
+        "useful": true,
+        "note": "Found custom embeddings programme signal."
+      }
+    ],
+    "budget_exhausted": false,
+    "query_count": 20,
+    "opened_url_count": 12
+  },
+  {
+    "one_liner": "For MPOB TSPKS 2.0 applicants in Malaysia, label each smallholder palm holding as old-stand retained, cleared, replanted, or stalled from Sentinel-1/2 and NICFI, replacing manual photo review with event-status evidence.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+nicfi_planet_basemaps",
+    "delta_claim": "turns replanting finance monitoring into a four-state temporal event audit",
+    "forcing_function": "TSPKS 2.0 smallholder oil palm replanting financing and monitoring",
+    "user_guess": "MPOB and Agrobank scheme reviewers",
+    "seed_urls": [
+      {
+        "url": "https://prestasisawit.mpob.gov.my/en/palmnews/news/39893",
+        "date": "2026-09-02",
+        "title": "Agrobank to fully disburse RM200mil under oil palm smallholder scheme by October",
+        "tier": "B",
+        "note": "MPOB-linked report says the system monitors applications end-to-end and includes plantation photographs."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "high"
+  },
+  {
+    "one_liner": "For Malaysian MSPO smallholder clusters, use NICFI + Sentinel embeddings to flag certified palm parcels whose 2020-2026 edge history conflicts with a deforestation-free claim, outputting an auditor queue by risk reason.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "nicfi_planet_basemaps+foundation_model_embeddings",
+    "delta_claim": "audits certification risk by edge-history explanation rather than mapping palm trees",
+    "forcing_function": "MSPO 2022 and EUDR alignment pressure",
+    "user_guess": "MSPO auditors and palm-oil exporters",
+    "seed_urls": [
+      {
+        "url": "https://mpob.gov.my/2025/04/mspo-2022-dan-skim-penanaman-semula-sawit-tingkat-daya-saing-pekebun-kecil/",
+        "date": "2025-04-10",
+        "title": "MSPO 2022 dan skim penanaman semula sawit tingkat daya saing pekebun kecil",
+        "tier": "A",
+        "note": "MPOB says MSPO 2022 applies from Jan 2025 and covers smallholders."
+      },
+      {
+        "url": "https://environment.ec.europa.eu/news/commission-updates-product-scope-and-tools-support-eudr-2026-07-13_en",
+        "date": "2026-07-13",
+        "title": "Commission updates product scope and tools to support EUDR",
+        "tier": "A",
+        "note": "EC lists palm oil among EUDR commodities and confirms application dates."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "high"
+  },
+  {
+    "one_liner": "For Cameron Highlands district officers in Malaysia, type new Sentinel-1/2 land-clearing signals as terrace extension, farm-road cut, greenhouse block, or non-farm clearing, instead of a generic encroachment alert.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical",
+    "delta_claim": "classifies the clearing mechanism that enforcement officers act on",
+    "forcing_function": "MYSA-PDTCH Cameron Highlands remote-sensing monitoring MoU",
+    "user_guess": "Cameron Highlands district land office",
+    "seed_urls": [
+      {
+        "url": "https://www.mosti.gov.my/berita/satelit-remote-sensing-pantau-aktiviti-penerokaan-tanah-cameron-highlands/",
+        "date": "2023-03-06",
+        "title": "Satelit Remote Sensing Pantau Aktiviti Penerokaan Tanah Cameron Highlands",
+        "tier": "A",
+        "note": "MOSTI says MYSA and Cameron Highlands agencies monitor land-development activities with satellite remote sensing."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Malaysia DOA myGAP recertification in Cameron Highlands, use Sentinel-1 SAR time series to separate active vegetable production, fallow plots, and expanded shade structures when optical imagery fails.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar",
+    "delta_claim": "uses all-weather activity continuity to triage certification visits, not crop classification",
+    "forcing_function": "myGAP Cameron Highlands certificate renewals through 2026-2028",
+    "user_guess": "Department of Agriculture myGAP inspectors",
+    "seed_urls": [
+      {
+        "url": "https://carianmygapmyorganic.doa.gov.my/mygap_tanaman_list.php?f=(daerah~equals~CAMERON+HIGHLANDS)",
+        "date": "2026-07-31",
+        "title": "myGAP Tanaman Cameron Highlands",
+        "tier": "A",
+        "note": "DOA myGAP list is updated 31 Jul 2026 and includes many Cameron Highlands farms, crops, areas and expiry dates."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Malaysian paddy cooperatives using AgriAssist-style alerts, audit whether a satellite pest alert actually closes after drone spraying by measuring Sentinel-1/2 recovery, not by issuing another stress map.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical",
+    "delta_claim": "verifies treatment closure after precision spraying rather than detecting the pest",
+    "forcing_function": null,
+    "user_guess": "paddy cooperatives and drone service partners",
+    "seed_urls": [
+      {
+        "url": "https://www.wipo.int/es/web/ip-advantage/w/agriassist-ai-powered-crop-health-monitoring-precision-spray-system",
+        "date": "2026-06-30",
+        "title": "AgriAssist AI-Powered Crop Health Monitoring & Precision Spray System",
+        "tier": "A",
+        "note": "WIPO describes AgriAssist satellite alerts, WhatsApp workflow, drone-provider integration and post-treatment updates."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Malaysian palm exporters, use AlphaEarth annual embeddings to find plantation-edge parcels whose 2017-2024 trajectory resembles forest-to-palm conversion, outputting evidence snippets before EUDR filing.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "foundation_model_embeddings",
+    "delta_claim": "turns annual embedding trajectory change into pre-filing EUDR risk snippets",
+    "forcing_function": "EUDR large-operator deadline 30 Dec 2026",
+    "user_guess": "palm exporters and due-diligence teams",
+    "seed_urls": [
+      {
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+        "date": "2025-11-17",
+        "title": "Satellite Embedding V1",
+        "tier": "A",
+        "note": "Google Earth Engine documents annual 10 m embeddings from 2017-2024 with Sentinel-1/2 and Landsat-derived signals."
+      },
+      {
+        "url": "https://environment.ec.europa.eu/news/commission-updates-product-scope-and-tools-support-eudr-2026-07-13_en",
+        "date": "2026-07-13",
+        "title": "Commission updates product scope and tools to support EUDR",
+        "tier": "A",
+        "note": "EUDR requires deforestation-free evidence for covered commodities including palm oil."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Malaysian rubber and palm buyers, use Sentinel-1/2 plus AlphaEarth embeddings to flag mixed smallholder parcels where commodity identity is uncertain enough to break EUDR due-diligence routing.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical+foundation_model_embeddings",
+    "delta_claim": "outputs commodity-routing uncertainty for due diligence, not a crop map",
+    "forcing_function": "EUDR commodities include palm oil and rubber",
+    "user_guess": "commodity buyers and traceability teams",
+    "seed_urls": [
+      {
+        "url": "https://environment.ec.europa.eu/news/commission-updates-product-scope-and-tools-support-eudr-2026-07-13_en",
+        "date": "2026-07-13",
+        "title": "Commission updates product scope and tools to support EUDR",
+        "tier": "A",
+        "note": "EC states EUDR covers seven commodities including palm oil and rubber."
+      },
+      {
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+        "date": "2025-11-17",
+        "title": "Satellite Embedding V1",
+        "tier": "A",
+        "note": "Annual embeddings support clustering, classification and change detection without heavy local model training."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Malaysian smallholder palm replanting officers, compare FTW 2024-2025 field boundaries against TSPKS holding areas and classify merge, split, under-canopy miss, or road-access mismatch.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "lpis_eurocrops_ftw+sentinel_2_optical",
+    "delta_claim": "benchmarks boundary failure modes that block subsidy verification",
+    "forcing_function": "FTW global 10 m boundary product; TSPKS 2.0 verification need",
+    "user_guess": "MPOB TUNAS officers",
+    "seed_urls": [
+      {
+        "url": "https://fieldsofthe.world/",
+        "date": "2026-05",
+        "title": "Fields of The World: A Global Field Boundary Ecosystem",
+        "tier": "A",
+        "note": "FTW reports 2024-2025 global 10 m field boundaries and downloadable polygons."
+      },
+      {
+        "url": "https://prestasisawit.mpob.gov.my/en/palmnews/news/39893",
+        "date": "2026-09-02",
+        "title": "Agrobank to fully disburse RM200mil under oil palm smallholder scheme by October",
+        "tier": "B",
+        "note": "TSPKS 2.0 applies to holdings up to 4.047 ha and relies on site-visit evidence."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "high"
+  },
+  {
+    "one_liner": "For Cameron Highlands vegetable inspectors, use Sentinel-1 coherence to detect plastic-house installation and removal dates around myGAP parcels, outputting renewal-risk changes between certificate cycles.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar_coherence",
+    "delta_claim": "dates protected-cultivation structure changes against certificate validity windows",
+    "forcing_function": "myGAP Cameron Highlands certificate renewals",
+    "user_guess": "DOA myGAP inspectors",
+    "seed_urls": [
+      {
+        "url": "https://carianmygapmyorganic.doa.gov.my/mygap_tanaman_list.php?f=(daerah~equals~CAMERON+HIGHLANDS)",
+        "date": "2026-07-31",
+        "title": "myGAP Tanaman Cameron Highlands",
+        "tier": "A",
+        "note": "Official myGAP list provides parcels/farms, crops, areas and expiry dates for Cameron Highlands."
+      },
+      {
+        "url": "https://www.mdcameron.gov.my/ms/node/479",
+        "date": "2026-08-28",
+        "title": "Ladang Sayur-Sayuran",
+        "tier": "A",
+        "note": "Cameron Highlands council page identifies widespread vegetable farms in the district."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Malaysian palm smallholders under Ganoderma-free replanting pushes, use Sentinel-1/2 to flag replanted blocks whose early canopy establishment lags peer cohorts, separating planting failure from delayed clearance.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical",
+    "delta_claim": "links replanting cohort timing to establishment failure, not disease detection",
+    "forcing_function": "TSPKS 2.0 and smallholder Ganoderma control support",
+    "user_guess": "MPOB smallholder extension officers",
+    "seed_urls": [
+      {
+        "url": "https://mpob.gov.my/2026/08/program-pemantapan-mspo-pekebun-kecil-sawit-daerah-tampin-negeri-sembilan/",
+        "date": "2026-08",
+        "title": "Program Pemantapan MSPO Pekebun Kecil Sawit Daerah Tampin",
+        "tier": "A",
+        "note": "MPOB links smallholder replanting to Ganoderma risk controls and certified nursery material."
+      },
+      {
+        "url": "https://prestasisawit.mpob.gov.my/en/palmnews/news/39893",
+        "date": "2026-09-02",
+        "title": "Agrobank to fully disburse RM200mil under oil palm smallholder scheme by October",
+        "tier": "B",
+        "note": "TSPKS 2.0 aims to help independent smallholders replant old or less productive trees."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Malaysia's paddy agencies, learn anomaly labels around official paddy lots where Sentinel-1 transplanting rhythm disagrees with the expected season, outputting inspect-now lots instead of acreage estimates.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar",
+    "delta_claim": "detects rhythm-breaking lot anomalies rather than paddy extent or yield",
+    "forcing_function": null,
+    "user_guess": "DOA and IADA paddy managers",
+    "seed_urls": [
+      {
+        "url": "https://www.mysa.gov.my/sistem-makgeopadi-2/",
+        "date": "2017-01",
+        "title": "Sistem MakGeoPadi",
+        "tier": "A",
+        "note": "MYSA says MakGeoPadi supports paddy planning and monitoring across 12 granary areas."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Malaysian palm mills buying from cooperatives, use NICFI + Sentinel-1/2 to detect new road-linked plantation expansion within their sourcing radius and tag whether it predates the EUDR 2020 cutoff.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "nicfi_planet_basemaps+sentinel_1_sar+sentinel_2_optical",
+    "delta_claim": "ties road-linked expansion chronology to a mill sourcing-risk queue",
+    "forcing_function": "EUDR deforestation-free requirement",
+    "user_guess": "palm mills and cooperative buyers",
+    "seed_urls": [
+      {
+        "url": "https://openforis.org/fileadmin/planet.html",
+        "date": "2025-01-23",
+        "title": "NICFI Planet basemaps notice",
+        "tier": "A",
+        "note": "NICFI historical archive supports tropical forest monitoring through Dec 2024."
+      },
+      {
+        "url": "https://environment.ec.europa.eu/news/commission-updates-product-scope-and-tools-support-eudr-2026-07-13_en",
+        "date": "2026-07-13",
+        "title": "Commission updates product scope and tools to support EUDR",
+        "tier": "A",
+        "note": "EC states covered products must be deforestation-free and legally produced."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Malaysian highland farm regulators, fuse FTW boundaries with Sentinel-1 slope-clearing change to find vegetable plots that grow by terracing across parcel edges between 2024 and 2025.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "lpis_eurocrops_ftw+sentinel_1_sar",
+    "delta_claim": "detects boundary-crossing terrace growth rather than field boundaries alone",
+    "forcing_function": "FTW global 2024-2025 field boundary release",
+    "user_guess": "Cameron Highlands district land office",
+    "seed_urls": [
+      {
+        "url": "https://fieldsofthe.world/",
+        "date": "2026-05",
+        "title": "Fields of The World: A Global Field Boundary Ecosystem",
+        "tier": "A",
+        "note": "FTW provides 2024 and 2025 global field-boundary predictions."
+      },
+      {
+        "url": "https://www.mosti.gov.my/berita/satelit-remote-sensing-pantau-aktiviti-penerokaan-tanah-cameron-highlands/",
+        "date": "2023-03-06",
+        "title": "Satelit Remote Sensing Pantau Aktiviti Penerokaan Tanah Cameron Highlands",
+        "tier": "A",
+        "note": "MOSTI documents satellite monitoring for Cameron Highlands land-development activities."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Malaysian estates using satellite health alerts, generate a failure-mode layer that says cloud-gap, drainage/flood pulse, harvest disturbance, or true stress, so managers know when not to spray.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "sentinel_1_sar+sentinel_2_optical",
+    "delta_claim": "explains alert failure modes before a chemical decision",
+    "forcing_function": null,
+    "user_guess": "estate managers using AgriAssist-like tools",
+    "seed_urls": [
+      {
+        "url": "https://www.wipo.int/es/web/ip-advantage/w/agriassist-ai-powered-crop-health-monitoring-precision-spray-system",
+        "date": "2026-06-30",
+        "title": "AgriAssist AI-Powered Crop Health Monitoring & Precision Spray System",
+        "tier": "A",
+        "note": "WIPO describes satellite pest/disease alerts and precision spray decisions in Malaysia."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Malaysian palm exporters, compare NICFI forest-loss evidence with AlphaEarth embedding change to flag cases where each source disagrees, outputting an EUDR uncertainty brief instead of a binary pass/fail.",
+    "region": "malaysia",
+    "bucket": "satellite",
+    "data_class": "nicfi_planet_basemaps+foundation_model_embeddings",
+    "delta_claim": "makes cross-source disagreement the auditable output",
+    "forcing_function": "EUDR large-operator deadline 30 Dec 2026",
+    "user_guess": "exporter due-diligence teams",
+    "seed_urls": [
+      {
+        "url": "https://openforis.org/fileadmin/planet.html",
+        "date": "2025-01-23",
+        "title": "NICFI Planet basemaps notice",
+        "tier": "A",
+        "note": "NICFI archive remains accessible historically for tropical forest monitoring."
+      },
+      {
+        "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+        "date": "2025-11-17",
+        "title": "Satellite Embedding V1",
+        "tier": "A",
+        "note": "Google documents annual embeddings for change detection and notes remaining artifacts."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "high"
+  }
+]

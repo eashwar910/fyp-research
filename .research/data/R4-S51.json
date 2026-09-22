@@ -1,0 +1,124 @@
+{
+  "id": "R4-S51",
+  "verdict": "blocked",
+  "verdict_reason": "FTW ships no country-wide boundary product for Malaysia (only Kenya/Vietnam/Laos/Colombia underway per ecosystem.html); the 24-country benchmark also excludes Malaysia. No public TSPKS/MPOB holding-area geometry or access route was found on MPOB's site, so FTW-vs-TSPKS has no confirmed reference set. WebSearch quota was pre-exhausted, so TSPKS status is unresolved, not disproven.",
+  "sources": [
+    {
+      "name": "Fields of The World (FTW) labelled benchmark dataset",
+      "role": "labels",
+      "url": "https://source.coop/repositories/kerner-lab/fields-of-the-world/description",
+      "fetched_ok": true,
+      "licence_quote": "CC-BY-4.0, CC0-1.0, CC-BY-NC-4.0, CC-BY-2.0",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "FTW spans four continents—Europe, Africa, Asia, and South America—covering diverse agricultural landscapes across 24 countries.",
+      "covers_target_region": "false",
+      "date_range": "2016-2023",
+      "caveats_quoted": [
+        "India has a total of 2,002 chips available. Of these, 22 chips are marked as 'none' for the split column"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "FTW Global Map / Explorer inference product (data products, ecosystem page)",
+      "role": "labels",
+      "url": "https://fieldsofthe.world/ecosystem.html",
+      "fetched_ok": true,
+      "licence_quote": "",
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "size_gb": null,
+      "coverage_quote": "3.17B field polygons across 241 countries",
+      "covers_target_region": "partial",
+      "date_range": "2024-2025",
+      "caveats_quoted": [
+        "No full-country release has shipped yet, but work is underway in Kenya, Vietnam, Laos, Colombia, and other regions.",
+        "a 500m confidence layer (AUC 0.82)"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "TSPKS / MPOB smallholder replanting scheme holding-area geometry",
+      "role": "comparator",
+      "url": "https://www.mpob.gov.my/",
+      "fetched_ok": true,
+      "licence_quote": "",
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "size_gb": null,
+      "coverage_quote": "",
+      "covers_target_region": "false",
+      "date_range": "",
+      "caveats_quoted": [],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    }
+  ],
+  "ground_truth": {
+    "status": "external_named",
+    "source_url": null,
+    "construction_protocol": "TSPKS is an MPOB-administered smallholder replanting registry; no public geodata portal, download link, or dataset page was located. Access likely needs a data-sharing request to MPOB; unconfirmed.",
+    "label_count_estimate": null
+  },
+  "compute_path": {
+    "platform": "Pretrained FTW baseline model run as on-demand inference over Sentinel-2 (GEE or local), or the FTW Explorer app",
+    "fits_C9": true,
+    "why": "Inference-only on a pretrained checkpoint over Sentinel-2 tiles; no training run, so it fits a CUDA-less MacBook plus free hosted compute.",
+    "gpu_hours_per_week_estimate": 0
+  },
+  "queries": [
+    {
+      "q": "Fields of The World FTW dataset field boundaries landing page Source Coop licence",
+      "useful": false,
+      "note": "WebSearch tool refused: session quota already 200/200 before this dispatch ran any query."
+    },
+    {
+      "q": "TSPKS smallholder holding area Malaysia MPOB dataset geometry",
+      "useful": false,
+      "note": "Same quota exhaustion; zero WebSearch results obtained for TSPKS at any point."
+    },
+    {
+      "q": "google.com/search fields of the world global field boundary map confidence layer smallholder (via WebFetch)",
+      "useful": false,
+      "note": "Google results page requires JS; WebFetch returned only an interstitial/error page, no results."
+    },
+    {
+      "q": "bing.com/search fields of the world global map field boundaries confidence smallholder (via WebFetch)",
+      "useful": false,
+      "note": "Bing returned unrelated cached content (an energy-management company), not relevant results."
+    },
+    {
+      "q": "html.duckduckgo.com TSPKS MPOB pekebun kecil sawit tanaman semula (via WebFetch)",
+      "useful": false,
+      "note": "DuckDuckGo HTML endpoint served a CAPTCHA challenge; no results obtained."
+    },
+    {
+      "q": "html.duckduckgo.com TSPKS smallholder geospatial parcel boundary Malaysia (via WebFetch)",
+      "useful": false,
+      "note": "Same CAPTCHA block as above."
+    }
+  ],
+  "fetched": [
+    "https://fieldsofthe.world/",
+    "https://www.mpob.gov.my/",
+    "https://source.coop/repositories/kerner-lab/fields-of-the-world/description",
+    "https://github.com/fieldsoftheworld/ftw-baselines",
+    "https://www.google.com/search?q=%22fields+of+the+world%22+global+field+boundary+map+confidence+layer+smallholder",
+    "https://fieldsofthe.world/global",
+    "https://www.bing.com/search?q=%22fields+of+the+world%22+global+map+field+boundaries+confidence+smallholder",
+    "https://fieldsofthe.world/ecosystem.html",
+    "https://fieldsofthe.world/ftw-inference-app",
+    "https://html.duckduckgo.com/html/?q=TSPKS+MPOB+pekebun+kecil+sawit+tanaman+semula",
+    "https://html.duckduckgo.com/html/?q=%22TSPKS%22+smallholder+geospatial+parcel+boundary+Malaysia",
+    "https://www.data.gov.my/data-catalogue?search=sawit",
+    "https://www.mpob.gov.my/en/palm-oil-economic-status/statistics"
+  ],
+  "budget_exhausted": true,
+  "notes": "WebSearch was at the 200/200 session cap before my two queries ran; zero real searches executed. Substituted WebFetch on guessed URLs (fieldsofthe.world, source.coop, GitHub, mpob.gov.my, data.gov.my) plus Google/Bing/DuckDuckGo pages, all JS-blocked or irrelevant. Could NOT run: any real search for TSPKS/MPOB GIS data, an MPOB data-request check, or a second source on Malaysia's absence from FTW's shipped-country list."
+}

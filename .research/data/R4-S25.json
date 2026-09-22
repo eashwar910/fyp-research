@@ -1,0 +1,135 @@
+{
+  "id": "R4-S25",
+  "verdict": "conditional",
+  "verdict_reason": "Sentinel-1/2 and EuroCrops are fully open (GEE/Zenodo). No EU source publishes which organic-soil parcels were actually rewetted and when: CRCF Union Registry is EU-Login-gated, methodology only adopted Jul 2026; MoorFutures/LIFE pages give no parcel geodata. Labels must be hand-built from fragmented national records; LPIS access varies by member state.",
+  "sources": [
+    {
+      "name": "Sentinel-1 GRD (COPERNICUS/S1_GRD)",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD",
+      "fetched_ok": true,
+      "licence_quote": "The use of Sentinel data is governed by the Copernicus Sentinel Data Terms and Conditions.",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "COPERNICUS/S1_GRD",
+      "size_gb": null,
+      "coverage_quote": "Global coverage (geographic extent: -90 to 90 latitude, -180 to 180 longitude)",
+      "covers_target_region": "true",
+      "date_range": "2014-10-03 to present, 6-day revisit",
+      "caveats_quoted": []
+    },
+    {
+      "name": "Sentinel-2 MSI Level-2A Harmonized (COPERNICUS/S2_SR_HARMONIZED)",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+      "fetched_ok": true,
+      "licence_quote": "The use of Sentinel data is governed by the Copernicus Sentinel Data Terms and Conditions.",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "size_gb": null,
+      "coverage_quote": "Wide-swath, high-resolution, multi-spectral imaging for land monitoring",
+      "covers_target_region": "true",
+      "date_range": "2017-03-28 to present, 5-day revisit",
+      "caveats_quoted": []
+    },
+    {
+      "name": "EuroCrops (Zenodo)",
+      "role": "auxiliary",
+      "url": "https://zenodo.org/records/8229128",
+      "fetched_ok": true,
+      "licence_quote": "Creative Commons Attribution Share Alike 4.0 International",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": 8.6,
+      "coverage_quote": "16 EU countries: Austria, Belgium, Germany, Denmark, Estonia, Spain, France, Croatia, Lithuania, Latvia, Netherlands, Portugal, Romania, Sweden, Slovenia, Slovakia",
+      "covers_target_region": "partial",
+      "date_range": "2018-2021 depending on country (e.g. Austria 2021, France 2018, Denmark 2019)",
+      "caveats_quoted": [
+        "Self-reported crop-type data, single reference year per country; not a rewetting-event or multi-date time series"
+      ]
+    },
+    {
+      "name": "Land Parcel Identification System (LPIS)",
+      "role": "auxiliary",
+      "url": "https://en.wikipedia.org/wiki/Land_parcel_identification_system",
+      "fetched_ok": true,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "coverage_quote": "A system to identify land use for a given country; utilises orthophotos, aerial photographs and high precision satellite images",
+      "covers_target_region": "partial",
+      "caveats_quoted": [
+        "No dedicated LPIS open data portal found; official EU LPIS page 404'd; access is managed per member-state paying agency, not centrally published"
+      ]
+    },
+    {
+      "name": "EU Union Registry (CRCF carbon-farming certification)",
+      "role": "labels",
+      "url": "https://webgate.ec.europa.eu/fpfis/wikis/display/mrv/Union+Registry",
+      "fetched_ok": false,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "covers_target_region": "true",
+      "caveats_quoted": [
+        "Page requires EU Login (CAS) authentication; redirected to sorry.ec.europa.eu, content not retrievable without login"
+      ],
+      "application_deadline": null
+    },
+    {
+      "name": "MoorFutures (German peatland-rewetting carbon-certificate programme)",
+      "role": "comparator",
+      "url": "https://www.moorfutures.de",
+      "fetched_ok": true,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "coverage_quote": "Links to four German state programmes (Mecklenburg-Vorpommern, Brandenburg, Schleswig-Holstein, Niedersachsen)",
+      "covers_target_region": "partial",
+      "caveats_quoted": [
+        "No public map or registry of rewetted parcels with geospatial boundaries and dates found on this page"
+      ]
+    }
+  ],
+  "ground_truth": {
+    "status": "must_construct",
+    "source_url": null,
+    "construction_protocol": "Match LPIS parcel IDs to national programme project lists (MoorFutures, LIFE Peat Restore) for rewetting dates; confirm each via visual interpretation of pre/post Sentinel-1 wetness and Sentinel-2 phenology time series.",
+    "label_count_estimate": "Unknown; likely tens to low hundreds of documented parcels across MoorFutures state programmes plus LIFE Peat Restore sites, not a systematic EU-wide count"
+  },
+  "compute_path": {
+    "platform": "Google Earth Engine (COPERNICUS/S1_GRD + COPERNICUS/S2_SR_HARMONIZED catalogs), free hosted compute",
+    "fits_C9": true,
+    "why": "Sentinel-1/2 stacks process natively in GEE free hosted compute; no local GPU or multi-day training needed, fits MacBook-no-CUDA/part-time constraint.",
+    "gpu_hours_per_week_estimate": 0
+  },
+  "queries": [
+    {
+      "q": "Sentinel-1 GRD Google Earth Engine catalog dataset",
+      "useful": true
+    },
+    {
+      "q": "EuroCrops dataset Zenodo licence",
+      "useful": true
+    },
+    {
+      "q": "EU CRCF Carbon Removals and Carbon Farming registry rewetted peatland parcels published",
+      "useful": true,
+      "note": "confirmed no parcel-level public registry described in secondary sources; session WebSearch budget exhausted after this, remaining verification done via direct WebFetch"
+    }
+  ],
+  "fetched": [
+    "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD",
+    "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+    "https://zenodo.org/records/8229128",
+    "https://climate.ec.europa.eu/eu-action/sustainable-carbon-cycles/carbon-removals-and-carbon-farming_en",
+    "https://agriculture.ec.europa.eu/common-agricultural-policy/cap-overview/cap-networks/land-parcel-identification-system-lpis_en",
+    "https://climate.ec.europa.eu/eu-action/carbon-removals-carbon-farming_en",
+    "https://climate.ec.europa.eu/news-other-reads/news/commission-adopts-certification-methodologies-carbon-farming-under-crcf-regulation-2026-07-10_en",
+    "https://en.wikipedia.org/wiki/Land_parcel_identification_system",
+    "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R3012",
+    "https://www.moorfutures.de/en/",
+    "https://www.moorfutures.de",
+    "https://webgate.ec.europa.eu/fpfis/wikis/display/mrv/Union+Registry"
+  ],
+  "budget_exhausted": false,
+  "notes": "Biggest blocker: ground-truth path. No systematic, publicly accessible EU dataset tags which organic-soil parcels were rewetted/when. CRCF Union Registry requires EU Login; peatland certification methodology adopted Jul 2026, not yet operational with historical parcel data. National schemes (MoorFutures, LIFE Peat Restore) publish project-level, not parcel-level, info. LPIS is not centrally open; access is per member-state paying agency."
+}

@@ -1,0 +1,313 @@
+[
+  {
+    "one_liner": "For Malaysian MPOB/Agrobank TSPKS 2.0 officers, turn MOPAD UAV oil-palm images into a replanting-evidence audit that separates dead palms, mismanaged palms, smallish palms, yellowing palms, and true vacant stand gaps.",
+    "region": "malaysia",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:MOPAD",
+    "delta_claim": "Converts per-tree UAV status labels into subsidy-audit evidence, not another tree counter.",
+    "forcing_function": "TSPKS 2.0 smallholder oil palm replanting financing and monitoring",
+    "user_guess": "MPOB/Agrobank scheme officers",
+    "seed_urls": [
+      {
+        "url": "https://github.com/rs-dl/MOPAD",
+        "date": "2021",
+        "title": "MOPAD",
+        "tier": "A",
+        "note": "Author repository provides downloadable UAV oil-palm dataset and COCO-format annotations."
+      },
+      {
+        "url": "https://mpob.gov.my/2026/02/smallholders-plantation-access-road-project-boosts-independent-oil-palm-smallholders-socioeconomy/",
+        "date": "2026-01-29",
+        "title": "Smallholders' Plantation Access Road Project boosts independent oil palm smallholders' socioeconomy",
+        "tier": "A",
+        "note": "MPOB describes TSPKS 2.0 as a smallholder matching grant with repayment after year five."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "high",
+    "queries": [
+      {
+        "q": "Malaysia UAV drone agriculture dataset oil palm open imagery 2024",
+        "useful": true,
+        "note": "Found MOPAD, Roboflow oil-palm UAV dataset, JOPR and other UAV oil-palm sources."
+      },
+      {
+        "q": "site:data.mendeley.com Malaysia oil palm UAV image dataset",
+        "useful": false,
+        "note": "No retained primary dataset source."
+      },
+      {
+        "q": "site:figshare.com Malaysia UAV oil palm dataset",
+        "useful": false,
+        "note": "No retained primary dataset source."
+      },
+      {
+        "q": "site:zenodo.org Malaysia drone oil palm dataset",
+        "useful": true,
+        "note": "Found adjacent oil-palm map data, but not retained for drone/aerial candidates."
+      },
+      {
+        "q": "Malaysia UAV agricultural dataset rubber tree drone imagery open",
+        "useful": true,
+        "note": "Found rubber UAV work but not a Malaysia-accessible open dataset."
+      },
+      {
+        "q": "Malaysia UAV paddy rice drone imagery dataset open",
+        "useful": true,
+        "note": "Found open rice UAV dataset outside Malaysia and Malaysian paddy UAV papers."
+      },
+      {
+        "q": "Malaysia aerial orthophoto open data agriculture drone dataset",
+        "useful": true,
+        "note": "Found AGIM GeoHub and JUPEM orthophoto product pages."
+      },
+      {
+        "q": "Malaysia oil palm UAV image dataset GitHub MOPAD date",
+        "useful": true,
+        "note": "Found MOPAD repository and paper evidence."
+      }
+    ],
+    "search_query_count": 8,
+    "url_fetch_count": 9,
+    "budget_exhausted": false
+  },
+  {
+    "one_liner": "For Malaysian smallholder extension officers, use MOPAD UAV imagery to output a per-block confidence score for whether a low-density oil-palm area is vacancy, young replanting, or annotation uncertainty.",
+    "region": "malaysia",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:MOPAD",
+    "delta_claim": "Makes vacancy confidence and ambiguity the output, not raw palm detection.",
+    "forcing_function": "TSPKS 2.0 replanting verification",
+    "user_guess": "MPOB smallholder extension officers",
+    "seed_urls": [
+      {
+        "url": "https://github.com/rs-dl/MOPAD",
+        "date": "2021",
+        "title": "MOPAD",
+        "tier": "A",
+        "note": "Repository supplies UAV oil-palm images, annotations and model code."
+      },
+      {
+        "url": "https://prestasisawit.mpob.gov.my/en/palmnews/news/39893",
+        "date": "2026-09-02",
+        "title": "Agrobank to fully disburse RM200mil under oil palm smallholder scheme by October",
+        "tier": "B",
+        "note": "MPOB clipping says officers upload site-visit data and plantation photos for financing assessment."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "high"
+  },
+  {
+    "one_liner": "For Malaysian palm-oil exporters facing EUDR, use MOPAD UAV tree-status labels to build an evidence layer that distinguishes estate replanting scars from canopy loss that needs satellite forest-conversion review.",
+    "region": "malaysia",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:MOPAD",
+    "delta_claim": "Links UAV replanting evidence to EUDR escalation, not plantation-health mapping.",
+    "forcing_function": "EUDR large-operator deadline 30 Dec 2026",
+    "user_guess": "Palm-oil mill compliance teams",
+    "seed_urls": [
+      {
+        "url": "https://github.com/rs-dl/MOPAD",
+        "date": "2021",
+        "title": "MOPAD",
+        "tier": "A",
+        "note": "Open UAV oil-palm tree-status dataset with five status classes."
+      },
+      {
+        "url": "https://environment.ec.europa.eu/news/commission-updates-product-scope-and-tools-support-eudr-2026-07-13_en",
+        "date": "2026-07-13",
+        "title": "Commission updates product scope and tools to support EUDR",
+        "tier": "A",
+        "note": "European Commission confirms EUDR application from 30 Dec 2026 for large and medium operators."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Malaysian drone-service QA teams, benchmark MOPAD UAV raw detections against Roboflow's Oil Palm Using UAV dataset to flag when a client orthomosaic is outside the training distribution before tree counts are accepted.",
+    "region": "malaysia",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:MOPAD + open_uav_dataset:Roboflow_Oil_Palm_Using_UAV",
+    "delta_claim": "Outputs dataset-shift rejection before plantation counts, not a higher mAP detector.",
+    "forcing_function": "Malaysia/SG drone service firms' bottleneck is data consistency, not flying",
+    "user_guess": "Aonic and Meraque mapping QA teams",
+    "seed_urls": [
+      {
+        "url": "https://github.com/rs-dl/MOPAD",
+        "date": "2021",
+        "title": "MOPAD",
+        "tier": "A",
+        "note": "Open UAV oil-palm dataset and code."
+      },
+      {
+        "url": "https://universe.roboflow.com/palm-oil-d5b7f/oil-palm-using-uav/dataset/1",
+        "date": "2024-01-11",
+        "title": "OIL PALM USING UAV",
+        "tier": "A",
+        "note": "Roboflow page gives a CC BY 4.0 UAV oil-palm dataset with download formats and 3,499 images."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Malaysian plantation auditors, use MOPAD UAV imagery to output a human-review queue for rare yellowish, smallish, and mismanaged palms where class imbalance makes automated status labels unreliable.",
+    "region": "malaysia",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:MOPAD",
+    "delta_claim": "Turns rare-class uncertainty into an audit workflow rather than hiding it inside accuracy.",
+    "forcing_function": "MPOB smallholder replanting and plantation evidence workflows",
+    "user_guess": "Plantation auditors and extension teams",
+    "seed_urls": [
+      {
+        "url": "https://github.com/rs-dl/MOPAD",
+        "date": "2021",
+        "title": "MOPAD",
+        "tier": "A",
+        "note": "MOPAD includes imbalanced oil-palm status classes and public annotations."
+      },
+      {
+        "url": "https://mpob.gov.my/2026/02/smallholders-plantation-access-road-project-boosts-independent-oil-palm-smallholders-socioeconomy/",
+        "date": "2026-01-29",
+        "title": "Smallholders' Plantation Access Road Project boosts independent oil palm smallholders' socioeconomy",
+        "tier": "A",
+        "note": "MPOB describes smallholder support tied to productivity and replanting."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "high"
+  },
+  {
+    "one_liner": "For Malaysian oil-palm mills buying from smallholders, use MOPAD UAV tree-status outputs to produce a block-level 'needs field visit' map when dead-palm clusters exceed a replanting-risk threshold.",
+    "region": "malaysia",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:MOPAD",
+    "delta_claim": "Aggregates per-tree status into mill procurement risk, not plantation dashboarding.",
+    "forcing_function": "TSPKS 2.0 and EUDR traceability pressure",
+    "user_guess": "Palm-oil mill procurement teams",
+    "seed_urls": [
+      {
+        "url": "https://github.com/rs-dl/MOPAD",
+        "date": "2021",
+        "title": "MOPAD",
+        "tier": "A",
+        "note": "MOPAD provides oil-palm UAV imagery with dead and unhealthy status labels."
+      },
+      {
+        "url": "https://environment.ec.europa.eu/news/commission-updates-product-scope-and-tools-support-eudr-2026-07-13_en",
+        "date": "2026-07-13",
+        "title": "Commission updates product scope and tools to support EUDR",
+        "tier": "A",
+        "note": "EUDR creates due-diligence pressure for palm-oil supply chains."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium"
+  },
+  {
+    "one_liner": "For Malaysian Department of Agriculture geospatial teams, compare AGIM agricultural RGB/multispectral AOI imagery with its NDVI and AI layers to flag cases where the AI layer contradicts visible crop structure.",
+    "region": "malaysia",
+    "bucket": "drone_and_aerial",
+    "data_class": "official_aerial_or_uav_catalog:AGIM_GeoHub_RGB_multispectral",
+    "delta_claim": "Audits government imagery-derived AI layers for contradiction, not crop monitoring.",
+    "forcing_function": "AGIM GeoHub agricultural imagery and AI data catalogue",
+    "user_guess": "Department of Agriculture geospatial officers",
+    "seed_urls": [
+      {
+        "url": "https://agim.doa.gov.my/",
+        "date": "2026",
+        "title": "AGIM GeoHub",
+        "tier": "A",
+        "note": "DOA GeoHub lists RGB multispectral imagery, NDVI analysis and AI image analysis for agricultural AOIs."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Malaysian crop-area statisticians, use AGIM RGB/multispectral AOI imagery to detect when district crop-area records disagree with observed orchard, paddy, or mixed-crop structure.",
+    "region": "malaysia",
+    "bucket": "drone_and_aerial",
+    "data_class": "official_aerial_or_uav_catalog:AGIM_GeoHub_RGB_multispectral",
+    "delta_claim": "Finds crop-statistics disagreement cases using existing government imagery, not crop-type mapping as the contribution.",
+    "forcing_function": "Malaysia open crop-area statistics and AGIM imagery catalogue",
+    "user_guess": "DOA/DOSM agriculture statistics teams",
+    "seed_urls": [
+      {
+        "url": "https://agim.doa.gov.my/",
+        "date": "2026",
+        "title": "AGIM GeoHub",
+        "tier": "A",
+        "note": "AGIM exposes agricultural geospatial imagery and analysis layers."
+      },
+      {
+        "url": "https://open.dosm.gov.my/data-catalogue?source=DOA",
+        "date": "2022",
+        "title": "DOA Data Catalogue",
+        "tier": "A",
+        "note": "OpenDOSM lists crop area and production by state and district from DOA/MAFS data."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Malaysian survey and agriculture agencies, use JUPEM orthophoto products to check whether mapped agricultural land-use classes such as oil palm, rubber, cocoa, coconut, paddy, and mixed fruit are visually stale.",
+    "region": "malaysia",
+    "bucket": "drone_and_aerial",
+    "data_class": "official_orthophoto_product:JUPEM_Ortofoto_Penerbangan",
+    "delta_claim": "Targets stale land-use-code detection from orthophotos, not land-cover classification.",
+    "forcing_function": "JUPEM MyGeoServe orthophoto and agriculture feature classes",
+    "user_guess": "JUPEM and DOA map-maintenance teams",
+    "seed_urls": [
+      {
+        "url": "https://sites.google.com/jupem.gov.my/jupemgeospatialwebservices/home",
+        "date": "2026",
+        "title": "MYGEOSERVE",
+        "tier": "A",
+        "note": "JUPEM lists Ortofoto Penerbangan products and agriculture feature codes including oil palm, rubber, cocoa and paddy."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "low"
+  },
+  {
+    "one_liner": "For Malaysian palm-oil researchers, combine iRadar GoTani hyperspectral oil-palm imagery with MOPAD UAV status labels to output trees needing Ganoderma lab follow-up rather than generic disease maps.",
+    "region": "malaysia",
+    "bucket": "drone_and_aerial",
+    "data_class": "requestable_hyperspectral_dataset:iRadar_GoTani + open_uav_dataset:MOPAD",
+    "delta_claim": "Bridges hyperspectral disease cues with visible UAV status triage for lab follow-up.",
+    "forcing_function": "Public GoTani oil-palm Ganoderma dataset request page",
+    "user_guess": "FGV R&D and plantation pathology teams",
+    "seed_urls": [
+      {
+        "url": "https://www.iradar.com.my/gotani/datasets/",
+        "date": "2026",
+        "title": "Oil Palm Ganoderma Disease Dataset",
+        "tier": "A",
+        "note": "iRadar says the oil-palm hyperspectral dataset is made public and available by request."
+      },
+      {
+        "url": "https://github.com/rs-dl/MOPAD",
+        "date": "2021",
+        "title": "MOPAD",
+        "tier": "A",
+        "note": "MOPAD supplies UAV oil-palm status imagery and annotations."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "low"
+  }
+]

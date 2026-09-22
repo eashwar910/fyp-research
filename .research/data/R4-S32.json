@@ -1,0 +1,168 @@
+{
+  "id": "R4-S32",
+  "verdict": "conditional",
+  "verdict_reason": "Imagery (S1/S2) and AlphaEarth embeddings are open via free GEE/Copernicus catalogs, fitting C9. But no open EU dataset of parcel-level insured hail/frost damage exists: ESSL ESWD is non-commercial, application-gated, and only reports events, not claims; Spanish/Austrian insurer pages were unreachable. Ground truth needs construction or an insurer partnership.",
+  "sources": [
+    {
+      "name": "Sentinel-1 SAR (Copernicus Data Space Ecosystem)",
+      "role": "imagery",
+      "url": "https://documentation.dataspace.copernicus.eu/Data/SentinelMissions/Sentinel1.html",
+      "fetched_ok": true,
+      "licence_quote": "Sentinel data products are made available systematically and free of charge to all data users including the general public, scientific and commercial users.",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "platform_id": "COPERNICUS/S1_GRD",
+      "size_gb": null,
+      "coverage_quote": "spatial extent [-180, -90, 180, 90]",
+      "covers_target_region": "true",
+      "date_range": "2014-10-03 to present (GRD); SLC Europe from 2014-10, global from 2021-02",
+      "caveats_quoted": [
+        "SLC (Level 1): October 2014 onwards in Europe; February 2021 onwards for other regions"
+      ]
+    },
+    {
+      "name": "Sentinel-2 MSI (Copernicus Data Space Ecosystem)",
+      "role": "imagery",
+      "url": "https://dataspace.copernicus.eu/explore-data/data-collections/sentinel-data",
+      "fetched_ok": true,
+      "licence_quote": "Sentinel data products are made available systematically and free of charge to all data users including the general public, scientific and commercial users.",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "platform_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "size_gb": null,
+      "coverage_quote": "page did not isolate S2-specific coverage text; portal-wide Copernicus Sentinel Data Legal Notice applies",
+      "covers_target_region": "true",
+      "date_range": "not itemized on this page; S2 mission active since 2015-06",
+      "caveats_quoted": [
+        "landing page lacked S2-specific licence/coverage detail; same portal-wide legal notice as S1 assumed to apply"
+      ]
+    },
+    {
+      "name": "Google Satellite Embedding V1 (AlphaEarth Foundations)",
+      "role": "comparator",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+      "fetched_ok": true,
+      "licence_quote": "This dataset is licensed under CC-BY 4.0 and requires the following attribution text",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL",
+      "size_gb": null,
+      "coverage_quote": "Global terrestrial land surfaces and shallow waters, including intertidal and reef zones, inland waterways, and coastal waterways",
+      "covers_target_region": "true",
+      "date_range": "2017-01-01 to 2025-01-01 (annual layers)",
+      "caveats_quoted": [
+        "Polar coverage is limited by satellite orbits.",
+        "annual composite only - not timed to individual hail/frost events"
+      ]
+    },
+    {
+      "name": "EuroCrops",
+      "role": "auxiliary",
+      "url": "https://www.eurocrops.tum.de/",
+      "fetched_ok": true,
+      "licence_quote": "Creative Commons Attribution 4.0 International License",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "coverage_quote": "combines crop reporting from European Union member states (per-country coverage listed elsewhere on site)",
+      "covers_target_region": "partial",
+      "date_range": "not specified on landing page; varies by country's national IACS declaration year",
+      "caveats_quoted": [
+        "vector data from self-declared crop reporting; satellite imagery noted as forthcoming, not yet included"
+      ]
+    },
+    {
+      "name": "European Severe Weather Database (ESWD) - ESSL",
+      "role": "labels",
+      "url": "https://www.essl.org/cms/european-severe-weather-database/",
+      "fetched_ok": true,
+      "licence_quote": "commercial use is not allowed",
+      "licence_class": "non_commercial",
+      "access_mode": "application_required",
+      "coverage_quote": "networks of voluntary observers, meteorological services and general public",
+      "covers_target_region": "true",
+      "date_range": "not itemized on landing page; ESWD collection ongoing, tens of thousands of reports",
+      "caveats_quoted": [
+        "academic/personal non-commercial use requires signing the User's Agreement and completing an application form"
+      ]
+    },
+    {
+      "name": "Agroseguro (Spanish Agricultural Insurance Pool) statistics",
+      "role": "labels",
+      "url": "https://www.agroseguro.es/en/statistics/",
+      "fetched_ok": false,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "covers_target_region": "partial",
+      "caveats_quoted": [
+        "landing page returned HTTP 404 - could not verify content, licence, or granularity"
+      ]
+    },
+    {
+      "name": "Osterreichische Hagelversicherung (Austrian Hail Insurance) damage statistics",
+      "role": "labels",
+      "url": "https://www.hagelversicherung.at/schadenstatistik",
+      "fetched_ok": false,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "covers_target_region": "partial",
+      "caveats_quoted": [
+        "TLS certificate hostname mismatch on fetch - page could not be verified"
+      ]
+    },
+    {
+      "name": "Copernicus Emergency Management Service - Rapid Mapping activations",
+      "role": "auxiliary",
+      "url": "https://mapping.emergency.copernicus.eu/activations/",
+      "fetched_ok": true,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "coverage_quote": "A service in support of European emergency response",
+      "covers_target_region": "partial",
+      "caveats_quoted": [
+        "could not confirm whether EMS activations cover agricultural hail/frost damage specifically, or licence/access terms"
+      ]
+    }
+  ],
+  "ground_truth": {
+    "status": "must_construct",
+    "source_url": "https://www.essl.org/cms/european-severe-weather-database/",
+    "construction_protocol": "No open EU parcel-level insured hail/frost dataset found. Construct weak labels: match ESWD hail-event dates/locations to LPIS/EuroCrops parcels within radius, using S1/S2 pre-post change + AlphaEarth distance as damage proxy; seek insurer partnership to validate.",
+    "label_count_estimate": null
+  },
+  "compute_path": {
+    "platform": "Google Earth Engine (S1/S2/AlphaEarth catalogs) + Copernicus Data Space Ecosystem",
+    "fits_C9": true,
+    "why": "S1, S2, and AlphaEarth embeddings are all served pre-processed via free GEE/Copernicus catalogs; no local training required, fits MacBook-no-CUDA rule.",
+    "gpu_hours_per_week_estimate": 0
+  },
+  "queries": [
+    {
+      "q": "ESSL European Severe Weather Database hail reports data access",
+      "useful": false,
+      "note": "WebSearch session budget exhausted; used direct WebFetch instead"
+    },
+    {
+      "q": "EU agricultural insurance claims dataset hail frost damage parcels open data",
+      "useful": false,
+      "note": "WebSearch unavailable; no open dataset found via direct fetch attempts either"
+    },
+    {
+      "q": "AlphaEarth Foundations embeddings Google Earth Engine dataset catalog",
+      "useful": false,
+      "note": "WebSearch unavailable; verified via direct WebFetch of GEE catalog page instead"
+    }
+  ],
+  "fetched": [
+    "https://www.essl.org/cms/european-severe-weather-database/",
+    "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+    "https://dataspace.copernicus.eu/explore-data/data-collections/sentinel-data",
+    "https://documentation.dataspace.copernicus.eu/Data/SentinelMissions/Sentinel1.html",
+    "https://www.eurocrops.tum.de/",
+    "https://agriculture.ec.europa.eu/common-agricultural-policy/cap-overview/cap-glance/agricultural-risk-management_en",
+    "https://www.agroseguro.es/en/statistics/",
+    "https://www.hagelversicherung.at/schadenstatistik",
+    "https://mapping.emergency.copernicus.eu/activations/"
+  ],
+  "budget_exhausted": false,
+  "notes": "Crux: no open EU source publishes parcel-level insured hail/frost claims. ESSL ESWD is crowd-sourced weather-event reports (point-level, non-commercial, application-gated), not insurance data. Agroseguro-Spain and Hagelversicherung-Austria pages were unreachable (404 / TLS mismatch) - need direct partner outreach. Copernicus EMS activations are disaster-specific, rarely agri-hail-focused. Recommend insurer partnership or ESWD-date weak-labeling."
+}

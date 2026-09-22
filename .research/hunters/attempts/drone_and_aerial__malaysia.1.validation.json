@@ -1,0 +1,119 @@
+{
+  "attempt": 1,
+  "schema_valid": false,
+  "contract_valid": null,
+  "valid": false,
+  "count": 10,
+  "errors": [
+    {
+      "path": [
+        0,
+        "seed_urls",
+        0,
+        "date"
+      ],
+      "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    },
+    {
+      "path": [
+        1,
+        "seed_urls",
+        0,
+        "date"
+      ],
+      "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    },
+    {
+      "path": [
+        2,
+        "seed_urls",
+        0,
+        "date"
+      ],
+      "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    },
+    {
+      "path": [
+        3,
+        "seed_urls",
+        0,
+        "date"
+      ],
+      "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    },
+    {
+      "path": [
+        4,
+        "seed_urls",
+        0,
+        "date"
+      ],
+      "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    },
+    {
+      "path": [
+        5,
+        "seed_urls",
+        0,
+        "date"
+      ],
+      "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    },
+    {
+      "path": [
+        6,
+        "seed_urls",
+        0,
+        "date"
+      ],
+      "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    },
+    {
+      "path": [
+        7,
+        "seed_urls",
+        0,
+        "date"
+      ],
+      "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    },
+    {
+      "path": [
+        7,
+        "seed_urls",
+        1,
+        "date"
+      ],
+      "message": "'2022' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    },
+    {
+      "path": [
+        8,
+        "seed_urls",
+        0,
+        "date"
+      ],
+      "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    },
+    {
+      "path": [
+        9,
+        "seed_urls",
+        0,
+        "date"
+      ],
+      "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    },
+    {
+      "path": [
+        9,
+        "seed_urls",
+        1,
+        "date"
+      ],
+      "message": "'2021' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    }
+  ],
+  "queries": null,
+  "under_15": true
+}

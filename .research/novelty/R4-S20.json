@@ -1,0 +1,119 @@
+{
+  "id": "R4-S20",
+  "verdict": "closed",
+  "reason": "CLOSED. The exact 3-way output (monitorable/compliant, genuinely inconclusive, needs-geotag-evidence) is JRC's own Area Monitoring System 'Traffic Light System' (green/red/yellow), the standard AMS methodology already run EU-wide, with 'monitorable' the CAP regulatory eligibility term in force since Jan 2025. Planet/Sinergise ships this exact pipeline to EU paying agencies today -- Slovenia's ARSKTRP and England's RPA -- on Sentinel-1/2, cutting inconclusive parcels 73% and routing the rest to farmer geotagged-photo apps. Same problem, same output space, same region, deployed.",
+  "queries": [
+    {
+      "q": "JRC Area Monitoring System marker categories inconclusive geotagged photo compliant non-compliant",
+      "useful": true,
+      "note": "Confirmed green/red/yellow traffic-light classification is JRC's existing AMS output space."
+    },
+    {
+      "q": "CAP Area Monitoring System yellow marker inconclusive further evidence geotagged photo request",
+      "useful": true,
+      "note": "Confirmed yellow=inconclusive triggers geotagged-photo evidence request, same as candidate's third label."
+    },
+    {
+      "q": "JRC area monitoring system 2025 2026 member states implementation Sentinel-1 Sentinel-2 Landsat parcel classification inconclusive",
+      "useful": true,
+      "note": "Confirmed 'monitorable' is the regulatory eligibility term (in force since Jan 2025) and multiple Member States run this pipeline."
+    },
+    {
+      "q": "JRC not monitorable OR genuinely inconclusive area monitoring parcel classification 2025 paying agency software",
+      "useful": true,
+      "note": "Surfaced Planet's CAP AMS product as the dominant vendor solution for this exact classification."
+    },
+    {
+      "q": "CAP area monitoring inconclusive parcel reduction software platform startup 2026 paying agency",
+      "useful": true,
+      "note": "Product search: confirmed Planet AMS deployed at Slovenia ARSKTRP and England RPA, 73% inconclusive-parcel reduction."
+    },
+    {
+      "q": "satellite time series triage classification cannot be monitored insufficient evidence uncertainty quantification remote sensing compliance 2026",
+      "useful": false,
+      "note": "Method-space outside the CAP framing returned only generic CV/uncertainty-quantification papers, no closing item."
+    },
+    {
+      "q": "Planet Slovenia ARSKTRP area monitoring 73% inconclusive parcels case study press release date",
+      "useful": true,
+      "note": "Corroborated the Slovenia ARSKTRP deployment case study; exact publish date not confirmable."
+    },
+    {
+      "q": "Planet England RPA area monitoring case study nine months two weeks press release date",
+      "useful": true,
+      "note": "Corroborated England RPA deployment (100% coverage vs 2% previously); exact publish date not confirmable."
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://docs.planet.com/data/area-monitoring/applications/geotagged-photo-application/",
+      "date": "2026-09-01",
+      "title": "Geotagged Photo Application (Area Monitoring documentation)",
+      "tier": "A",
+      "closes": true,
+      "why": "Documents the live Traffic Light System classifying EU CAP parcels compliant/non-compliant/inconclusive and routing inconclusive cases to geotagged-photo evidence collection -- identical 3-way output space to the candidate.",
+      "relation": "same_output_space"
+    },
+    {
+      "url": "https://www.planet.com/industries/government/agriculture-monitoring/cap/",
+      "date": "2026-09",
+      "title": "Planet Area Monitoring Service for EU National Paying Agencies",
+      "tier": "A",
+      "closes": true,
+      "why": "Shipping product deployed at Slovenia's ARSKTRP and England's RPA; explicitly minimizes inconclusive parcels (73% reduction, EUR1M/yr saved) and routes remainder to a farmer evidence app -- same problem, same region, same output space, deployed.",
+      "relation": "product"
+    },
+    {
+      "url": "https://www.tools4cap.eu/wp-content/uploads/2024/11/BR3-Area-Monitoring-System.pdf",
+      "date": "2024-11",
+      "title": "Area Monitoring System (AMS) -- TOOLS4CAP briefing",
+      "tier": "A",
+      "closes": true,
+      "why": "EU-funded CAP-support project's official description of the AMS traffic-light methodology (green/red/yellow) underlying every Member State's monitoring system; the candidate's proposed 3-way label is this existing methodology restated.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://www.tools4cap.eu/wp-content/uploads/2025/03/D1.4-Inventory-of-methods-tools-used-by-MSs-II.pdf",
+      "date": "2024-02",
+      "title": "TOOLS4CAP Inventory of Methods & Tools Used by Member States (II), D1.4",
+      "tier": "A",
+      "closes": false,
+      "why": "Catalogs current Member State AMS tools and their inconclusive-case handling; corroborates that this classification pipeline already operates EU-wide, not just at one vendor.",
+      "relation": "same_problem"
+    }
+  ],
+  "closing_item": {
+    "url": "https://docs.planet.com/data/area-monitoring/applications/geotagged-photo-application/",
+    "date": "2026-09-01",
+    "title": "Geotagged Photo Application (Area Monitoring documentation)",
+    "tier": "A",
+    "closes": true,
+    "why": "Live, deployed EU CAP system already outputs exactly the candidate's three labels (compliant/monitorable, inconclusive, needs-geotag-photo) via Sentinel-1/2-driven markers plus a farmer photo app -- same problem and same output space, in the same region.",
+    "relation": "same_output_space"
+  },
+  "notes": "Region-swap step is moot: the closing prior art is already deployed in the target region (EU, Slovenia and England), so there is no geographic delta to test. Candidate's delta_claim ('predicts monitorability and evidence needs, not the compliance label') describes the AMS traffic-light system's normal operation, not a gap in it. Seed URL CELEX 32024R2202 (defines 'monitorable') could not be fetched (empty response) -- a human should confirm its exact wording, but the product/methodology evide...",
+  "product_search": {
+    "queries_run": [
+      "CAP area monitoring inconclusive parcel reduction software platform startup 2026 paying agency",
+      "JRC not monitorable OR genuinely inconclusive area monitoring parcel classification 2025 paying agency software",
+      "Planet Slovenia ARSKTRP area monitoring 73% inconclusive parcels case study press release date",
+      "Planet England RPA area monitoring case study nine months two weeks press release date"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://www.planet.com/industries/government/agriculture-monitoring/cap/",
+        "date": "2026-09",
+        "title": "Planet Area Monitoring Service for EU National Paying Agencies",
+        "tier": "A",
+        "note": "Deployed at Slovenia's ARSKTRP and England's RPA; reduces inconclusive parcels 73% and routes remainder to farmer geotagged-photo evidence app."
+      },
+      {
+        "url": "https://docs.planet.com/data/area-monitoring/applications/geotagged-photo-application/",
+        "date": "2026-09-01",
+        "title": "Geotagged Photo Application",
+        "tier": "A",
+        "note": "Live product documentation for the Traffic Light System (compliant/non-compliant/inconclusive) plus geotagged-photo evidence workflow used by EU paying agencies."
+      }
+    ]
+  }
+}

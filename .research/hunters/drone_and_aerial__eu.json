@@ -1,0 +1,661 @@
+[
+  {
+    "one_liner": "For French CAP map auditors, use FLAIR-HUB 20 cm aerial imagery plus LPIS labels to flag parcels where visible land-cover structure contradicts the declared crop-use label, instead of training another crop classifier.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_national_orthophoto:FLAIR-HUB_BD_ORTHO",
+    "delta_claim": "audits LPIS label contradictions from aerial structure, not crop classification",
+    "forcing_function": "CAP Area Monitoring System monitorability rules from 2025",
+    "user_guess": "CAP paying agencies",
+    "seed_urls": [
+      {
+        "url": "https://ignf.github.io/FLAIR/FLAIR-HUB/flairhub.html",
+        "date": "2026-04",
+        "title": "FLAIR-HUB: Large-scale Multimodal Dataset for Land Cover and Crop Mapping",
+        "tier": "A",
+        "note": "IGN project page cites the 2026 ISPRS paper and describes 20 cm aerial imagery aligned with LPIS crop labels."
+      },
+      {
+        "url": "https://agriculture.ec.europa.eu/common-agricultural-policy/financing-cap/cap-paying-agencies_en",
+        "date": "2026-09",
+        "title": "CAP paying agencies",
+        "tier": "A",
+        "note": "Commission page states paying agencies authorize payments only after sufficient checks for EU rule compliance."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null,
+    "queries": [
+      {
+        "q": "IGN BD ORTHO open data 20 cm date 2025 agriculture vineyards France",
+        "useful": true,
+        "note": "Found BD ORTHO open 20 cm aerial imagery and update dates."
+      },
+      {
+        "q": "PDOK luchtfoto open data 2025 8 cm orthophoto Netherlands agriculture",
+        "useful": true,
+        "note": "Found Dutch open aerial imagery services and 2025/2026 layers."
+      },
+      {
+        "q": "Denmark orthophoto GeoDanmark latest aerial imagery open data 2025 2026",
+        "useful": true,
+        "note": "Found Danish oblique/aerial photo services, less used."
+      },
+      {
+        "q": "Spain PNOA orthophoto open data 2025 25 cm agriculture vineyards",
+        "useful": true,
+        "note": "Found 2025 PNOA orthophotos with CC BY 4.0 and creation dates."
+      },
+      {
+        "q": "WeedsGalore dataset drone multispectral maize weed Denmark 2024 2025",
+        "useful": true,
+        "note": "Found WeedsGalore UAV multispectral dataset."
+      },
+      {
+        "q": "PhenoBench dataset agricultural robotics drone field phenotyping 2023 2024",
+        "useful": true,
+        "note": "Found PhenoBench dataset and benchmarks."
+      },
+      {
+        "q": "Agriculture-Vision dataset aerial farmland images semantic segmentation date",
+        "useful": true,
+        "note": "Found Agriculture-Vision, but non-EU so mostly crowding context."
+      },
+      {
+        "q": "UAVid agriculture drone dataset Europe vineyard orchard row detection open dataset 2025",
+        "useful": false,
+        "note": "No retained source."
+      },
+      {
+        "q": "site:sdfe.dk aerial orthophoto Denmark open data 2025 agriculture orthophoto",
+        "useful": false,
+        "note": "No strong primary orthophoto source retained."
+      },
+      {
+        "q": "site:dataforsyningen.dk orthophoto Denmark 2025 aerial imagery open data",
+        "useful": true,
+        "note": "Found Danish data services."
+      },
+      {
+        "q": "site:basemap.at orthofoto Austria open data 2025 agriculture",
+        "useful": true,
+        "note": "Found Austrian basemap orthophoto."
+      },
+      {
+        "q": "site:geoland.at orthofoto Austria open data 2025",
+        "useful": true,
+        "note": "Found Austrian orthophoto update context."
+      },
+      {
+        "q": "IGN FLAIR dataset land cover aerial imagery France 2023 2024 open data",
+        "useful": true,
+        "note": "Found FLAIR and FLAIR-HUB."
+      },
+      {
+        "q": "PureForest dataset IGN aerial imagery tree species France 2024",
+        "useful": true,
+        "note": "Found PureForest, useful for tree/hedgerow modality context."
+      },
+      {
+        "q": "open national orthophoto agriculture hedgerow dataset France Netherlands Denmark 2025 CAP GAEC 8",
+        "useful": true,
+        "note": "Found orthophoto/hedgerow evidence."
+      },
+      {
+        "q": "vineyard aerial imagery dataset Europe open orthophoto row detection France 2025",
+        "useful": true,
+        "note": "Found open UAV vineyard datasets."
+      },
+      {
+        "q": "EU CAP GAEC 8 landscape features hedgerows orthophoto paying agency official 2025",
+        "useful": true,
+        "note": "Found CAP paying agency and landscape-feature context."
+      },
+      {
+        "q": "EU vine grubbing up scheme 2024 2025 official FranceAgriMer arrachage vignes control parcels",
+        "useful": true,
+        "note": "Found French vine grubbing support evidence."
+      },
+      {
+        "q": "site:business.esa.int/projects agriculture drone aerial imagery 2026 orchards insurance vineyards Europe",
+        "useful": true,
+        "note": "Found ESA agriculture service crowding context."
+      },
+      {
+        "q": "National orthophoto refresh cycles Europe agriculture CAP aerial imagery 2026",
+        "useful": true,
+        "note": "Found national orthophoto examples."
+      },
+      {
+        "q": "drone orthomosaic radiometric calibration panel free agriculture UAV multispectral 2025 paper",
+        "useful": true,
+        "note": "Found UAV radiometric correction papers."
+      },
+      {
+        "q": "raw UAV frames metadata agriculture orthomosaic free detection benchmark 2025 crop weed",
+        "useful": true,
+        "note": "Found raw-video/mosaicking dataset context."
+      },
+      {
+        "q": "orthophoto hedgerow detection France Netherlands CAP GAEC 8 2025 paper",
+        "useful": true,
+        "note": "Found hedgerow/orthophoto literature context."
+      },
+      {
+        "q": "open aerial imagery vineyard missing vine detection orthophoto France Spain 2025 paper",
+        "useful": true,
+        "note": "Found missing-vine crowding and vineyard UAV sources."
+      },
+      {
+        "q": "FLAIR-HUB arXiv data paper 2025 aerial imagery crop mapping France date",
+        "useful": true,
+        "note": "Found FLAIR-HUB publication dates."
+      },
+      {
+        "q": "PhenoBench paper dataset agricultural field benchmark date 2024 arxiv",
+        "useful": true,
+        "note": "Found PhenoBench release/news dates and TPAMI citation."
+      }
+    ],
+    "budget_exhausted": false,
+    "counts": {
+      "queries": 26,
+      "opened_urls": 0
+    }
+  },
+  {
+    "one_liner": "For French wine authorities, use BD ORTHO 20 cm aerial imagery to label each aided vineyard parcel as grubbed, replanted, abandoned-standing, or active by row-topology change, rather than only checking declared hectares.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_national_orthophoto:BD_ORTHO",
+    "delta_claim": "uses row-topology state change for aid verification",
+    "forcing_function": "EU and French vine grubbing-up support from 2024",
+    "user_guess": "Wine-sector aid authorities",
+    "seed_urls": [
+      {
+        "url": "https://www.data.gouv.fr/datasets/bd-ortho-r",
+        "date": "2026-09-11",
+        "title": "BD ORTHO",
+        "tier": "A",
+        "note": "French open-data page describes triennial IGN aerial orthophotos at 20 cm RGB and infrared resolution."
+      },
+      {
+        "url": "https://agriculture.gouv.fr/la-commission-europeenne-donne-son-feu-vert-la-france-pour-la-mise-en-place-de-larrachage-definitif",
+        "date": "2024-10-04",
+        "title": "France vine grubbing-up approval",
+        "tier": "A",
+        "note": "French ministry says the scheme supports definitive vine grubbing with EUR 4,000 per hectare."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:D09",
+    "hunter_confidence": "high",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For Southern European wildfire planners, use PNOA and BD ORTHO aerial imagery to classify vineyard-edge strips as maintained fuel break, unmanaged vine abandonment, or active production before climate-resilience grants are paid.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_national_orthophoto:PNOA+BD_ORTHO",
+    "delta_claim": "turns vineyard condition into fuel-management classes",
+    "forcing_function": "EU wine-sector climate resilience measures",
+    "user_guess": "Regional fire and wine agencies",
+    "seed_urls": [
+      {
+        "url": "https://datos.gob.es/es/catalogo/e0dat0002-ortofotos-pnoa-anual-de-2025-maxima-actualidad",
+        "date": "2026-01-01",
+        "title": "Ortofotos PNOA Anual de 2025",
+        "tier": "A",
+        "note": "Spanish official catalogue lists 2025 PNOA orthophotos at 25 cm with public CC BY 4.0 access."
+      },
+      {
+        "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/02/23/council-approves-set-of-measures-to-support-the-eu-wine-sector/",
+        "date": "2026-02-23",
+        "title": "Council approves measures to support the EU wine sector",
+        "tier": "A",
+        "note": "Council says wine-sector measures include grubbing-up and higher support for climate adaptation investments."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU paying agencies auditing GAEC 8, use French, Dutch, and Austrian orthophotos to benchmark hedgerow-loss detectors across 20 cm, 8 cm, and 29 cm imagery, with resolution-transfer error as the output.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_national_orthophotos:BD_ORTHO+PDOK_Luchtfoto+basemap_at",
+    "delta_claim": "measures cross-resolution transfer error for hedgerow-change detection",
+    "forcing_function": "CAP 2023-27 GAEC 8 landscape features",
+    "user_guess": "CAP paying agencies",
+    "seed_urls": [
+      {
+        "url": "https://data.overheid.nl/en/dataset/80812-luchtfoto-beeldmateriaal-2025-5cm---8cm-rgb-open-data",
+        "date": "2026-08-13",
+        "title": "Luchtfoto Beeldmateriaal 2025 5cm / 8cm RGB open data",
+        "tier": "A",
+        "note": "Dutch data portal lists 2025 open aerial orthomosaics at 5 cm and 8 cm under CC BY 4.0."
+      },
+      {
+        "url": "https://basemap.at/release-infos/",
+        "date": "2025-08-29",
+        "title": "basemap.at release infos",
+        "tier": "A",
+        "note": "Austrian basemap release page says the orthophoto product was updated on 29 Aug 2025 with 2024 flight data."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:D10",
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For Dutch water-board and CAP inspectors, use PDOK 5-8 cm aerial imagery to label ditch-edge buffer strips as intact, cropped-through, mown-too-close, or visually ambiguous before field inspections.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_national_orthophoto:PDOK_Luchtfoto",
+    "delta_claim": "types buffer-strip failure modes from sub-decimetre aerial imagery",
+    "forcing_function": "CAP environmental conditionality and inspection workload",
+    "user_guess": "Water boards and CAP inspectors",
+    "seed_urls": [
+      {
+        "url": "https://app.pdok.nl/viewer/",
+        "date": "2026-01",
+        "title": "PDOK Viewer luchtfoto layers",
+        "tier": "A",
+        "note": "PDOK viewer lists current and historical Dutch RGB/CIR orthophoto layers including 2025 and 2026 services."
+      },
+      {
+        "url": "https://data.overheid.nl/en/dataset/80812-luchtfoto-beeldmateriaal-2025-5cm---8cm-rgb-open-data",
+        "date": "2026-08-13",
+        "title": "Dutch 2025 5cm / 8cm RGB open data",
+        "tier": "A",
+        "note": "Dataset page says 2025 high-resolution aerial imagery is available as open data."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For Spanish CAP inspectors, use PNOA 25 cm orthophotos to detect olive and vineyard terrace-wall breaks that create erosion risk, instead of treating erosion-prone parcels as a coarse slope layer.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_national_orthophoto:PNOA",
+    "delta_claim": "detects terrace-wall break state as the erosion-control evidence",
+    "forcing_function": "CAP 2023-27 soil-protection conditionality",
+    "user_guess": "Spanish CAP inspectors",
+    "seed_urls": [
+      {
+        "url": "https://datos.gob.es/es/catalogo/e0dat0002-ortofotos-pnoa-anual-de-2025-maxima-actualidad",
+        "date": "2026-01-01",
+        "title": "Ortofotos PNOA Anual de 2025",
+        "tier": "A",
+        "note": "Official Spanish catalogue provides 25 cm PNOA aerial orthophotos with WMS/WMTS and download access."
+      },
+      {
+        "url": "https://agriculture.ec.europa.eu/cap-my-country/sustainability/environmental-sustainability/cap-and-environment_en",
+        "date": "2026-09",
+        "title": "CAP and the environment",
+        "tier": "A",
+        "note": "Commission page describes CAP 2023-27 stronger environmental standards and conditionality."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "low",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For French landscape-feature monitors, use BD ORTHO infrared aerial imagery to classify hedgerow change as removal, hard pruning, gapping, or new planting, rather than a binary tree-line loss map.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_national_orthophoto:BD_ORTHO_RGBI",
+    "delta_claim": "separates pruning and gapping from true hedgerow removal",
+    "forcing_function": "CAP GAEC 8 and Nature Restoration landscape-feature indicators",
+    "user_guess": "Landscape-feature monitors",
+    "seed_urls": [
+      {
+        "url": "https://www.data.gouv.fr/datasets/bd-ortho-r",
+        "date": "2026-09-11",
+        "title": "BD ORTHO",
+        "tier": "A",
+        "note": "BD ORTHO page says RGB and infrared aerial images are used for land-use databases and CAP parcel maintenance."
+      },
+      {
+        "url": "https://eur-lex.europa.eu/eli/reg/2024/1991/oj/eng",
+        "date": "2024-08",
+        "title": "Regulation (EU) 2024/1991 on nature restoration",
+        "tier": "A",
+        "note": "Nature Restoration Regulation includes agricultural ecosystem indicators for high-diversity landscape features."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:D10",
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For Austrian alpine CAP inspectors, use basemap.at orthophotos to distinguish woody encroachment, temporary scrub, and maintained pasture edges on small mountain parcels before eligibility is reduced.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_national_orthophoto:basemap_at",
+    "delta_claim": "types pasture-edge woody encroachment states on high-resolution orthophotos",
+    "forcing_function": "CAP grassland and eligibility monitoring",
+    "user_guess": "Alpine paying agencies",
+    "seed_urls": [
+      {
+        "url": "https://basemap.at/en/orthofoto-2/",
+        "date": "2026-01-07",
+        "title": "basemap.at Orthofoto",
+        "tier": "A",
+        "note": "basemap.at describes orthophotos at 29 cm nationally and 15 cm in detail areas with offline access options."
+      },
+      {
+        "url": "https://basemap.at/release-infos/",
+        "date": "2025-08-29",
+        "title": "basemap.at release infos",
+        "tier": "A",
+        "note": "Release page documents recent orthophoto updates and flight-year metadata."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "low",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU LPIS quality teams, use national orthophotos to type parcel-boundary mismatches as fence-line offset, cropped-through boundary, merged field, or digitising lag, instead of one geometry divergence score.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_national_orthophotos:BD_ORTHO+PDOK_Luchtfoto+PNOA",
+    "delta_claim": "turns LPIS boundary mismatch into an auditable error taxonomy",
+    "forcing_function": "JRC/DG AGRI FIRE 2026 workshop data-gap and ELMS preparation",
+    "user_guess": "LPIS quality teams",
+    "seed_urls": [
+      {
+        "url": "https://publications.jrc.ec.europa.eu/repository/handle/JRC147007",
+        "date": "2026-06-16",
+        "title": "Second FIRE Workshop report",
+        "tier": "A",
+        "note": "JRC/DG AGRI report flags AMS data gaps, AI, drones, Sentinel data and ELMS preparation."
+      },
+      {
+        "url": "https://www.data.gouv.fr/datasets/bd-ortho-r",
+        "date": "2026-09-11",
+        "title": "BD ORTHO",
+        "tier": "A",
+        "note": "BD ORTHO page states imagery supports maintenance of the French CAP parcel register."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:S09",
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For maize weeding-equipment developers in Germany, use WeedsGalore multispectral UAV imagery to predict when crop-weed masks are unreliable by species mix, crop stage, and occlusion, before spraying decisions are trusted.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:WeedsGalore",
+    "delta_claim": "predicts segmentation unreliability from weed species and growth-stage conditions",
+    "forcing_function": null,
+    "user_guess": "Weeding-equipment developers",
+    "seed_urls": [
+      {
+        "url": "https://huggingface.co/datasets/Voxel51/weeds-galore",
+        "date": "2025-02-18",
+        "title": "WeedsGalore dataset",
+        "tier": "A",
+        "note": "Dataset card describes multispectral, multitemporal UAV imagery of a German maize field with crop and weed instances."
+      },
+      {
+        "url": "https://www.kleinlab.de/blog_posts/WeedsGalore/post.html",
+        "date": "2025-02-21",
+        "title": "A UAV-based dataset for plant monitoring in maize fields",
+        "tier": "B",
+        "note": "Authors describe aligned RGB, red-edge and NIR images with semantic and instance masks for maize and weed species."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:D15",
+    "hunter_confidence": "high",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For sugar-beet robotic weeding teams, use PhenoBench UAV images to output plant-instance correction queues where crop, weed, and leaf hierarchy disagree, rather than optimizing another hidden-test leaderboard score.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:PhenoBench",
+    "delta_claim": "creates human-correction queues from hierarchy disagreement",
+    "forcing_function": null,
+    "user_guess": "Robotic weeding teams",
+    "seed_urls": [
+      {
+        "url": "https://www.phenobench.org/",
+        "date": "2026-02-18",
+        "title": "PhenoBench",
+        "tier": "A",
+        "note": "Official site lists UAV field images, dense crop/weed labels, plant instances, leaf annotations and benchmark updates."
+      },
+      {
+        "url": "https://huggingface.co/papers/2306.04557",
+        "date": "2024-07-24",
+        "title": "PhenoBench paper page",
+        "tier": "B",
+        "note": "Paper page describes a UAV dataset with crops, weeds, crop leaf instances and hidden-test benchmarks."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:D08",
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU UAV weed datasets, build a cross-dataset failure map from WeedsGalore and PhenoBench that labels whether errors come from sensor bands, growth stage, species ambiguity, or instance crowding.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:WeedsGalore+PhenoBench",
+    "delta_claim": "benchmarks failure causes across crops and sensors, not weed segmentation itself",
+    "forcing_function": null,
+    "user_guess": "Robotic weeding researchers",
+    "seed_urls": [
+      {
+        "url": "https://huggingface.co/datasets/Voxel51/weeds-galore",
+        "date": "2025-02-18",
+        "title": "WeedsGalore dataset",
+        "tier": "A",
+        "note": "WeedsGalore provides German maize UAV multispectral imagery across multiple dates and weed species."
+      },
+      {
+        "url": "https://www.phenobench.org/benchmarks.html",
+        "date": "2026-02-18",
+        "title": "PhenoBench benchmarks",
+        "tier": "A",
+        "note": "PhenoBench offers semantic, panoptic, plant, leaf and hierarchical benchmark tasks."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:D03",
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For EU UAV service providers, use open multispectral vineyard and maize datasets to learn a panel-free radiometric consistency score that tells whether two flights can be compared before agronomic change is inferred.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:WeedsGalore+UAV_Canyelles",
+    "delta_claim": "scores cross-flight comparability before change detection",
+    "forcing_function": "Drone service bottleneck: data consistency, not flying",
+    "user_guess": "UAV service providers",
+    "seed_urls": [
+      {
+        "url": "https://zenodo.org/records/15147343",
+        "date": "2025-04-08",
+        "title": "UAV Canyelles Vineyard Dataset 2024-07-03",
+        "tier": "A",
+        "note": "Zenodo record provides raw RGB images, multispectral orthomosaics, point clouds and DEM with metadata."
+      },
+      {
+        "url": "https://www.sciencedirect.com/science/article/pii/S153751102400240X",
+        "date": "2024-11",
+        "title": "UAV multispectral radiometric correction under varying illumination",
+        "tier": "A",
+        "note": "Open paper compares radiometric correction methods and shows illumination affects UAV spectral reliability."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:D01",
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For Spanish vineyard managers, use the Canyelles UAV RGB/multispectral orthomosaics and point clouds to label vine-row gaps as missing plant, weak canopy, machinery damage, or trained-row artifact.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:UAV_Canyelles_Vineyard",
+    "delta_claim": "types vine-row gaps by cause instead of counting missing vines",
+    "forcing_function": "EU wine-sector climate and restructuring pressure",
+    "user_guess": "Vineyard managers",
+    "seed_urls": [
+      {
+        "url": "https://zenodo.org/records/15147343",
+        "date": "2025-04-08",
+        "title": "UAV Canyelles Vineyard Dataset 2024-07-03",
+        "tier": "A",
+        "note": "Dataset includes raw images, orthomosaics, DEM and point clouds for a Catalonia vineyard."
+      },
+      {
+        "url": "https://www.tandfonline.com/doi/full/10.1080/22797254.2017.1308234",
+        "date": "2017-03",
+        "title": "Missing plant characterization in vineyards from UAV imagery",
+        "tier": "A",
+        "note": "Prior work establishes missing-vine detection from UAV imagery, making gap-cause typing the technical delta."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:D11",
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For vineyard robotics teams, use GrapeSLAM raw UAV side videos to output row-level geolocation uncertainty for vine observations, instead of trusting orthomosaic-derived plant positions as exact.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "raw_frames_with_metadata:GrapeSLAM",
+    "delta_claim": "propagates raw-video SLAM uncertainty to vine-row observations",
+    "forcing_function": null,
+    "user_guess": "Vineyard robotics teams",
+    "seed_urls": [
+      {
+        "url": "https://zenodo.org/records/14658376",
+        "date": "2025-01-09",
+        "title": "GrapeSLAM",
+        "tier": "A",
+        "note": "Zenodo record provides 24 UAV RGB vineyard videos in Spain with flight trajectory metadata."
+      },
+      {
+        "url": "https://zenodo.org/records/15147343",
+        "date": "2025-04-08",
+        "title": "UAV Canyelles Vineyard Dataset",
+        "tier": "A",
+        "note": "Companion vineyard dataset includes raw RGB imagery, orthomosaics, point clouds and metadata."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": "run3:D04",
+    "hunter_confidence": "medium",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For Italian salad growers using low-cost UAV scouting, use the public salad-weed UAV dataset to label frames as spray-ready, human-review, or unsafe-to-act from latency and annotation uncertainty.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_uav_dataset:AgriAdapt_salad_weed",
+    "delta_claim": "turns real-time weed detection into an action-safety classifier",
+    "forcing_function": null,
+    "user_guess": "Salad growers and UAV sprayer teams",
+    "seed_urls": [
+      {
+        "url": "https://www.mdpi.com/2079-9292/14/20/4082",
+        "date": "2025-10",
+        "title": "Low-Cost UAV System and Dataset for Real-Time Weed Detection in Salad Crops",
+        "tier": "A",
+        "note": "Paper describes a public Rome salad-crop UAV dataset and notes gaps in metadata and real-time validation."
+      },
+      {
+        "url": "https://aura-lab.org/datasets/",
+        "date": "2026-09",
+        "title": "AURA Lab datasets",
+        "tier": "B",
+        "note": "AURA Lab lists open UAV agricultural datasets including crop/weed imagery with raw and orthomosaic products."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "low",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For French agroforestry monitors, use BD ORTHO and PureForest-style aerial RGBI patches to classify new farm tree rows by likely species group, not just whether woody features exist.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "open_national_orthophoto:BD_ORTHO+open_aerial_dataset:PureForest",
+    "delta_claim": "adds species-group evidence to farm tree-row monitoring",
+    "forcing_function": "Nature Restoration and CAP landscape-feature indicators",
+    "user_guess": "Agroforestry programme monitors",
+    "seed_urls": [
+      {
+        "url": "https://huggingface.co/datasets/IGNF/PureForest",
+        "date": "2024-04-18",
+        "title": "PureForest dataset",
+        "tier": "A",
+        "note": "IGNF dataset uses 20 cm aerial RGBI imagery and LiDAR for tree species classification in France."
+      },
+      {
+        "url": "https://eur-lex.europa.eu/eli/reg/2024/1991/oj/eng",
+        "date": "2024-08",
+        "title": "Regulation (EU) 2024/1991 on nature restoration",
+        "tier": "A",
+        "note": "Regulation includes agricultural ecosystem indicators and high-diversity landscape features."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "low",
+    "standout_fields": null
+  },
+  {
+    "one_liner": "For European drone-analytics vendors, use DroneZaic-style raw aerial videos to benchmark when free-flight video mosaics preserve row geometry well enough for field decisions, instead of assuming planned-grid orthomosaics.",
+    "region": "eu",
+    "bucket": "drone_and_aerial",
+    "data_class": "raw_frames_with_metadata:DroneZaic",
+    "delta_claim": "benchmarks free-flight mosaic decision fitness against row-geometry preservation",
+    "forcing_function": "Drone service bottleneck: data consistency, not flying",
+    "user_guess": "Drone analytics vendors",
+    "seed_urls": [
+      {
+        "url": "https://datadryad.org/dataset/doi%3A10.5061/dryad.r4xgxd2q7",
+        "date": "2025-08-06",
+        "title": "DroneZaic Dataset",
+        "tier": "A",
+        "note": "Dryad record provides raw agricultural UAV videos with timestamped GPS metadata and processed mosaics."
+      },
+      {
+        "url": "https://business.esa.int/projects/agrifly",
+        "date": "2025-09",
+        "title": "AgriFly",
+        "tier": "A",
+        "note": "ESA page frames a drone-service scale problem: pilots collect data, but customers need actionable outputs."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "low",
+    "standout_fields": null
+  }
+]

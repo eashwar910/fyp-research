@@ -1,0 +1,555 @@
+{
+  "status": "complete",
+  "stage": 2,
+  "date": "2026-09-13",
+  "merge_generation": "regenerated wholesale by Claude Code; the Codex-era candidates.jsonl (107 rows) was deleted and all R4- ids reassigned from scratch in matrix order. Ids are NOT stable across the two merges — any reference to an R4-S id written before this merge is void.",
+  "handoff": "Codex session hit its account usage limit mid-merge with merge_audit.status='running'. Claude Code resumed: completed drone_and_aerial__singapore, folded in drone_and_aerial__malaysia attempt 2 and the recovered standout__global, and re-merged across all 9 hunters.",
+  "hunters_merged": [
+    "satellite__india",
+    "satellite__eu",
+    "satellite__malaysia",
+    "satellite__singapore_source_basket",
+    "drone_and_aerial__india",
+    "drone_and_aerial__eu",
+    "drone_and_aerial__malaysia",
+    "drone_and_aerial__singapore",
+    "standout__global"
+  ],
+  "lines_per_hunter": {
+    "satellite__india": 19,
+    "satellite__eu": 25,
+    "satellite__malaysia": 16,
+    "satellite__singapore_source_basket": 21,
+    "drone_and_aerial__india": 16,
+    "drone_and_aerial__eu": 18,
+    "drone_and_aerial__malaysia": 17,
+    "drone_and_aerial__singapore": 16,
+    "standout__global": 21
+  },
+  "received_total": 169,
+  "after_dedupe": 155,
+  "duplicates_removed": 14,
+  "dedupe_rule": "Semantic dedupe WITHIN a bucket only. Buckets are distinct gate lanes — constraints.yml bucket_exemptions.standout skips C1_imagery_native and C2_region and adds hard C11_standout — so merging across buckets would subject a line to gates it is exempt from and discard its standout_fields. Cross-bucket near-duplicates are recorded under cross_bucket_near_duplicates instead of being merged.",
+  "retained_text_rule": "Retained text is verbatim from the earliest source in matrix order; every absorbed variant stays attached via source_records.",
+  "semantic_merge_groups": [
+    {
+      "retained_id": "R4-S13",
+      "sources": [
+        {
+          "hunter": "satellite__india",
+          "line": 13
+        },
+        {
+          "hunter": "satellite__eu",
+          "line": 24
+        },
+        {
+          "hunter": "satellite__singapore_source_basket",
+          "line": 12
+        }
+      ],
+      "reason": "Same output and gap: identify unreliable 10 m field boundaries and route them to human/higher-resolution review instead of producing another boundary map. Regional users and quality predictors are retained as variants."
+    },
+    {
+      "retained_id": "R4-S37",
+      "sources": [
+        {
+          "hunter": "satellite__eu",
+          "line": 18
+        },
+        {
+          "hunter": "satellite__singapore_source_basket",
+          "line": 6
+        },
+        {
+          "hunter": "satellite__singapore_source_basket",
+          "line": 7
+        }
+      ],
+      "reason": "Same EUDR change-typing problem: distinguish existing plantation management/tree-crop rotation from post-2020 forest conversion at supplier plots. Commodity, buyer region and imagery variants are retained."
+    },
+    {
+      "retained_id": "R4-S44",
+      "sources": [
+        {
+          "hunter": "satellite__malaysia",
+          "line": 1
+        },
+        {
+          "hunter": "satellite__singapore_source_basket",
+          "line": 8
+        }
+      ],
+      "reason": "Same Malaysian smallholder EUDR plot-boundary uncertainty triage with historical high-resolution imagery and an auditor review handoff; exporter/importer views retained."
+    },
+    {
+      "retained_id": "R4-S46",
+      "sources": [
+        {
+          "hunter": "satellite__malaysia",
+          "line": 3
+        },
+        {
+          "hunter": "satellite__malaysia",
+          "line": 7
+        }
+      ],
+      "reason": "Same Malaysian palm forest-edge conversion-history triage for deforestation-free certification/export, using embedding trajectories with historical imagery. Different time windows and evidence presentation do not define separate gaps."
+    },
+    {
+      "retained_id": "R4-S59",
+      "sources": [
+        {
+          "hunter": "satellite__singapore_source_basket",
+          "line": 1
+        },
+        {
+          "hunter": "satellite__singapore_source_basket",
+          "line": 2
+        }
+      ],
+      "reason": "Same all-weather event typing of Malaysian vegetable-source disruption for Singapore buyers: distinguish harvest interruption/damage from recovery rather than generic crop-health alerts."
+    },
+    {
+      "retained_id": "R4-S66",
+      "sources": [
+        {
+          "hunter": "satellite__singapore_source_basket",
+          "line": 13
+        },
+        {
+          "hunter": "satellite__singapore_source_basket",
+          "line": 21
+        }
+      ],
+      "reason": "Same annual embedding-based monitoring of food-source capacity erosion through non-food land-use change; orchard-specific and broad import-basket variants retained."
+    },
+    {
+      "retained_id": "R4-S75",
+      "sources": [
+        {
+          "hunter": "drone_and_aerial__india",
+          "line": 2
+        },
+        {
+          "hunter": "drone_and_aerial__eu",
+          "line": 13
+        },
+        {
+          "hunter": "drone_and_aerial__singapore",
+          "line": 15
+        }
+      ],
+      "reason": "Same output and gap: score radiometric comparability across repeat UAV flights BEFORE any vegetation index or change-detection step, so acquisition drift is not read as crop change. Three hunters found it independently on three dataset families. The panel-free formulation (EU) and the mixed multi-vendor fleet framing (Singapore) are retained as variants; if the adversary finds either delta is material, split them back out."
+    },
+    {
+      "retained_id": "R4-S109",
+      "sources": [
+        {
+          "hunter": "drone_and_aerial__malaysia",
+          "line": 3
+        },
+        {
+          "hunter": "drone_and_aerial__malaysia",
+          "line": 15
+        }
+      ],
+      "reason": "Same gap: use MOPAD per-tree status to show a supplier plot's canopy loss is plantation replanting rather than post-2020 forest conversion, for EUDR due diligence. Escalation-evidence and explainable-narrative framings are the same output."
+    },
+    {
+      "retained_id": "R4-S113",
+      "sources": [
+        {
+          "hunter": "drone_and_aerial__malaysia",
+          "line": 7
+        },
+        {
+          "hunter": "drone_and_aerial__malaysia",
+          "line": 16
+        }
+      ],
+      "reason": "Same gap: measure disagreement between original and revised MOPAD annotation protocols. Decision-flip framing and category-level disagreement atlas are two presentations of one annotation-fragility benchmark."
+    },
+    {
+      "retained_id": "R4-S116",
+      "sources": [
+        {
+          "hunter": "drone_and_aerial__malaysia",
+          "line": 10
+        },
+        {
+          "hunter": "drone_and_aerial__malaysia",
+          "line": 11
+        }
+      ],
+      "reason": "Same gap: replace a binary Ganoderma infected/healthy map with confidence-aware triage over the iRadar hyperspectral crowns. Ranked lab-follow-up queue and low-confidence abstain flag are the same output seen from two ends; both variants retained."
+    },
+    {
+      "retained_id": "R4-S142",
+      "sources": [
+        {
+          "hunter": "standout__global",
+          "line": 7
+        },
+        {
+          "hunter": "standout__global",
+          "line": 19
+        }
+      ],
+      "reason": "Same gap: attribute one consignment's food loss to a value-chain stage using the FAO FLAPP loss taxonomy. Phone-photo damage classes and GS1 traceability events are two evidence routes to the same blame-share output."
+    }
+  ],
+  "cross_bucket_near_duplicates": [
+    {
+      "ids": [
+        "R4-S138",
+        "R4-S58"
+      ],
+      "records": [
+        {
+          "hunter": "standout__global",
+          "line": 3
+        },
+        {
+          "hunter": "satellite__malaysia",
+          "line": 16
+        }
+      ],
+      "note": "Both make cross-source layer disagreement the auditable EUDR output (Whisp appeal builder vs NICFI-vs-AlphaEarth disagreement flag). Not merged: standout skips C1/C2 and carries C11, so the two lines face different gates."
+    },
+    {
+      "ids": [
+        "R4-S138",
+        "R4-S44"
+      ],
+      "records": [
+        {
+          "hunter": "standout__global",
+          "line": 3
+        },
+        {
+          "hunter": "satellite__malaysia",
+          "line": 1
+        }
+      ],
+      "note": "Both package contested EUDR plot evidence for a human to act on. Not merged: different bucket, different gate set."
+    },
+    {
+      "ids": [
+        "R4-S125",
+        "R4-S59"
+      ],
+      "records": [
+        {
+          "hunter": "drone_and_aerial__singapore",
+          "line": 5
+        },
+        {
+          "hunter": "satellite__singapore_source_basket",
+          "line": 1
+        }
+      ],
+      "note": "Both watch Malaysian vegetable supply for Singapore buyers and both trace to run3:S21. Not merged: different bucket and a real sensor delta (sub-metre drone over plots below Sentinel-2's 10 m pixel vs SAR event typing). Stage 4 should check whether the drone line's partner archive access is real."
+    }
+  ],
+  "under_15_returned": [],
+  "without_valid_output": [],
+  "queries_logged_per_hunter": {
+    "satellite__india": 28,
+    "satellite__eu": 28,
+    "satellite__malaysia": 20,
+    "satellite__singapore_source_basket": 18,
+    "drone_and_aerial__india": 28,
+    "drone_and_aerial__eu": 26,
+    "drone_and_aerial__malaysia": null,
+    "drone_and_aerial__singapore": 31,
+    "standout__global": null
+  },
+  "queries_logged_total": 179,
+  "query_log_gaps": [
+    {
+      "hunter": "standout__global",
+      "issue": "No queries[] recoverable. The array was recovered from the Codex session transcript, not a live dispatch, and the query log was not part of what was recovered. The 'record every query' clause of docs/02_subagent_contract.md section 2 is therefore unverifiable for this hunter."
+    },
+    {
+      "hunter": "drone_and_aerial__malaysia",
+      "issue": "validation.json attempt 2 records queries: 11, but the log body was never written to query_logs.json by the Codex session and is not recoverable. Count is attested, content is not."
+    }
+  ],
+  "data_class_distribution": {
+    "sentinel_1_sar+sentinel_2_optical": 12,
+    "open_uav_dataset:MOPAD": 7,
+    "raw_frames_with_metadata": 5,
+    "sentinel_1_sar": 5,
+    "non_imagery:geofence_dataset": 3,
+    "raw_frames_with_metadata:thermal_inspection_archive": 3,
+    "sentinel_1_sar + sentinel_2_optical": 3,
+    "sentinel_1_sar+sentinel_2_optical+foundation_model_embeddings": 3,
+    "foundation_model_embeddings:AlphaEarth": 2,
+    "hyperspectral_open+sentinel_2_optical": 2,
+    "lpis_eurocrops_ftw+sentinel_2_optical": 2,
+    "nicfi_planet_basemaps+foundation_model_embeddings": 2,
+    "nicfi_planet_basemaps+sentinel_1_sar+sentinel_2_optical": 2,
+    "open_uav_dataset:IMPaCT-UAV_raw_rgb_multispectral": 2,
+    "open_uav_dataset:MOPAD + open_uav_dataset:Roboflow_Oil_Palm_Using_UAV": 2,
+    "open_uav_dataset:WeedsGalore+PhenoBench": 2,
+    "requestable_hyperspectral_dataset:iRadar_Hyperspectral_Tree-Crown_flight20260505_164605": 2,
+    "sentinel_1_sar+sentinel_2_optical+aef_embeddings": 2,
+    "sentinel_1_sar+sentinel_2_optical+copernicus_clms_croplands": 2,
+    "sentinel_1_sar+sentinel_2_optical+landsat": 2,
+    "sentinel_1_sar+sentinel_2_optical+nicfi_planet_basemaps": 2,
+    "copernicus_clms_croplands+sentinel_1_sar+sentinel_2_optical": 1,
+    "copernicus_clms_small_woody_features+sentinel_2_optical": 1,
+    "eos_04_sar+sentinel_1_sar+sentinel_2_optical+aef_embeddings": 1,
+    "foundation_model_embeddings": 1,
+    "foundation_model_embeddings+copernicus_clms_crop_types": 1,
+    "foundation_model_embeddings+copernicus_clms_croplands": 1,
+    "foundation_model_embeddings+ftw+lpis_eurocrops": 1,
+    "foundation_model_embeddings:AlphaEarth_annual": 1,
+    "foundation_model_embeddings:custom_alphaearth": 1,
+    "foundation_model_embeddings:custom_alphaearth_monthly": 1,
+    "ftw_global_10m+india_10k_fields+planet_3m_benchmark": 1,
+    "ftw_global_10m+sentinel_2_optical": 1,
+    "landsat + sentinel_2_optical": 1,
+    "landsat+sentinel_2_optical": 1,
+    "lpis_eurocrops_ftw": 1,
+    "lpis_eurocrops_ftw+sentinel_1_sar": 1,
+    "nicfi_planet_basemaps": 1,
+    "non_imagery:GS1_digital_link+produce_traceability_events": 1,
+    "non_imagery:camera_trap_events+acoustic_deterrent_logs+field_edges": 1,
+    "non_imagery:field_robot_scouting_events": 1,
+    "non_imagery:flight_telemetry": 1,
+    "non_imagery:foldscope_microscopy+phone_images": 1,
+    "non_imagery:food_loss_surveys+phone_images": 1,
+    "non_imagery:geotagged_crop_disease_images": 1,
+    "non_imagery:locust_reports+weather+crop_maps": 1,
+    "non_imagery:machine_vision_weed_maps+spray_history": 1,
+    "non_imagery:pest_reports+phone_images": 1,
+    "non_imagery:reservoir_drone_video_feed": 1,
+    "non_imagery:robot_camera_video+as_applied_maps": 1,
+    "non_imagery:smartphone_video_spectral_proxy": 1,
+    "non_imagery:traceability_records+produce_images": 1,
+    "non_imagery:ultrasonic_plant_audio": 1,
+    "non_imagery:workflow_metadata+multimodal_agri_inputs": 1,
+    "open_national_orthophoto:BD_ORTHO": 1,
+    "open_national_orthophoto:BD_ORTHO+open_aerial_dataset:PureForest": 1,
+    "open_national_orthophoto:BD_ORTHO_RGBI": 1,
+    "open_national_orthophoto:FLAIR-HUB_BD_ORTHO": 1,
+    "open_national_orthophoto:PDOK_Luchtfoto": 1,
+    "open_national_orthophoto:PNOA": 1,
+    "open_national_orthophoto:PNOA+BD_ORTHO": 1,
+    "open_national_orthophoto:basemap_at": 1,
+    "open_national_orthophotos:BD_ORTHO+PDOK_Luchtfoto+PNOA": 1,
+    "open_national_orthophotos:BD_ORTHO+PDOK_Luchtfoto+basemap_at": 1,
+    "open_orthophoto+sentinel_2_optical+foundation_model_embeddings": 1,
+    "open_uav_dataset:AgriAdapt_salad_weed": 1,
+    "open_uav_dataset:BLB_UAV+IMPaCT-UAV": 1,
+    "open_uav_dataset:IMPaCT-UAV+request_access_uav_dataset:TiHAN_paddy_growth_stage": 1,
+    "open_uav_dataset:IMPaCT-UAV_flight_metadata": 1,
+    "open_uav_dataset:IMPaCT-UAV_for_QA_proxy+drone_portal_logs": 1,
+    "open_uav_dataset:IMPaCT-UAV_metadata": 1,
+    "open_uav_dataset:IMPaCT-UAV_multispectral_metadata": 1,
+    "open_uav_dataset:IMPaCT-UAV_raw_frames_orthomosaics": 1,
+    "open_uav_dataset:IMPaCT-UAV_rgb_multispectral": 1,
+    "open_uav_dataset:PhenoBench": 1,
+    "open_uav_dataset:Roboflow_Oil_Palm_Using_UAV": 1,
+    "open_uav_dataset:UAV_Canyelles_Vineyard": 1,
+    "open_uav_dataset:WeedsGalore": 1,
+    "open_uav_dataset:Zenodo_panicle+IMPaCT-UAV": 1,
+    "open_uav_dataset:revised_MOPAD_labels": 1,
+    "open_uav_experiment:Frontiers_direct_seeded_rice_spray_WSP": 1,
+    "raw_frames_with_metadata:DroneZaic": 1,
+    "raw_frames_with_metadata:GrapeSLAM": 1,
+    "request_access_uav_dataset:HSI-PearlMillet-WaterStress": 1,
+    "request_access_uav_dataset:HSI-PearlMillet-WaterStress+TiHAN_multispectral": 1,
+    "request_access_uav_dataset:TiHAN_multispectral_maize": 1,
+    "request_access_uav_dataset:TiHAN_paddy_growth_stage_rgb": 1,
+    "requestable_hyperspectral_dataset:iRadar_Hyperspectral_Tree-Crown + open_uav_dataset:MOPAD": 1,
+    "satellite_crop_monitor+market_prices": 1,
+    "satellite_et:OpenET_API": 1,
+    "satellite_et:OpenET_API+insurance_polygons": 1,
+    "satellite_risk_layers:openforis_whisp": 1,
+    "sentinel_1_sar + WorldCereal": 1,
+    "sentinel_1_sar + lpis_eurocrops_ftw": 1,
+    "sentinel_1_sar+sentinel_2_optical+agristack_registry": 1,
+    "sentinel_1_sar+sentinel_2_optical+copernicus_clms_grasslands": 1,
+    "sentinel_1_sar+sentinel_2_optical+copernicus_clms_water_wetness": 1,
+    "sentinel_1_sar+sentinel_2_optical+eos_04_sar": 1,
+    "sentinel_1_sar+sentinel_2_optical+geocrest_outputs": 1,
+    "sentinel_1_sar+sentinel_2_optical+hyperspectral_open": 1,
+    "sentinel_1_sar_coherence": 1,
+    "sentinel_2_optical + WorldCereal": 1,
+    "sentinel_2_optical + foundation_model_embeddings:AlphaEarth": 1,
+    "sentinel_2_optical+chaman_layers": 1,
+    "sentinel_2_optical+copernicus_clms_croplands": 1,
+    "sentinel_2_optical+copernicus_clms_croplands+foundation_model_embeddings": 1,
+    "sentinel_2_optical+copernicus_clms_small_woody_features+tree_cover_density": 1,
+    "sentinel_2_optical+copernicus_clms_tree_cover": 1,
+    "sub_metre_commercial": 1
+  },
+  "data_class_families_nonexclusive": {
+    "uav_or_aerial": 56,
+    "sentinel_2_optical": 52,
+    "sentinel_1_sar": 45,
+    "derived_maps_or_registries": 29,
+    "foundation_model_embeddings": 20,
+    "non_imagery": 19,
+    "hyperspectral": 8,
+    "parcel_boundary_substrates": 8,
+    "nicfi": 7,
+    "landsat": 4,
+    "eos_04_sar": 2,
+    "other": 1
+  },
+  "region_distribution": {
+    "eu": 41,
+    "india": 35,
+    "malaysia": 29,
+    "global": 20,
+    "singapore_source_basket": 15,
+    "singapore": 15
+  },
+  "bucket_distribution": {
+    "satellite": 73,
+    "drone_and_aerial": 62,
+    "standout": 20
+  },
+  "archive_restates": [
+    {
+      "id": "R4-S02",
+      "restates": "run3:S20"
+    },
+    {
+      "id": "R4-S11",
+      "restates": "run3:S04"
+    },
+    {
+      "id": "R4-S13",
+      "restates": "run3:S02"
+    },
+    {
+      "id": "R4-S14",
+      "restates": "run3:S02"
+    },
+    {
+      "id": "R4-S15",
+      "restates": "run3:S07"
+    },
+    {
+      "id": "R4-S18",
+      "restates": "run3:S01"
+    },
+    {
+      "id": "R4-S21",
+      "restates": "run3:S18"
+    },
+    {
+      "id": "R4-S22",
+      "restates": "run3:S09"
+    },
+    {
+      "id": "R4-S28",
+      "restates": "run3:D10"
+    },
+    {
+      "id": "R4-S30",
+      "restates": "run3:D09"
+    },
+    {
+      "id": "R4-S35",
+      "restates": "run3:S05"
+    },
+    {
+      "id": "R4-S37",
+      "restates": "run3:S01"
+    },
+    {
+      "id": "R4-S44",
+      "restates": "run3:S15"
+    },
+    {
+      "id": "R4-S59",
+      "restates": "run3:S21"
+    },
+    {
+      "id": "R4-S67",
+      "restates": "run3:S21"
+    },
+    {
+      "id": "R4-S70",
+      "restates": "run3:S15"
+    },
+    {
+      "id": "R4-S74",
+      "restates": "run3:D04"
+    },
+    {
+      "id": "R4-S75",
+      "restates": "run3:D01"
+    },
+    {
+      "id": "R4-S80",
+      "restates": "run3:D12"
+    },
+    {
+      "id": "R4-S87",
+      "restates": "run3:D02"
+    },
+    {
+      "id": "R4-S91",
+      "restates": "run3:D09"
+    },
+    {
+      "id": "R4-S93",
+      "restates": "run3:D10"
+    },
+    {
+      "id": "R4-S96",
+      "restates": "run3:D10"
+    },
+    {
+      "id": "R4-S98",
+      "restates": "run3:S09"
+    },
+    {
+      "id": "R4-S99",
+      "restates": "run3:D15"
+    },
+    {
+      "id": "R4-S100",
+      "restates": "run3:D08"
+    },
+    {
+      "id": "R4-S101",
+      "restates": "run3:D03"
+    },
+    {
+      "id": "R4-S102",
+      "restates": "run3:D11"
+    },
+    {
+      "id": "R4-S103",
+      "restates": "run3:D04"
+    },
+    {
+      "id": "R4-S125",
+      "restates": "run3:S21"
+    },
+    {
+      "id": "R4-S140",
+      "restates": "run3:S07"
+    }
+  ],
+  "stage_2_exit_check": {
+    "requirement": "40-80 unique one-liners (ORCHESTRATOR.md stage 2)",
+    "actual": 155,
+    "met": true,
+    "note": "155 is well above the 40 floor and above the 80 ceiling. The ceiling is not a failure condition in the playbook — the re-dispatch trigger is only 'fewer than 40'. Volume is carried into SCREEN, where a 60-75% kill is expected."
+  },
+  "notes": [
+    "Semantic dedupe only; no SCREEN verdicts, no novelty checks, no data verification. screen_status is 'unassessed' on every row.",
+    "Landscape input was PROVISIONAL (stage 1 exited with ready_for_stage_2: false, India scout dropped). Every row carries landscape_context: provisional_stage1_owner_authorized_stage2.",
+    "Exact data_class counts total the candidate count; family counts are non-exclusive because multimodal candidates appear in several families.",
+    "standout__global lines 12/14/15/18/19 carry seed_url dates resolved by the orchestrator from the live sources, not by the hunter; see validation.json standout__global attempt 2 date_resolutions."
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "id": "R4-S18",
+  "verdict": "closed",
+  "reason": "CLOSED. TraceX's AI tool (2025-08-18) already does this for Indian exporters: Sentinel-2 per-plot deforestation risk scoring at forest-edge farms, feeding audit-ready DDS before shipment. Satelligence, Geocledian, WHISP and Fairtrade Plot Insights ship the same problem+output globally (plot-boundary encroachment alert gating a certification decision) for the coffee/tea/spice/rubber commodities India exports under EUDR/Rainforest Alliance. 'Directional' evidence is an unverified nuance, not a different problem or output space.",
+  "queries": [
+    {
+      "q": "plot encroachment direction detection satellite sustainability certification India",
+      "useful": true,
+      "note": "Surfaced Indian plot-level encroachment detection (mostly land-records/urban), established as a live application area but not certification-specific."
+    },
+    {
+      "q": "forest-edge farm encroachment alert satellite before certificate issued",
+      "useful": true,
+      "note": "Surfaced near-real-time forest disturbance alert systems (Satelligence et al.) used ahead of certification/grievance workflows."
+    },
+    {
+      "q": "directional encroachment detection Sentinel-1 Sentinel-2 change detection boundary",
+      "useful": false,
+      "note": "Only generic SAR/optical change-detection methodology papers; no product or paper reporting encroachment DIRECTION as an output."
+    },
+    {
+      "q": "EUDR deforestation plot monitoring Sentinel NICFI encroachment direction platform",
+      "useful": true,
+      "note": "Surfaced the crowded EUDR plot-monitoring product set: Satelligence, Orbify, Geocledian, WHISP, TraceX."
+    },
+    {
+      "q": "Satelligence EUDR plot deforestation alert direction of clearing certification",
+      "useful": true,
+      "note": "Confirmed Satelligence checks for deforestation within 500m of plot boundary and is positioned as a certification-scheme partner."
+    },
+    {
+      "q": "WHISP EUDR forest baseline plot boundary encroachment tool FAO",
+      "useful": true,
+      "note": "Confirmed free FAO/Open Foris tool doing plot-level convergence-of-evidence forest-risk checks for smallholders pre-DDS."
+    },
+    {
+      "q": "Satsure Cropin forest encroachment detection India certification supply chain",
+      "useful": false,
+      "note": "No evidence Cropin/SatSure themselves ship this exact forest-edge-encroachment-for-certification feature; not a closing item on its own."
+    },
+    {
+      "q": "encroachment direction forest boundary expansion satellite startup product",
+      "useful": false,
+      "note": "No startup found publishing a directional-encroachment output specifically."
+    },
+    {
+      "q": "Rainforest Alliance FSC certification India satellite plot verification deforestation tool",
+      "useful": true,
+      "note": "Confirmed RA's own certification pipeline already cross-references satellite forest-baseline maps against plot geodata before certifying, including for India producers."
+    },
+    {
+      "q": "EUDR compliance India spices coffee tea satellite plot monitoring deforestation 2026",
+      "useful": true,
+      "note": "Confirmed multiple India-specific EUDR satellite-compliance vendors serving exactly the coffee/tea/spice commodities named in this candidate's target market."
+    },
+    {
+      "q": "TraceX EUDR DDS India coffee exporters satellite Sentinel plot deforestation check",
+      "useful": true,
+      "note": "Closing evidence: TraceX runs Sentinel-2 per-plot deforestation risk scoring for Indian exporters, feeding automated DDS generation before shipment."
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://tracextech.com/eudr-dds/coffee-exporters-india/",
+      "date": "2025-08-18",
+      "title": "EUDR Compliance for Coffee Exporters in India | TraceX",
+      "tier": "A",
+      "closes": true,
+      "why": "Same region, same user (Indian export/compliance teams), same output: Sentinel-2 per-plot deforestation risk score generated before the compliance document (DDS) is submitted/certificate issued.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://satelligence.com/home/eudr-due-diligence-solutions/",
+      "date": "2026-09",
+      "title": "Satelligence EUDR due diligence solutions",
+      "tier": "A",
+      "closes": true,
+      "why": "Sentinel-1/2/Landsat plot-boundary deforestation alerting (checks within 500m of plot boundary) explicitly built to gate certification-scheme and DDS decisions.",
+      "relation": "same_output_space"
+    },
+    {
+      "url": "https://www.openforis.org/whisp/",
+      "date": "2026-09",
+      "title": "Whisp - Open Foris (FAO)",
+      "tier": "A",
+      "closes": true,
+      "why": "Free, live plot-level forest-risk convergence tool used by smallholders/cooperatives before EUDR due-diligence submission; same problem framing without India restriction.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://www.fairtrade.net/en/get-involved/Press-centre/fairtrade-digital-system-plot-insights-gives-fairtrade-cooperatives-an-eudr-readiness-edge.html",
+      "date": "2026-09",
+      "title": "Fairtrade's digital system Plot Insights gives co-ops an EUDR compliance edge",
+      "tier": "A",
+      "closes": true,
+      "why": "Satelligence-powered plot-level deforestation alerts delivered directly to cooperatives ahead of certification/compliance readiness, same output space as candidate.",
+      "relation": "same_output_space"
+    },
+    {
+      "url": "https://www.geocledian.com/solutions/eudr-compliance/",
+      "date": "2026-09",
+      "title": "Geocledian EUDR Check",
+      "tier": "A",
+      "closes": false,
+      "why": "Another shipping plot-level deforestation-risk product for EUDR; corroborates saturation but not needed alone since TraceX already closes on region+problem.",
+      "relation": "product"
+    },
+    {
+      "url": "https://www.rainforest-alliance.org/business/certification/how-the-rainforest-alliance-supports-eudr-compliance-from-farm-to-retailer/",
+      "date": "2026-09",
+      "title": "How the Rainforest Alliance Supports EUDR Compliance from Farm to Retailer",
+      "tier": "A",
+      "closes": false,
+      "why": "Confirms the certification body itself already cross-checks plot geodata against satellite forest-baseline maps before certifying, including India producers; supports closure, not a standalone closer.",
+      "relation": "same_problem"
+    }
+  ],
+  "closing_item": {
+    "url": "https://tracextech.com/eudr-dds/coffee-exporters-india/",
+    "date": "2025-08-18",
+    "title": "EUDR Compliance for Coffee Exporters in India | TraceX",
+    "tier": "A",
+    "closes": true,
+    "why": "Same region, same user (Indian export/compliance teams), same output: Sentinel-2 per-plot deforestation risk score generated before the compliance document (DDS) is submitted/certificate issued.",
+    "relation": "same_problem"
+  },
+  "nearest_neighbours_do_not": "None of TraceX, Satelligence, Geocledian or WHISP publish a directional (which-way-is-the-plot-boundary-moving) metric in their public materials — they report deforestation area/risk score and alert-to-grievance workflows, not an encroachment vector or bearing.",
+  "budget_exhausted": false,
+  "notes": "No paper or product surfaced that explicitly computes encroachment DIRECTION as an output; that narrow technical claim is unverified either way and was not separately search-tested beyond the queries logged.",
+  "product_search": {
+    "queries_run": [
+      "forest encroachment monitoring software platform startup product 2026",
+      "EUDR deforestation plot monitoring Sentinel NICFI encroachment direction platform",
+      "TraceX EUDR DDS India coffee exporters satellite Sentinel plot deforestation check",
+      "Satelligence EUDR plot deforestation alert direction of clearing certification",
+      "Rainforest Alliance FSC certification India satellite plot verification deforestation tool",
+      "geocledian EUDR plot monitoring alert direction encroachment India"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://tracextech.com/eudr-dds/coffee-exporters-india/",
+        "date": "2025-08-18",
+        "title": "TraceX EUDR DDS for Indian coffee exporters",
+        "tier": "A",
+        "note": "AI tool for Indian exporters: Sentinel-2 plot risk scoring feeding automated DDS generation before shipment/compliance sign-off."
+      },
+      {
+        "url": "https://satelligence.com/home/eudr-due-diligence-solutions/",
+        "date": "2026-09",
+        "title": "Satelligence EUDR due diligence solution",
+        "tier": "A",
+        "note": "Sentinel-1/2/Landsat plot-boundary deforestation alerts gating DDS/certification workflows globally."
+      },
+      {
+        "url": "https://www.openforis.org/whisp/",
+        "date": "2026-09",
+        "title": "Whisp (FAO Open Foris)",
+        "tier": "A",
+        "note": "Free plot-level deforestation-risk convergence tool for EUDR due diligence, used by smallholders and co-ops."
+      },
+      {
+        "url": "https://www.fairtrade.net/en/get-involved/Press-centre/fairtrade-digital-system-plot-insights-gives-fairtrade-cooperatives-an-eudr-readiness-edge.html",
+        "date": "2026-09",
+        "title": "Fairtrade Plot Insights",
+        "tier": "A",
+        "note": "Satelligence-powered plot deforestation alerts delivered to cooperatives ahead of EUDR readiness/certification."
+      },
+      {
+        "url": "https://www.geocledian.com/solutions/eudr-compliance/",
+        "date": "2026-09",
+        "title": "Geocledian EUDR Check",
+        "tier": "A",
+        "note": "Parcel-level deforestation risk assessment product for EUDR compliance."
+      }
+    ]
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "id": "R4-S01",
+  "verdict": "conditional",
+  "verdict_reason": "Sentinel-1/2 fully open via GEE. EOS-04 (RISAT-1A) requires Bhoonidhi registration + EULA under India's mixed open/priced Space Data Policy 2023 (application_required). Insurance-unit-level CCE ground truth is named (PMFBY/AgriStack) but not confirmed downloadable: yestech portal unreachable, data.gov.in resource returned 403.",
+  "sources": [
+    {
+      "name": "Sentinel-1 SAR GRD (COPERNICUS/S1_GRD)",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD",
+      "fetched_ok": true,
+      "licence_quote": "The use of Sentinel data is governed by the Copernicus Sentinel Data Terms and Conditions.",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "COPERNICUS/S1_GRD",
+      "size_gb": null,
+      "coverage_quote": "Global coverage (coordinates: -90 to 90 latitude, -180 to 180 longitude)",
+      "covers_target_region": "true",
+      "date_range": "2014-10-03 to present",
+      "caveats_quoted": [],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Harmonized Sentinel-2 MSI Level-2A SR (COPERNICUS/S2_SR_HARMONIZED)",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+      "fetched_ok": true,
+      "licence_quote": "The use of Sentinel data is governed by the Copernicus Sentinel Data Terms and Conditions.",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "size_gb": null,
+      "coverage_quote": "Global coverage, though 2017-2018 Level-2 data in the Earth Engine collection is not yet comprehensively global",
+      "covers_target_region": "true",
+      "date_range": "2017-03-28 to present",
+      "caveats_quoted": [
+        "2017-2018 Level-2 coverage not yet comprehensively global"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "EOS-04 (RISAT-1A) SAR via Bhoonidhi (ISRO/NRSC EO Data Hub)",
+      "role": "imagery",
+      "url": "https://bhoonidhi.nrsc.gov.in/",
+      "fetched_ok": true,
+      "licence_quote": "Users must accept the Terms and Conditions and End User Licence Agreement for Use of Remote Sensing Data",
+      "licence_class": "registration",
+      "access_mode": "application_required",
+      "size_gb": null,
+      "coverage_quote": "extensive archive of Remote Sensing data from 47 satellites, including Indian and Foreign Remote Sensing sensors acquired since 1986",
+      "covers_target_region": "true",
+      "date_range": "EOS-04 launched 2022; Level-2B ARD direct-download from 2024-02-01",
+      "caveats_quoted": [
+        "Bhoonidhi offers both open and priced data access in accordance with the Indian Space Policy, 2023",
+        "Level-2B geolocation accuracy guaranteed within 30m, suitable for temporal studies"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "PMFBY YES-TECH official programme page",
+      "role": "labels",
+      "url": "https://pmfby.gov.in/yestech/",
+      "fetched_ok": false,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "covers_target_region": "true",
+      "caveats_quoted": [
+        "Landing page unreachable (connection refused) on two fetch attempts; treated as unverified per protocol"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "ICRISAT ISSCA - YES-TECH scalable solution description",
+      "role": "auxiliary",
+      "url": "https://issca.icrisat.org/scalable-solutions/yield-estimation-using-technology-yes-tech",
+      "fetched_ok": true,
+      "licence_quote": "",
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "coverage_quote": "pilots across 100 districts in nine Indian states beginning Kharif 2023",
+      "covers_target_region": "true",
+      "date_range": "Kharif 2023 onward",
+      "caveats_quoted": [
+        "Webpage does not specify which satellite datasets are employed, nor whether CCE/yield datasets are publicly downloadable"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "data.gov.in - District Crop Rice Area/Production/Yield (CCE-derived)",
+      "role": "labels",
+      "url": "https://www.data.gov.in/resource/crop-rice-area-hectares-production-tonnes-yield-kgshectare",
+      "fetched_ok": false,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "covers_target_region": "true",
+      "caveats_quoted": [
+        "Fetch returned HTTP 403 Forbidden; resource is district-level aggregate, not insurance-unit level, even if accessible"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    }
+  ],
+  "ground_truth": {
+    "status": "external_named",
+    "source_url": "https://pmfby.gov.in/yestech/",
+    "construction_protocol": "Named source: Crop-Cutting-Experiment (CCE) yield data used by PMFBY/YES-TECH to validate estimates. IU-level CCE not confirmed publicly downloadable; only district aggregates found. Needs application/partnership with PMFBY, AgriStack or state Agriculture Dept for IU-level records.",
+    "label_count_estimate": null
+  },
+  "compute_path": {
+    "platform": "Google Earth Engine (JS/Python API) for Sentinel-1/2 time series; offline CPU tools (SNAP/rasterio) for downloaded EOS-04 SAR scenes",
+    "fits_C9": true,
+    "why": "Sentinel-1/2 run entirely in GEE hosted compute. EOS-04 is downloaded and processed with CPU-based SAR tools; rule-based disagreement flagging needs no sustained GPU training.",
+    "gpu_hours_per_week_estimate": 0
+  },
+  "queries": [
+    {
+      "q": "EOS-04 RISAT data access NRSC Bhuvan download",
+      "useful": true
+    },
+    {
+      "q": "Sentinel-1 GRD Google Earth Engine catalog COPERNICUS/S1_GRD",
+      "useful": true
+    },
+    {
+      "q": "PMFBY YES-TECH crop cutting experiment data ground truth yield",
+      "useful": true
+    },
+    {
+      "q": "Bhoonidhi NRSC data policy terms and conditions open data registration",
+      "useful": true
+    },
+    {
+      "q": "crop cutting experiment CCE data India download open data.gov.in yield",
+      "useful": true
+    }
+  ],
+  "fetched": [
+    "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD",
+    "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+    "https://bhoonidhi.nrsc.gov.in/",
+    "https://pmfby.gov.in/yestech/",
+    "https://issca.icrisat.org/scalable-solutions/yield-estimation-using-technology-yes-tech",
+    "https://bhoonidhi.nrsc.gov.in/bhoonidhi_resources/help/UIM2024/3_UIM2024_EOS-04_L2B_ARD.pdf",
+    "https://bhoonidhi.nrsc.gov.in/bhoonidhi/htmls/TnC.html",
+    "https://www.data.gov.in/resource/crop-rice-area-hectares-production-tonnes-yield-kgshectare"
+  ],
+  "budget_exhausted": false,
+  "notes": "Sentinel-1/2 verified open via GEE catalog fetches. EOS-04 needs Bhoonidhi registration/EULA under mixed open/priced Space Data Policy 2023. IU-level CCE ground truth for YES-TECH disagreement checks is named but not confirmed publicly downloadable; official yestech.gov.in and data.gov.in resource both failed to fetch."
+}

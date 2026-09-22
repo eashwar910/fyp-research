@@ -1,4 +1,8 @@
 # current-run working files are ephemeral; archives are committed
-.research/*
+
 !.research/README.md
 .DS_Store
+
+# python bytecode
+__pycache__/
+*.pyc

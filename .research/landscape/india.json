@@ -1,0 +1,20 @@
+{
+  "error": "Dropped after one retry: landscape_report.schema.json validation failed. This is a failure record, not an accepted landscape report.",
+  "market": "india",
+  "attempts": [
+    "attempts/india.1.json",
+    "attempts/india.2.json"
+  ],
+  "validation_errors": [
+    {
+      "path": [
+        "companies",
+        3,
+        "evidence",
+        1,
+        "date"
+      ],
+      "message": "'2026' does not match '^\\\\d{4}-\\\\d{2}(-\\\\d{2})?$'"
+    }
+  ]
+}

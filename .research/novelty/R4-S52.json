@@ -1,0 +1,50 @@
+{
+  "id": "R4-S52",
+  "verdict": "unclear",
+  "reason": "Cannot render an honest closed/type_a/type_b verdict. WebSearch was already at its session cap (200/200) before this dispatch issued a single query. Every WebFetch fallback (Google Scholar, Semantic Scholar web+API, Bing, DuckDuckGo, arxiv API, MDPI, plain Google) returned a CAPTCHA, 403, 429, or blank JS shell across all 8 permitted fetches. None of the six procedure steps produced verifiable evidence. I recall that Almeria/China greenhouse mapping from Sentinel-1/2 is heavily published, but will not assert it as prior_art without a fetchable source, since that would be judging from memory.",
+  "queries": [
+    {
+      "q": "Sentinel-1 SAR coherence greenhouse plastic-house installation removal date detection",
+      "useful": false,
+      "note": "WebSearch: session quota exhausted (200/200 used) before this query executed."
+    },
+    {
+      "q": "Sentinel-1 coherence dating structure construction demolition date estimation",
+      "useful": false,
+      "note": "WebSearch: session quota exhausted."
+    },
+    {
+      "q": "Sentinel-2 Sentinel-1 greenhouse mapping Almeria Spain plastic mulch classification",
+      "useful": false,
+      "note": "WebSearch: session quota exhausted."
+    },
+    {
+      "q": "China plastic mulch film greenhouse mapping satellite remote sensing time series",
+      "useful": false,
+      "note": "WebSearch: session quota exhausted."
+    },
+    {
+      "q": "Google Scholar fallback: Sentinel-1 coherence greenhouse plastic mulch installation removal date",
+      "useful": false,
+      "note": "WebFetch: redirected to Google CAPTCHA/sorry page, no results retrievable."
+    },
+    {
+      "q": "Semantic Scholar web + API fallback: Sentinel-1 coherence greenhouse plastic mulch mapping",
+      "useful": false,
+      "note": "WebFetch: search page returned blank JS shell; API returned HTTP 429 rate limited."
+    },
+    {
+      "q": "Bing / DuckDuckGo / MDPI / arxiv / Google fallbacks for same terms",
+      "useful": false,
+      "note": "WebFetch: Bing returned unrelated content, DDG showed CAPTCHA, MDPI 403, arxiv API 429, Google no-results shell."
+    }
+  ],
+  "prior_art": [],
+  "human_should_check": "Rerun steps 1-6 once search quota is available. Confirm: (a) whether Sentinel-1/2 greenhouse or plastic-mulch mapping is already standard/published for Almeria (Spain) and China [widely believed true but unverified here]; (b) whether any paper or product uses SAR-coherence loss/gain to DATE a structure's install/removal event in ANY domain (construction, mining, informal settlements) and cross-checks that date against a regulatory/certificate validity window. If such dating methodology exists elsewhere, R4-S52 is at best type_b, not type_a.",
+  "budget_exhausted": true,
+  "notes": "All six steps blocked. Steps 1, 3, 4 were attempted via WebSearch but the tool reported the session's 200-call budget already exhausted before executing (0 actually ran). Steps 2 (output-space), 5 (product), 6 (recency) were never attempted because WebSearch failed outright first. 8 WebFetch fallbacks to Scholar/Semantic Scholar/Bing/DDG/arxiv/MDPI/Google all failed (CAPTCHA/403/429/blank). Zero verified prior_art; none fabricated.",
+  "product_search": {
+    "queries_run": [],
+    "shipping_products_found": []
+  }
+}

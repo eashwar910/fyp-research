@@ -1,0 +1,112 @@
+{
+  "id": "R4-S30",
+  "verdict": "unclear",
+  "reason": "Session WebSearch quota was exhausted (200/200) before this dispatch, and WebFetch fallbacks (DuckDuckGo, Bing, Scholar, MDPI, arXiv) were blocked by captchas or 403/429s. Confirmed directly only: AlphaEarth is a generic global embedding model, no vineyard/dating logic; Terranis' live Oenoview already does French satellite vineyard monitoring but for vigor/water-stress, not event dating. Could not run steps 2-4-6, so cannot certify type_a or rule out closure by the CCDC/BFAST/LandTrendr disturbance-dating family, which matches this delta_claim in deforestation monitoring.",
+  "queries": [
+    {
+      "q": "vineyard grubbing abandonment replanting date detection Sentinel-2 satellite",
+      "useful": false,
+      "note": "WebSearch tool returned 'session has used its web search budget (200 of 200)' before any results were fetched"
+    },
+    {
+      "q": "dating land use change event between sparse orthophoto acquisitions dense satellite time series",
+      "useful": false,
+      "note": "same WebSearch quota exhaustion"
+    },
+    {
+      "q": "BFAST CCDC LandTrendr break date detection dense time series sparse reference validation",
+      "useful": false,
+      "note": "WebSearch blocked; fallback fetches to duckduckgo.com/html and lite.duckduckgo.com returned only bot-check CAPTCHA pages"
+    },
+    {
+      "q": "GLAD RADD deforestation alert date estimation Sentinel-2 between infrequent high-resolution imagery",
+      "useful": false,
+      "note": "WebSearch quota exhausted, no fallback attempted for this one"
+    },
+    {
+      "q": "vigne arrachage detection satellite FranceAgriMer controle teledetection",
+      "useful": false,
+      "note": "WebSearch quota exhausted"
+    },
+    {
+      "q": "bing.com/search vineyard grubbing abandonment detection dating Sentinel-2 satellite time series",
+      "useful": false,
+      "note": "Bing returned unrelated stock-market/game-wiki content, likely a broken fetch render, not genuine results"
+    },
+    {
+      "q": "scholar.google.com vineyard abandonment grubbing detection Sentinel-2 time series",
+      "useful": false,
+      "note": "Google Scholar redirected to a captcha ('/sorry/') page"
+    },
+    {
+      "q": "semanticscholar.org search vineyard abandonment detection satellite time series",
+      "useful": false,
+      "note": "SPA rendered empty via WebFetch; API endpoint returned HTTP 429"
+    },
+    {
+      "q": "export.arxiv.org API vineyard abandonment satellite / change-detection dating time series",
+      "useful": false,
+      "note": "arXiv API returned HTTP 429 both times"
+    },
+    {
+      "q": "mdpi.com search vineyard abandonment Sentinel / CCDC dating disturbance",
+      "useful": false,
+      "note": "MDPI search and direct article page (rs-12-23-4001) both returned HTTP 403 to automated fetch"
+    },
+    {
+      "q": "terranis.fr Oenoview vineyard satellite monitoring product",
+      "useful": true,
+      "note": "Direct fetch succeeded: confirms a live French satellite vineyard product, but scoped to vigor/water-stress/harvest timing, not grubbing/abandonment/replanting event dating"
+    },
+    {
+      "q": "arxiv.org/abs/2507.22291 AlphaEarth Foundations",
+      "useful": true,
+      "note": "Direct fetch succeeded: confirms AlphaEarth is a generic global sparse-label embedding model (Brown et al., Google, 2025), with no vineyard- or event-dating-specific mechanism of its own"
+    },
+    {
+      "q": "en.wikipedia.org Change detection (surfaced Ghaderpour & Vujadinovic 2020, Remote Sensing 12(23):4001, spectral-analysis change detection in satellite time series)",
+      "useful": true,
+      "note": "Real citation found via a page I could fetch directly, but I could not reach the primary MDPI source to confirm scope, so it is not entered as prior_art with a verified url"
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://www.terranis.fr/",
+      "date": "2026-09",
+      "title": "Oenoview - Terranis satellite viticulture monitoring",
+      "tier": "A",
+      "closes": false,
+      "why": "Live shipping satellite product for French vineyards (same crop, same region) but its confirmed outputs are vigor segmentation, water-stress detection and harvest-timing optimisation, not dating grubbing/abandonment/replanting events between acquisitions.",
+      "relation": "same_thing_other_region"
+    },
+    {
+      "url": "https://arxiv.org/abs/2507.22291",
+      "date": "2025-07",
+      "title": "AlphaEarth Foundations: an embedding field model for accurate and efficient global mapping from sparse label data",
+      "tier": "A",
+      "closes": false,
+      "why": "This is the exact embedding method named in the delta_claim, but it is a generic global mapping tool (any domain, any label), with no built-in vineyard or event-dating logic; it does not itself close the candidate.",
+      "relation": "same_method_other_domain"
+    }
+  ],
+  "nearest_neighbours_do_not": "Oenoview (Terranis, live French vineyard satellite service) does not localize a calendar date for grubbing, abandonment, or replanting between two sparse acquisitions; it maps standing-crop vigor and water stress. AlphaEarth Foundations does not do event dating or change detection at all; it only supplies a generic embedding, leaving the actual dating logic entirely to the candidate.",
+  "budget_exhausted": true,
+  "notes": "WebSearch was at 200/200 before I made a call; WebFetch fallbacks (DDG, Bing, Scholar, Semantic Scholar, arXiv, MDPI) hit captchas, JS-only pages, or 403/429. I recall CCDC (Zhu & Woodcock 2014) and LandTrendr/BFAST as the standard dense-time-series disturbance-dating algorithms behind GLAD/RADD deforestation-date alerts -- structurally the same dating problem -- but could not fetch a primary source to confirm, so omitted from prior_art per instructions.",
+  "product_search": {
+    "queries_run": [
+      "vigne arrachage detection satellite FranceAgriMer controle teledetection (WebSearch, blocked)",
+      "vineyard grubbing abandonment detection dating Sentinel-2 satellite time series (WebSearch, blocked)",
+      "terranis.fr Oenoview vineyard satellite monitoring product (WebFetch, succeeded)"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://www.terranis.fr/",
+        "date": "2026-09",
+        "title": "Oenoview - Terranis",
+        "tier": "A",
+        "note": "Live French vineyard satellite service for vigor/water-stress/harvest optimisation; no confirmed grubbing/abandonment/replanting event-dating feature."
+      }
+    ]
+  },
+  "human_should_check": "Two things before this can pass: (1) Does CCDC (Zhu & Woodcock 2014) / LandTrendr / BFAST, or any published application of them, already date land-cover disturbance events (not just detect them) from dense Sentinel-2/Landsat time series validated against sparse high-resolution reference imagery -- this is the generic method-space version of the delta_claim and is heavily used for deforestation-date alerts (GLAD/RADD); if yes for the general method, the candidate's only remaining delta is applying it to vineyards specifically, which is thin. (2) Ask Terranis (Oenoview) and Kermap directly, or check their technical documentation/patents, whether either already offers or has piloted grubbing/replanting event-date estimation for French/EU wine authorities as a compliance feature, since both already run satellite vineyard monitoring in the exact target region."
+}

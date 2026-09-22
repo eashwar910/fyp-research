@@ -1,8 +1,9 @@
 # FYP candidate constraints — machine-readable source of truth.
 # The fyp-constraint-gate skill reads this file. Edit here, not in prose.
 # v2 (2026-09-13): Malaysia added to C2; bucket_3 'standout' defined via bucket_exemptions + C11.
+# v3 (2026-09-18): C9 gains an explicit local storage ceiling of 512 GB (owner can attach an external SSD).
 
-version: 2
+version: 3
 owner: eashwar
 project: FYP — AI for agriculture from satellite/drone imagery
 
@@ -128,6 +129,16 @@ hard:
     data:
       preferred: open
       free_sources: [sentinel_1, sentinel_2, landsat, nicfi_asia, lpis, eurocrops, openstreetmap]
+      max_local_storage_gb: 512
+      storage_rule: >
+        The owner can attach an external SSD. A dataset requiring up to 512 GB of
+        local storage is ACCEPTABLE and must NOT be failed on size alone. Above
+        512 GB, the candidate must name a usable subset that fits — a regional
+        partition, a date-range crop, or a metadata-only slice — and the verifier
+        must confirm that subset is separately downloadable. If no such subset
+        exists, fail on C9.
+        This ceiling is about STORAGE only. It does not relax the compute rule:
+        no sustained local GPU training, free hosted compute only.
       nicfi_licence_check: >
         NICFI is non-commercial AND purpose-bound to reducing tropical forest
         loss. An India/SEA candidate using NICFI must frame around agricultural

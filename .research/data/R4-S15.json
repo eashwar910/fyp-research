@@ -1,0 +1,132 @@
+{
+  "id": "R4-S15",
+  "verdict": "conditional",
+  "verdict_reason": "Monthly Custom Satellite Embeddings are real but gated behind a competitive academic application, deadline 2026-10-15, India coverage unconfirmed. PMFBY has no public event-dated dataset; only aggregate claims-paid figures found, portal unreachable, so ground truth must be constructed.",
+  "sources": [
+    {
+      "name": "Satellite Embedding V1 (AlphaEarth Foundations) - Annual",
+      "role": "comparator",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+      "fetched_ok": true,
+      "licence_quote": "CC-BY 4.0",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL",
+      "size_gb": null,
+      "coverage_quote": "Global terrestrial land surfaces and shallow waters, including intertidal zones, inland waterways, and coastal areas",
+      "covers_target_region": "true",
+      "date_range": "2017-01-01T00:00:00Z-2025-01-01T00:00:00Z, annual layers only",
+      "caveats_quoted": [
+        "This is the ANNUAL product; it cannot resolve within-year sowing-failure/flood/recovery timing, which is the candidate's stated reason for needing monthly embeddings instead"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Custom Satellite Embeddings (AlphaEarth Foundations) - Academic Program",
+      "role": "imagery",
+      "url": "https://mapsplatform.google.com/resources/blog/introducing-custom-satellite-embeddings-powered-by-alphaearth-foundations/",
+      "fetched_ok": true,
+      "licence_class": "academic_program",
+      "access_mode": "application_required",
+      "size_gb": null,
+      "coverage_quote": "not specified; announcement does not state geographic coverage limits or confirm India availability",
+      "covers_target_region": "partial",
+      "date_range": "custom cadence: quarterly, monthly, weekly, or down to 5-day intervals, per request; program itself launched 2026",
+      "caveats_quoted": [
+        "Apply here by October 15, 2026",
+        "Prior experience with Earth Engine, affiliation with a university or research institution, and an intent to share findings are strongly encouraged",
+        "Enterprise track offering is currently in Private Preview; sign-up only expresses interest, not guaranteed access",
+        "No pricing or licensing terms were published for this product in the announcement"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": "2026-10-15"
+    },
+    {
+      "name": "State/UT-wise Claims Paid under PMFBY 2019-20 to 2022-23 (data.gov.in)",
+      "role": "labels",
+      "url": "https://www.data.gov.in/resource/stateut-wise-claims-paid-under-pradhan-mantri-fasal-bima-yojana-pmfby-2019-20-2022-23",
+      "fetched_ok": false,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "size_gb": null,
+      "coverage_quote": "listing title indicates state/UT-level aggregation only, not district-level or event-dated",
+      "covers_target_region": "partial",
+      "date_range": "2019-20 to 2022-23 (annual seasons), per resource title",
+      "caveats_quoted": [
+        "Landing page returned HTTP 403 during verification; content and licence could not be confirmed by fetch",
+        "Title indicates aggregate claims-paid totals per state/season, not per-event sowing-failure/flood/recovery dates"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "PMFBY official portal (pmfby.gov.in)",
+      "role": "auxiliary",
+      "url": "https://pmfby.gov.in/",
+      "fetched_ok": false,
+      "licence_class": "unknown",
+      "access_mode": "unverified",
+      "size_gb": null,
+      "coverage_quote": "unknown - page unreachable during verification",
+      "covers_target_region": "true",
+      "date_range": "unknown",
+      "caveats_quoted": [
+        "Fetch failed with connection refused on two attempts (main portal and Revised_Operational_Guidelines.pdf)",
+        "Secondary search indicates a 72-hour farmer intimation window for localized calamity/prevented sowing and CCE-based area yield claims, but no confirmed public dataset of per-event dates"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    }
+  ],
+  "ground_truth": {
+    "status": "must_construct",
+    "source_url": "https://www.data.gov.in/resource/stateut-wise-claims-paid-under-pradhan-mantri-fasal-bima-yojana-pmfby-2019-20-2022-23",
+    "construction_protocol": "Cross-reference PMFBY district claims-paid records, state disaster-management flood situation reports, and IMD rainfall extremes to date flood/sowing-failure windows per district-season; manually label roughly 20-40 district-season events.",
+    "label_count_estimate": "~20-40 district-season events"
+  },
+  "compute_path": {
+    "platform": "Google Earth Engine (embeddings consumed as precomputed EE image assets/COGs; downstream classifier on free tier or Colab)",
+    "fits_C9": true,
+    "why": "Assuming embeddings are obtained, they are precomputed 64-band vectors; downstream classification/regression is lightweight, no sustained local GPU training required.",
+    "gpu_hours_per_week_estimate": 0
+  },
+  "queries": [
+    {
+      "q": "AlphaEarth Custom Satellite Embeddings monthly on-demand academic program application",
+      "useful": true
+    },
+    {
+      "q": "Google AlphaEarth Satellite Embedding dataset Google Earth Engine annual",
+      "useful": true
+    },
+    {
+      "q": "PMFBY Pradhan Mantri Fasal Bima Yojana claims data open dataset district",
+      "useful": true
+    },
+    {
+      "q": "PMFBY localized calamity intimation flood sowing failure date district CCE mobile app data",
+      "useful": true,
+      "note": "gave operational-process detail but no public event-dated dataset"
+    },
+    {
+      "q": "\"AlphaEarth\" academic program apply form Earth Engine research coverage countries eligibility 2026",
+      "useful": false,
+      "note": "no coverage/country detail surfaced beyond the blog post"
+    }
+  ],
+  "fetched": [
+    "https://mapsplatform.google.com/resources/blog/introducing-custom-satellite-embeddings-powered-by-alphaearth-foundations/",
+    "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+    "https://www.data.gov.in/resource/stateut-wise-claims-paid-under-pradhan-mantri-fasal-bima-yojana-pmfby-2019-20-2022-23",
+    "https://pmfby.gov.in/",
+    "https://www.kaggle.com/datasets/pyatakov/india-pmfby-statistics",
+    "https://pmfby.gov.in/pdf/Revised_Operational_Guidelines.pdf"
+  ],
+  "budget_exhausted": false,
+  "notes": "Custom Satellite Embeddings (monthly/on-demand) is a genuinely distinct, real product from the annual AlphaEarth layer, unlike when run3:S07 was killed - but it is application_required (deadline 2026-10-15, no confirmed India coverage), not open. PMFBY event-dated ground truth was not found shipped anywhere; only aggregate claims-paid figures exist publicly, and the PMFBY portal could not be fetched to check further."
+}

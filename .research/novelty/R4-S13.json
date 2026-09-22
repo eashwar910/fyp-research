@@ -1,0 +1,126 @@
+{
+  "id": "R4-S13",
+  "verdict": "type_a",
+  "reason": "No prior work does per-plot triage (observable/ambiguous/manual) for a national crop-survey supervisor workflow. Closest is FTW's own 500m confidence layer (arxiv 2605.11055), which explicitly warns against hard-thresholding in smallholder regions like India, the opposite of this 3-bucket routing. Nothing combines FTW predictions + S2 scene quality into a DCS-facing routing label. Region-swap hit (African stratified-sampling paper) differs in output granularity (survey design, not per-plot label), so no geographic-only auto-fail applies.",
+  "queries": [
+    {
+      "q": "Digital Crop Survey India satellite field boundary observability routing manual survey",
+      "useful": true,
+      "note": "surfaced DCS overview and FTW-adjacent papers; no routing tool found"
+    },
+    {
+      "q": "Fields of the World FTW field boundary quality confidence flag manual review routing",
+      "useful": true,
+      "note": "found FTW's 500m confidence layer, the closest method-space neighbour"
+    },
+    {
+      "q": "satellite image quality triage route to manual survey vs automated boundary detection agriculture",
+      "useful": false,
+      "note": "generic manual-vs-automated boundary literature, no routing/triage system"
+    },
+    {
+      "q": "national crop survey plot classification satellite-observable ambiguous manual verification required routing tool",
+      "useful": false,
+      "note": "only generic crop-classification papers"
+    },
+    {
+      "q": "agricultural census satellite confidence based sampling routing which parcels need field visit",
+      "useful": true,
+      "note": "region-swap hit: African stratified-sampling paper using map accuracy to design field visits"
+    },
+    {
+      "q": "\"Digital Crop Survey\" India AI satellite plot verification supervisor app 2026",
+      "useful": true,
+      "note": "found Karnataka AI-powered DCS pilot and Sarvam AI DCS case study"
+    },
+    {
+      "q": "Fields of the World FTW confidence layer smallholder India cropland application deployment",
+      "useful": true,
+      "note": "confirms FTW confidence layer is already live globally including India (Jodhpur demo)"
+    },
+    {
+      "q": "crop survey verification triage software startup satellite quality flag India plot",
+      "useful": true,
+      "note": "product search: SatSure (credit scoring) and wrkFarm (traceability), neither does DCS survey routing"
+    },
+    {
+      "q": "\"observability\" satellite field boundary routing survey plot classification paper 2025 2026",
+      "useful": false,
+      "note": "no dedicated observability-routing paper found; re-surfaced FTW paper"
+    },
+    {
+      "q": "Delineate Anything Flow country-level field boundary confidence uncertainty routing 2026",
+      "useful": true,
+      "note": "fast boundary-generation paper, no post-hoc survey-routing step"
+    },
+    {
+      "q": "India crop survey satellite quality mask cloud cover flag plots need field visit 2025",
+      "useful": false,
+      "note": "confirms cloud-mask quality is a known problem in India but no routing product found"
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://arxiv.org/pdf/2605.11055",
+      "date": "2026-05",
+      "title": "The first global agricultural field boundary map at 10m resolution",
+      "tier": "A",
+      "closes": false,
+      "why": "Ships a global 500m confidence layer (incl. India) for boundary-prediction reliability, but authors explicitly warn against hard thresholding in smallholder regions -- opposite of the candidate's 3-bucket routing -- and it is not packaged as a survey-supervisor decision tool.",
+      "relation": "same_method_other_domain"
+    },
+    {
+      "url": "https://arxiv.org/pdf/2511.13417",
+      "date": "2025-11",
+      "title": "Delineate Anything Flow: Fast, Country-Level Field Boundary Detection from Any Source",
+      "tier": "A",
+      "closes": false,
+      "why": "Focuses on fast, accurate country-scale boundary generation; has no post-hoc step that routes already-generated plots to manual vs satellite-only verification.",
+      "relation": "same_method_other_domain"
+    },
+    {
+      "url": "https://www.sciencedirect.com/science/article/pii/S1569843226001391",
+      "date": "2026",
+      "title": "Optimizing satellite-based cropland area estimation through integrated map accuracy assessment and stratified sampling design across six African countries",
+      "tier": "A",
+      "closes": false,
+      "why": "Uses map-accuracy assessment to decide field-visit stratification for area estimation, the nearest problem-framing match, but it is a survey-design methodology for Africa, not a per-plot supervisor-facing label for India's DCS; could not fully verify page (403) beyond abstract-level search summary.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://www.gktoday.in/karnataka-launches-ai-powered-digital-crop-survey/",
+      "date": "2026",
+      "title": "Karnataka Launches AI-Powered Digital Crop Survey",
+      "tier": "B",
+      "closes": false,
+      "why": "Same country, same DCS program, uses AI+SAR+satellite+drone+GIS for plot-level assessment, but public documentation does not describe a satellite-observable/boundary-ambiguous/manual-survey-required classification scheme.",
+      "relation": "same_problem"
+    }
+  ],
+  "nearest_neighbours_do_not": "FTW's confidence layer does not output a categorical survey-routing decision and explicitly discourages hard thresholds in India-like smallholder regions. DelAnyFlow does not triage after boundary generation. The African stratified-sampling paper designs visit strata, not per-plot supervisor labels. Karnataka's DCS pilot does not disclose any observability-based classification.",
+  "budget_exhausted": false,
+  "notes": "SatSure (satellite farm-plot intelligence, India) and wrkFarm (satellite crop traceability) are adjacent products but serve credit/traceability, not DCS field-survey routing -- listed in product_search, not prior_art.",
+  "product_search": {
+    "queries_run": [
+      "crop survey verification triage software startup satellite quality flag India plot",
+      "Digital Crop Survey India AI satellite plot verification supervisor app 2026",
+      "India crop survey satellite quality mask cloud cover flag plots need field visit 2025"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://aikosh.indiaai.gov.in/home/use-cases/details/satsource_farm_level_intelligence_powering_scalable_agricultural_credit_in_india.html",
+        "date": "2026-09",
+        "title": "SatSure SatSource: Farm-level intelligence for agricultural credit in India",
+        "tier": "B",
+        "note": "Satellite-based per-plot farm scoring across 230+ Indian districts, but for lending decisions, not DCS survey-routing."
+      },
+      {
+        "url": "https://wrkfarm.com/",
+        "date": "2026-09",
+        "title": "wrkFarm | Satellite Crop Intelligence and Traceability",
+        "tier": "C",
+        "note": "Combines polygons, satellite imagery and field surveys into crop intelligence/traceability, not a supervisor-facing observability router for a government survey."
+      }
+    ]
+  }
+}

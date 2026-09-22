@@ -1,0 +1,84 @@
+[
+  {
+    "file": "nov/R4-S15",
+    "field": "product_search[0].date",
+    "action": "date_resolved",
+    "value": "2026-03-17",
+    "basis": "eos.com insurance-companies page article:modified_time 2026-03-17T17:15:40+00:00"
+  },
+  {
+    "file": "nov/R4-S15",
+    "field": "product_search[1]",
+    "action": "entry_dropped",
+    "url": "https://business.esa.int/projects/cropsnap",
+    "basis": "business.esa.int/projects/cropsnap carries no publication, modified or sitemap date; a bare year is invalid and padding to a month is forbidden"
+  },
+  {
+    "file": "nov/R4-S23",
+    "field": "product_search[0]",
+    "action": "entry_dropped",
+    "url": "https://land.copernicus.eu/en/products/high-resolution-layer-croplands",
+    "basis": "land.copernicus.eu HRL croplands page carries no establishable date (JS-rendered, no meta/JSON-LD/sitemap lastmod)"
+  },
+  {
+    "file": "nov/R4-S23",
+    "field": "product_search[0].date",
+    "action": "date_resolved",
+    "value": "2026-03-24",
+    "basis": "eos.com crop-monitoring JSON-LD dateModified 2026-03-24T19:54:20+03:00"
+  },
+  {
+    "file": "nov/R4-S20",
+    "field": "notes",
+    "action": "truncated_by_orchestrator",
+    "from_len": 566,
+    "to_len": 500,
+    "reason": "exceeded schema maxLength; content preserved up to the cap"
+  },
+  {
+    "file": "dat/R4-S23",
+    "field": "verdict_reason",
+    "action": "truncated_by_orchestrator",
+    "from_len": 525,
+    "to_len": 400,
+    "reason": "exceeded schema maxLength; content preserved up to the cap"
+  },
+  {
+    "file": "dat/R4-S23",
+    "field": "compute_path.why",
+    "action": "truncated_by_orchestrator",
+    "from_len": 203,
+    "to_len": 200,
+    "reason": "exceeded schema maxLength; content preserved up to the cap"
+  },
+  {
+    "file": "dat/R4-S23",
+    "field": "sources[1].platform_id",
+    "action": "null_key_removed",
+    "reason": "schema requires string; field is optional so removing loses no information"
+  },
+  {
+    "file": "dat/R4-S23",
+    "field": "sources[2].platform_id",
+    "action": "null_key_removed",
+    "reason": "schema requires string; field is optional so removing loses no information"
+  },
+  {
+    "file": "dat/R4-S23",
+    "field": "sources[3].platform_id",
+    "action": "null_key_removed",
+    "reason": "schema requires string; field is optional so removing loses no information"
+  },
+  {
+    "file": "dat/R4-S23",
+    "field": "sources[4].platform_id",
+    "action": "null_key_removed",
+    "reason": "schema requires string; field is optional so removing loses no information"
+  },
+  {
+    "file": "dat/R4-S23",
+    "field": "sources[4].date_range",
+    "action": "null_key_removed",
+    "reason": "schema requires string; field is optional so removing loses no information"
+  }
+]

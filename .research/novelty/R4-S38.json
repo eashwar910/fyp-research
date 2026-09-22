@@ -1,0 +1,102 @@
+{
+  "id": "R4-S38",
+  "verdict": "closed",
+  "reason": "Whisp (FAO+Google+WRI, live) already runs this pre-screen: every declared EUDR plot gets a low/high/more-info label from whether it 'overlaps an available commodity map' (land cover vs claimed commodity) combined with pre/post-2020 disturbance timing. Covers all EUDR commodities incl. soy and cattle, same EU-operator audience, before DDS filing. Method differs (commodity-map overlay vs AlphaEarth embedding similarity) but problem and output space match, so C7 closes it.",
+  "queries": [
+    {
+      "q": "AlphaEarth EUDR supplier polygon baseline landscape mismatch screening",
+      "useful": false,
+      "note": "WebSearch tool returned session-quota-exhausted, zero results."
+    },
+    {
+      "q": "EUDR due diligence plot plausibility check land cover before deforestation analysis",
+      "useful": false,
+      "note": "Same WebSearch quota exhaustion, no results."
+    },
+    {
+      "q": "Whisp EUDR tool land cover check plot / commodity plausibility",
+      "useful": true,
+      "note": "WebFetch of openforis.org/solutions/whisp surfaced Whisp's exact low/high/more-info risk logic using commodity-map overlap plus pre/post-2020 disturbance."
+    },
+    {
+      "q": "commodity supply chain baseline plausibility screening satellite embeddings (region removed)",
+      "useful": true,
+      "note": "Region-swap: EUDR is itself an EU-only regulation, so this is inherently a global compliance-tool market; Whisp/Satelligence already serve EU operators globally, so the delta is not merely geographic."
+    },
+    {
+      "q": "Satelligence EUDR baseline plausibility supplier polygon",
+      "useful": true,
+      "note": "WebFetch of satelligence.com/solutions/eudr confirmed geocoordinate and 2020-cutoff verification, but no explicit standalone plausibility step was described on that page."
+    },
+    {
+      "q": "Global Forest Watch Pro EUDR due diligence plot verification",
+      "useful": false,
+      "note": "Bing fetch returned unrelated cached results (dictionary/TV sites); could not confirm GFW Pro mechanics directly."
+    },
+    {
+      "q": "Trase EUDR due diligence supplier risk screening tool",
+      "useful": false,
+      "note": "Bing fetch returned unrelated cached results (a Zootopia soundtrack); no usable evidence."
+    },
+    {
+      "q": "AlphaEarth Foundations use cases agriculture commodity due diligence",
+      "useful": true,
+      "note": "DeepMind's own 2025-07-30 blog on AlphaEarth lists deforestation/food-security/crop uses but no EUDR plausibility-screening product, i.e. Google itself has not shipped this exact pairing."
+    },
+    {
+      "q": "Whisp FAO Google WRI EUDR tool launch (recency check)",
+      "useful": true,
+      "note": "Bing returned unrelated results, so recency was confirmed via curl instead: openforis.org/whisp page assets dated 2025-10, confirming an actively maintained, current tool."
+    }
+  ],
+  "prior_art": [
+    {
+      "url": "https://www.openforis.org/whisp/",
+      "date": "2025-10",
+      "title": "Whisp – Open Foris (FAO / Google / WRI EUDR plot risk-screening tool)",
+      "tier": "A",
+      "closes": true,
+      "why": "Classifies each declared plot low/high/more-info via forest-map and commodity-map overlap (land cover vs claimed commodity) plus pre/post-2020 disturbance — the same plausibility pre-screen on declared polygons, free and live for all EUDR commodities.",
+      "relation": "same_problem"
+    },
+    {
+      "url": "https://deepmind.google/discover/blog/alphaearth-foundations-helps-map-our-planet-in-unprecedented-detail/",
+      "date": "2025-07-30",
+      "title": "AlphaEarth Foundations helps map our planet in unprecedented detail",
+      "tier": "A",
+      "closes": false,
+      "why": "AlphaEarth's own announced uses (food security, deforestation, urban, crop health) do not include an EUDR plausibility product; the delta applies an existing model to an already-solved screening problem, not a new capability.",
+      "relation": "same_method_other_domain"
+    }
+  ],
+  "closing_item": {
+    "url": "https://www.openforis.org/whisp/",
+    "date": "2025-10",
+    "title": "Whisp – Open Foris (FAO / Google / WRI EUDR plot risk-screening tool)",
+    "tier": "A",
+    "closes": true,
+    "why": "Classifies each declared plot low/high/more-info via forest-map and commodity-map overlap (land cover vs claimed commodity) plus pre/post-2020 disturbance — the same plausibility pre-screen on declared polygons, free and live for all EUDR commodities.",
+    "relation": "same_problem"
+  },
+  "nearest_neighbours_do_not": "Whisp does not output a continuous mismatch score or rank degree of implausibility — it emits three discrete risk buckets from static, curated commodity/forest maps, so a landscape/commodity absent from those input maps falls into 'more info needed' rather than being flagged by embedding-space similarity, and it cannot generalize beyond its curated map layers.",
+  "budget_exhausted": false,
+  "notes": "WebSearch quota was exhausted (zero results) and Bing/DuckDuckGo fetches mostly returned irrelevant cached junk, so evidence relies on direct WebFetch/curl of primary sources. Market also includes Satelligence, Global Forest Watch Pro, Starling (cert error) and Trase as EUDR due-diligence products; could not confirm their exact plausibility-check mechanics or reliable dates this session.",
+  "product_search": {
+    "queries_run": [
+      "Satelligence EUDR baseline plausibility supplier polygon",
+      "Global Forest Watch Pro EUDR due diligence plot verification",
+      "Trase EUDR due diligence supplier risk screening tool",
+      "Whisp FAO Google WRI EUDR tool launch",
+      "AlphaEarth EUDR baseline landscape mismatch screening supplier polygon software platform startup"
+    ],
+    "shipping_products_found": [
+      {
+        "url": "https://www.openforis.org/whisp/",
+        "date": "2025-10",
+        "title": "Whisp – Open Foris",
+        "tier": "A",
+        "note": "Live, free FAO/Google/WRI tool already screening declared EUDR plots for commodity-map/forest plausibility jointly with 2020 disturbance timing, across all EUDR commodities."
+      }
+    ]
+  }
+}

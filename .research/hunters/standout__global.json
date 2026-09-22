@@ -1,0 +1,716 @@
+[
+  {
+    "one_liner": "Globally, turn cheap ultrasonic microphones in greenhouses into a live plant-thirst meter that plays back tomato stress clicks and predicts the next irrigation miss before leaves wilt.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "non_imagery:ultrasonic_plant_audio",
+    "delta_claim": "uses plant-emitted ultrasound as the primary irrigation signal",
+    "forcing_function": null,
+    "user_guess": "greenhouse growers and irrigation researchers",
+    "seed_urls": [
+      {
+        "url": "https://www.sciencedirect.com/science/article/pii/S0092867423002623",
+        "date": "2023-03-30",
+        "title": "Sounds emitted by plants under stress are airborne and informative",
+        "tier": "A",
+        "note": "Cell paper reports airborne ultrasonic plant sounds under drought and cutting stress with open data/code links."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": {
+      "layperson_sentence": "The plant tells you it is thirsty before it looks thirsty.",
+      "demo_moment": "Live spectrogram flips from quiet to clicking as stress rises.",
+      "headline_claim": "Target: detect drought stress 24 hours before visible wilt."
+    },
+    "queries": [
+      {
+        "q": "FAO locust upsurge early warning eLocust3m app official 2025 agriculture",
+        "useful": true
+      },
+      {
+        "q": "PlantVillage Nuru AI crop disease smartphone app official 2025",
+        "useful": true
+      },
+      {
+        "q": "CGIAR pest and disease surveillance smartphone AI agriculture 2025 official",
+        "useful": true
+      },
+      {
+        "q": "Google Research AlphaEarth Foundations satellite embeddings agriculture 2025 official",
+        "useful": true
+      },
+      {
+        "q": "FAO Food Loss App official 2025 food loss waste agriculture",
+        "useful": true
+      },
+      {
+        "q": "GS1 Digital Link fresh produce traceability official 2025 agriculture",
+        "useful": true
+      },
+      {
+        "q": "World Bank Ag Observatory food price crop monitoring API 2025 official",
+        "useful": false
+      },
+      {
+        "q": "USDA FoodData Central API food images grading official 2025",
+        "useful": false
+      },
+      {
+        "q": "elephant crop raiding early warning acoustic AI agriculture official 2025",
+        "useful": true
+      },
+      {
+        "q": "WILDLABS human elephant conflict crop raiding AI acoustic camera trap 2025",
+        "useful": true
+      },
+      {
+        "q": "NASA Harvest crop monitor food security 2025 official GEOGLAM",
+        "useful": true
+      },
+      {
+        "q": "GEOGLAM Crop Monitor AMIS official 2025 early warning food security",
+        "useful": true
+      },
+      {
+        "q": "plant sounds ultrasonic drought stress machine learning agriculture 2023 paper",
+        "useful": true
+      },
+      {
+        "q": "plants emit ultrasonic airborne sounds drought stress 2023 Cell",
+        "useful": true
+      },
+      {
+        "q": "FAO Fall Armyworm Monitoring Early Warning System FAMEWS app official 2025",
+        "useful": true
+      },
+      {
+        "q": "CIMMYT Fall Armyworm monitoring AI app 2025 official",
+        "useful": false
+      },
+      {
+        "q": "saffron adulteration detection smartphone hyperspectral imaging AI 2025 paper dataset",
+        "useful": true
+      },
+      {
+        "q": "olive oil adulteration smartphone spectroscopy dataset 2025 agriculture food AI",
+        "useful": true
+      },
+      {
+        "q": "coffee leaf rust global smartphone image dataset 2025 PlantVillage official",
+        "useful": true
+      },
+      {
+        "q": "mango quality grading computer vision app India 2025 official agriculture",
+        "useful": true
+      },
+      {
+        "q": "EU deforestation regulation EUDR due diligence information system 2026 official",
+        "useful": true
+      },
+      {
+        "q": "EUDR geolocation plot polygon compliance smallholders 2026 official",
+        "useful": true
+      },
+      {
+        "q": "Global Forest Watch Pro EUDR commodities 2026 official",
+        "useful": true
+      },
+      {
+        "q": "Open Foris Whisp EUDR deforestation due diligence 2025 FAO",
+        "useful": true
+      },
+      {
+        "q": "NASA OpenET field scale evapotranspiration agriculture API 2025 official",
+        "useful": true
+      },
+      {
+        "q": "OpenET API field scale irrigation water use official 2025 agriculture",
+        "useful": true
+      },
+      {
+        "q": "Microsoft FarmVibes.AI agriculture open source satellite weather 2025",
+        "useful": true
+      },
+      {
+        "q": "Planetary Computer agriculture crop mapping dataset 2025 official",
+        "useful": false
+      },
+      {
+        "q": "John Deere See and Spray computer vision weeds 2025 official",
+        "useful": true
+      },
+      {
+        "q": "Blue River Technology See and Spray Ultimate computer vision weeds 2025 official",
+        "useful": true
+      },
+      {
+        "q": "Carbon Robotics LaserWeeder computer vision weeds 2025 official",
+        "useful": true
+      },
+      {
+        "q": "Solinftec Solix robot agriculture scouting 2025 official",
+        "useful": true
+      }
+    ],
+    "search_count": 32,
+    "fetch_count": 12,
+    "budget_exhausted": false
+  },
+  {
+    "one_liner": "Globally, turn FAO eLocust reports, wind forecasts and crop maps into a swarm food-clock that shows which village's harvest is next and what one square kilometre will eat today.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "non_imagery:locust_reports+weather+crop_maps",
+    "delta_claim": "translates locust movement into village-scale edible-crop loss clocks",
+    "forcing_function": "desert locust early warning and control planning",
+    "user_guess": "national locust centres and food-security responders",
+    "seed_urls": [
+      {
+        "url": "https://www.fao.org/locusts/faqs/en/",
+        "date": "2026-09",
+        "title": "FAO Desert Locust Q&A",
+        "tier": "A",
+        "note": "FAO explains eLocust data, swarm movement, affected regions and daily crop consumption."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": {
+      "layperson_sentence": "Watch a swarm fly across the map and see whose dinner it eats next.",
+      "demo_moment": "Animated route burns down food-equivalent counters village by village.",
+      "headline_claim": "Target: rank at-risk villages six weeks ahead."
+    }
+  },
+  {
+    "one_liner": "Globally, turn Open Foris Whisp EUDR outputs into a smallholder appeal builder that shows the exact dataset disagreement behind a red-risk plot.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "satellite_risk_layers:openforis_whisp",
+    "delta_claim": "explains and packages contested evidence instead of only returning risk",
+    "forcing_function": "EUDR due diligence deadline 30 Dec 2026",
+    "user_guess": "coffee, cocoa, palm and rubber cooperatives",
+    "seed_urls": [
+      {
+        "url": "https://www.fao.org/transparent-supply-chains/news---events/news/detail/supporting-eudr-compliance-with-whisp/",
+        "date": "2024-05-13",
+        "title": "Supporting deforestation-free regulations compliance with Whisp",
+        "tier": "A",
+        "note": "FAO says Whisp uses convergence of evidence for plot-level EUDR due diligence support."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "high",
+    "standout_fields": {
+      "layperson_sentence": "A farmer can see why Europe thinks their plot is risky and what evidence to fix.",
+      "demo_moment": "Click one plot and watch disagreeing forest layers split apart.",
+      "headline_claim": "Target: cut unresolved EUDR plot queries by 50%."
+    }
+  },
+  {
+    "one_liner": "Globally, use AlphaEarth annual embeddings to find crop-field doppelgangers: a farmer clicks one field and sees the most similar fields worldwide plus what happened there last year.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "foundation_model_embeddings:AlphaEarth_annual",
+    "delta_claim": "nearest-neighbour agronomy from planetary embeddings",
+    "forcing_function": "AlphaEarth Foundations annual embedding release",
+    "user_guess": "extension teams and agri-insurance analysts",
+    "seed_urls": [
+      {
+        "url": "https://deepmind.google/blog/alphaearth-foundations-helps-map-our-planet-in-unprecedented-detail/",
+        "date": "2025-07-30",
+        "title": "AlphaEarth Foundations helps map our planet",
+        "tier": "A",
+        "note": "Google DeepMind says AlphaEarth creates compact annual embeddings for global land monitoring."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": {
+      "layperson_sentence": "Find farms that look like yours and learn what happened to them.",
+      "demo_moment": "A clicked field spawns a global gallery of lookalike fields.",
+      "headline_claim": "Target: retrieve 100 field analogues in under 10 seconds."
+    }
+  },
+  {
+    "one_liner": "Globally, use Custom Satellite Embeddings to make a crop-disaster receipt: before/after embedding tiles prove exactly where frost, flood or hail changed a farm.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "foundation_model_embeddings:custom_alphaearth",
+    "delta_claim": "event receipts from on-demand embeddings rather than raw-image differencing",
+    "forcing_function": "AlphaEarth Custom Satellite Embeddings private preview",
+    "user_guess": "crop insurers and disaster-relief teams",
+    "seed_urls": [
+      {
+        "url": "https://mapsplatform.google.com/resources/blog/introducing-custom-satellite-embeddings-powered-by-alphaearth-foundations/",
+        "date": "2026-07-29",
+        "title": "Introducing Custom Satellite Embeddings",
+        "tier": "A",
+        "note": "Google says custom embeddings support 5-day to monthly monitoring and event damage assessment."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": "run3:S07",
+    "hunter_confidence": "low",
+    "standout_fields": {
+      "layperson_sentence": "The farm gets a visual receipt for the day the disaster changed it.",
+      "demo_moment": "A slider snaps from before to after with changed pixels glowing.",
+      "headline_claim": "Target: produce an insurance-ready damage map within one minute."
+    }
+  },
+  {
+    "one_liner": "Globally, turn OpenET field-scale evapotranspiration into a water-saving replay where a farmer draws a field and sees the litres not pumped by one skipped irrigation.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "satellite_et:OpenET_API",
+    "delta_claim": "converts ET into counterfactual saved-water receipts for farm decisions",
+    "forcing_function": "OpenET FARMS rollout and API availability",
+    "user_guess": "irrigation districts and farmers",
+    "seed_urls": [
+      {
+        "url": "https://www.nasa.gov/centers-and-facilities/ames/ames-science/farming-with-data-openet-launches-new-tool-for-farmers-and-ranchers/",
+        "date": "2025-03-04",
+        "title": "OpenET launches FARMS",
+        "tier": "A",
+        "note": "NASA says OpenET FARMS gives farmers high-resolution ET water data."
+      },
+      {
+        "url": "https://www.nasa.gov/general/openet-launches-a-new-api/",
+        "date": "2023-10-03",
+        "title": "OpenET launches a new API",
+        "tier": "A",
+        "note": "NASA says the API supports irrigation scheduling and water management integration."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "high",
+    "standout_fields": {
+      "layperson_sentence": "Draw a field and see how many bathtubs of water one irrigation would save.",
+      "demo_moment": "A field polygon fills a live litres-saved counter.",
+      "headline_claim": "Target: estimate skipped-irrigation water savings at field scale."
+    }
+  },
+  {
+    "one_liner": "Globally, turn FAO FLAPP loss surveys plus phone photos into a loss-cause sorter that shows whether tomatoes died from harvest timing, transport damage or storage delay.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "non_imagery:food_loss_surveys+phone_images",
+    "delta_claim": "links visible damage classes to FLAPP value-chain loss causes",
+    "forcing_function": "SDG 12.3 food-loss measurement",
+    "user_guess": "cooperatives, NGOs and ministries using FLAPP",
+    "seed_urls": [
+      {
+        "url": "https://www.fao.org/platform-food-loss-waste/food-loss/fao-flapp/en",
+        "date": "2025-08-28",
+        "title": "FAO Food Loss App",
+        "tier": "A",
+        "note": "FAO says FLAPP tracks loss stages and causes and is used in over 38 countries."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": {
+      "layperson_sentence": "Photograph spoiled produce and learn where the supply chain killed it.",
+      "demo_moment": "A crate photo becomes harvest, transport or storage blame bars.",
+      "headline_claim": "Target: assign the top loss cause for 13 FLAPP crops."
+    }
+  },
+  {
+    "one_liner": "Globally, turn GS1 Digital Link scans on fresh-produce cases into a recall blast-radius simulator that shows which pallets, farms and stores one bad lot touches.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "non_imagery:GS1_digital_link+produce_traceability_events",
+    "delta_claim": "interactive blast-radius tracing from open barcode standards",
+    "forcing_function": "fresh produce traceability and 2D barcode migration",
+    "user_guess": "packhouses, wholesalers and retailers",
+    "seed_urls": [
+      {
+        "url": "https://www.gs1.org/standards/gs1-digital-link",
+        "date": "2025-04",
+        "title": "GS1 Digital Link",
+        "tier": "A",
+        "note": "GS1 lists Digital Link URI syntax 1.6.0 and resolver standard updates in 2025."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": {
+      "layperson_sentence": "Scan one bad box and watch every risky box light up.",
+      "demo_moment": "One QR scan expands into a supply-chain path graph.",
+      "headline_claim": "Target: find affected lots in under 30 seconds."
+    }
+  },
+  {
+    "one_liner": "For Indian mango exports, fuse APEDA HortiNet traceability with phone/X-ray grade images to flag cartons whose visible quality contradicts the certificate before shipment.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "non_imagery:traceability_records+produce_images",
+    "delta_claim": "certificate contradiction checks from visual grade evidence",
+    "forcing_function": "export traceability and residue-monitoring requirements",
+    "user_guess": "APEDA packhouses and mango exporters",
+    "seed_urls": [
+      {
+        "url": "https://apeda.gov.in/hortinet-static",
+        "date": "2026-09",
+        "title": "APEDA HortiNet",
+        "tier": "A",
+        "note": "APEDA describes HortiNet as traceability and quality assurance data for horticulture exports."
+      },
+      {
+        "url": "https://www.pib.gov.in/Pressreleaseshare.aspx?PRID=1885193&lang=2&reg=3",
+        "date": "2022-12-20",
+        "title": "IoT and AI in Agriculture",
+        "tier": "A",
+        "note": "PIB lists an image and X-ray based mango sorting and grading system."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": {
+      "layperson_sentence": "A mango carton fails when the photo disagrees with its export papers.",
+      "demo_moment": "Scan a carton and see its image grade fight its certificate.",
+      "headline_claim": "Target: catch mislabeled export cartons before dispatch."
+    }
+  },
+  {
+    "one_liner": "Globally, use smartphone videos under changing screen colours to map saffron purity across a sample so buyers can see fake filaments as a heatmap.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "non_imagery:smartphone_video_spectral_proxy",
+    "delta_claim": "turns a phone screen into a low-cost spectral scanner for food fraud",
+    "forcing_function": null,
+    "user_guess": "spice buyers, labs and Kashmir saffron cooperatives",
+    "seed_urls": [
+      {
+        "url": "https://pure.qub.ac.uk/en/publications/rapid-and-low-cost-detection-of-saffron-crocus-sativus-l-adultera/",
+        "date": "2024-09-03",
+        "title": "Rapid and low-cost detection of saffron adulteration",
+        "tier": "A",
+        "note": "Paper reports smartphone video plus spectral-data fusion for saffron adulteration."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": {
+      "layperson_sentence": "Your phone becomes a fake-saffron detector.",
+      "demo_moment": "A short video turns into a red-green purity map.",
+      "headline_claim": "Target: estimate saffron purity from a 10-second phone video."
+    }
+  },
+  {
+    "one_liner": "Globally, make a Foldscope saffron verifier that asks the user to stain one strand, then highlights the missing papillae that reveal fake lookalikes.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "non_imagery:foldscope_microscopy+phone_images",
+    "delta_claim": "explains the visible biological feature behind the fraud verdict",
+    "forcing_function": null,
+    "user_guess": "cooperatives, food labs and premium spice buyers",
+    "seed_urls": [
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9417335/",
+        "date": "2022-08",
+        "title": "Low-cost rapid identification of fake saffron using Foldscope and ML",
+        "tier": "A",
+        "note": "Open paper describes smartphone Foldscope images and ML for genuine/fake saffron classification."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "high",
+    "standout_fields": {
+      "layperson_sentence": "A paper microscope shows the fake saffron's missing anatomy.",
+      "demo_moment": "Microscope photo overlays arrows on real versus fake strand features.",
+      "headline_claim": "Target: verify one saffron strand in under two minutes."
+    }
+  },
+  {
+    "one_liner": "Globally, build a field-robot referee that replays See & Spray or LaserWeeder video and labels every missed weed, crop hit and unsafe actuation frame.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "non_imagery:robot_camera_video+as_applied_maps",
+    "delta_claim": "third-party actuation audit for AI weeding machines",
+    "forcing_function": null,
+    "user_guess": "farmers, dealers and robotics service teams",
+    "seed_urls": [
+      {
+        "url": "https://www.deere.com/en-us/products-solutions/sprayers-and-applicators/see-spray",
+        "date": "2026-09",
+        "title": "John Deere See & Spray Gen 2",
+        "tier": "A",
+        "note": "Official page describes camera vision, ML weed targeting and in-base field insights."
+      },
+      {
+        "url": "https://carbonrobotics.com/laserweeder",
+        "date": "2025-02-10",
+        "title": "Carbon Robotics LaserWeeder G2",
+        "tier": "A",
+        "note": "Product page describes cameras, AI crop models and laser actuation against weeds."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": {
+      "layperson_sentence": "It grades whether the robot actually hit the weeds it claimed to hit.",
+      "demo_moment": "Replay pauses with red boxes on misses and crop hits.",
+      "headline_claim": "Target: produce a per-pass weed-control audit report."
+    }
+  },
+  {
+    "one_liner": "Globally, turn Blue River's crop-camera streams into a weed-resistance early warning by spotting patches that survive repeated targeted sprays across seasons.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "non_imagery:machine_vision_weed_maps+spray_history",
+    "delta_claim": "survivor-patch tracking for resistance risk instead of spray savings",
+    "forcing_function": null,
+    "user_guess": "large growers and agronomists",
+    "seed_urls": [
+      {
+        "url": "https://www.bluerivertechnology.com/products/",
+        "date": "2026-02-23",
+        "title": "Blue River See & Spray products",
+        "tier": "A",
+        "note": "Official page reports plant-level decisions, weed pressure maps and 2025 in-field use."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": {
+      "layperson_sentence": "The weeds that keep surviving become the next warning map.",
+      "demo_moment": "Season slider reveals survivor patches turning red.",
+      "headline_claim": "Target: flag resistance-risk patches after two passes."
+    }
+  },
+  {
+    "one_liner": "Globally, use FAO FAMEWS reports and maize photos to make a fall-armyworm triage map that ranks which villages need scouts before infestation peaks.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "non_imagery:pest_reports+phone_images",
+    "delta_claim": "scout-priority ranking from pest-report uncertainty and image severity",
+    "forcing_function": "fall armyworm monitoring and early warning",
+    "user_guess": "extension services and farmer field schools",
+    "seed_urls": [
+      {
+        "url": "https://www.fao.org/newsroom/detail/FAO-launches-mobile-application-to-support-fight-against-Fall-Armyworm-in-Africa/en",
+        "date": "2018-03-14",
+        "title": "FAO launches FAMEWS app",
+        "tier": "A",
+        "note": "FAO says FAMEWS collects farm-level infestation data and supports early warning."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": {
+      "layperson_sentence": "The map says which maize village gets the scout first.",
+      "demo_moment": "Infestation reports animate into a ranked scout queue.",
+      "headline_claim": "Target: rank top 20 scout visits before peak damage."
+    }
+  },
+  {
+    "one_liner": "Globally, turn PlantVillage-style disease photos into an outbreak speedometer that shows when scattered farmer diagnoses become a moving epidemic front.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "non_imagery:geotagged_crop_disease_images",
+    "delta_claim": "detects spatial outbreak acceleration from diagnosis streams",
+    "forcing_function": null,
+    "user_guess": "plant-health surveillance teams",
+    "seed_urls": [
+      {
+        "url": "https://www.cgiar.org/innovations/tumaini-an-ai-powered-mobile-app-for-pests-and-diseases",
+        "date": "2021-01-24",
+        "title": "Tumaini AI mobile app for pests and diseases",
+        "tier": "A",
+        "note": "CGIAR says Tumaini records diagnosis and geographic location for banana pest/disease reports."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "low",
+    "standout_fields": {
+      "layperson_sentence": "A few disease photos become a moving outbreak arrow.",
+      "demo_moment": "Dots from farmer photos turn into an epidemic speed gauge.",
+      "headline_claim": "Target: detect outbreak acceleration from geotagged diagnoses."
+    }
+  },
+  {
+    "one_liner": "Globally, use NASA Harvest/GEOGLAM crop-condition maps to build a food-security lie detector that highlights where market prices ignore visible crop failure.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "satellite_crop_monitor+market_prices",
+    "delta_claim": "detects crop-price contradictions rather than forecasting yield",
+    "forcing_function": "G20 AMIS market transparency and food-security early warning",
+    "user_guess": "food-security analysts and grain traders",
+    "seed_urls": [
+      {
+        "url": "https://svs.gsfc.nasa.gov/60003",
+        "date": "2025-09-15",
+        "title": "How NASA Data Stabilizes Global Markets",
+        "tier": "A",
+        "note": "NASA says crop monitoring feeds market and food-supply assessments."
+      },
+      {
+        "url": "https://www.cropmonitor.org/about-us",
+        "date": "2024-03-14",
+        "title": "GEOGLAM Crop Monitor",
+        "tier": "A",
+        "note": "GEOGLAM describes monthly consensus crop assessments for AMIS and early warning."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": {
+      "layperson_sentence": "It spots when food prices pretend a bad harvest is fine.",
+      "demo_moment": "A crop-failure map and price line disagree on screen.",
+      "headline_claim": "Target: flag price-condition contradictions monthly."
+    }
+  },
+  {
+    "one_liner": "Globally, fuse OpenET with crop insurance polygons to make a drought-proof-of-care score: did the farmer irrigate enough before claiming drought damage?",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "satellite_et:OpenET_API+insurance_polygons",
+    "delta_claim": "separates unavoidable drought from irrigation underuse evidence",
+    "forcing_function": "field-scale ET data availability",
+    "user_guess": "crop insurers and water agencies",
+    "seed_urls": [
+      {
+        "url": "https://www.nasa.gov/general/openet-launches-a-new-api/",
+        "date": "2023-10-03",
+        "title": "OpenET launches a new API",
+        "tier": "A",
+        "note": "NASA says OpenET API provides daily, monthly and annual ET at field scale."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": {
+      "layperson_sentence": "The claim shows whether the field was actually watered before it failed.",
+      "demo_moment": "Insurance polygon gets a green or red care timeline.",
+      "headline_claim": "Target: score irrigation-care evidence for each claim."
+    }
+  },
+  {
+    "one_liner": "Globally, build an elephant crop-raid decoy planner that places solar voice boxes only where acoustic deterrence would protect the most crop edge.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "non_imagery:camera_trap_events+acoustic_deterrent_logs+field_edges",
+    "delta_claim": "optimizes deterrent placement from crop-damage response curves",
+    "forcing_function": "human-wildlife conflict around harvest seasons",
+    "user_guess": "community conservancies and crop-edge farmers",
+    "seed_urls": [
+      {
+        "url": "https://wildlabs.net/en/comment/15076",
+        "date": "2026-05",
+        "title": "Ambiance Project Update: Lessons from Laikipia",
+        "tier": "B",
+        "note": "WILDLABS update reports reduced elephant crop raiding from human-voice playback units."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "low",
+    "standout_fields": {
+      "layperson_sentence": "Place the fake human voices where elephants would eat the most crop.",
+      "demo_moment": "Move one speaker and watch protected crop area change.",
+      "headline_claim": "Target: maximize protected crop edge per $50 device."
+    }
+  },
+  {
+    "one_liner": "Globally, use FAO FLAPP plus GS1 produce events to make a spoilage blame receipt that splits one rejected shipment into farm, packhouse, transport and retail loss shares.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "non_imagery:FLAPP_loss_records+GS1_traceability_events",
+    "delta_claim": "assigns value-chain responsibility for visible food loss",
+    "forcing_function": "SDG 12.3 and fresh-produce traceability adoption",
+    "user_guess": "cooperatives, packhouses and food-loss programmes",
+    "seed_urls": [
+      {
+        "url": "https://www.fao.org/platform-food-loss-waste/food-loss/fao-flapp/en",
+        "date": "2025-08-28",
+        "title": "FAO Food Loss App",
+        "tier": "A",
+        "note": "FAO says FLAPP analyses loss by pre-harvest, harvest and post-harvest stages."
+      },
+      {
+        "url": "https://www.gs1.org/standards/fresh-fruit-and-vegetable-traceability-guideline/current-standard",
+        "date": "2021-02",
+        "title": "GS1 Fresh Fruit and Vegetable Traceability Guideline",
+        "tier": "A",
+        "note": "GS1 defines fresh produce traceability roles and critical events."
+      }
+    ],
+    "crowded_area_entered": false,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": {
+      "layperson_sentence": "A rejected shipment shows who likely caused the waste.",
+      "demo_moment": "One shipment splits into four coloured blame bars.",
+      "headline_claim": "Target: assign loss stage for every rejected lot."
+    }
+  },
+  {
+    "one_liner": "Globally, turn FarmVibes.AI workflows into a model-card generator that shows which satellite, weather or drone modality actually changed an agriculture decision.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "non_imagery:workflow_metadata+multimodal_agri_inputs",
+    "delta_claim": "decision-level modality attribution for multimodal agri ML",
+    "forcing_function": null,
+    "user_guess": "agri-ML teams and FYP evaluators",
+    "seed_urls": [
+      {
+        "url": "https://github.com/microsoft/farmvibes-ai",
+        "date": "2026-09-09",
+        "title": "FarmVibes.AI",
+        "tier": "A",
+        "note": "Microsoft open-source repo fuses satellite, drone, weather and other data for agri ML workflows."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "low",
+    "standout_fields": {
+      "layperson_sentence": "It proves which data source actually mattered for the farm decision.",
+      "demo_moment": "Toggle off weather, drone or satellite and watch the decision change.",
+      "headline_claim": "Target: produce one decision-attribution card per workflow."
+    }
+  },
+  {
+    "one_liner": "Globally, build a Solix-style scouting replay that converts robot detections of stand gaps, weeds and pests into the one human intervention that pays back first.",
+    "region": "global",
+    "bucket": "standout",
+    "data_class": "non_imagery:field_robot_scouting_events",
+    "delta_claim": "ranks interventions by payback from robot observations",
+    "forcing_function": null,
+    "user_guess": "large farms and robot-as-a-service operators",
+    "seed_urls": [
+      {
+        "url": "https://www.solinftec.com/en-us/solinftec-showcases-solix-robotics-advancements-us-expansion-farm-progress-2025-2/",
+        "date": "2025-08",
+        "title": "Solix Robotics advancements",
+        "tier": "A",
+        "note": "Solinftec says Solix captures emergence, weeds, pests, gaps and growth-stage data."
+      }
+    ],
+    "crowded_area_entered": true,
+    "restates": null,
+    "hunter_confidence": "medium",
+    "standout_fields": {
+      "layperson_sentence": "The scouting robot tells the farmer which problem is worth fixing first.",
+      "demo_moment": "Three detected problems collapse into one ranked action.",
+      "headline_claim": "Target: rank the top action after each robot pass."
+    }
+  }
+]

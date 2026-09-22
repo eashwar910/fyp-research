@@ -1,0 +1,169 @@
+{
+  "id": "R4-S18",
+  "verdict": "conditional",
+  "verdict_reason": "NICFI Asia needs a NICFI Planet account sign-up before it works in GEE (non-commercial, purpose-bound licence); the forest-edge-encroachment framing is inside NICFI's purpose, but its 30.2N bbox cap leaves northern India uncovered. Sentinel-1/2, Hansen GFC and OSM are all open, no application. Ground truth must be constructed from Hansen+OSM+Sentinel overlay; RADD does not cover India.",
+  "sources": [
+    {
+      "name": "Sentinel-1 GRD (COPERNICUS/S1_GRD)",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD",
+      "fetched_ok": true,
+      "licence_quote": "The use of Sentinel data is governed by the Copernicus Sentinel Data Terms and Conditions.",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "COPERNICUS/S1_GRD",
+      "size_gb": null,
+      "coverage_quote": "2014-10-03T00:00:00Z-2026-09-12T23:52:29Z, global coverage, 6-day revisit",
+      "covers_target_region": "true",
+      "date_range": "2014-10-03 to 2026-09-12 (ongoing)",
+      "caveats_quoted": [],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Sentinel-2 SR Harmonized (COPERNICUS/S2_SR_HARMONIZED)",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+      "fetched_ok": true,
+      "licence_quote": "The use of Sentinel data is governed by the Copernicus Sentinel Data Terms and Conditions.",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "size_gb": null,
+      "coverage_quote": "March 28, 2017 to September 12, 2026; global coverage from January 25, 2022 onward",
+      "covers_target_region": "true",
+      "date_range": "2017-03-28 to 2026-09-12 (global from 2022-01-25)",
+      "caveats_quoted": [
+        "earlier periods have limited geographic extent"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "NICFI Satellite Data Program Basemaps - Asia (Planet/Norway, via GEE)",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/projects_planet-nicfi_assets_basemaps_asia",
+      "fetched_ok": true,
+      "licence_quote": "the primary purpose of reducing and reversing the loss of tropical forests, contributing to combating climate change, conserving biodiversity",
+      "licence_class": "non_commercial",
+      "access_mode": "application_required",
+      "platform_id": "projects/planet-nicfi/assets/basemaps/asia",
+      "size_gb": null,
+      "coverage_quote": "Asia (coordinates: -27.5 to 30.2 latitude, -180 to 180 longitude)",
+      "covers_target_region": "partial",
+      "date_range": "2015-12-01 to 2026-04-01, monthly and biannual mosaics",
+      "caveats_quoted": [
+        "coverage bound of 30.2N excludes the northern Himalayan belt of India from the Asia basemap extent",
+        "requires creating and logging into a NICFI Planet account before Basemaps can be enabled in GEE Account Settings"
+      ],
+      "nicfi_purpose_check": "inside",
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Hansen Global Forest Change v1.11 (UMD)",
+      "role": "auxiliary",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/UMD_hansen_global_forest_change_2023_v1_11",
+      "fetched_ok": true,
+      "licence_quote": "CC-BY-4.0",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "UMD/hansen/global_forest_change_2023_v1_11",
+      "size_gb": null,
+      "coverage_quote": "-90 -180 90 180 (global bounds)",
+      "covers_target_region": "true",
+      "date_range": "2000-01-01 to 2023-12-31, annual loss/gain",
+      "caveats_quoted": [
+        "annual product, not real-time; 30.92 m resolution is coarser than plot-level boundaries"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "OpenStreetMap (plot/cadastral boundary proxy)",
+      "role": "auxiliary",
+      "url": "https://www.openstreetmap.org/copyright",
+      "fetched_ok": true,
+      "licence_quote": "You are free to copy, distribute, transmit and adapt our data, as long as you credit OpenStreetMap and its contributors.",
+      "licence_class": "open",
+      "access_mode": "api",
+      "size_gb": null,
+      "coverage_quote": "global, contributor-mapped, Open Data Commons Open Database License (ODbL)",
+      "covers_target_region": "partial",
+      "date_range": "continuously updated",
+      "caveats_quoted": [
+        "parcel/land-use mapping density in rural Indian forest-edge areas is sparse and inconsistent"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "RADD Forest Disturbance Alert (WUR/GFW)",
+      "role": "comparator",
+      "url": "https://gee-community-catalog.org/projects/radd/",
+      "fetched_ok": true,
+      "licence_quote": "licensed under a Creative Commons Attribution 4.0 International License and may be used by anyone, anywhere, anytime",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "size_gb": null,
+      "coverage_quote": "Primary humid tropical forest of South America (13 countries), Central America (6 countries), Africa (25 countries), insular Southeast Asia (5 countries) and Pacific (1 country)",
+      "covers_target_region": "false",
+      "date_range": "2019-present, near-real-time alerts",
+      "caveats_quoted": [
+        "India and South Asia are not part of RADD's covered country list, so it cannot be used as the encroachment-alert engine for this candidate"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    }
+  ],
+  "ground_truth": {
+    "status": "must_construct",
+    "source_url": "https://developers.google.com/earth-engine/datasets/catalog/UMD_hansen_global_forest_change_2023_v1_11",
+    "construction_protocol": "Overlay Hansen forest-loss polygons with OSM/land-record plot boundaries on Sentinel-1/2 time series at forest edges; analyst labels each plot-year encroaching/stable, direction from loss-polygon centroid shift; sample ~200 plots.",
+    "label_count_estimate": "~150-250 forest-edge plot-year samples, manually labeled"
+  },
+  "compute_path": {
+    "platform": "Google Earth Engine (cloud) for S1/S2/NICFI/Hansen compositing and overlay; optional lightweight classifier on Colab free tier",
+    "fits_C9": true,
+    "why": "All imagery fusion and change detection runs server-side in GEE, no local GPU; a small CNN/RF for direction classification trains within Colab's free-tier hours",
+    "gpu_hours_per_week_estimate": 2
+  },
+  "queries": [
+    {
+      "q": "NICFI \"Participant License Agreement\" purpose clause \"reducing and reversing\" tropical deforestation forest degradation",
+      "useful": true
+    },
+    {
+      "q": "India forest encroachment ground truth dataset RADD alert Sentinel-1 forest disturbance GEE",
+      "useful": true,
+      "note": "surfaced that RADD excludes India/South Asia"
+    },
+    {
+      "q": "\"NICFI\" \"Participant License Agreement\" \"non-commercial\" purpose \"tropical forest\" verbatim text pdf",
+      "useful": true,
+      "note": "found PLA PDF links but PDF text was not machine-extractable"
+    },
+    {
+      "q": "NICFI basemap Google Earth Engine access \"no application\" OR \"sign up\" required 2026 projects/planet-nicfi",
+      "useful": true,
+      "note": "confirmed sign-up/registration is required, not open-by-default"
+    }
+  ],
+  "fetched": [
+    "https://www.planet.com/nicfi/",
+    "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD",
+    "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+    "https://developers.google.com/earth-engine/datasets/catalog/projects_planet-nicfi_assets_basemaps_asia",
+    "https://gee-community-catalog.org/projects/radd/",
+    "https://assets.planet.com/docs/ToS_NICFI_User_level1.pdf",
+    "https://developers.google.com/earth-engine/datasets/catalog/UMD_hansen_global_forest_change_2023_v1_11",
+    "https://www.openstreetmap.org/copyright"
+  ],
+  "budget_exhausted": false,
+  "notes": "planet.com/nicfi fetch returned no usable licence text (nav/footer only); purpose clause verbatim was instead recovered from the GEE catalog Description/Terms-of-Use sections. NICFI PLA PDF fetched but not machine-text-extractable."
+}

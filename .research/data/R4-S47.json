@@ -1,0 +1,138 @@
+{
+  "id": "R4-S47",
+  "verdict": "conditional",
+  "verdict_reason": "S1+S2 fully open via GEE, no application needed. Conditional because optical duty-cycle is severely constrained (annual mean cloud amount 84.6%, NASA POWER climatology) which 4-class typing likely needs for greenhouse/bare-soil discrimination; and no Malaysian source labels mechanism classes -- must hand-construct with no way to cross-check accuracy.",
+  "sources": [
+    {
+      "name": "Harmonized Sentinel-2 MSI: Level-2A (SR)",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+      "fetched_ok": true,
+      "licence_quote": "The use of Sentinel data is governed by the Copernicus Sentinel Data Terms and Conditions.",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "COPERNICUS/S2_SR_HARMONIZED",
+      "size_gb": null,
+      "coverage_quote": "Global coverage from -56 to 83 degrees latitude, -180 to 180 degrees longitude",
+      "covers_target_region": "true",
+      "date_range": "2017-03-28 to present, 5-day revisit",
+      "caveats_quoted": [
+        "Legacy-consistent QA60 cloud bands constructed from MSK_CLASSI after 2024-02-28"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Sentinel-1 SAR GRD (C-band)",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD",
+      "fetched_ok": true,
+      "licence_quote": "The use of Sentinel data is governed by the Copernicus Sentinel Data Terms and Conditions.",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "COPERNICUS/S1_GRD",
+      "size_gb": null,
+      "coverage_quote": "Global (-90 to 90 latitude, -180 to 180 longitude)",
+      "covers_target_region": "true",
+      "date_range": "2014-10-03 to present, 6-day revisit",
+      "caveats_quoted": [
+        "Pre-processing includes thermal noise removal, radiometric calibration, terrain correction (SRTM 30 or ASTER DEM)"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "NASA POWER CLOUD_AMT climatology, point query at 4.47N 101.38E (Cameron Highlands)",
+      "role": "auxiliary",
+      "url": "https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=CLOUD_AMT&community=RE&longitude=101.38&latitude=4.47&format=JSON",
+      "fetched_ok": true,
+      "licence_class": "open",
+      "access_mode": "api",
+      "size_gb": null,
+      "coverage_quote": "20-year Meteorological and Solar Monthly & Annual Climatologies (January 2001 - December 2020)",
+      "covers_target_region": "true",
+      "date_range": "2001-01 to 2020-12",
+      "caveats_quoted": [
+        "Annual mean cloud amount 84.61%; monthly range 74.95% (Mar) to 91.44% (Oct) -- corroborates cloud-lock claim"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Malaysia Open Data Portal (data.gov.my) data catalogue -- land use / forestry / agriculture",
+      "role": "labels",
+      "url": "https://www.data.gov.my/data-catalogue",
+      "fetched_ok": true,
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "Area of Permanent Forest Reserves (Perhutanan); Crop Area/Production by District (MAFS, 2017-2022)",
+      "covers_target_region": "partial",
+      "date_range": "2000-2022 (varies by dataset)",
+      "caveats_quoted": [
+        "Catalogue lists no dataset for deforestation rates, agriculture licensing, forestry enforcement, or Cameron Highlands/Pahang specifically"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "RADD near-real-time deforestation alerts (Reiche et al. 2021, Environ. Res. Lett.)",
+      "role": "comparator",
+      "url": "https://iopscience.iop.org/article/10.1088/1748-9326/abd0a8",
+      "fetched_ok": true,
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "Congo Basin only: Cameroon, Central African Republic, DRC, Equatorial Guinea, Gabon, Republic of the Congo",
+      "covers_target_region": "false",
+      "date_range": "2021",
+      "caveats_quoted": [
+        "Binary stand-replacement vs partial-removal disturbance only; no mechanism typing by cause",
+        "As published, scope is Congo Basin, not Malaysia/SEA; any later SEA expansion unconfirmed within fetch budget"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    }
+  ],
+  "ground_truth": {
+    "status": "must_construct",
+    "source_url": null,
+    "construction_protocol": "Analyst visually types each SAR-flagged change patch (terrace/road/greenhouse/non-farm) from paired pre/post Sentinel-2 best-available cloud-free date plus a high-res basemap; no district enforcement or permit record exists to seed or cross-check labels.",
+    "label_count_estimate": null
+  },
+  "compute_path": {
+    "platform": "Google Earth Engine (COPERNICUS/S1_GRD + COPERNICUS/S2_SR_HARMONIZED) for feature extraction; Colab free tier or Kaggle free GPU for the patch classifier",
+    "fits_C9": true,
+    "why": "Both imagery sources are free GEE catalog collections; a small SAR+optical patch classifier fits Colab/Kaggle free GPU, no sustained local CUDA needed.",
+    "gpu_hours_per_week_estimate": 5
+  },
+  "queries": [
+    {
+      "q": "Sentinel-2 cloud cover Cameron Highlands Malaysia percentage",
+      "useful": false,
+      "note": "WebSearch tool refused: session web search budget exhausted. Verified cloud claim via direct fetch of NASA POWER climatology API instead."
+    },
+    {
+      "q": "Cameron Highlands illegal land clearing enforcement satellite monitoring",
+      "useful": false,
+      "note": "Same WebSearch budget exhaustion. Verified ground-truth availability via direct fetch of data.gov.my catalogue and a RADD alerts primary paper instead."
+    }
+  ],
+  "fetched": [
+    "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+    "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD",
+    "https://en.wikipedia.org/wiki/Cameron_Highlands_District",
+    "https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=CLOUD_AMT&community=RE&longitude=101.38&latitude=4.47&format=JSON",
+    "https://www.data.gov.my/",
+    "https://www.data.gov.my/data-catalogue",
+    "https://globalnaturewatch.org/dashboards/country/MYS/",
+    "https://iopscience.iop.org/article/10.1088/1748-9326/abd0a8"
+  ],
+  "budget_exhausted": false,
+  "notes": "(a) NASA POWER 2001-2020 climatology: annual mean cloud amount 84.6% (monthly 75-91%), confirming the cloud-lock claim -- S2 usable only intermittently, weakening greenhouse/bare-soil optical discrimination. (b) No Malaysian enforcement/permit dataset on data.gov.my; RADD/GLAD give binary forest-loss only, not mechanism typing. Labels must be hand-built, uncheckable against any authoritative record."
+}

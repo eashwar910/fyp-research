@@ -1,0 +1,101 @@
+{
+  "id": "R4-S24",
+  "verdict": "open",
+  "verdict_reason": "AlphaEarth (CC-BY 4.0, GEE catalog, global, annual 2017-2024) and CLMS HRL Crop Types (Copernicus free/open incl. commercial, EEA38, annual 2017-2023, 10m/0.25ha MMU) both fetched, open, no application needed. 7 overlapping years support a crop-history baseline. Additionality/BAU/leakage labels are not shipped anywhere; must be constructed as a proxy from the crop-type time series itself.",
+  "sources": [
+    {
+      "name": "AlphaEarth Foundations Satellite Embedding V1 (Annual)",
+      "role": "imagery",
+      "url": "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+      "fetched_ok": true,
+      "licence_quote": "This dataset is licensed under CC-BY 4.0",
+      "licence_class": "open",
+      "access_mode": "gee_catalog",
+      "platform_id": "GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL",
+      "size_gb": null,
+      "coverage_quote": "covers terrestrial land surfaces and shallow waters, including intertidal and reef zones, inland waterways, and coastal waterways",
+      "covers_target_region": "true",
+      "date_range": "2017-2024 (annual composites); 2025 update in progress",
+      "caveats_quoted": [
+        "temporal trajectories of surface conditions ... over a single calendar year"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "Copernicus Land Monitoring Service High Resolution Layer Crop Types 2017-present",
+      "role": "labels",
+      "url": "https://library.land.copernicus.eu/products/High_Resolution_Layer_Croplands_2017-present_PUM_v2.html",
+      "fetched_ok": true,
+      "licence_quote": "can be used following Copernicus full free and open data policy, which allows the use of the product(s) also for any commercial purpose",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "covers 5.751 million square kilometers across the EEA-38 region",
+      "covers_target_region": "true",
+      "date_range": "Annual data from 2017 through 2023, with reference years for validation including 2018, 2021, and 2022",
+      "caveats_quoted": [
+        "many crop types fall below the 80% target, particularly \"dry pulses, fresh vegetables & potatoes\" and permanent crops"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    },
+    {
+      "name": "EuroCrops (harmonized EU LPIS crop-declaration parcels)",
+      "role": "auxiliary",
+      "url": "https://github.com/maja601/EuroCrops",
+      "fetched_ok": true,
+      "licence_quote": "Creative Commons Attribution-ShareAlike 4.0 International License",
+      "licence_class": "open",
+      "access_mode": "direct_download",
+      "size_gb": null,
+      "coverage_quote": "17 European Union countries (Austria, Belgium, Czechia, Germany, Denmark, Estonia, Spain, France...)",
+      "covers_target_region": "partial",
+      "date_range": "varies by country, e.g. 2018-2021; latest release v11 via Zenodo",
+      "caveats_quoted": [
+        "quote from fetched page summary, not raw HTML; country/year list should be re-confirmed at Zenodo record before use"
+      ],
+      "nicfi_purpose_check": null,
+      "sg_farmland_terms_ok": null,
+      "application_deadline": null
+    }
+  ],
+  "ground_truth": {
+    "status": "must_construct",
+    "source_url": "https://library.land.copernicus.eu/products/High_Resolution_Layer_Croplands_2017-present_PUM_v2.html",
+    "construction_protocol": "Proxy labels from CLMS/EuroCrops multi-year crop-type series: BAU = cover crop present in prior years; additional = first appearance in claim year; leakage-risk = neighboring parcel converted cropland-to-bare/other same period. No verified additionality ground truth exists externally.",
+    "label_count_estimate": "Millions of EU parcels have crop-type history (CLMS/EuroCrops scale); zero have curated additionality/leakage labels"
+  },
+  "compute_path": {
+    "platform": "Google Earth Engine (AlphaEarth GEE catalog) + WEkEO/direct download for CLMS COG tiles",
+    "fits_C9": true,
+    "why": "AlphaEarth embeddings are precomputed (no training); CLMS is tile-based download; a shallow classifier on embeddings runs on free CPU, no sustained GPU needed",
+    "gpu_hours_per_week_estimate": 0
+  },
+  "queries": [
+    {
+      "q": "AlphaEarth Foundations embeddings Google Earth Engine catalog",
+      "useful": true
+    },
+    {
+      "q": "Copernicus Land Monitoring Service crop type history dataset CLMS",
+      "useful": true
+    },
+    {
+      "q": "EuroCrops dataset licence Zenodo harmonized crop labels parcels",
+      "useful": false,
+      "note": "session web search budget exhausted before results returned; substituted direct fetch of EuroCrops GitHub page"
+    }
+  ],
+  "fetched": [
+    "https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL",
+    "https://land.copernicus.eu/en/products/high-resolution-layer-croplands/crop-types-2023-raster-10-m-europe-yearly",
+    "https://sdi.eea.europa.eu/catalogue/srv/api/records/9db29b07-5968-4ce0-8351-1e356b3d7d47?language=eng",
+    "https://library.land.copernicus.eu/products/High_Resolution_Layer_Croplands_2017-present_PUM_v2.html",
+    "https://github.com/maja601/EuroCrops"
+  ],
+  "budget_exhausted": false,
+  "notes": "land.copernicus.eu product page returned HTTP 401; CLMS details instead verified via the fetchable PUM technical-library page and EEA sdi catalogue metadata record, both describing the same HRL Crop Types 2017-present dataset. AlphaEarth and CLMS overlap for 7 years (2017-2023), enough for a real crop-history baseline; AlphaEarth itself remains annual-only, no sub-annual resolution."
+}
